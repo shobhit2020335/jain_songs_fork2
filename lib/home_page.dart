@@ -11,13 +11,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Text(
           'Jain Songs',
-          style: TextStyle(
-            //TODO: Title color can be used teal or it can be made black+teal shade.
-            color: Color(0xFF212323),
-          ),
         ),
         centerTitle: true,
       ),

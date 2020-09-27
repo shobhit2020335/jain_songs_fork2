@@ -1,3 +1,6 @@
+//Expansion Tile
+//Card
+
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
@@ -8,12 +11,24 @@ class MainTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.light().copyWith(
-        primaryColor: Colors.teal,
+        primaryColor: Colors.white,
+        accentColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          //Changes the color of icons on AppBars
+          iconTheme: IconThemeData(
+            color: Color(0xFF212323),
+          ),
+        ),
         primaryTextTheme: TextTheme(
+          //changes color of AppBar title
           headline6: TextStyle(
             fontFamily: 'Pacifico',
-            color: Colors.white,
+            color: Color(0xFF212323),
           ),
+        ),
+        textTheme: TextTheme(
+          //changes color of expansion tile when closed
+          subtitle1: TextStyle(color: Colors.white),
         ),
       ),
       home: HomePage(),
