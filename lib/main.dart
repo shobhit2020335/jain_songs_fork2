@@ -1,5 +1,6 @@
 //Expansion Tile
 //Card
+//SnackBar (Toast)
 
 import 'package:flutter/material.dart';
 import 'home_page.dart';
@@ -12,7 +13,6 @@ class MainTheme extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.light().copyWith(
         primaryColor: Colors.white,
-        accentColor: Color(0xFF18191A),
         appBarTheme: AppBarTheme(
           //Changes the color of icons on AppBars
           iconTheme: IconThemeData(
@@ -26,6 +26,7 @@ class MainTheme extends StatelessWidget {
             color: Color(0xFF212323),
           ),
         ),
+        accentColor: Colors.white,
         textTheme: TextTheme(
           //changes color of expansion tile when closed
           subtitle1: TextStyle(color: Colors.white),
