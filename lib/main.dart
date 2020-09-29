@@ -12,7 +12,7 @@ class MainTheme extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.light().copyWith(
         primaryColor: Colors.white,
-        accentColor: Colors.white,
+        accentColor: Color(0xFF18191A),
         appBarTheme: AppBarTheme(
           //Changes the color of icons on AppBars
           iconTheme: IconThemeData(
