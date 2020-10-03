@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
+import 'package:jain_songs/utilities/song_details.dart';
 
 class SongPage extends StatefulWidget {
+  SongDetails currentSong;
+
+  SongPage({this.currentSong});
+
   @override
   _SongPageState createState() => _SongPageState();
 }
 
 class _SongPageState extends State<SongPage> {
-  int likes = 20;
-  int share = 7;
-  IconData likesIcon = FontAwesomeIcons.heart;
+  // IconData likesIcon = FontAwesomeIcons.heart;
 
   void _showToast(BuildContext context, String message) {
     final scaffold = Scaffold.of(context);
@@ -25,13 +28,11 @@ class _SongPageState extends State<SongPage> {
 
   @override
   Widget build(BuildContext context) {
-    //final key = new GlobalKey<ScaffoldState>();
     return Scaffold(
-      //key: key,
       appBar: AppBar(
         title: Text(
           //TODO: Can underline the text, later.
-          'Bhakti Ki Hai Raat',
+          widget.currentSong.songNameEnglish,
         ),
       ),
       body: Builder(
@@ -41,28 +42,30 @@ class _SongPageState extends State<SongPage> {
             child: Column(
               children: [
                 SongCard(
-                  songName_English: 'Bhakti Ki Hai Raat',
-                  songName_Hindi: 'भक्ति की है रात',
-                  singer: 'Harsh Damani',
-                  production: 'Shemaroo Entertainment',
-                  tirthankar: '',
-                  likes: likes,
-                  likesIcon: likesIcon,
+                  songName_English: widget.currentSong.songNameEnglish,
+                  songName_Hindi: widget.currentSong.songNameHindi,
+                  singer: widget.currentSong.singer,
+                  production: widget.currentSong.production,
+                  tirthankar: widget.currentSong.tirthankar,
+                  likes: widget.currentSong.likes,
+                  likesIcon: widget.currentSong.isLiked == true
+                      ? FontAwesomeIcons.solidHeart
+                      : FontAwesomeIcons.heart,
                   likesTap: () {
                     setState(() {
-                      if (likesIcon == FontAwesomeIcons.heart) {
-                        likes++;
-                        likesIcon = FontAwesomeIcons.solidHeart;
+                      if (widget.currentSong.isLiked == false) {
+                        widget.currentSong.likes++;
+                        widget.currentSong.isLiked = true;
                       } else {
-                        likes--;
-                        likesIcon = FontAwesomeIcons.heart;
+                        widget.currentSong.likes--;
+                        widget.currentSong.isLiked = false;
                       }
                     });
                   },
-                  share: share,
+                  share: widget.currentSong.share,
                   shareTap: () {
                     setState(() {
-                      share++;
+                      widget.currentSong.share++;
                     });
                   },
                   youtubeTap: () {
@@ -89,8 +92,7 @@ class _SongPageState extends State<SongPage> {
                   height: 10,
                 ),
                 LyricsWidget(
-                  lyrics:
-                      'भक्ति की है रात दादा आज थाने आणो है\nकाले कोण निभाणो है....भक्ति की है रात....\nदरबार भेरुदेव कैसो सज्यो प्यारो ..\nदयालु आपरो....\nसेवा में दादा सगळा खडा है आज\nहुकुम बस आपरो...\nसेवा में थारी (2)म्हाने आज बिछ जाणो है\nकाले कोण निभाणो है...भक्ति की है रात....\nभक्ति की हे तैयारी भक्ति करां जमकर\nदादा क्यूं देर करो ....\nवादों थारो दादा भक्ति में आणे को\nघणी क्यूं देर करो...\nगीतों सु थाने (2)म्हाने आज रिझाणो है\nकाले कोण निभाणो है....भक्ति की है रात....\nजो कुछ बण्यो मांसु अर्पण दादा सारो\nदादा स्वीकार करो.....\nभक्तों सु गलती होती ही आई है\nदादा ध्यान मत धरो....\nभक्त भेरूजी(2) थारो दास पुराणों है\nकाले कोण निभाणो है.....भक्ति की है रात\n',
+                  lyrics: widget.currentSong.lyrics,
                 ),
                 Text(
                   '-----XXXXX-----',

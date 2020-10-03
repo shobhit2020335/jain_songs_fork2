@@ -16,7 +16,7 @@ Widget songFunctionIcon(
   return Column(
     children: [
       GestureDetector(
-        onLongPress: onPress,
+        // onLongPress: onPress,
         onTap: onPress,
         child: Icon(
           icon,
@@ -27,11 +27,14 @@ Widget songFunctionIcon(
       SizedBox(
         height: 8,
       ),
-      Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
+      GestureDetector(
+        onTap: onPress,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     ],

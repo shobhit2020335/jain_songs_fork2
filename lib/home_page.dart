@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:jain_songs/utilities/song_details.dart';
+import 'package:jain_songs/utilities/songs_list.dart';
 import 'song_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,58 +13,58 @@ class _HomePageState extends State<HomePage> {
   //TODO: Set the selectedindex to 2 when the user is offline.
   int _currentIndex = 0;
 
-  final _suggestions = <String>[
-    'Bhakti Ki Hai Raat',
-    'Mukti Poori Ke',
-    'Manushya Janam Anmol Re',
-    'dkjflkdaa asfasfa ',
-    'Bhakti Ki Hai Raat',
-    'Mukti Poori Ke',
-    'Manushya Janam Anmol Re',
-    'Poonie Pagal Hai',
-    'dkjflkdaa asfasfa '
-        'Bhakti Ki Hai Raat',
-    'Mukti Poori Ke',
-    'Manushya Janam Anmol Re',
-    'Poonie Pagal Hai',
-    'dkjflkdaa asfasfa '
-  ];
-
-  Widget _buildRow(String name) {
-    return FlatButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SongPage(),
-          ),
-        );
-      },
+  Widget _buildRow(SongDetails currentSong) {
+    return ListTileTheme(
+      selectedColor: Colors.white,
+      style: ListTileStyle.drawer,
       child: ListTile(
         title: Text(
-          name,
+          currentSong.songNameEnglish,
           style: TextStyle(color: Color(0xFF212323)),
         ),
-        subtitle: Text('Tum Hi Ho'),
-        trailing: Icon(
-          FontAwesomeIcons.heart,
-          //color: Color(0xFF54BEE6),
+        subtitle: Text(currentSong.originalSong),
+        trailing: IconButton(
+          icon: Icon(currentSong.isLiked == true
+              ? FontAwesomeIcons.solidHeart
+              : FontAwesomeIcons.heart),
+          onPressed: () {
+            setState(() {
+              if (currentSong.isLiked == true) {
+                currentSong.isLiked = false;
+                currentSong.likes--;
+              } else {
+                currentSong.isLiked = true;
+                currentSong.likes++;
+              }
+            });
+          },
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SongPage(currentSong: currentSong),
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget _buildSuggestions() {
     return ListView.builder(
-        itemCount: _suggestions.length,
-        itemBuilder: /*1*/ (context, i) {
-          return _buildRow(_suggestions[i]);
+        itemCount: songList.length,
+        itemBuilder: (context, i) {
+          return _buildRow(
+            songList[i],
+          );
         });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Color(0xFF54BEE6),
       appBar: AppBar(
         title: Text(
           'Jain Songs',
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.archive),
-            title: Text('Stored'),
+            title: Text('Library'),
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.wrench),
@@ -101,22 +102,12 @@ class _HomePageState extends State<HomePage> {
       body: <Widget>[
         Container(
           child: Center(
-            child: FlatButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SongPage(),
-                  ),
-                );
-              },
-              child: SizedBox(
-                child: Center(
-                  child: Text('Press'),
-                ),
-                height: 50,
-                width: 80,
+            child: SizedBox(
+              child: Center(
+                child: Text('Press'),
               ),
+              height: 50,
+              width: 80,
             ),
           ),
         ),
