@@ -4,6 +4,8 @@
 //TabBar, TabController, TabView
 //Bottom Navigation
 //ListView
+//Future, async, await, future.then()/.whenComplete()
+//connectivity package
 
 import 'package:flutter/material.dart';
 import 'home_page.dart';

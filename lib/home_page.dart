@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/songs_list.dart';
 import 'song_page.dart';
@@ -11,7 +12,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //TODO: Set the selectedindex to 2 when the user is offline.
-  int _currentIndex = 0;
+  int _currentIndex = 2;
+
+  @override
+  void initState() {
+    super.initState();
+    Future connection = NetworkHelper().check();
+
+    connection.then((result) {
+      setState(() {
+        if (result == true) {
+          setState(() {
+            _currentIndex = 0;
+          });
+        }
+      });
+    });
+  }
 
   Widget _buildRow(SongDetails currentSong) {
     return ListTileTheme(
@@ -75,19 +92,19 @@ class _HomePageState extends State<HomePage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.home),
-            title: Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.search),
-            title: Text('Search'),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.archive),
-            title: Text('Library'),
+            label: 'Library',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.wrench),
-            title: Text('Settings'),
+            label: 'Settings',
           ),
         ],
         selectedItemColor: Color(0xFF54BEE6),
@@ -100,6 +117,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       body: <Widget>[
+        _buildSuggestions(),
         Container(
           child: Center(
             child: SizedBox(
@@ -111,7 +129,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        _buildSuggestions(),
         Container(
           child: Center(
             child: SizedBox(
