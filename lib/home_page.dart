@@ -4,6 +4,8 @@ import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/songs_list.dart';
 import 'song_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,22 +13,39 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //TODO: Set the selectedindex to 2 when the user is offline.
+  //The user is redirected to offline page if he is offline
   int _currentIndex = 2;
+  bool showProgress = false;
+  final _firestore = FirebaseFirestore.instance;
+
+  void getSongs() async {
+    print('ghusa');
+    final songs = await _firestore.collection('songs').get();
+
+    for (var song in songs.docs) {
+      print(song.data());
+    }
+    setState(() {
+      showProgress = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     Future connection = NetworkHelper().check();
-
     connection.then((result) {
-      setState(() {
-        if (result == true) {
-          setState(() {
-            _currentIndex = 0;
-          });
-        }
-      });
+      if (result == true) {
+        setState(() {
+          _currentIndex = 0;
+          showProgress = true;
+        });
+        getSongs();
+      } else {
+        showProgress = false;
+        //TODO: insert snackbar here.
+        print('no internet');
+      }
     });
   }
 
@@ -68,14 +87,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildSuggestions() {
-    return ListView.builder(
-        itemCount: songList.length,
-        itemBuilder: (context, i) {
-          return _buildRow(
-            songList[i],
-          );
-        });
+  Widget _buildList() {
+    return ModalProgressHUD(
+      opacity: 1,
+      inAsyncCall: showProgress,
+      child: ListView.builder(
+          itemCount: songList.length,
+          itemBuilder: (context, i) {
+            return _buildRow(
+              songList[i],
+            );
+          }),
+    );
   }
 
   @override
@@ -117,7 +140,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       body: <Widget>[
-        _buildSuggestions(),
+        _buildList(),
         Container(
           child: Center(
             child: SizedBox(

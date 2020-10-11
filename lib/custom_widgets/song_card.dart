@@ -105,8 +105,8 @@ Widget miniCard(
 
 // ignore: must_be_immutable
 class SongCard extends StatelessWidget {
-  final String songName_English;
-  final String songName_Hindi;
+  final String songNameEnglish;
+  final String songNameHindi;
   String singer;
   String tirthankar;
   String production;
@@ -121,8 +121,8 @@ class SongCard extends StatelessWidget {
   IconData likesIcon;
 
   SongCard(
-      {@required this.songName_English,
-      @required this.songName_Hindi,
+      {@required this.songNameEnglish,
+      @required this.songNameHindi,
       this.movie,
       this.originalSong,
       this.production,
@@ -156,7 +156,7 @@ class SongCard extends StatelessWidget {
               unselectedWidgetColor: Colors.white,
             ),
             child: ExpansionTile(
-              title: textBold20(songName_Hindi),
+              title: textBold20(songNameHindi),
               childrenPadding: EdgeInsets.only(
                 bottom: 10,
               ),

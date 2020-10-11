@@ -5,7 +5,7 @@ import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
 class SongPage extends StatefulWidget {
-  SongDetails currentSong;
+  final SongDetails currentSong;
 
   SongPage({this.currentSong});
 
@@ -42,8 +42,8 @@ class _SongPageState extends State<SongPage> {
             child: Column(
               children: [
                 SongCard(
-                  songName_English: widget.currentSong.songNameEnglish,
-                  songName_Hindi: widget.currentSong.songNameHindi,
+                  songNameEnglish: widget.currentSong.songNameEnglish,
+                  songNameHindi: widget.currentSong.songNameHindi,
                   singer: widget.currentSong.singer,
                   production: widget.currentSong.production,
                   tirthankar: widget.currentSong.tirthankar,
