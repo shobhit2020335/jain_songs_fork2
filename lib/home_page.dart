@@ -1,7 +1,7 @@
+import 'dart:convert' show utf8;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
-import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/songs_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //The user is redirected to offline page if he is offline
-  int _currentIndex = 2;
+  int _currentIndex = 0;
   bool showProgress = false;
   final _firestore = FirebaseFirestore.instance;
 
@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> currentSong = song.data();
       songList.add(
         SongDetails(
+          code: currentSong['code'],
           lyrics: currentSong['lyrics'],
           songNameEnglish: currentSong['songNameEnglish'],
           songNameHindi: currentSong['songNameHindi'],
@@ -40,20 +41,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Future connection = NetworkHelper().check();
-    connection.then((result) {
-      if (result == true) {
-        setState(() {
-          _currentIndex = 0;
-          showProgress = true;
-        });
-        getSongs();
-      } else {
-        showProgress = false;
-        //TODO: insert snackbar here.
-        print('no internet');
-      }
-    });
+    showProgress = true;
+    getSongs();
   }
 
   @override

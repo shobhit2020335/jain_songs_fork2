@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'custom_widgets/constantWidgets.dart';
 
 class SongPage extends StatefulWidget {
   final SongDetails currentSong;
@@ -14,25 +15,14 @@ class SongPage extends StatefulWidget {
 }
 
 class _SongPageState extends State<SongPage> {
-  // IconData likesIcon = FontAwesomeIcons.heart;
-
-  void _showToast(BuildContext context, String message) {
-    final scaffold = Scaffold.of(context);
-    final snackBar = SnackBar(
-      content: Text(message),
-      action: SnackBarAction(
-          label: 'HIDE', onPressed: scaffold.hideCurrentSnackBar),
-    );
-    scaffold.showSnackBar(snackBar);
-  }
-
   @override
   Widget build(BuildContext context) {
+    SongDetails currentSong = widget.currentSong;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           //TODO: Can underline the text, later.
-          widget.currentSong.songNameEnglish,
+          currentSong.songNameEnglish,
         ),
       ),
       body: Builder(
@@ -42,39 +32,44 @@ class _SongPageState extends State<SongPage> {
             child: Column(
               children: [
                 SongCard(
-                  songNameEnglish: widget.currentSong.songNameEnglish,
-                  songNameHindi: widget.currentSong.songNameHindi,
-                  singer: widget.currentSong.singer,
-                  originalSong: widget.currentSong.originalSong,
-                  production: widget.currentSong.production,
-                  tirthankar: widget.currentSong.tirthankar,
-                  likes: widget.currentSong.likes,
-                  likesIcon: widget.currentSong.isLiked == true
+                  songNameEnglish: currentSong.songNameEnglish,
+                  songNameHindi: currentSong.songNameHindi,
+                  singer: currentSong.singer,
+                  originalSong: currentSong.originalSong,
+                  production: currentSong.production,
+                  tirthankar: currentSong.tirthankar,
+                  likes: currentSong.likes,
+                  likesIcon: currentSong.isLiked == true
                       ? FontAwesomeIcons.solidHeart
                       : FontAwesomeIcons.heart,
                   likesTap: () {
                     setState(() {
-                      if (widget.currentSong.isLiked == false) {
-                        widget.currentSong.likes++;
-                        widget.currentSong.isLiked = true;
+                      if (currentSong.isLiked == false) {
+                        currentSong.likes++;
+                        currentSong.isLiked = true;
                       } else {
-                        widget.currentSong.likes--;
-                        widget.currentSong.isLiked = false;
+                        currentSong.likes--;
+                        currentSong.isLiked = false;
                       }
                     });
                   },
-                  share: widget.currentSong.share,
+                  share: currentSong.share,
                   shareTap: () {
                     setState(() {
-                      widget.currentSong.share++;
+                      currentSong.share++;
                     });
                   },
                   youtubeTap: () {
-                    _showToast(
-                        context, 'Video URL is not available at this moment!');
+                    String link = currentSong.youTubeLink;
+                    if (link == null || link == '') {
+                      showToast(context,
+                          'Video URL is not available at this moment!');
+                    } else {
+                      //TODO: Redirect to link.
+                    }
                   },
                   saveTap: () {
-                    _showToast(context, 'Saving lyrics Offline');
+                    showToast(context, 'Saving lyrics Offline');
                   },
                 ),
                 SizedBox(
@@ -93,7 +88,7 @@ class _SongPageState extends State<SongPage> {
                   height: 10,
                 ),
                 LyricsWidget(
-                  lyrics: widget.currentSong.lyrics,
+                  lyrics: currentSong.lyrics,
                 ),
                 Text(
                   '-----XXXXX-----',

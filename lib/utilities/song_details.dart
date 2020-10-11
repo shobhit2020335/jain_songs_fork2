@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 
 class SongDetails {
+  String code;
   bool isLiked;
   int likes;
   String lyrics;
@@ -17,10 +18,11 @@ class SongDetails {
   String youTubeLink;
 
   SongDetails(
-      {this.likes,
+      {@required this.code,
+      this.likes: 0,
       @required this.lyrics,
       this.movie,
-      this.originalSong,
+      this.originalSong: 'Unknown',
       this.production,
       this.share,
       this.singer,

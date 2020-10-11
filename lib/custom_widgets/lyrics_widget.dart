@@ -5,10 +5,23 @@ class LyricsWidget extends StatelessWidget {
 
   LyricsWidget({this.lyrics});
 
+  String escapeCharacterIncluded() {
+    String formatted = '';
+    for (int i = 0; i < this.lyrics.length; i++) {
+      if (this.lyrics[i] == '\\' && this.lyrics[i + 1] == 'n') {
+        formatted = formatted + '\n';
+        i = i + 1;
+      } else {
+        formatted = formatted + lyrics[i];
+      }
+    }
+    return formatted;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Text(
-      lyrics,
+      escapeCharacterIncluded(),
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 20,
