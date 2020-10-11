@@ -1,4 +1,3 @@
-import 'dart:convert' show utf8;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
@@ -23,14 +22,18 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> currentSong = song.data();
       songList.add(
         SongDetails(
-          code: currentSong['code'],
-          lyrics: currentSong['lyrics'],
-          songNameEnglish: currentSong['songNameEnglish'],
-          songNameHindi: currentSong['songNameHindi'],
-          originalSong: currentSong['originalSong'],
-          likes: currentSong['likes'],
-          share: currentSong['share'],
-        ),
+            code: currentSong['code'],
+            lyrics: currentSong['lyrics'],
+            songNameEnglish: currentSong['songNameEnglish'],
+            songNameHindi: currentSong['songNameHindi'],
+            movie: currentSong['movie'],
+            originalSong: currentSong['originalSong'],
+            production: currentSong['production'],
+            singer: currentSong['singer'],
+            tirthankar: currentSong['tirthankar'],
+            likes: currentSong['likes'],
+            share: currentSong['share'],
+            youTubeLink: currentSong['youTubeLink']),
       );
     }
     setState(() {

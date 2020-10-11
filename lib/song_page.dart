@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
+import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'custom_widgets/constantWidgets.dart';
 
@@ -21,7 +22,6 @@ class _SongPageState extends State<SongPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          //TODO: Can underline the text, later.
           currentSong.songNameEnglish,
         ),
       ),
@@ -66,6 +66,7 @@ class _SongPageState extends State<SongPage> {
                           'Video URL is not available at this moment!');
                     } else {
                       //TODO: Redirect to link.
+                      launchURL(context, link);
                     }
                   },
                   saveTap: () {
