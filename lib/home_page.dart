@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/songs_list.dart';
-import 'song_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,11 +18,19 @@ class _HomePageState extends State<HomePage> {
   final _firestore = FirebaseFirestore.instance;
 
   void getSongs() async {
-    print('ghusa');
     final songs = await _firestore.collection('songs').get();
-
     for (var song in songs.docs) {
-      print(song.data());
+      Map<String, dynamic> currentSong = song.data();
+      songList.add(
+        SongDetails(
+          lyrics: currentSong['lyrics'],
+          songNameEnglish: currentSong['songNameEnglish'],
+          songNameHindi: currentSong['songNameHindi'],
+          originalSong: currentSong['originalSong'],
+          likes: currentSong['likes'],
+          share: currentSong['share'],
+        ),
+      );
     }
     setState(() {
       showProgress = false;
@@ -49,62 +56,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Widget _buildRow(SongDetails currentSong) {
-    return ListTileTheme(
-      selectedColor: Colors.white,
-      style: ListTileStyle.drawer,
-      child: ListTile(
-        title: Text(
-          currentSong.songNameEnglish,
-          style: TextStyle(color: Color(0xFF212323)),
-        ),
-        subtitle: Text(currentSong.originalSong),
-        trailing: IconButton(
-          icon: Icon(currentSong.isLiked == true
-              ? FontAwesomeIcons.solidHeart
-              : FontAwesomeIcons.heart),
-          onPressed: () {
-            setState(() {
-              if (currentSong.isLiked == true) {
-                currentSong.isLiked = false;
-                currentSong.likes--;
-              } else {
-                currentSong.isLiked = true;
-                currentSong.likes++;
-              }
-            });
-          },
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SongPage(currentSong: currentSong),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildList() {
-    return ModalProgressHUD(
-      opacity: 1,
-      inAsyncCall: showProgress,
-      child: ListView.builder(
-          itemCount: songList.length,
-          itemBuilder: (context, i) {
-            return _buildRow(
-              songList[i],
-            );
-          }),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color(0xFF54BEE6),
       appBar: AppBar(
         title: Text(
           'Jain Songs',
@@ -140,7 +94,9 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       body: <Widget>[
-        _buildList(),
+        BuildList(
+          showProgress: showProgress,
+        ),
         Container(
           child: Center(
             child: SizedBox(

@@ -17,17 +17,18 @@ class SongDetails {
   String youTubeLink;
 
   SongDetails(
-      {@required this.lyrics,
+      {this.likes,
+      @required this.lyrics,
       this.movie,
       this.originalSong,
       this.production,
+      this.share,
       this.singer,
       @required this.songNameEnglish,
       @required this.songNameHindi,
       this.tirthankar,
       this.youTubeLink}) {
+    //TODO: Include in state management.
     this.isLiked = false;
-    this.likes = 0;
-    this.share = 0;
   }
 }

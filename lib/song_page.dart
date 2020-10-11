@@ -45,6 +45,7 @@ class _SongPageState extends State<SongPage> {
                   songNameEnglish: widget.currentSong.songNameEnglish,
                   songNameHindi: widget.currentSong.songNameHindi,
                   singer: widget.currentSong.singer,
+                  originalSong: widget.currentSong.originalSong,
                   production: widget.currentSong.production,
                   tirthankar: widget.currentSong.tirthankar,
                   likes: widget.currentSong.likes,
