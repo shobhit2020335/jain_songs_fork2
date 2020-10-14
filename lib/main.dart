@@ -6,6 +6,9 @@
 //ListView
 //Future, async, await, future.then()/.whenComplete()
 //connectivity package
+//url_launcher package
+//flutter share package
+//modal progress hud
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

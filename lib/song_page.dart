@@ -34,6 +34,8 @@ class _SongPageState extends State<SongPage> {
                 SongCard(
                   songNameEnglish: currentSong.songNameEnglish,
                   songNameHindi: currentSong.songNameHindi,
+                  album: currentSong.album,
+                  genre: currentSong.genre,
                   singer: currentSong.singer,
                   originalSong: currentSong.originalSong,
                   production: currentSong.production,
