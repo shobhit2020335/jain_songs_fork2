@@ -55,6 +55,7 @@ class _SongPageState extends State<SongPage> {
                   },
                   share: currentSong.share,
                   shareTap: () {
+                    shareApp(currentSong.songNameHindi);
                     setState(() {
                       currentSong.share++;
                     });
@@ -65,7 +66,7 @@ class _SongPageState extends State<SongPage> {
                       showToast(context,
                           'Video URL is not available at this moment!');
                     } else {
-                      //TODO: Redirect to link.
+                      //TODO: Add play Store link.
                       launchURL(context, link);
                     }
                   },

@@ -41,13 +41,14 @@ class _BuildRowState extends State<BuildRow> {
             });
           },
         ),
-        onTap: () {
-          Navigator.push(
+        onTap: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => SongPage(currentSong: currentSong),
             ),
           );
+          setState(() {});
         },
       ),
     );

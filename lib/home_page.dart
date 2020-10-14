@@ -20,21 +20,20 @@ class _HomePageState extends State<HomePage> {
     final songs = await _firestore.collection('songs').get();
     for (var song in songs.docs) {
       Map<String, dynamic> currentSong = song.data();
-      songList.add(
-        SongDetails(
-            code: currentSong['code'],
-            lyrics: currentSong['lyrics'],
-            songNameEnglish: currentSong['songNameEnglish'],
-            songNameHindi: currentSong['songNameHindi'],
-            movie: currentSong['movie'],
-            originalSong: currentSong['originalSong'],
-            production: currentSong['production'],
-            singer: currentSong['singer'],
-            tirthankar: currentSong['tirthankar'],
-            likes: currentSong['likes'],
-            share: currentSong['share'],
-            youTubeLink: currentSong['youTubeLink']),
-      );
+      songList[currentSong['code']] = SongDetails(
+          album: currentSong['album'],
+          code: currentSong['code'],
+          genre: currentSong['genre'],
+          lyrics: currentSong['lyrics'],
+          songNameEnglish: currentSong['songNameEnglish'],
+          songNameHindi: currentSong['songNameHindi'],
+          originalSong: currentSong['originalSong'],
+          production: currentSong['production'],
+          singer: currentSong['singer'],
+          tirthankar: currentSong['tirthankar'],
+          likes: currentSong['likes'],
+          share: currentSong['share'],
+          youTubeLink: currentSong['youTubeLink']);
     }
     setState(() {
       showProgress = false;

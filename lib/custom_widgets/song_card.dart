@@ -108,10 +108,11 @@ class SongCard extends StatelessWidget {
   final String songNameEnglish;
   final String songNameHindi;
   String singer;
+  String album;
+  String genre;
   String tirthankar;
   String production;
   String originalSong;
-  String movie;
   int likes;
   int share;
   Function likesTap;
@@ -123,14 +124,15 @@ class SongCard extends StatelessWidget {
   SongCard(
       {@required this.songNameEnglish,
       @required this.songNameHindi,
-      this.movie,
+      this.album,
+      this.genre: 'Bhakti',
       this.originalSong,
       this.production,
       this.singer,
       this.tirthankar,
-      this.likes,
+      this.likes: 0,
       this.likesIcon,
-      this.share,
+      this.share: 0,
       this.likesTap,
       this.saveTap,
       this.shareTap,
@@ -165,11 +167,12 @@ class SongCard extends StatelessWidget {
                   Text('Tirthankar: $tirthankar'),
                 if (singer != null && singer.length > 0)
                   Text('Singer: $singer'),
+                if (genre != null && singer.length > 0) Text('Genre: $genre'),
                 if (production != null && production.length > 0)
                   Text('Production: $production'),
                 if (originalSong != null && originalSong.length > 0)
                   Text('Original Song: $originalSong'),
-                if (movie != null && movie.length > 0) Text('Movie: $movie'),
+                if (album != null && album.length > 0) Text('Movie: $album'),
               ],
             ),
           ),

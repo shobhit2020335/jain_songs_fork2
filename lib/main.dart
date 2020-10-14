@@ -7,7 +7,6 @@
 //Future, async, await, future.then()/.whenComplete()
 //connectivity package
 
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
