@@ -18,7 +18,10 @@ class _HomePageState extends State<HomePage> {
     'Jain Songs',
   );
   Icon searchOrCrossIcon = Icon(Icons.search);
-  Icon filterIcon = Icon(Icons.filter_list_alt);
+  Icon filterIcon = Icon(
+    Icons.filter_list_alt,
+    color: Color(0xFF54BEE6),
+  );
 
   void getSongs() async {
     final songs = await _firestore.collection('songs').get();
