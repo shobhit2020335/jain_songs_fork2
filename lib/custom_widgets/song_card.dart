@@ -1,45 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-Widget textBold20(String text) {
-  return Text(
-    text,
-    style: TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 20,
-    ),
-  );
-}
-
-Widget songFunctionIcon(
-    {@required IconData icon, String text, Function onPress}) {
-  return Column(
-    children: [
-      GestureDetector(
-        // onLongPress: onPress,
-        onTap: onPress,
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 25,
-        ),
-      ),
-      SizedBox(
-        height: 8,
-      ),
-      GestureDetector(
-        onTap: onPress,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    ],
-  );
-}
+import 'constantWidgets.dart';
 
 Widget miniCard(
     {int likes,

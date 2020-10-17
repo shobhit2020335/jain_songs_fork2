@@ -5,6 +5,7 @@ import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'custom_widgets/constantWidgets.dart';
+import 'services/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
   final SongDetails currentSong;
@@ -44,16 +45,21 @@ class _SongPageState extends State<SongPage> {
                   likesIcon: currentSong.isLiked == true
                       ? FontAwesomeIcons.solidHeart
                       : FontAwesomeIcons.heart,
-                  likesTap: () {
-                    setState(() {
-                      if (currentSong.isLiked == false) {
-                        currentSong.likes++;
-                        currentSong.isLiked = true;
-                      } else {
-                        currentSong.likes--;
-                        currentSong.isLiked = false;
-                      }
-                    });
+                  likesTap: () async {
+                    if (currentSong.isLiked == true) {
+                      currentSong.isLiked = false;
+                      setState(() {});
+                      FireStoreHelper fireStoreHelper = FireStoreHelper();
+                      await fireStoreHelper.changeLikes(
+                          context, currentSong, false);
+                    } else {
+                      currentSong.isLiked = true;
+                      setState(() {});
+                      FireStoreHelper fireStoreHelper = FireStoreHelper();
+                      await fireStoreHelper.changeLikes(
+                          context, currentSong, true);
+                    }
+                    setState(() {});
                   },
                   share: currentSong.share,
                   shareTap: () {
