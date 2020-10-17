@@ -11,10 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //The user is redirected to offline page if he is offline
   int _currentIndex = 0;
   bool showProgress = false;
   final _firestore = FirebaseFirestore.instance;
+  Widget appBarTitle = Text(
+    'Jain Songs',
+  );
+  Icon searchOrCrossIcon = Icon(Icons.search);
+  Icon filterIcon = Icon(Icons.filter_list_alt);
 
   void getSongs() async {
     final songs = await _firestore.collection('songs').get();
@@ -56,10 +60,37 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Jain Songs',
-        ),
+        title: appBarTitle,
         centerTitle: true,
+        actions: <Widget>[
+          Row(
+            children: [
+              IconButton(
+                  icon: searchOrCrossIcon,
+                  onPressed: () {
+                    setState(() {
+                      if (this.searchOrCrossIcon.icon == Icons.search) {
+                        this.searchOrCrossIcon = Icon(Icons.close);
+                        this.appBarTitle = TextField(
+                          style: TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: Colors.black,
+                            ),
+                            hintText: 'Search...',
+                          ),
+                        );
+                      } else {
+                        searchOrCrossIcon = Icon(Icons.search);
+                        this.appBarTitle = Text('Jain Songs');
+                      }
+                    });
+                  }),
+              IconButton(icon: filterIcon, onPressed: null)
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
