@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/utilities/song_details.dart';
 import 'constantWidgets.dart';
 
 Widget miniCard(
@@ -66,16 +68,7 @@ Widget miniCard(
 
 // ignore: must_be_immutable
 class SongCard extends StatelessWidget {
-  final String songNameEnglish;
-  final String songNameHindi;
-  String singer;
-  String album;
-  String genre;
-  String tirthankar;
-  String production;
-  String originalSong;
-  int likes;
-  int share;
+  final SongDetails currentSong;
   Function likesTap;
   Function youtubeTap;
   Function saveTap;
@@ -83,17 +76,8 @@ class SongCard extends StatelessWidget {
   IconData likesIcon;
 
   SongCard(
-      {@required this.songNameEnglish,
-      @required this.songNameHindi,
-      this.album,
-      this.genre: 'Bhakti',
-      this.originalSong: 'Unknown',
-      this.production,
-      this.singer: 'Unknown',
-      this.tirthankar,
-      this.likes: 0,
+      {@required this.currentSong,
       this.likesIcon,
-      this.share: 0,
       this.likesTap,
       this.saveTap,
       this.shareTap,
@@ -119,33 +103,38 @@ class SongCard extends StatelessWidget {
               unselectedWidgetColor: Colors.white,
             ),
             child: ExpansionTile(
-              title: textBold20(songNameHindi),
+              title: textBold20(currentSong.songNameHindi),
               childrenPadding: EdgeInsets.only(
                 bottom: 10,
               ),
               children: [
-                if (tirthankar != null && tirthankar.length > 0)
-                  Text('Tirthankar: $tirthankar'),
-                if (singer != null && singer.length > 0)
-                  Text('Singer: $singer'),
-                if (genre != null && singer.length > 0) Text('Genre: $genre'),
-                if (production != null && production.length > 0)
-                  Text('Production: $production'),
-                if (originalSong != null && originalSong.length > 0)
-                  Text('Original Song: $originalSong'),
-                if (album != null && album.length > 0) Text('Album: $album'),
+                if (currentSong.tirthankar != null &&
+                    currentSong.tirthankar.length > 0)
+                  Text('Tirthankar: ${currentSong.tirthankar}'),
+                if (currentSong.singer != null && currentSong.singer.length > 0)
+                  Text('Singer: ${currentSong.singer}'),
+                if (currentSong.genre != null && currentSong.singer.length > 0)
+                  Text('Genre: ${currentSong.genre}'),
+                if (currentSong.production != null &&
+                    currentSong.production.length > 0)
+                  Text('Production: ${currentSong.production}'),
+                if (currentSong.originalSong != null &&
+                    currentSong.originalSong.length > 0)
+                  Text('Original Song: ${currentSong.originalSong}'),
+                if (currentSong.album != null && currentSong.album.length > 0)
+                  Text('Album: ${currentSong.album}'),
               ],
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: miniCard(
-              likes: likes,
+              likes: currentSong.likes,
               likesTap: likesTap,
               likesIcon: likesIcon,
               youtubeTap: youtubeTap,
               saveTap: saveTap,
-              share: share,
+              share: currentSong.share,
               shareTap: shareTap,
             ),
           ),

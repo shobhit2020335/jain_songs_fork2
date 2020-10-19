@@ -33,15 +33,7 @@ class _SongPageState extends State<SongPage> {
             child: Column(
               children: [
                 SongCard(
-                  songNameEnglish: currentSong.songNameEnglish,
-                  songNameHindi: currentSong.songNameHindi,
-                  album: currentSong.album,
-                  genre: currentSong.genre,
-                  singer: currentSong.singer,
-                  originalSong: currentSong.originalSong,
-                  production: currentSong.production,
-                  tirthankar: currentSong.tirthankar,
-                  likes: currentSong.likes,
+                  currentSong: currentSong,
                   likesIcon: currentSong.isLiked == true
                       ? FontAwesomeIcons.solidHeart
                       : FontAwesomeIcons.heart,
@@ -61,7 +53,6 @@ class _SongPageState extends State<SongPage> {
                     }
                     setState(() {});
                   },
-                  share: currentSong.share,
                   shareTap: () {
                     shareApp(currentSong.songNameHindi);
                     setState(() {

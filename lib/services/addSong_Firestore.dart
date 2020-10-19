@@ -6,6 +6,24 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  AddSong currentSong = AddSong();
+  //Uncomment below to add a new song.
+
+  // await currentSong.addToFirestore();
+  // print('Added song successfully');
+
+  //Uncomment below to add searchKeywords.
+  currentSong.makeListOfStrings('TMB',
+      englishName: 'Tu Mane Bhagwan',
+      hindiName: 'तू मने भगवन',
+      originalSong: '',
+      album: '',
+      tirthankar: '',
+      extra1: '',
+      extra2: '');
+}
+
+class AddSong {
   Map<String, dynamic> currentSongMap = {
     'code': 'LAL',
     'album': '',
@@ -24,17 +42,65 @@ void main() async {
     'tirthankar': '',
     'youTubeLink': ''
   };
-  AddSong currentSong = AddSong(currentSongMap: currentSongMap);
-  await currentSong.addToFirestore();
-  print('Added song successfully');
-}
-
-class AddSong {
-  Map<String, dynamic> currentSongMap;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
-  AddSong({this.currentSongMap});
 
   Future<void> addToFirestore() async {
     return songs.doc(currentSongMap['code']).set(currentSongMap);
+  }
+
+  void makeListOfStrings(
+    String code, {
+    String englishName: '',
+    String hindiName: '',
+    String tirthankar: '',
+    String originalSong: '',
+    String album: '',
+    String extra1: '',
+    String extra2: '',
+  }) {
+    Set<String> setSearchKeywords = {};
+
+    String currentString = '';
+    for (int i = 0; i < englishName.length; i++) {
+      currentString = currentString + englishName[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+    currentString = '';
+    for (int i = 0; i < hindiName.length; i++) {
+      currentString = currentString + hindiName[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+    currentString = '';
+    for (int i = 0; i < tirthankar.length; i++) {
+      currentString = currentString + tirthankar[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+    currentString = '';
+    for (int i = 0; i < album.length; i++) {
+      currentString = currentString + album[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+    currentString = '';
+    for (int i = 0; i < originalSong.length; i++) {
+      currentString = currentString + originalSong[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+    currentString = '';
+    for (int i = 0; i < extra1.length; i++) {
+      currentString = currentString + extra1[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+    currentString = '';
+    for (int i = 0; i < extra2.length; i++) {
+      currentString = currentString + extra2[i].toLowerCase();
+      setSearchKeywords.add(currentString);
+    }
+
+    _addSearchKeywords(code, setSearchKeywords.toList());
+  }
+
+  void _addSearchKeywords(String code, List<String> listSearchKeywords) async {
+    await songs.doc(code).update({'searchKeywords': listSearchKeywords});
+    print('Added Search Keywords successfully');
   }
 }

@@ -11,6 +11,7 @@ class SongDetails {
   String lyrics;
   String originalSong;
   String production;
+  List searchKeywords;
   int share;
   String singer;
   String songNameEnglish;
@@ -26,6 +27,7 @@ class SongDetails {
       this.lyrics,
       this.originalSong: 'Unknown',
       this.production,
+      @required this.searchKeywords,
       this.share,
       this.singer,
       this.songNameEnglish,

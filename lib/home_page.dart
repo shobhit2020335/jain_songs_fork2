@@ -23,8 +23,20 @@ class _HomePageState extends State<HomePage> {
     color: Color(0xFF54BEE6),
   );
 
-  void getSongs() async {
-    final songs = await _firestore.collection('songs').get();
+  void getSongs(String query) async {
+    songList.clear();
+    setState(() {
+      showProgress = true;
+    });
+    QuerySnapshot songs;
+    if (query == '') {
+      songs = await _firestore.collection('songs').get();
+    } else {
+      songs = await _firestore
+          .collection('songs')
+          .where('searchKeywords', arrayContains: query.toLowerCase())
+          .get();
+    }
     for (var song in songs.docs) {
       Map<String, dynamic> currentSong = song.data();
       String state = currentSong['aaa'];
@@ -39,6 +51,7 @@ class _HomePageState extends State<HomePage> {
               songNameHindi: currentSong['songNameHindi'],
               originalSong: currentSong['originalSong'],
               production: currentSong['production'],
+              searchKeywords: currentSong['searchKeywords'],
               singer: currentSong['singer'],
               tirthankar: currentSong['tirthankar'],
               likes: currentSong['likes'],
@@ -55,8 +68,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    showProgress = true;
-    getSongs();
+    getSongs('');
   }
 
   @override
@@ -75,6 +87,9 @@ class _HomePageState extends State<HomePage> {
                       if (this.searchOrCrossIcon.icon == Icons.search) {
                         this.searchOrCrossIcon = Icon(Icons.close);
                         this.appBarTitle = TextField(
+                          onChanged: (value) {
+                            getSongs(value);
+                          },
                           style: TextStyle(color: Colors.black),
                           decoration: InputDecoration(
                             prefixIcon: Icon(
@@ -87,6 +102,7 @@ class _HomePageState extends State<HomePage> {
                       } else {
                         searchOrCrossIcon = Icon(Icons.search);
                         this.appBarTitle = Text('Jain Songs');
+                        getSongs('');
                       }
                     });
                   }),
