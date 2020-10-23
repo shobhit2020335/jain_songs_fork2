@@ -9,38 +9,38 @@ void main() async {
   AddSong currentSong = AddSong();
   //Uncomment below to add a new song.
 
-  // await currentSong.addToFirestore();
-  // print('Added song successfully');
+  await currentSong.addToFirestore();
+  print('Added song successfully');
 
   //Uncomment below to add searchKeywords.
-  currentSong.makeListOfStrings('TMB',
-      englishName: 'Tu Mane Bhagwan',
-      hindiName: 'तू मने भगवन',
+  currentSong.makeListOfStrings('EJRD',
+      englishName: 'Ek Janmyo Raj Dularo',
+      hindiName: 'एक जनम्यो राज दुलारो',
       originalSong: '',
       album: '',
-      tirthankar: '',
-      extra1: '',
+      tirthankar: 'Mahavir',
+      extra1: 'Paryushan',
       extra2: '');
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'LAL',
+    'code': 'EJRD',
     'album': '',
-    'aaa': 'valid | link',
-    'genre': 'Bhakti',
-    'language': 'Hindi',
+    'aaa': 'valid',
+    'genre': 'Paryushan | Stavan',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'मेरे दोनो हाथो में,\nऐसी लकीर है,\nदादा से मिलन होगा,\nमेरी तकदीर है,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख।।\n\nलिखता है लिखने वाला,\nसोच समझ कर,\nमिलना बिछुड़ना दादा,\nहोता समय पर,\nइसमे मीन न मेख दादा,\nइसमे मीन न मेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख।।\n\nकिस्मत का लेख कोई,\nमिटा नही पायेगा,\nकैसे मिलन होगा,\n समय ही बताएगा,\nमिटती नही है रेख दादा,\nमिटती नही है रेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख।।\n\nन वो दिन रहे ना,\nये दिन रहेंगे,\nदादा तुम देख लेना,\nजल्दी मिलेंगे,\nइन हाथो को देख दादा,\nइन हाथो को देख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख।।\n\nकुंजन तेरी शरण में आया,\nआकर के चरणों में,\nशीश नवाया,\nइन भक्तो को देख दादा,\nइन भक्तो को देख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख।।\n\nमेरे दोनो हाथो में,\nऐसी लकीर है,\nदादा से मिलन होगा,\nमेरी तकदीर है,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख,\nलिखा है ऐसा लेख दादा,\nलिखा है ऐसा लेख।।\n',
+        'एक जनम्यो राज दुलारो\nदुनिया नो तरन हारो\nवर्धमान नु नाम धारी\nने प्रगत्यो तेज सितारों र।। \nअवनि पर थी अन्धकार ना\nवादल जाने विखराय (2)\nगाये उमंगें होहो..(2)\nगाये उमंगें गीत अप्सरा,\nदेवो ना मन हरखाया (2)\nनारकी ना देवो ए निरख्यो\nतेज तनो जभकारो र।। \n\nएक जनम्यो राज दुलार\n\nधान वध्या धरती ना पेटे\nनीर वाद्य सरवरिया ना (2)\nचंद्र सूरज ना तेज वाद्य ने\nसांप वाद्य सौ मनाव माँ (2)\nदुःख ना दिवसों दूर तय ने\nआव्यो सुख नो वारो रे।। \n\nएक जनम्यो राज दुलारो\n\nरंकजनों ना दिल माँ प्रसारयु\nआश घरेलू अजवाडु  (2)\nबेली आव्यो होहो..\nबेली आव्यो दिन दुखिया नो\nरहेशे ना कोई नोंधारु (2)\nभीड़ जगत नई भांगे इवो\nसौ नो पालनहारों  रे।। \n\nएक जनम्यो राज दुलारो\n\nवागे  छे  शरणाई  ख़ुशी  नई\nसिद्धार्थ  नो आंगनिये  (2)\nहेते हींछोले  त्रिशला रानी \nबाल कुंवर ने पारणिये (2)\n प्रजा बानी छे आनंद- घेली\nघर घर उत्सव न्यारो रे।। \n\nएक जनम्यो राज दुलारो\nदुनिया नो तरन हारो\nवर्धमान नु नाम धारी\nने प्रगत्यो तेज सितारों र।। \n',
     'originalSong': 'Unknown',
-    'production': '',
+    'production': 'Shemaroo Jai Jinendra',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Likha Hai Aisa Lekh (Mere Dono Hatho Me)',
-    'songNameHindi': 'लिखा है ऐसा लेख (मेरे दोनो हाथो में)',
-    'tirthankar': '',
-    'youTubeLink': ''
+    'singer': 'Mahendra Kapoor | Anuradha Paudwal',
+    'songNameEnglish': 'Ek Janmyo Raj Dularo',
+    'songNameHindi': 'एक जनम्यो राज दुलारो',
+    'tirthankar': 'Mahavir Swami',
+    'youTubeLink': 'https://youtu.be/B7EzfJLaabU'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

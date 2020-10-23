@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: [
               IconButton(
+                  //TODO: Insert focus in textField when search is clicked.
                   icon: searchOrCrossIcon,
                   onPressed: () {
                     setState(() {
@@ -118,8 +119,8 @@ class _HomePageState extends State<HomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.search),
-            label: 'Search',
+            icon: Icon(FontAwesomeIcons.edit),
+            label: 'Edit',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.archive),

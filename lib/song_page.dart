@@ -53,11 +53,13 @@ class _SongPageState extends State<SongPage> {
                     }
                     setState(() {});
                   },
-                  shareTap: () {
+                  shareTap: () async {
+                    //Opens other app to share song.
                     shareApp(currentSong.songNameHindi);
-                    setState(() {
-                      currentSong.share++;
-                    });
+                    //Increases likes in FIrebase.
+                    FireStoreHelper fireStoreHelper = FireStoreHelper();
+                    await fireStoreHelper.changeShare(context, currentSong);
+                    setState(() {});
                   },
                   youtubeTap: () {
                     String link = currentSong.youTubeLink;

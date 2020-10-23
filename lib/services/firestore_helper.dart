@@ -7,6 +7,11 @@ import 'package:jain_songs/utilities/song_details.dart';
 class FireStoreHelper {
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
+  Future<void> changeShare(
+    BuildContext context,
+    SongDetails currentSong,
+  ) async {}
+
   Future<void> changeLikes(
       BuildContext context, SongDetails currentSong, bool toAdd) async {
     var docSnap = await songs.doc(currentSong.code).get();
