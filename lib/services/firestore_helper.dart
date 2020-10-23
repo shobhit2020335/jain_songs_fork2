@@ -10,7 +10,27 @@ class FireStoreHelper {
   Future<void> changeShare(
     BuildContext context,
     SongDetails currentSong,
-  ) async {}
+  ) async {
+    var docSnap = await songs.doc(currentSong.code).get();
+    Map<String, dynamic> songMap = docSnap.data();
+
+    bool isInternetConnected = await NetworkHelper().check();
+
+    if (songMap == null || isInternetConnected == false) {
+      currentSong.share++;
+      return;
+    }
+
+    songMap['share']++;
+
+    await songs
+        .doc(currentSong.code)
+        .update({'share': songMap['share']}).then((value) {
+      currentSong.share = songMap['share'];
+    }).catchError((error) {
+      print('Error Updating share count in firebase');
+    });
+  }
 
   Future<void> changeLikes(
       BuildContext context, SongDetails currentSong, bool toAdd) async {

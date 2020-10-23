@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
+import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/songs_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -80,34 +81,38 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           Row(
             children: [
-              IconButton(
-                  //TODO: Insert focus in textField when search is clicked.
-                  icon: searchOrCrossIcon,
-                  onPressed: () {
-                    setState(() {
-                      if (this.searchOrCrossIcon.icon == Icons.search) {
-                        this.searchOrCrossIcon = Icon(Icons.close);
-                        this.appBarTitle = TextField(
-                          onChanged: (value) {
-                            getSongs(value);
-                          },
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                            ),
-                            hintText: 'Search...',
-                          ),
-                        );
-                      } else {
-                        searchOrCrossIcon = Icon(Icons.search);
-                        this.appBarTitle = Text('Jain Songs');
-                        getSongs('');
-                      }
-                    });
-                  }),
-              IconButton(icon: filterIcon, onPressed: null)
+              _currentIndex == 0
+                  ? IconButton(
+                      //TODO: Insert focus in textField when search is clicked.
+                      icon: searchOrCrossIcon,
+                      onPressed: () {
+                        setState(() {
+                          if (this.searchOrCrossIcon.icon == Icons.search) {
+                            this.searchOrCrossIcon = Icon(Icons.close);
+                            this.appBarTitle = TextField(
+                              onChanged: (value) {
+                                getSongs(value);
+                              },
+                              style: TextStyle(color: Colors.black),
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: Colors.black,
+                                ),
+                                hintText: 'Search...',
+                              ),
+                            );
+                          } else {
+                            searchOrCrossIcon = Icon(Icons.search);
+                            this.appBarTitle = Text('Jain Songs');
+                            getSongs('');
+                          }
+                        });
+                      })
+                  : Icon(null),
+              _currentIndex == 0
+                  ? IconButton(icon: filterIcon, onPressed: null)
+                  : Icon(null),
             ],
           ),
         ],
@@ -137,53 +142,56 @@ class _HomePageState extends State<HomePage> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
+            if (index == 1) {
+              appBarTitle = Text('Suggestions for a Song');
+            } else if (index == 2) {
+              appBarTitle = Text('Your Library');
+            } else if (index == 3) {
+              appBarTitle = Text('Settings and More');
+            } else {
+              appBarTitle = Text('Jain Songs');
+            }
           });
         },
       ),
-      body: <Widget>[
-        BuildList(
-          showProgress: showProgress,
-        ),
-        Container(
-          child: Center(
-            child: SizedBox(
-              child: Center(
-                child: Text('Press'),
-              ),
-              height: 50,
-              width: 80,
-            ),
+      //IndexedStack use to store state of its children here used for bottom navigation's children.
+      body: IndexedStack(
+        index: _currentIndex,
+        children: <Widget>[
+          BuildList(
+            showProgress: showProgress,
           ),
-        ),
-        Container(
-          child: Center(
-            child: SizedBox(
-              child: Center(
-                child: Text(
-                  'Press3',
-                  style: TextStyle(color: Colors.black),
+          FormPage(),
+          Container(
+            child: Center(
+              child: SizedBox(
+                child: Center(
+                  child: Text(
+                    'Press3',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
+                height: 50,
+                width: 80,
               ),
-              height: 50,
-              width: 80,
             ),
           ),
-        ),
-        Container(
-          child: Center(
-            child: SizedBox(
-              child: Center(
-                child: Text(
-                  'Press4',
-                  style: TextStyle(color: Colors.black),
+          Container(
+            child: Center(
+              child: SizedBox(
+                child: Center(
+                  child: Text(
+                    'Press4',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
+                height: 50,
+                width: 80,
               ),
-              height: 50,
-              width: 80,
             ),
           ),
-        ),
-      ][_currentIndex],
+        ],
+      ),
     );
   }
 }
