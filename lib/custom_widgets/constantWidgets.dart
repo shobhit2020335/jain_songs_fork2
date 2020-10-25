@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 void showToast(BuildContext context, String message, {int duration: 4}) {
@@ -24,7 +22,7 @@ Widget formFieldTitle(String title) {
   );
 }
 
-Widget formTextFeild(int lines,
+Widget formTextField(int lines,
     {String hint, TextEditingController editingController}) {
   return Theme(
     data: ThemeData(

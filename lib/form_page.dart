@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 
-//TODO: Making clear button to clear all textfield
+class FormPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _FormPageState();
+}
 
-class FormPage extends StatelessWidget {
-  final textFieldController = TextEditingController();
+class _FormPageState extends State<FormPage> {
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var songController = TextEditingController();
+  var lyricsController = TextEditingController();
+  var otherController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +80,10 @@ class FormPage extends StatelessWidget {
                         SizedBox(
                           height: 7,
                         ),
-                        formTextFeild(
+                        formTextField(
                           1,
                           hint: 'Name',
-                          editingController: textFieldController,
+                          editingController: nameController,
                         ),
                       ],
                     ),
@@ -91,10 +98,10 @@ class FormPage extends StatelessWidget {
                         SizedBox(
                           height: 7,
                         ),
-                        formTextFeild(
+                        formTextField(
                           1,
                           hint: 'Email',
-                          editingController: textFieldController,
+                          editingController: emailController,
                         ),
                       ],
                     ),
@@ -108,8 +115,8 @@ class FormPage extends StatelessWidget {
               SizedBox(
                 height: 7,
               ),
-              formTextFeild(null,
-                  hint: 'Song name', editingController: textFieldController),
+              formTextField(null,
+                  hint: 'Song name', editingController: songController),
               SizedBox(
                 height: 20,
               ),
@@ -117,10 +124,10 @@ class FormPage extends StatelessWidget {
               SizedBox(
                 height: 7,
               ),
-              formTextFeild(
+              formTextField(
                 null,
                 hint: 'Lyrics or link where lyrics can be found',
-                editingController: textFieldController,
+                editingController: lyricsController,
               ),
               SizedBox(
                 height: 20,
@@ -129,10 +136,10 @@ class FormPage extends StatelessWidget {
               SizedBox(
                 height: 7,
               ),
-              formTextFeild(
+              formTextField(
                 null,
                 hint: 'Other details of the song.',
-                editingController: textFieldController,
+                editingController: otherController,
               ),
               SizedBox(
                 height: 30,
@@ -143,7 +150,11 @@ class FormPage extends StatelessWidget {
                     context,
                     'ThankYou for suggesting! Song will be updated soon.',
                   );
-                  textFieldController.clear();
+                  nameController.clear();
+                  emailController.clear();
+                  songController.clear();
+                  lyricsController.clear();
+                  otherController.clear();
                 },
                 child: Container(
                   decoration: BoxDecoration(
