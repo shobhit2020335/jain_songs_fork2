@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 void showToast(BuildContext context, String message, {int duration: 4}) {
@@ -15,23 +17,26 @@ Widget formFieldTitle(String title) {
   return Text(
     title,
     style: TextStyle(
-      color: Color(0xFF54BEE6),
-      fontWeight: FontWeight.bold,
-      fontSize: 18,
+      color: Colors.black,
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
     ),
   );
 }
 
-Widget formTextFeild(int lines) {
+Widget formTextFeild(int lines,
+    {String hint, TextEditingController editingController}) {
   return Theme(
     data: ThemeData(
-      primaryColor: Color(0xFF54BEE6),
+      primaryColor: Colors.black,
     ),
     child: TextField(
+      controller: editingController,
       keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
       maxLines: lines,
-      style: TextStyle(color: Colors.black, fontSize: 18),
+      style: TextStyle(color: Colors.black, fontSize: 16),
       decoration: InputDecoration(
+        hintText: hint,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(5),

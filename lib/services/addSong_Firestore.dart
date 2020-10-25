@@ -13,34 +13,34 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment below to add searchKeywords.
-  currentSong.makeListOfStrings('EJRD',
-      englishName: 'Ek Janmyo Raj Dularo',
-      hindiName: 'एक जनम्यो राज दुलारो',
+  currentSong.makeListOfStrings('SNVVV',
+      englishName: 'Siddhachal Na Vaasi',
+      hindiName: 'सिध्दाचल ना वासी',
       originalSong: '',
       album: '',
-      tirthankar: 'Mahavir',
-      extra1: 'Paryushan',
+      tirthankar: '',
+      extra1: 'Adinath',
       extra2: '');
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'EJRD',
+    'code': 'SNVVV',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Paryushan | Stavan',
+    'genre': 'Stavan | Bhakti',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'एक जनम्यो राज दुलारो\nदुनिया नो तरन हारो\nवर्धमान नु नाम धारी\nने प्रगत्यो तेज सितारों र।। \nअवनि पर थी अन्धकार ना\nवादल जाने विखराय (2)\nगाये उमंगें होहो..(2)\nगाये उमंगें गीत अप्सरा,\nदेवो ना मन हरखाया (2)\nनारकी ना देवो ए निरख्यो\nतेज तनो जभकारो र।। \n\nएक जनम्यो राज दुलार\n\nधान वध्या धरती ना पेटे\nनीर वाद्य सरवरिया ना (2)\nचंद्र सूरज ना तेज वाद्य ने\nसांप वाद्य सौ मनाव माँ (2)\nदुःख ना दिवसों दूर तय ने\nआव्यो सुख नो वारो रे।। \n\nएक जनम्यो राज दुलारो\n\nरंकजनों ना दिल माँ प्रसारयु\nआश घरेलू अजवाडु  (2)\nबेली आव्यो होहो..\nबेली आव्यो दिन दुखिया नो\nरहेशे ना कोई नोंधारु (2)\nभीड़ जगत नई भांगे इवो\nसौ नो पालनहारों  रे।। \n\nएक जनम्यो राज दुलारो\n\nवागे  छे  शरणाई  ख़ुशी  नई\nसिद्धार्थ  नो आंगनिये  (2)\nहेते हींछोले  त्रिशला रानी \nबाल कुंवर ने पारणिये (2)\n प्रजा बानी छे आनंद- घेली\nघर घर उत्सव न्यारो रे।। \n\nएक जनम्यो राज दुलारो\nदुनिया नो तरन हारो\nवर्धमान नु नाम धारी\nने प्रगत्यो तेज सितारों र।। \n',
-    'originalSong': 'Unknown',
+        'सिध्दाचल ना वासी,विमलाचल ना वासी\nजिनजी प्यारा,आदिनाथने वन्दन हमारा,\nप्रभु जी नु मुखडु मलके,नयनो  माथी वरसे\nअमीरस धारा,आदीनाथने वन्दन हमारा ||\n\nप्रभु जी नु मुखडु छे तेज मिलाकर\nदिल मे भक्ती की ज्योत जमाकर\nभजले प्रभु ने भावे दुर्गती कदी ना आवे |\nजिनजी प्यारा,आदीनाथने वन्दन हमारा…||\n\nअमे तो मोह माया ना विलासी\nतमे छो मुक्ती पुरी ना वासी |\nकर्म बन्धन कापो ,मोक्ष सुख आपो|\nजिनजी  प्यारा,आदिनाथने वन्दन हमारा… ||\n\nभमीने लाख चोरासी हु आव्यो\nपुन्ये दर्शन तुमारा हु पायो |nधन्य दिवस मारो,भवना फेरा टालो |nजिनजी प्यारा आदिनाथने वन्दन हमारा… ||\n\nआरजी उर मा धरजो हमारी |\nअमने आशा छे प्रभुजी तमारी\nकहे प्रसन्न हवे,साचा स्वामी तमे,वन्दन करीले अमे\nजिनजी प्यारा आदिनाथने वन्दन हमारा… ||\n',
+    'originalSong': '',
     'production': 'Shemaroo Jai Jinendra',
     'share': 0,
-    'singer': 'Mahendra Kapoor | Anuradha Paudwal',
-    'songNameEnglish': 'Ek Janmyo Raj Dularo',
-    'songNameHindi': 'एक जनम्यो राज दुलारो',
-    'tirthankar': 'Mahavir Swami',
-    'youTubeLink': 'https://youtu.be/B7EzfJLaabU'
+    'singer': 'Sheela Sethia',
+    'songNameEnglish': 'Siddhachal Na Vaasi',
+    'songNameHindi': 'सिध्दाचल ना वासी',
+    'tirthankar': 'Adinath',
+    'youTubeLink': 'https://youtu.be/9bex5sXUFB0'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

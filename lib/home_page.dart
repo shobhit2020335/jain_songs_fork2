@@ -143,7 +143,7 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentIndex = index;
             if (index == 1) {
-              appBarTitle = Text('Suggestions for a Song');
+              appBarTitle = Text('');
             } else if (index == 2) {
               appBarTitle = Text('Your Library');
             } else if (index == 3) {
