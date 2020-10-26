@@ -3,9 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'package:jain_songs/utilities/song_suggestions.dart';
 
 class FireStoreHelper {
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
+  CollectionReference suggestions =
+      FirebaseFirestore.instance.collection('suggestions');
+
+  Future<void> addSuggestions(
+      BuildContext context, SongSuggestions songSuggestion) async {
+    return suggestions.add(songSuggestion.songSuggestionMap);
+  }
 
   Future<void> changeShare(
     BuildContext context,

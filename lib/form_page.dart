@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/utilities/song_suggestions.dart';
+
+import 'services/network_helper.dart';
 
 class FormPage extends StatefulWidget {
   @override
@@ -13,6 +17,16 @@ class _FormPageState extends State<FormPage> {
   var songController = TextEditingController();
   var lyricsController = TextEditingController();
   var otherController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    songController.dispose();
+    lyricsController.dispose();
+    otherController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,16 +159,49 @@ class _FormPageState extends State<FormPage> {
                 height: 30,
               ),
               FlatButton(
-                onPressed: () {
-                  showToast(
-                    context,
-                    'ThankYou for suggesting! Song will be updated soon.',
+                onPressed: () async {
+                  SongSuggestions currentSongSuggestion = SongSuggestions(
+                    nameController.text,
+                    emailController.text,
+                    songController.text,
+                    lyricsController.text,
+                    otherController.text,
                   );
-                  nameController.clear();
-                  emailController.clear();
-                  songController.clear();
-                  lyricsController.clear();
-                  otherController.clear();
+
+                  bool isInternetConnected = await NetworkHelper().check();
+
+                  if ((currentSongSuggestion.songSuggestionMap['songName'] ==
+                              '' ||
+                          currentSongSuggestion.songSuggestionMap['songName'] ==
+                              null ||
+                          currentSongSuggestion
+                                  .songSuggestionMap['songName'].length <
+                              2) &&
+                      (currentSongSuggestion
+                                  .songSuggestionMap['lyrics'] ==
+                              '' ||
+                          currentSongSuggestion.songSuggestionMap['lyrics'] ==
+                              null ||
+                          currentSongSuggestion
+                                  .songSuggestionMap['lyrics'].length <
+                              2)) {
+                    showToast(
+                        context, 'Song Name and Lyrics both cannot be empty');
+                  } else if (isInternetConnected == false) {
+                    showToast(context, 'No Internet Connection!');
+                  } else {
+                    await FireStoreHelper()
+                        .addSuggestions(context, currentSongSuggestion);
+                    nameController.clear();
+                    emailController.clear();
+                    songController.clear();
+                    lyricsController.clear();
+                    otherController.clear();
+                    showToast(
+                      context,
+                      'ThankYou for suggesting! Song will be updated soon.',
+                    );
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

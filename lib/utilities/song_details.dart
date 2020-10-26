@@ -1,5 +1,3 @@
-//TODO: Create backup in local devices
-
 import 'package:flutter/cupertino.dart';
 
 class SongDetails {
