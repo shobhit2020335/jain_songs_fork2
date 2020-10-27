@@ -10,6 +10,22 @@ class BuildPlaylistRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ListTileTheme(
+      style: ListTileStyle.drawer,
+      child: ListTile(
+        leading: Icon(
+          playlistDetails.leadIcon,
+          color: Colors.black,
+        ),
+        title: Text(
+          playlistDetails.title,
+          style: TextStyle(color: Color(0xFF212323)),
+        ),
+        subtitle: Text(
+          playlistDetails.subtitle,
+        ),
+        trailing: Icon(Icons.arrow_forward_ios),
+      ),
+    );
   }
 }

@@ -8,11 +8,15 @@ class BuildPlaylistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: playlistList.length,
+      itemCount: playlistList.length * 2,
       itemBuilder: (context, i) {
-        return BuildPlaylistRow(
-          playlistDetails: playlistList[i],
-        );
+        if (i % 2 == 1) {
+          return Divider();
+        } else {
+          return BuildPlaylistRow(
+            playlistDetails: playlistList[i ~/ 2],
+          );
+        }
       },
     );
   }

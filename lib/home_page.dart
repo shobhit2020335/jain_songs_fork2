@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
+import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -129,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.archive),
-            label: 'Library',
+            label: 'Playlists',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.wrench),
@@ -145,7 +146,7 @@ class _HomePageState extends State<HomePage> {
             if (index == 1) {
               appBarTitle = Text('');
             } else if (index == 2) {
-              appBarTitle = Text('Your Library');
+              appBarTitle = Text('Playlists');
             } else if (index == 3) {
               appBarTitle = Text('Settings and More');
             } else {
@@ -162,20 +163,7 @@ class _HomePageState extends State<HomePage> {
             showProgress: showProgress,
           ),
           FormPage(),
-          Container(
-            child: Center(
-              child: SizedBox(
-                child: Center(
-                  child: Text(
-                    'Press3',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                height: 50,
-                width: 80,
-              ),
-            ),
-          ),
+          BuildPlaylistList(),
           Container(
             child: Center(
               child: SizedBox(
