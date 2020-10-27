@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/utilities/song_details.dart';
-import 'package:jain_songs/utilities/songs_list.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomePage extends StatefulWidget {

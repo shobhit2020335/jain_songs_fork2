@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/utilities/songs_list.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'buildRow.dart';
 

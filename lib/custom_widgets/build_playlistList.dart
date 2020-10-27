@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/build_playlistRow.dart';
-import 'package:jain_songs/utilities/songs_list.dart';
+import 'package:jain_songs/utilities/lists.dart';
 
 //TODO: configure list for playlist.
 
@@ -10,7 +10,9 @@ class BuildPlaylistList extends StatelessWidget {
     return ListView.builder(
       itemCount: playlistList.length,
       itemBuilder: (context, i) {
-        return BuildPlaylistRow();
+        return BuildPlaylistRow(
+          playlistDetails: playlistList[i],
+        );
       },
     );
   }
