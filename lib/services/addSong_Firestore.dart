@@ -13,34 +13,34 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment below to add searchKeywords.
-  currentSong.makeListOfStrings('SNVVV',
-      englishName: 'Siddhachal Na Vaasi',
-      hindiName: 'सिध्दाचल ना वासी',
+  currentSong.makeListOfStrings('UUS',
+      englishName: 'Uncha Uncha Shatrunjay',
+      hindiName: 'ऊंचा ऊंचा शत्रुंजयनां',
       originalSong: '',
       album: '',
       tirthankar: '',
-      extra1: 'Adinath',
-      extra2: '');
+      extra1: 'शत्रुंजयनां',
+      extra2: 'Shatrunjay');
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'SNVVV',
+    'code': 'UUS',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Stavan | Bhakti',
+    'genre': 'Stavan | Bhajan',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'सिध्दाचल ना वासी,विमलाचल ना वासी\nजिनजी प्यारा,आदिनाथने वन्दन हमारा,\nप्रभु जी नु मुखडु मलके,नयनो  माथी वरसे\nअमीरस धारा,आदीनाथने वन्दन हमारा ||\n\nप्रभु जी नु मुखडु छे तेज मिलाकर\nदिल मे भक्ती की ज्योत जमाकर\nभजले प्रभु ने भावे दुर्गती कदी ना आवे |\nजिनजी प्यारा,आदीनाथने वन्दन हमारा…||\n\nअमे तो मोह माया ना विलासी\nतमे छो मुक्ती पुरी ना वासी |\nकर्म बन्धन कापो ,मोक्ष सुख आपो|\nजिनजी  प्यारा,आदिनाथने वन्दन हमारा… ||\n\nभमीने लाख चोरासी हु आव्यो\nपुन्ये दर्शन तुमारा हु पायो |nधन्य दिवस मारो,भवना फेरा टालो |nजिनजी प्यारा आदिनाथने वन्दन हमारा… ||\n\nआरजी उर मा धरजो हमारी |\nअमने आशा छे प्रभुजी तमारी\nकहे प्रसन्न हवे,साचा स्वामी तमे,वन्दन करीले अमे\nजिनजी प्यारा आदिनाथने वन्दन हमारा… ||\n',
+        'ऊंचा ऊंचा शत्रुंजयनां शिखरो सोहाय,\nवच्चे मारा दादा केरा केरा जगमग थाय... - ऊंचा…\n\nदादा तारी यात्रा करवा, मारुं मन ललचाय (२),\nतळेटीए शीश नमावी, चढवा लागुं पाय (२), - ऊंचा…\n\nपावनगिरिनो, स्पर्श थातां, पापो दूर पलाय..\nलीली लीली झाडीओमां, पंखी करे कलशोर (२), - ऊंचा…\n\nसोपान चढताने, हैयुं जाणे, अषाढियानो मोर (२)\nकांकरे कांकरे सिद्धा अनंता, लळी लळी लागुं पाय... - ऊंचा…\n\nपहेली आवे रामपोळने, त्रीजी वाघणपोळ (२),\nशांतिनाथनां दर्शन करीए, पहोंच्या हाथीपोळ (२), - ऊंचा…\n\nसामे मारा, दादा केरा, दरबार देखाय...\nदोडी दोडी आवुं दादा दर्शन करवाने काज (२), - ऊंचा…\n\nभाव भरीने भक्ति करुं, साधु आतम काज (२),\nमाता मरू (देवी) नां, नंदन भेटी, जीवन पावन थाय... - ऊंचा…\n\nक्षमाभावे ॐकार पदनुं, जपीश हुं तो जाप (२),\nदादा तारा गुणला गातां, कापीश भवनां पाप (२),\nपद्मविजय’नां, हैये आजे, आनंद उभराय... - ऊंचा…\n',
     'originalSong': '',
     'production': 'Shemaroo Jai Jinendra',
     'share': 0,
-    'singer': 'Sheela Sethia',
-    'songNameEnglish': 'Siddhachal Na Vaasi',
-    'songNameHindi': 'सिध्दाचल ना वासी',
-    'tirthankar': 'Adinath',
-    'youTubeLink': 'https://youtu.be/9bex5sXUFB0'
+    'singer': 'Harsh dedhia',
+    'songNameEnglish': 'Uncha Uncha Shatrunjay',
+    'songNameHindi': 'ऊंचा ऊंचा शत्रुंजयनां',
+    'tirthankar': '',
+    'youTubeLink': 'https://youtu.be/a4c4n1Hkg5g'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
