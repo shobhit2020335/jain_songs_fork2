@@ -15,7 +15,8 @@ class BuildPlaylistRow extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           playlistDetails.leadIcon,
-          color: Colors.black,
+          color: playlistDetails.color,
+          size: 35,
         ),
         title: Text(
           playlistDetails.title,
@@ -24,7 +25,9 @@ class BuildPlaylistRow extends StatelessWidget {
         subtitle: Text(
           playlistDetails.subtitle,
         ),
-        trailing: Icon(Icons.arrow_forward_ios),
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+        ),
       ),
     );
   }
