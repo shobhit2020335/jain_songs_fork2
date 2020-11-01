@@ -33,6 +33,5 @@ class SongDetails {
       this.tirthankar,
       this.youTubeLink}) {
     //TODO: Include in state management.
-    this.isLiked = false;
   }
 }

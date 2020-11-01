@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 
@@ -59,6 +60,7 @@ class FireStoreHelper {
         .doc(currentSong.code)
         .update({'likes': songMap['likes']}).then((value) {
       currentSong.likes = songMap['likes'];
+      setisLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
       showToast(context, 'Something went wrong! Please try Later.',

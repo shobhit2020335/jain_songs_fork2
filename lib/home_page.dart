@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/form_page.dart';
+import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,22 +44,29 @@ class _HomePageState extends State<HomePage> {
       Map<String, dynamic> currentSong = song.data();
       String state = currentSong['aaa'];
       if (state != 'Invalid' && state != 'invalid') {
+        SongDetails currentSongDetails = SongDetails(
+            album: currentSong['album'],
+            code: currentSong['code'],
+            genre: currentSong['genre'],
+            lyrics: currentSong['lyrics'],
+            songNameEnglish: currentSong['songNameEnglish'],
+            songNameHindi: currentSong['songNameHindi'],
+            originalSong: currentSong['originalSong'],
+            production: currentSong['production'],
+            searchKeywords: currentSong['searchKeywords'],
+            singer: currentSong['singer'],
+            tirthankar: currentSong['tirthankar'],
+            likes: currentSong['likes'],
+            share: currentSong['share'],
+            youTubeLink: currentSong['youTubeLink']);
+        bool valueIsliked = await getisLiked(currentSong['code']);
+        if (valueIsliked == null) {
+          setisLiked(currentSong['code'], false);
+          valueIsliked = false;
+        }
+        currentSongDetails.isLiked = valueIsliked;
         songList.add(
-          SongDetails(
-              album: currentSong['album'],
-              code: currentSong['code'],
-              genre: currentSong['genre'],
-              lyrics: currentSong['lyrics'],
-              songNameEnglish: currentSong['songNameEnglish'],
-              songNameHindi: currentSong['songNameHindi'],
-              originalSong: currentSong['originalSong'],
-              production: currentSong['production'],
-              searchKeywords: currentSong['searchKeywords'],
-              singer: currentSong['singer'],
-              tirthankar: currentSong['tirthankar'],
-              likes: currentSong['likes'],
-              share: currentSong['share'],
-              youTubeLink: currentSong['youTubeLink']),
+          currentSongDetails,
         );
       }
     }
