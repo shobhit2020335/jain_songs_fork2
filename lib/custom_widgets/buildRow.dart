@@ -6,8 +6,12 @@ import '../song_page.dart';
 
 class BuildRow extends StatefulWidget {
   final SongDetails currentSong;
+  final Color color;
 
-  BuildRow({@required this.currentSong});
+  BuildRow({
+    @required this.currentSong,
+    this.color: Colors.grey,
+  });
 
   @override
   _BuildRowState createState() => _BuildRowState();
@@ -18,7 +22,7 @@ class _BuildRowState extends State<BuildRow> {
   Widget build(BuildContext context) {
     SongDetails currentSong = widget.currentSong;
     return ListTileTheme(
-      selectedColor: Colors.white,
+      selectedColor: Colors.blue[300],
       style: ListTileStyle.drawer,
       child: ListTile(
         title: Text(
@@ -27,9 +31,12 @@ class _BuildRowState extends State<BuildRow> {
         ),
         subtitle: Text(currentSong.originalSong),
         trailing: IconButton(
-          icon: Icon(currentSong.isLiked == true
-              ? FontAwesomeIcons.solidHeart
-              : FontAwesomeIcons.heart),
+          icon: Icon(
+            currentSong.isLiked == true
+                ? FontAwesomeIcons.solidHeart
+                : FontAwesomeIcons.heart,
+            color: widget.color,
+          ),
           onPressed: () async {
             if (currentSong.isLiked == true) {
               currentSong.isLiked = false;

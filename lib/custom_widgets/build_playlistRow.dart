@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:jain_songs/likes_page.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 
-//TODO: create UI for playlist list.
+//TODO: Bug: click on any item in the list opens favourites page.
 
 class BuildPlaylistRow extends StatelessWidget {
   final PlaylistDetails playlistDetails;
@@ -28,6 +29,14 @@ class BuildPlaylistRow extends StatelessWidget {
         trailing: Icon(
           Icons.arrow_forward_ios,
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LikesPage(),
+            ),
+          );
+        },
       ),
     );
   }

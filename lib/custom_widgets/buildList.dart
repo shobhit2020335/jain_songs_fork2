@@ -5,8 +5,26 @@ import 'buildRow.dart';
 
 class BuildList extends StatelessWidget {
   final bool showProgress;
+  final Color colorRowIcon;
+  //The lisToShow might be causing error. See constructor.
 
-  BuildList({this.showProgress});
+  BuildList({
+    this.showProgress,
+    this.colorRowIcon: Colors.grey,
+  }) {
+    listToShow.clear();
+    if (colorRowIcon == Colors.grey) {
+      for (int i = 0; i < songList.length; i++) {
+        listToShow.add(songList[i]);
+      }
+    } else {
+      for (int i = 0; i < songList.length; i++) {
+        if (songList[i].isLiked == true) {
+          listToShow.add(songList[i]);
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +36,11 @@ class BuildList extends StatelessWidget {
       opacity: 1,
       inAsyncCall: showProgress,
       child: ListView.builder(
-          itemCount: songList.length,
+          itemCount: listToShow.length,
           itemBuilder: (context, i) {
             return BuildRow(
-              currentSong: songList[i],
+              currentSong: listToShow[i],
+              color: colorRowIcon,
             );
           }),
     );

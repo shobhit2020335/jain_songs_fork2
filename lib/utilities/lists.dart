@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
+import 'package:jain_songs/utilities/song_details.dart';
 
-List songList = [];
+List<SongDetails> songList = [];
+
+List<SongDetails> listToShow = [];
 
 //TODO: Edit list for different playlist.
 List<PlaylistDetails> playlistList = [
