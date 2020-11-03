@@ -12,18 +12,7 @@ class BuildList extends StatelessWidget {
     this.showProgress,
     this.colorRowIcon: Colors.grey,
   }) {
-    listToShow.clear();
-    if (colorRowIcon == Colors.grey) {
-      for (int i = 0; i < songList.length; i++) {
-        listToShow.add(songList[i]);
-      }
-    } else {
-      for (int i = 0; i < songList.length; i++) {
-        if (songList[i].isLiked == true) {
-          listToShow.add(songList[i]);
-        }
-      }
-    }
+    addElementsToList(colorRowIcon);
   }
 
   @override

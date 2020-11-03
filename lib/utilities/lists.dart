@@ -7,6 +7,21 @@ List<SongDetails> songList = [];
 
 List<SongDetails> listToShow = [];
 
+void addElementsToList(Color colorRowIcon) {
+  listToShow.clear();
+  if (colorRowIcon == Colors.grey) {
+    for (int i = 0; i < songList.length; i++) {
+      listToShow.add(songList[i]);
+    }
+  } else {
+    for (int i = 0; i < songList.length; i++) {
+      if (songList[i].isLiked == true) {
+        listToShow.add(songList[i]);
+      }
+    }
+  }
+}
+
 //TODO: Edit list for different playlist.
 List<PlaylistDetails> playlistList = [
   PlaylistDetails(
