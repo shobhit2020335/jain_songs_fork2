@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
 import 'utilities/lists.dart';
 
+//This page is not active but it provides the UI config in Inside playlist branch.
+//Merge the inside playlist branch after making UI for playlist pages.
+
 class LikesPage extends StatelessWidget {
   LikesPage() {
     addElementsToList(Colors.pink[400]);
