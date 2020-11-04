@@ -13,9 +13,39 @@ class LikesPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            title: Text('Liked Songs'),
-            floating: true,
+            // title: Text('Liked Songs'),
+            centerTitle: true,
+            pinned: true,
             expandedHeight: 200,
+            elevation: 20,
+            flexibleSpace: Container(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 15),
+                    Text(
+                      'Liked Songs',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Pacifico',
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black,
+                    Colors.pink[400],
+                  ],
+                ),
+              ),
+            ),
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
