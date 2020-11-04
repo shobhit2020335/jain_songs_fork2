@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/likes_page.dart';
+import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 
 //TODO: Bug: click on any item in the list opens favourites page.
@@ -33,7 +33,7 @@ class BuildPlaylistRow extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LikesPage(),
+              builder: (context) => PlaylistPage(playlistDetails),
             ),
           );
         },

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class PlaylistDetails {
   String title;
   String subtitle;
+  IconData leadIcon;
+  Color color;
   //Active determines that whether the playlist is currently active or not.
   //Eg. Paryushan playlist is active only in paryushan.
   bool active;
-  IconData leadIcon;
-  Color color;
 
   PlaylistDetails({
     this.active,

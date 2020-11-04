@@ -29,7 +29,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Favourites',
     subtitle: 'No liked Songs',
     leadIcon: FontAwesomeIcons.gratipay,
-    color: Colors.pink,
+    color: Colors.pink[300],
   ),
   PlaylistDetails(
     active: true,
@@ -59,11 +59,11 @@ List<PlaylistDetails> playlistList = [
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Color(0xFF54BEE6),
   ),
-  PlaylistDetails(
-    active: false,
-    title: 'Paryushan Special',
-    subtitle: 'Mahaparv Paryushan Bhajans',
-    leadIcon: FontAwesomeIcons.prayingHands,
-    color: Color(0xFF54BEE6),
-  ),
+  // PlaylistDetails(
+  //   active: false,
+  //   title: 'Paryushan Special',
+  //   subtitle: 'Mahaparv Paryushan Bhajans',
+  //   leadIcon: FontAwesomeIcons.prayingHands,
+  //   color: Color(0xFF54BEE6),
+  // ),
 ];
