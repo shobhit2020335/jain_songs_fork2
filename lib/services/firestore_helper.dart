@@ -89,12 +89,20 @@ class FireStoreHelper {
       return;
     }
 
-    songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
+    if (songMap.containsKey('popularity') == false) {
+      songMap['popularity'] = 0;
+    }
 
-    await songs
-        .doc(currentSong.code)
-        .update({'likes': songMap['likes']}).then((value) {
+    songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
+    songMap['popularity'] =
+        toAdd ? songMap['popularity'] + 1 : songMap['popularity'] - 1;
+
+    await songs.doc(currentSong.code).update({
+      'likes': songMap['likes'],
+      'popularity': songMap['popularity']
+    }).then((value) {
       currentSong.likes = songMap['likes'];
+      currentSong.popularity = songMap['popularity'];
       setisLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
