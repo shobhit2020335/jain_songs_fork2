@@ -16,6 +16,41 @@ class FireStoreHelper {
     return suggestions.add(songSuggestion.songSuggestionMap);
   }
 
+  Future<void> changeClicks(
+    BuildContext context,
+    SongDetails currentSong,
+  ) async {
+    var docSnap = await songs.doc(currentSong.code).get();
+    Map<String, dynamic> songMap = docSnap.data();
+
+    bool isInternetConnected = await NetworkHelper().check();
+
+    if (songMap == null || isInternetConnected == false) {
+      currentSong.totalClicks++;
+      currentSong.popularity = currentSong.totalClicks + currentSong.likes;
+      return;
+    }
+
+    if (songMap.containsKey('totalClicks') == false ||
+        songMap.containsKey('popularity') == false) {
+      songMap['totalClicks'] = 0;
+      songMap['popularity'] = 0;
+    }
+
+    songMap['totalClicks'] = songMap['totalClicks'] + 1;
+    songMap['popularity'] = songMap['totalClicks'] + songMap['likes'];
+
+    await songs.doc(currentSong.code).update({
+      'popularity': songMap['popularity'],
+      'totalClicks': songMap['totalClicks']
+    }).then((value) {
+      currentSong.popularity = songMap['popularity'];
+      currentSong.totalClicks = songMap['totalClicks'];
+    }).catchError((error) {
+      print('Error Updating popularity!');
+    });
+  }
+
   Future<void> changeShare(
     BuildContext context,
     SongDetails currentSong,

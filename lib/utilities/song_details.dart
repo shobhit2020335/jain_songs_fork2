@@ -16,6 +16,7 @@ class SongDetails {
   String songNameEnglish;
   String songNameHindi;
   String tirthankar;
+  int totalClicks;
   String youTubeLink;
 
   SongDetails(
@@ -33,6 +34,7 @@ class SongDetails {
       this.songNameEnglish,
       this.songNameHindi,
       this.tirthankar,
+      this.totalClicks: 0,
       this.youTubeLink}) {
     //TODO: Include in state management.
   }

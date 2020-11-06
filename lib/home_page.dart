@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
             searchKeywords: currentSong['searchKeywords'],
             singer: currentSong['singer'],
             tirthankar: currentSong['tirthankar'],
+            totalClicks: currentSong['totalClicks'],
             likes: currentSong['likes'],
             share: currentSong['share'],
             youTubeLink: currentSong['youTubeLink']);
