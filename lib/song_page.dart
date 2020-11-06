@@ -17,6 +17,12 @@ class SongPage extends StatefulWidget {
 }
 
 class _SongPageState extends State<SongPage> {
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FireStoreHelper().changePopularity(context, widget.currentSong);
+  // }
+
   @override
   Widget build(BuildContext context) {
     SongDetails currentSong = widget.currentSong;

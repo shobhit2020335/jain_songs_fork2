@@ -8,6 +8,7 @@ class SongDetails {
   int likes;
   String lyrics;
   String originalSong;
+  int popularity;
   String production;
   List searchKeywords;
   int share;
@@ -24,6 +25,7 @@ class SongDetails {
       this.likes: 0,
       this.lyrics,
       this.originalSong: 'Unknown',
+      this.popularity: 0,
       this.production,
       @required this.searchKeywords,
       this.share,

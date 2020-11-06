@@ -7,7 +7,7 @@ import 'utilities/lists.dart';
 
 class LikesPage extends StatelessWidget {
   LikesPage() {
-    addElementsToList(Colors.pink[400]);
+    addElementsToList('Favourites');
   }
 
   @override

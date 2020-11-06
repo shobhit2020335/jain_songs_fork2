@@ -6,11 +6,11 @@ import 'utilities/lists.dart';
 class PlaylistPage extends StatelessWidget {
   final PlaylistDetails currentPlaylist;
 
-  //TODO: Test this page changes on app.
+  //TODO: Change likes icon for specific playlist page.
 
   //TODO: Change this according to the playlist page to open.
   PlaylistPage(this.currentPlaylist) {
-    addElementsToList(currentPlaylist.color);
+    addElementsToList(currentPlaylist.title);
   }
 
   @override

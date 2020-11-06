@@ -7,15 +7,43 @@ List<SongDetails> songList = [];
 
 List<SongDetails> listToShow = [];
 
-void addElementsToList(Color colorRowIcon) {
+void addElementsToList(String playlistTag) {
   listToShow.clear();
-  if (colorRowIcon == Colors.grey) {
+  playlistTag = playlistTag.toLowerCase();
+  //This is for main list having all songs.
+  if (playlistTag.contains('home')) {
     for (int i = 0; i < songList.length; i++) {
       listToShow.add(songList[i]);
     }
-  } else {
+  }
+  //This is for likes page.
+  else if (playlistTag.contains('favourites')) {
     for (int i = 0; i < songList.length; i++) {
       if (songList[i].isLiked == true) {
+        listToShow.add(songList[i]);
+      }
+    }
+  }
+  //This is for latest playlist.
+  else if (playlistTag.contains('latest')) {
+    for (int i = 0; i < songList.length; i++) {
+      if (songList[i].genre.toLowerCase().contains('latest')) {
+        listToShow.add(songList[i]);
+      }
+    }
+  }
+  //This is for bhakti special playlist.
+  else if (playlistTag.contains('bhakti')) {
+    for (int i = 0; i < songList.length; i++) {
+      if (songList[i].genre.toLowerCase().contains('bhakti')) {
+        listToShow.add(songList[i]);
+      }
+    }
+  }
+  //This is for Parshwanath playlist.
+  else if (playlistTag.contains('parshwanath')) {
+    for (int i = 0; i < songList.length; i++) {
+      if (songList[i].tirthankar.toLowerCase().contains('parshwanath')) {
         listToShow.add(songList[i]);
       }
     }
@@ -50,7 +78,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Bhakti Special',
     subtitle: 'Playlist for Bhakti',
     leadIcon: Icons.ac_unit,
-    color: Colors.blueGrey,
+    color: Colors.redAccent,
   ),
   PlaylistDetails(
     active: true,
@@ -59,11 +87,4 @@ List<PlaylistDetails> playlistList = [
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Color(0xFF54BEE6),
   ),
-  // PlaylistDetails(
-  //   active: false,
-  //   title: 'Paryushan Special',
-  //   subtitle: 'Mahaparv Paryushan Bhajans',
-  //   leadIcon: FontAwesomeIcons.prayingHands,
-  //   color: Color(0xFF54BEE6),
-  // ),
 ];

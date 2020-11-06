@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
             songNameEnglish: currentSong['songNameEnglish'],
             songNameHindi: currentSong['songNameHindi'],
             originalSong: currentSong['originalSong'],
+            popularity: currentSong['popularity'],
             production: currentSong['production'],
             searchKeywords: currentSong['searchKeywords'],
             singer: currentSong['singer'],

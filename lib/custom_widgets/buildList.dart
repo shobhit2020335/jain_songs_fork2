@@ -12,7 +12,7 @@ class BuildList extends StatelessWidget {
     this.showProgress,
     this.colorRowIcon: Colors.grey,
   }) {
-    addElementsToList(colorRowIcon);
+    addElementsToList('Home');
   }
 
   @override
