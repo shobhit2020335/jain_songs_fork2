@@ -18,11 +18,15 @@ class PlaylistPage extends StatefulWidget {
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
+  bool showProgress = false;
   PlaylistDetails currentPlaylist;
   final _firestore = FirebaseFirestore.instance;
 
   void getSongs() async {
-    listToShow.clear();
+    setState(() {
+      showProgress = true;
+    });
+
     bool isInternetConnected = await NetworkHelper().check();
     if (isInternetConnected == false) {
       showToast(context, 'Please check your Internet connection!');
@@ -67,12 +71,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
         );
       }
     }
-    setState(() {});
+
+    setState(() {
+      showProgress = false;
+    });
   }
 
   @override
   void initState() {
     super.initState();
+    listToShow.clear();
     currentPlaylist = widget.currentPlaylist;
     if (currentPlaylist.title.contains('Popular')) {
       getSongs();
@@ -124,12 +132,29 @@ class _PlaylistPageState extends State<PlaylistPage> {
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return BuildRow(
-                  currentSong: listToShow[index],
-                  color: currentPlaylist.color,
-                );
+                if (showProgress) {
+                  return Center(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 200,
+                        ),
+                        CircularProgressIndicator(
+                          backgroundColor: currentPlaylist.color,
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (index < songList.length) {
+                  return BuildRow(
+                    currentSong: listToShow[index],
+                    color: currentPlaylist.color,
+                  );
+                }
+
+                // return Container(height: 40, width: 40, color: Colors.red);
               },
-              childCount: listToShow.length,
+              childCount: showProgress ? 1 : listToShow.length,
             ),
           ),
         ],
