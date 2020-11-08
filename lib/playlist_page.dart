@@ -27,51 +27,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
 
     addElementsToList('Popular');
 
-    // bool isInternetConnected = await NetworkHelper().check();
-    // if (isInternetConnected == false) {
-    //   showToast(context, 'Please check your Internet connection!');
-    //   return;
-    // }
-
-    // QuerySnapshot songs;
-    // songs = await _firestore
-    //     .collection('songs')
-    //     .where('popularity', isGreaterThan: 4)
-    //     .orderBy('popularity', descending: true)
-    //     .get();
-    // for (var song in songs.docs) {
-    //   Map<String, dynamic> currentSong = song.data();
-    //   String state = currentSong['aaa'];
-    //   if (state != 'Invalid' && state != 'invalid') {
-    //     SongDetails currentSongDetails = SongDetails(
-    //         album: currentSong['album'],
-    //         code: currentSong['code'],
-    //         genre: currentSong['genre'],
-    //         lyrics: currentSong['lyrics'],
-    //         songNameEnglish: currentSong['songNameEnglish'],
-    //         songNameHindi: currentSong['songNameHindi'],
-    //         originalSong: currentSong['originalSong'],
-    //         popularity: currentSong['popularity'],
-    //         production: currentSong['production'],
-    //         searchKeywords: currentSong['searchKeywords'],
-    //         singer: currentSong['singer'],
-    //         tirthankar: currentSong['tirthankar'],
-    //         totalClicks: currentSong['totalClicks'],
-    //         likes: currentSong['likes'],
-    //         share: currentSong['share'],
-    //         youTubeLink: currentSong['youTubeLink']);
-    //     bool valueIsliked = await getisLiked(currentSong['code']);
-    //     if (valueIsliked == null) {
-    //       setisLiked(currentSong['code'], false);
-    //       valueIsliked = false;
-    //     }
-    //     currentSongDetails.isLiked = valueIsliked;
-    //     listToShow.add(
-    //       currentSongDetails,
-    //     );
-    //   }
-    // }
-
     setState(() {
       showProgress = false;
     });
@@ -151,8 +106,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     color: currentPlaylist.color,
                   );
                 }
-
-                // return Container(height: 40, width: 40, color: Colors.red);
               },
               childCount: showProgress ? 1 : listToShow.length,
             ),

@@ -25,52 +25,10 @@ class _HomePageState extends State<HomePage> {
   );
 
   void getSongs(String query) async {
-    // songList.clear();
     setState(() {
       showProgress = true;
     });
     await FireStoreHelper().getSongs(query);
-    // QuerySnapshot songs;
-    // if (query == '') {
-    //   songs = await _firestore.collection('songs').get();
-    // } else {
-    //   songs = await _firestore
-    //       .collection('songs')
-    //       .where('searchKeywords', arrayContains: query.toLowerCase())
-    //       .get();
-    // }
-    // for (var song in songs.docs) {
-    //   Map<String, dynamic> currentSong = song.data();
-    //   String state = currentSong['aaa'];
-    //   if (state != 'Invalid' && state != 'invalid') {
-    //     SongDetails currentSongDetails = SongDetails(
-    //         album: currentSong['album'],
-    //         code: currentSong['code'],
-    //         genre: currentSong['genre'],
-    //         lyrics: currentSong['lyrics'],
-    //         songNameEnglish: currentSong['songNameEnglish'],
-    //         songNameHindi: currentSong['songNameHindi'],
-    //         originalSong: currentSong['originalSong'],
-    //         popularity: currentSong['popularity'],
-    //         production: currentSong['production'],
-    //         searchKeywords: currentSong['searchKeywords'],
-    //         singer: currentSong['singer'],
-    //         tirthankar: currentSong['tirthankar'],
-    //         totalClicks: currentSong['totalClicks'],
-    //         likes: currentSong['likes'],
-    //         share: currentSong['share'],
-    //         youTubeLink: currentSong['youTubeLink']);
-    //     bool valueIsliked = await getisLiked(currentSong['code']);
-    //     if (valueIsliked == null) {
-    //       setisLiked(currentSong['code'], false);
-    //       valueIsliked = false;
-    //     }
-    //     currentSongDetails.isLiked = valueIsliked;
-    //     songList.add(
-    //       currentSongDetails,
-    //     );
-    //   }
-    // }
     setState(() {
       showProgress = false;
     });
