@@ -7,6 +7,18 @@ List<SongDetails> songList = [];
 
 List<SongDetails> listToShow = [];
 
+int popularityComparison(SongDetails a, SongDetails b) {
+  final propertyA = a.popularity;
+  final propertyB = b.popularity;
+  if (propertyA < propertyB) {
+    return 1;
+  } else if (propertyA > propertyB) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
 void addElementsToList(String playlistTag) {
   listToShow.clear();
   playlistTag = playlistTag.toLowerCase();
@@ -32,6 +44,15 @@ void addElementsToList(String playlistTag) {
       }
     }
   }
+  //This is for popular playlist.
+  else if (playlistTag.contains('popular')) {
+    for (int i = 0; i < songList.length; i++) {
+      if (songList[i].popularity > 5 && songList[i].likes > 0) {
+        listToShow.add(songList[i]);
+      }
+    }
+    listToShow.sort(popularityComparison);
+  }
   //This is for bhakti special playlist.
   else if (playlistTag.contains('bhakti')) {
     for (int i = 0; i < songList.length; i++) {
@@ -55,7 +76,7 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Favourites',
-    subtitle: 'No liked Songs',
+    subtitle: 'Likes Songs',
     leadIcon: FontAwesomeIcons.gratipay,
     color: Colors.pink[300],
   ),

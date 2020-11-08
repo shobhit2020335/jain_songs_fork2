@@ -3,10 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 
 class FireStoreHelper {
+  final _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
@@ -109,5 +111,51 @@ class FireStoreHelper {
       showToast(context, 'Something went wrong! Please try Later.',
           duration: 2);
     });
+  }
+
+  Future<void> getSongs(String query) async {
+    songList.clear();
+
+    QuerySnapshot songs;
+    if (query == '') {
+      songs = await _firestore.collection('songs').get();
+    } else {
+      songs = await _firestore
+          .collection('songs')
+          .where('searchKeywords', arrayContains: query.toLowerCase())
+          .get();
+    }
+    for (var song in songs.docs) {
+      Map<String, dynamic> currentSong = song.data();
+      String state = currentSong['aaa'];
+      if (state != 'Invalid' && state != 'invalid') {
+        SongDetails currentSongDetails = SongDetails(
+            album: currentSong['album'],
+            code: currentSong['code'],
+            genre: currentSong['genre'],
+            lyrics: currentSong['lyrics'],
+            songNameEnglish: currentSong['songNameEnglish'],
+            songNameHindi: currentSong['songNameHindi'],
+            originalSong: currentSong['originalSong'],
+            popularity: currentSong['popularity'],
+            production: currentSong['production'],
+            searchKeywords: currentSong['searchKeywords'],
+            singer: currentSong['singer'],
+            tirthankar: currentSong['tirthankar'],
+            totalClicks: currentSong['totalClicks'],
+            likes: currentSong['likes'],
+            share: currentSong['share'],
+            youTubeLink: currentSong['youTubeLink']);
+        bool valueIsliked = await getisLiked(currentSong['code']);
+        if (valueIsliked == null) {
+          setisLiked(currentSong['code'], false);
+          valueIsliked = false;
+        }
+        currentSongDetails.isLiked = valueIsliked;
+        songList.add(
+          currentSongDetails,
+        );
+      }
+    }
   }
 }

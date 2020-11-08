@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
-import 'services/network_helper.dart';
-import 'services/sharedPrefs.dart';
 import 'utilities/lists.dart';
-import 'utilities/song_details.dart';
 
 class PlaylistPage extends StatefulWidget {
   final PlaylistDetails currentPlaylist;
@@ -26,51 +23,54 @@ class _PlaylistPageState extends State<PlaylistPage> {
     setState(() {
       showProgress = true;
     });
+    await FireStoreHelper().getSongs('');
 
-    bool isInternetConnected = await NetworkHelper().check();
-    if (isInternetConnected == false) {
-      showToast(context, 'Please check your Internet connection!');
-      return;
-    }
+    addElementsToList('Popular');
 
-    QuerySnapshot songs;
-    songs = await _firestore
-        .collection('songs')
-        .where('popularity', isGreaterThan: 4)
-        .orderBy('popularity', descending: true)
-        .get();
-    for (var song in songs.docs) {
-      Map<String, dynamic> currentSong = song.data();
-      String state = currentSong['aaa'];
-      if (state != 'Invalid' && state != 'invalid') {
-        SongDetails currentSongDetails = SongDetails(
-            album: currentSong['album'],
-            code: currentSong['code'],
-            genre: currentSong['genre'],
-            lyrics: currentSong['lyrics'],
-            songNameEnglish: currentSong['songNameEnglish'],
-            songNameHindi: currentSong['songNameHindi'],
-            originalSong: currentSong['originalSong'],
-            popularity: currentSong['popularity'],
-            production: currentSong['production'],
-            searchKeywords: currentSong['searchKeywords'],
-            singer: currentSong['singer'],
-            tirthankar: currentSong['tirthankar'],
-            totalClicks: currentSong['totalClicks'],
-            likes: currentSong['likes'],
-            share: currentSong['share'],
-            youTubeLink: currentSong['youTubeLink']);
-        bool valueIsliked = await getisLiked(currentSong['code']);
-        if (valueIsliked == null) {
-          setisLiked(currentSong['code'], false);
-          valueIsliked = false;
-        }
-        currentSongDetails.isLiked = valueIsliked;
-        listToShow.add(
-          currentSongDetails,
-        );
-      }
-    }
+    // bool isInternetConnected = await NetworkHelper().check();
+    // if (isInternetConnected == false) {
+    //   showToast(context, 'Please check your Internet connection!');
+    //   return;
+    // }
+
+    // QuerySnapshot songs;
+    // songs = await _firestore
+    //     .collection('songs')
+    //     .where('popularity', isGreaterThan: 4)
+    //     .orderBy('popularity', descending: true)
+    //     .get();
+    // for (var song in songs.docs) {
+    //   Map<String, dynamic> currentSong = song.data();
+    //   String state = currentSong['aaa'];
+    //   if (state != 'Invalid' && state != 'invalid') {
+    //     SongDetails currentSongDetails = SongDetails(
+    //         album: currentSong['album'],
+    //         code: currentSong['code'],
+    //         genre: currentSong['genre'],
+    //         lyrics: currentSong['lyrics'],
+    //         songNameEnglish: currentSong['songNameEnglish'],
+    //         songNameHindi: currentSong['songNameHindi'],
+    //         originalSong: currentSong['originalSong'],
+    //         popularity: currentSong['popularity'],
+    //         production: currentSong['production'],
+    //         searchKeywords: currentSong['searchKeywords'],
+    //         singer: currentSong['singer'],
+    //         tirthankar: currentSong['tirthankar'],
+    //         totalClicks: currentSong['totalClicks'],
+    //         likes: currentSong['likes'],
+    //         share: currentSong['share'],
+    //         youTubeLink: currentSong['youTubeLink']);
+    //     bool valueIsliked = await getisLiked(currentSong['code']);
+    //     if (valueIsliked == null) {
+    //       setisLiked(currentSong['code'], false);
+    //       valueIsliked = false;
+    //     }
+    //     currentSongDetails.isLiked = valueIsliked;
+    //     listToShow.add(
+    //       currentSongDetails,
+    //     );
+    //   }
+    // }
 
     setState(() {
       showProgress = false;
