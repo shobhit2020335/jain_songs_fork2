@@ -1,15 +1,17 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 
 class NetworkHelper {
   NetworkHelper();
 
-  void changeDate() {
+  Future<void> changeDate() async {
     todayDate = DateTime.now();
     print(todayDate);
     var diffDate = todayDate.difference(startDate);
     totalDays = diffDate.inDays;
-    print(totalDays);
+    await FireStoreHelper().fetchDays();
+    print(fetchedDays);
   }
 
   Future<bool> check() async {

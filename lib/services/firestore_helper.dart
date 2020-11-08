@@ -13,15 +13,124 @@ class FireStoreHelper {
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
+  Future<void> fetchDays() async {
+    bool isInternetConnected = await NetworkHelper().check();
+
+    if (isInternetConnected == false) {
+      fetchedDays = totalDays;
+      return;
+    }
+    CollectionReference others = _firestore.collection('others');
+    var docSnap = await others.doc('JAINSONGS').get();
+    Map<String, dynamic> othersMap = docSnap.data();
+
+    fetchedDays = othersMap['totalDays'];
+  }
+
+  //It updates the trending points when a new day appears and make todayClicks to 0.
+  Future<void> dailyUpdate() async {
+    bool isInternetConnected = await NetworkHelper().check();
+
+    if (isInternetConnected == false) {
+      return;
+    }
+
+    QuerySnapshot songs;
+    songs = await _firestore.collection('songs').get();
+
+    for (var song in songs.docs) {
+      Map<String, dynamic> songMap = song.data();
+      String state = songMap['aaa'];
+      if (state != 'Invalid' && state != 'invalid') {
+        if (songMap.containsKey('totalClicks') == false) {
+          songMap['totalClicks'] = 0;
+        }
+        if (songMap.containsKey('todayClicks') == false ||
+            songMap.containsKey('trendPoints') == false) {
+          songMap['todayClicks'] = 0;
+          songMap['trendPoints'] = 0;
+        }
+
+        int todayClicks = songMap['todayClicks'];
+        int totalClicks = songMap['totalClicks'];
+
+        //Algo for trendPoints
+        double avgClicks = totalClicks / totalDays;
+        songMap['trendPoints'] = todayClicks - avgClicks;
+        songMap['todayClicks'] = 0;
+
+        await this.songs.doc(songMap['code']).update({
+          'todayClicks': songMap['todayClicks'],
+          'trendPoints': songMap['trendPoints'],
+        }).catchError((error) {
+          print('Error Updating popularity!');
+        });
+      }
+    }
+
+    CollectionReference others = _firestore.collection('others');
+    await others.doc('JAINSONGS').update({
+      'totalDays': totalDays,
+    }).catchError((error) {
+      print('Error updating days.' + error);
+    });
+  }
+
+  Future<void> getSongs(String query) async {
+    songList.clear();
+
+    QuerySnapshot songs;
+    if (query == '') {
+      songs = await _firestore.collection('songs').get();
+    } else {
+      songs = await _firestore
+          .collection('songs')
+          .where('searchKeywords', arrayContains: query.toLowerCase())
+          .get();
+    }
+    for (var song in songs.docs) {
+      Map<String, dynamic> currentSong = song.data();
+      String state = currentSong['aaa'];
+      if (state != 'Invalid' && state != 'invalid') {
+        SongDetails currentSongDetails = SongDetails(
+            album: currentSong['album'],
+            code: currentSong['code'],
+            genre: currentSong['genre'],
+            lyrics: currentSong['lyrics'],
+            songNameEnglish: currentSong['songNameEnglish'],
+            songNameHindi: currentSong['songNameHindi'],
+            originalSong: currentSong['originalSong'],
+            popularity: currentSong['popularity'],
+            production: currentSong['production'],
+            searchKeywords: currentSong['searchKeywords'],
+            singer: currentSong['singer'],
+            tirthankar: currentSong['tirthankar'],
+            todayClicks: currentSong['todayClicks'],
+            totalClicks: currentSong['totalClicks'],
+            trendPoints: currentSong['trendPoints'],
+            likes: currentSong['likes'],
+            share: currentSong['share'],
+            youTubeLink: currentSong['youTubeLink']);
+        bool valueIsliked = await getisLiked(currentSong['code']);
+        if (valueIsliked == null) {
+          setisLiked(currentSong['code'], false);
+          valueIsliked = false;
+        }
+        currentSongDetails.isLiked = valueIsliked;
+        songList.add(
+          currentSongDetails,
+        );
+      }
+    }
+  }
+
   Future<void> addSuggestions(
       BuildContext context, SongSuggestions songSuggestion) async {
     return suggestions.add(songSuggestion.songSuggestionMap);
   }
 
   Future<void> changeClicks(
-    BuildContext context,
-    SongDetails currentSong,
-  ) async {
+      BuildContext context, SongDetails currentSong) async {
     var docSnap = await songs.doc(currentSong.code).get();
     Map<String, dynamic> songMap = docSnap.data();
 
@@ -66,14 +175,12 @@ class FireStoreHelper {
       currentSong.popularity = songMap['popularity'];
       currentSong.totalClicks = songMap['totalClicks'];
     }).catchError((error) {
-      print('Error Updating popularity!');
+      print('Error Updating popularity or trendPoints!');
     });
   }
 
   Future<void> changeShare(
-    BuildContext context,
-    SongDetails currentSong,
-  ) async {
+      BuildContext context, SongDetails currentSong) async {
     var docSnap = await songs.doc(currentSong.code).get();
     Map<String, dynamic> songMap = docSnap.data();
 
@@ -128,54 +235,5 @@ class FireStoreHelper {
       showToast(context, 'Something went wrong! Please try Later.',
           duration: 2);
     });
-  }
-
-//TODO: change trending points of every song after a day.
-  Future<void> getSongs(String query) async {
-    songList.clear();
-
-    QuerySnapshot songs;
-    if (query == '') {
-      songs = await _firestore.collection('songs').get();
-    } else {
-      songs = await _firestore
-          .collection('songs')
-          .where('searchKeywords', arrayContains: query.toLowerCase())
-          .get();
-    }
-    for (var song in songs.docs) {
-      Map<String, dynamic> currentSong = song.data();
-      String state = currentSong['aaa'];
-      if (state != 'Invalid' && state != 'invalid') {
-        SongDetails currentSongDetails = SongDetails(
-            album: currentSong['album'],
-            code: currentSong['code'],
-            genre: currentSong['genre'],
-            lyrics: currentSong['lyrics'],
-            songNameEnglish: currentSong['songNameEnglish'],
-            songNameHindi: currentSong['songNameHindi'],
-            originalSong: currentSong['originalSong'],
-            popularity: currentSong['popularity'],
-            production: currentSong['production'],
-            searchKeywords: currentSong['searchKeywords'],
-            singer: currentSong['singer'],
-            tirthankar: currentSong['tirthankar'],
-            todayClicks: currentSong['todayClicks'],
-            totalClicks: currentSong['totalClicks'],
-            trendPoints: currentSong['trendPoints'],
-            likes: currentSong['likes'],
-            share: currentSong['share'],
-            youTubeLink: currentSong['youTubeLink']);
-        bool valueIsliked = await getisLiked(currentSong['code']);
-        if (valueIsliked == null) {
-          setisLiked(currentSong['code'], false);
-          valueIsliked = false;
-        }
-        currentSongDetails.isLiked = valueIsliked;
-        songList.add(
-          currentSongDetails,
-        );
-      }
-    }
   }
 }

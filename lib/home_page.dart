@@ -5,6 +5,9 @@ import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jain_songs/utilities/lists.dart';
+
+import 'services/network_helper.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,6 +31,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       showProgress = true;
     });
+    await NetworkHelper().changeDate();
+    if (totalDays > fetchedDays) {
+      fetchedDays = totalDays;
+      print('Ghusa in daily update');
+      await FireStoreHelper().dailyUpdate();
+    }
     await FireStoreHelper().getSongs(query);
     setState(() {
       showProgress = false;
