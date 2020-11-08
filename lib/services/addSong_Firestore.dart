@@ -42,6 +42,8 @@ class AddSong {
     'songNameHindi': 'ऊंचा ऊंचा शत्रुंजयनां',
     'tirthankar': '',
     'totalClicks': 0,
+    'todayClicks': 0,
+    'trendPoints': 0,
     'youTubeLink': 'https://youtu.be/a4c4n1Hkg5g'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');

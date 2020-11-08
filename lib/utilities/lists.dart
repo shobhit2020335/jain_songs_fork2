@@ -1,3 +1,5 @@
+//This file contains all the global variables for the app.
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -7,9 +9,26 @@ List<SongDetails> songList = [];
 
 List<SongDetails> listToShow = [];
 
+final DateTime startDate = DateTime(2020, 11, 5);
+DateTime todayDate;
+int totalDays = 1;
+int fetchedDays = 0;
+
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;
   final propertyB = b.popularity;
+  if (propertyA < propertyB) {
+    return 1;
+  } else if (propertyA > propertyB) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+int trendComparison(SongDetails a, SongDetails b) {
+  final propertyA = a.trendPoints;
+  final propertyB = b.trendPoints;
   if (propertyA < propertyB) {
     return 1;
   } else if (propertyA > propertyB) {
@@ -27,6 +46,7 @@ void addElementsToList(String playlistTag) {
     for (int i = 0; i < songList.length; i++) {
       listToShow.add(songList[i]);
     }
+    listToShow.sort(trendComparison);
   }
   //This is for likes page.
   else if (playlistTag.contains('favourites')) {

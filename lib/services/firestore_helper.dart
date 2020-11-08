@@ -29,6 +29,7 @@ class FireStoreHelper {
 
     if (songMap == null || isInternetConnected == false) {
       currentSong.totalClicks++;
+      currentSong.todayClicks++;
       currentSong.popularity = currentSong.totalClicks + currentSong.likes;
       return;
     }
@@ -38,13 +39,29 @@ class FireStoreHelper {
       songMap['totalClicks'] = 0;
       songMap['popularity'] = 0;
     }
+    if (songMap.containsKey('todayClicks') == false ||
+        songMap.containsKey('trendPoints') == false) {
+      songMap['todayClicks'] = 0;
+      songMap['trendPoints'] = 0;
+    }
 
-    songMap['totalClicks'] = songMap['totalClicks'] + 1;
-    songMap['popularity'] = songMap['totalClicks'] + songMap['likes'];
+    int todayClicks = songMap['todayClicks'] + 1;
+    int totalClicks = songMap['totalClicks'] + 1;
+    songMap['totalClicks'] = totalClicks;
+    songMap['popularity'] = totalClicks + songMap['likes'];
+    songMap['todayClicks'] = todayClicks;
+
+    //Algo for trendPoints
+    double avgClicks = totalClicks / totalDays;
+    if (todayClicks >= avgClicks) {
+      songMap['trendPoints'] = todayClicks - avgClicks;
+    }
 
     await songs.doc(currentSong.code).update({
       'popularity': songMap['popularity'],
-      'totalClicks': songMap['totalClicks']
+      'totalClicks': songMap['totalClicks'],
+      'todayClicks': songMap['todayClicks'],
+      'trendPoints': songMap['trendPoints'],
     }).then((value) {
       currentSong.popularity = songMap['popularity'];
       currentSong.totalClicks = songMap['totalClicks'];
@@ -113,6 +130,7 @@ class FireStoreHelper {
     });
   }
 
+//TODO: change trending points of every song after a day.
   Future<void> getSongs(String query) async {
     songList.clear();
 
@@ -142,7 +160,9 @@ class FireStoreHelper {
             searchKeywords: currentSong['searchKeywords'],
             singer: currentSong['singer'],
             tirthankar: currentSong['tirthankar'],
+            todayClicks: currentSong['todayClicks'],
             totalClicks: currentSong['totalClicks'],
+            trendPoints: currentSong['trendPoints'],
             likes: currentSong['likes'],
             share: currentSong['share'],
             youTubeLink: currentSong['youTubeLink']);

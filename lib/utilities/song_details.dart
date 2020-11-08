@@ -16,7 +16,9 @@ class SongDetails {
   String songNameEnglish;
   String songNameHindi;
   String tirthankar;
+  int todayClicks;
   int totalClicks;
+  double trendPoints;
   String youTubeLink;
 
   SongDetails(
@@ -34,8 +36,16 @@ class SongDetails {
       this.songNameEnglish,
       this.songNameHindi,
       this.tirthankar,
+      this.todayClicks: 0,
       this.totalClicks: 0,
+      this.trendPoints: 0,
       this.youTubeLink}) {
     //TODO: Include in state management.
+    if (this.trendPoints == null) {
+      this.trendPoints = 0;
+    }
+    if (this.todayClicks == null) {
+      this.todayClicks = 0;
+    }
   }
 }
