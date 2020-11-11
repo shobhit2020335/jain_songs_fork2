@@ -6,8 +6,13 @@ import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'services/network_helper.dart';
+
+//TODO: Test aaa first and then crashlytics and then merge the app.
+//TODO: Add focus to search box.
+//TODO: Crashlytics in detail.
 
 class HomePage extends StatefulWidget {
   @override
@@ -46,6 +51,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     getSongs('');
   }
 

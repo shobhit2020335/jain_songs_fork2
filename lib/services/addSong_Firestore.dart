@@ -13,38 +13,38 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment below to add searchKeywords.
-  currentSong.makeListOfStrings('UUS',
-      englishName: 'Uncha Uncha Shatrunjay',
-      hindiName: 'ऊंचा ऊंचा शत्रुंजयनां',
+  currentSong.makeListOfStrings('SKKT',
+      englishName: 'Saanson Ka Kya Thikana',
+      hindiName: 'सांसो का क्या ठिकाना',
       originalSong: '',
       album: '',
       tirthankar: '',
-      extra1: 'शत्रुंजयनां',
-      extra2: 'Shatrunjay');
+      extra1: '',
+      extra2: '');
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'UUS',
+    'code': 'SKKT',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Stavan | Bhajan',
-    'language': 'Gujarati',
+    'genre': 'Bhajan',
+    'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'ऊंचा ऊंचा शत्रुंजयनां शिखरो सोहाय,\nवच्चे मारा दादा केरा केरा जगमग थाय... - ऊंचा…\n\nदादा तारी यात्रा करवा, मारुं मन ललचाय (२),\nतळेटीए शीश नमावी, चढवा लागुं पाय (२), - ऊंचा…\n\nपावनगिरिनो, स्पर्श थातां, पापो दूर पलाय..\nलीली लीली झाडीओमां, पंखी करे कलशोर (२), - ऊंचा…\n\nसोपान चढताने, हैयुं जाणे, अषाढियानो मोर (२)\nकांकरे कांकरे सिद्धा अनंता, लळी लळी लागुं पाय... - ऊंचा…\n\nपहेली आवे रामपोळने, त्रीजी वाघणपोळ (२),\nशांतिनाथनां दर्शन करीए, पहोंच्या हाथीपोळ (२), - ऊंचा…\n\nसामे मारा, दादा केरा, दरबार देखाय...\nदोडी दोडी आवुं दादा दर्शन करवाने काज (२), - ऊंचा…\n\nभाव भरीने भक्ति करुं, साधु आतम काज (२),\nमाता मरू (देवी) नां, नंदन भेटी, जीवन पावन थाय... - ऊंचा…\n\nक्षमाभावे ॐकार पदनुं, जपीश हुं तो जाप (२),\nदादा तारा गुणला गातां, कापीश भवनां पाप (२),\nपद्मविजय’नां, हैये आजे, आनंद उभराय... - ऊंचा…\n',
+        'सांसो का क्या ठिकाना रुक जाए चलते चलते,\nप्राणो की रौशनी भी भुज जाए चलते चलते,\nजीवन है सपन जैसा दो दिन का है बसेरा,\nआये गई मौत निश्चित ले जाए बचते बचते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nजीवन है इक तमाशा पानी में जो बताशा,\nनशवर है बून्द बून्द जो घुल जाए घुलते घुलते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nआएगा एक झोका जीवन का दीप है गुल,\nपेड़ो पे चेह चहाती निष् पंथ है ये बुलबुल,\nसांसो का क्या ठिकाना रुक जाए चलते चलते,\n\nकितने ही घर वसाये कितने ही घर उजाड़े,\nसाई रहा न रही सवासो के घटते घटते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते,\n\nअरमान लम्बे बांधे टूटे न तार सारे,\nअंतिम समय में सब ही रहे हाथ मलते मलते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nआया था हाथ खाली खाली ही हाथ जाना,\nपरिवार और प्रिये जन रह जाए रोते रोते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nस्वासो के ही सहारे जीवन के खेल सारे,\nसांसो का ये पिटारा झुक जाए झुकते झुकते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nसंवासो के तार सारे प्रभु नाम के सहारे,\nबांधे गे अमर नर मर जाए हस्ते हस्ते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nसुख पुरण स्वर अवसर बे मुख यु न खोये,\nबिक्शन भमर से तर जा प्रभु नाम रट ते रट ते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Shemaroo Jai Jinendra',
+    'production': 'Yuki Audio',
     'share': 0,
-    'singer': 'Harsh dedhia',
-    'songNameEnglish': 'Uncha Uncha Shatrunjay',
-    'songNameHindi': 'ऊंचा ऊंचा शत्रुंजयनां',
+    'singer': 'Rajkumar Vinayak',
+    'songNameEnglish': 'Saanson Ka Kya Thikana',
+    'songNameHindi': 'सांसो का क्या ठिकाना',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0,
-    'youTubeLink': 'https://youtu.be/a4c4n1Hkg5g'
+    'youTubeLink': 'https://youtu.be/BfQOBqzR-qA'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

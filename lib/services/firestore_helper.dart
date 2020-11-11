@@ -41,7 +41,8 @@ class FireStoreHelper {
     for (var song in songs.docs) {
       Map<String, dynamic> songMap = song.data();
       String state = songMap['aaa'];
-      if (state != 'Invalid' && state != 'invalid') {
+      state = state.toLowerCase();
+      if (state.contains('invalid') != true) {
         if (songMap.containsKey('totalClicks') == false) {
           songMap['totalClicks'] = 0;
         }
@@ -91,7 +92,8 @@ class FireStoreHelper {
     for (var song in songs.docs) {
       Map<String, dynamic> currentSong = song.data();
       String state = currentSong['aaa'];
-      if (state != 'Invalid' && state != 'invalid') {
+      state = state.toLowerCase();
+      if (state.contains('invalid') != true) {
         SongDetails currentSongDetails = SongDetails(
             album: currentSong['album'],
             code: currentSong['code'],
