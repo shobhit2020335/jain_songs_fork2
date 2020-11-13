@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 
-//TODO: Bug: click on any item in the list opens favourites page.
-
 class BuildPlaylistRow extends StatelessWidget {
   final PlaylistDetails playlistDetails;
 

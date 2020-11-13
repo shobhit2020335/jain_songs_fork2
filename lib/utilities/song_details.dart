@@ -40,7 +40,6 @@ class SongDetails {
       this.totalClicks: 0,
       this.trendPoints: 0,
       this.youTubeLink}) {
-    //TODO: Include in state management.
     if (this.trendPoints == null) {
       this.trendPoints = 0;
     }

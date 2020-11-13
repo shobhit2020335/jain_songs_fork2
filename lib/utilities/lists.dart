@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
+import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
 List<SongDetails> songList = [];
@@ -90,6 +91,22 @@ void addElementsToList(String playlistTag) {
     }
   }
 }
+
+//List for settings page.
+List<SettingsDetails> settingsList = [
+  SettingsDetails(
+    title: 'About',
+    subtitle: 'Know about us.',
+  ),
+  SettingsDetails(
+    title: 'Privacy Policy',
+    subtitle: 'Legal Information.',
+  ),
+  SettingsDetails(
+    title: 'Feedback & Support',
+    subtitle: 'Suggest us or get help from us.',
+  ),
+];
 
 //TODO: Edit list for different playlist.
 List<PlaylistDetails> playlistList = [

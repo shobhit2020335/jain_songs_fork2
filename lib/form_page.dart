@@ -78,7 +78,7 @@ class _FormPageState extends State<FormPage> {
                 height: 10,
               ),
               Text(
-                'If you provide the lyrics or link for the lyrics, credit of the song will be given to you once the song is uploaded.',
+                'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,

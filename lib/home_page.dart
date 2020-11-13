@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
+import 'package:jain_songs/custom_widgets/build_settingsList.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'services/network_helper.dart';
 
-//TODO: Test aaa first and then crashlytics and then merge the app.
 //TODO: Add focus to search box.
 //TODO: Crashlytics in detail.
 
@@ -22,10 +22,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   bool showProgress = false;
-  final _firestore = FirebaseFirestore.instance;
   Widget appBarTitle = Text(
     'Jain Songs',
   );
+
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
@@ -73,6 +73,8 @@ class _HomePageState extends State<HomePage> {
                           if (this.searchOrCrossIcon.icon == Icons.search) {
                             this.searchOrCrossIcon = Icon(Icons.close);
                             this.appBarTitle = TextField(
+                              //use focus node if autofoucs is not working.
+                              autofocus: true,
                               onChanged: (value) {
                                 getSongs(value);
                               },
@@ -146,20 +148,7 @@ class _HomePageState extends State<HomePage> {
           ),
           FormPage(),
           BuildPlaylistList(),
-          Container(
-            child: Center(
-              child: SizedBox(
-                child: Center(
-                  child: Text(
-                    'Press4',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-                height: 50,
-                width: 80,
-              ),
-            ),
-          ),
+          SettingsPage(),
         ],
       ),
     );
