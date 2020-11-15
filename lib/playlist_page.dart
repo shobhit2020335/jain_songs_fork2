@@ -17,7 +17,6 @@ class PlaylistPage extends StatefulWidget {
 class _PlaylistPageState extends State<PlaylistPage> {
   bool showProgress = false;
   PlaylistDetails currentPlaylist;
-  final _firestore = FirebaseFirestore.instance;
 
   void getSongs() async {
     setState(() {

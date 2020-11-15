@@ -7,8 +7,6 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //TODO: Test this color combination.
-
       child: Column(
         children: [
           Expanded(

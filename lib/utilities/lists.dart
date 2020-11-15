@@ -108,7 +108,7 @@ List<SettingsDetails> settingsList = [
   ),
 ];
 
-//TODO: Edit list for different playlist.
+//List for different playlist.
 List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,

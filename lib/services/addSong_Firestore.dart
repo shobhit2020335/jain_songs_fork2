@@ -13,38 +13,38 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment below to add searchKeywords.
-  currentSong.makeListOfStrings('SKKT',
-      englishName: 'Saanson Ka Kya Thikana',
-      hindiName: 'सांसो का क्या ठिकाना',
-      originalSong: '',
-      album: '',
-      tirthankar: '',
+  currentSong.makeListOfStrings('MPK',
+      englishName: 'Mukti Poori Ke',
+      hindiName: 'मुक्ति पूरी के',
+      originalSong: 'Mera Jeevan Kora Kagaz',
+      album: 'Kora Kagaz',
+      tirthankar: 'Kishore Kumar',
       extra1: '',
       extra2: '');
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'SKKT',
-    'album': '',
+    'code': 'MPK',
+    'album': 'Kora Kagaz',
     'aaa': 'valid',
-    'genre': 'Bhajan',
+    'genre': 'Latest | Bhakti',
     'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'सांसो का क्या ठिकाना रुक जाए चलते चलते,\nप्राणो की रौशनी भी भुज जाए चलते चलते,\nजीवन है सपन जैसा दो दिन का है बसेरा,\nआये गई मौत निश्चित ले जाए बचते बचते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nजीवन है इक तमाशा पानी में जो बताशा,\nनशवर है बून्द बून्द जो घुल जाए घुलते घुलते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nआएगा एक झोका जीवन का दीप है गुल,\nपेड़ो पे चेह चहाती निष् पंथ है ये बुलबुल,\nसांसो का क्या ठिकाना रुक जाए चलते चलते,\n\nकितने ही घर वसाये कितने ही घर उजाड़े,\nसाई रहा न रही सवासो के घटते घटते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते,\n\nअरमान लम्बे बांधे टूटे न तार सारे,\nअंतिम समय में सब ही रहे हाथ मलते मलते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nआया था हाथ खाली खाली ही हाथ जाना,\nपरिवार और प्रिये जन रह जाए रोते रोते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nस्वासो के ही सहारे जीवन के खेल सारे,\nसांसो का ये पिटारा झुक जाए झुकते झुकते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nसंवासो के तार सारे प्रभु नाम के सहारे,\nबांधे गे अमर नर मर जाए हस्ते हस्ते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n\nसुख पुरण स्वर अवसर बे मुख यु न खोये,\nबिक्शन भमर से तर जा प्रभु नाम रट ते रट ते,\nसांसो का क्या ठिकाना रुक जाए चलते चलते\n',
-    'originalSong': '',
+        'मुक्ति पूरी के वासी जिनंदा सुनो एक अरदास (२)\nलेलो प्रभुजी ...\nलेलो प्रभुजी हमें शरण में लेकर आयो आस ।\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।।\n\nऋषभ अजित संभव अभिनन्दन,\nसुमति पद्मा सुपार्श्व (२)\nचंदा सुविधि शीतल श्रेयांश,\nवासु विमल दो सुवास (२)\nअनंत धर्म ...\nअनंत धर्म शांति कुन्थु अर मल्ली मुनि की है आस ।\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।। (२)\n\nनमी या नेमि अरिष्ट सिद्ध,\nपाए गढ़ गिरनार (२)\nचिंतामणी पारस प्रभुजी,\nकरुणा के अवतार (२)\nजलते नाग ...\nजलते नाग नागिन को बचाया काटी भाव की है पाश ।\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।। (२)\n\nMore\nतीरथ प्राता प्रभु महावीर से,\nअर्ज गुजारे आज (२)\nविहरमान गजधर सतियांजी,\nरखना हमारी लाज (२)\nकोटी भव की ...\nकोटी भव की प्यास बुझाओ इन्द्र करे अरदास\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।। (२)\n',
+    'originalSong': 'Mera Jeevan Kora Kagaz | Kishore Kumar',
     'popularity': 0,
-    'production': 'Yuki Audio',
+    'production': 'Saregama GenY',
     'share': 0,
-    'singer': 'Rajkumar Vinayak',
-    'songNameEnglish': 'Saanson Ka Kya Thikana',
-    'songNameHindi': 'सांसो का क्या ठिकाना',
+    'singer': 'Kishore Kumar',
+    'songNameEnglish': 'Mukti Poori Ke',
+    'songNameHindi': 'मुक्ति पूरी के',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0,
-    'youTubeLink': 'https://youtu.be/BfQOBqzR-qA'
+    'youTubeLink': 'https://youtu.be/vmDWt1skq24'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

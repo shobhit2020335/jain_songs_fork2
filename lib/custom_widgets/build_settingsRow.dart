@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 
-//TODO: Complete this.
+//TODO: Adding new page for settings.
 
 class BuildSettingsRow extends StatelessWidget {
   final SettingsDetails settingsDetails;
@@ -32,6 +32,5 @@ class BuildSettingsRow extends StatelessWidget {
         },
       ),
     );
-    ;
   }
 }

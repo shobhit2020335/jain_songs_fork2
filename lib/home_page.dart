@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
-import 'package:jain_songs/custom_widgets/build_settingsList.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
@@ -11,7 +10,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'services/network_helper.dart';
 
-//TODO: Add focus to search box.
 //TODO: Crashlytics in detail.
 
 class HomePage extends StatefulWidget {
@@ -66,7 +64,6 @@ class _HomePageState extends State<HomePage> {
             children: [
               _currentIndex == 0
                   ? IconButton(
-                      //TODO: Insert focus in textField when search is clicked.
                       icon: searchOrCrossIcon,
                       onPressed: () {
                         setState(() {
@@ -105,8 +102,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.home),
-            label: 'Home',
+            icon: Icon(FontAwesomeIcons.chartLine),
+            label: 'Trending',
           ),
           BottomNavigationBarItem(
             icon: Icon(FontAwesomeIcons.edit),
@@ -143,9 +140,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _currentIndex,
         children: <Widget>[
-          BuildList(
-            showProgress: showProgress,
-          ),
+          BuildList(showProgress: showProgress),
           FormPage(),
           BuildPlaylistList(),
           SettingsPage(),
