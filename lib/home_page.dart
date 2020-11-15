@@ -7,6 +7,7 @@ import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flappy_search_bar/flappy_search_bar.dart';
 
 import 'services/network_helper.dart';
 
