@@ -11,9 +11,7 @@ class BuildList extends StatelessWidget {
   BuildList({
     this.showProgress,
     this.colorRowIcon: Colors.grey,
-  }) {
-    addElementsToList('Home');
-  }
+  });
 
   @override
   Widget build(BuildContext context) {

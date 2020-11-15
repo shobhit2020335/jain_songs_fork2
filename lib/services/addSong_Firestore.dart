@@ -7,20 +7,21 @@ void main() async {
   await Firebase.initializeApp();
 
   AddSong currentSong = AddSong();
-  //Uncomment below to add a new song.
 
+  //Uncomment below to add a new song.
   await currentSong.addToFirestore();
   print('Added song successfully');
 
-  //Uncomment below to add searchKeywords.
-  currentSong.makeListOfStrings('MPK',
-      englishName: 'Mukti Poori Ke',
-      hindiName: 'मुक्ति पूरी के',
-      originalSong: 'Mera Jeevan Kora Kagaz',
-      album: 'Kora Kagaz',
-      tirthankar: 'Kishore Kumar',
+  //Uncomment Below to add searchkeywords in form of string.
+  currentSong.makestringSearchKeyword('VA',
+      englishName: 'Vhala Adinath',
+      hindiName: 'व्हाला आदिनाथ',
+      originalSong: '',
+      album: '',
+      tirthankar: '',
       extra1: '',
-      extra2: '');
+      extra2: '',
+      extra3: '');
 }
 
 class AddSong {
@@ -52,7 +53,7 @@ class AddSong {
     return songs.doc(currentSongMap['code']).set(currentSongMap);
   }
 
-  void makeListOfStrings(
+  void makestringSearchKeyword(
     String code, {
     String englishName: '',
     String hindiName: '',
@@ -61,50 +62,29 @@ class AddSong {
     String album: '',
     String extra1: '',
     String extra2: '',
+    String extra3: '',
   }) {
-    Set<String> setSearchKeywords = {};
-
-    String currentString = '';
-    for (int i = 0; i < englishName.length; i++) {
-      currentString = currentString + englishName[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-    currentString = '';
-    for (int i = 0; i < hindiName.length; i++) {
-      currentString = currentString + hindiName[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-    currentString = '';
-    for (int i = 0; i < tirthankar.length; i++) {
-      currentString = currentString + tirthankar[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-    currentString = '';
-    for (int i = 0; i < album.length; i++) {
-      currentString = currentString + album[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-    currentString = '';
-    for (int i = 0; i < originalSong.length; i++) {
-      currentString = currentString + originalSong[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-    currentString = '';
-    for (int i = 0; i < extra1.length; i++) {
-      currentString = currentString + extra1[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-    currentString = '';
-    for (int i = 0; i < extra2.length; i++) {
-      currentString = currentString + extra2[i].toLowerCase();
-      setSearchKeywords.add(currentString);
-    }
-
-    _addSearchKeywords(code, setSearchKeywords.toList());
+    String currentString;
+    currentString = englishName.toLowerCase() + ' | ' + hindiName.toLowerCase();
+    currentString = currentString +
+        ' | ' +
+        tirthankar.toLowerCase() +
+        ' | ' +
+        originalSong.toLowerCase() +
+        ' | ' +
+        album.toLowerCase() +
+        ' | ' +
+        extra1.toLowerCase() +
+        ' | ' +
+        extra2.toLowerCase() +
+        ' | ' +
+        extra3.toLowerCase();
+    _addSearchKeywords(code, currentString);
   }
 
-  void _addSearchKeywords(String code, List<String> listSearchKeywords) async {
-    await songs.doc(code).update({'searchKeywords': listSearchKeywords});
+  void _addSearchKeywords(String code, String stringSearchKeyword) async {
+    await songs.doc(code).update({'searchKeywords': stringSearchKeyword});
+
     print('Added Search Keywords successfully');
   }
 }
