@@ -164,7 +164,8 @@ class FireStoreHelper {
 
     //Algo for trendPoints
     double avgClicks = totalClicks / totalDays;
-    if (todayClicks >= avgClicks) {
+    double nowTrendPoints = todayClicks - avgClicks;
+    if (nowTrendPoints > songMap['trendPoints']) {
       songMap['trendPoints'] = todayClicks - avgClicks;
     }
 
