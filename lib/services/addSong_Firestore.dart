@@ -13,12 +13,12 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('VA',
-      englishName: 'Vhala Adinath',
-      hindiName: 'व्हाला आदिनाथ',
-      originalSong: '',
-      album: '',
-      tirthankar: '',
+  currentSong.makestringSearchKeyword('PAP',
+      englishName: 'Parva Aaya Paryushan',
+      hindiName: 'पर्व आया पर्युषण',
+      originalSong: 'O Maahi Ve',
+      album: 'Kesari',
+      tirthankar: 'Arijit Singh',
       extra1: '',
       extra2: '',
       extra3: '');
@@ -26,26 +26,26 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'MPK',
-    'album': 'Kora Kagaz',
+    'code': 'PAP',
+    'album': 'Kesari',
     'aaa': 'valid',
-    'genre': 'Latest | Bhakti',
+    'genre': 'Paryushan | Latest | Stavan',
     'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'मुक्ति पूरी के वासी जिनंदा सुनो एक अरदास (२)\nलेलो प्रभुजी ...\nलेलो प्रभुजी हमें शरण में लेकर आयो आस ।\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।।\n\nऋषभ अजित संभव अभिनन्दन,\nसुमति पद्मा सुपार्श्व (२)\nचंदा सुविधि शीतल श्रेयांश,\nवासु विमल दो सुवास (२)\nअनंत धर्म ...\nअनंत धर्म शांति कुन्थु अर मल्ली मुनि की है आस ।\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।। (२)\n\nनमी या नेमि अरिष्ट सिद्ध,\nपाए गढ़ गिरनार (२)\nचिंतामणी पारस प्रभुजी,\nकरुणा के अवतार (२)\nजलते नाग ...\nजलते नाग नागिन को बचाया काटी भाव की है पाश ।\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।। (२)\n\nMore\nतीरथ प्राता प्रभु महावीर से,\nअर्ज गुजारे आज (२)\nविहरमान गजधर सतियांजी,\nरखना हमारी लाज (२)\nकोटी भव की ...\nकोटी भव की प्यास बुझाओ इन्द्र करे अरदास\nमुक्ति पूरी के वासी जिनंदा सुनो एक अरदास ।। (२)\n',
-    'originalSong': 'Mera Jeevan Kora Kagaz | Kishore Kumar',
+        'हो.. आया रे..\nपर्व आया पर्युषण,\nके जैनियों का पर्व सुहाना,\nमहिमा बड़ी है महान,\nके पर्व है ये सदियों पुराना।\nये है पर्वा धिराज,\nपर्वो का सिरताज,\nजैनियों की शान,\nजिसपे सबको है नाज\nसब.. के.. दिल... में उमंग,\nपलके बिछाकर के,\nसजाये देखो घर और अंगना,\nमहिमा बड़ी है महान,\nके जैनियों का पर्व सुहाना।।\n\nमंदिर ये सज गये जिनवर के,\nउपाश्रय में पड़े चरण गुरुवर के,\nआठ दिनों के ये, पल है सुहाने,\nभक्ति की मस्ती में, सब है दीवाने,\nक्षमादान का ये पर्व,\nजिसपे हमको है गर्व,\nदिलबर दिल से मनाना,\nपर्युषण महापर्व,\nबीत ना जाये ये पल,\nप्राची गाये दिल से भजन,\nकी भक्तो को भक्ति में झूमना।\nमहिमा बड़ी है महान,\nके पर्व है ये सदियों पुराना।\n\nहो.. आया रे..\nपर्व आया पर्युषण,\nके जैनियों का पर्व सुहाना,\nमहिमा बड़ी है महान,\nके पर्व है ये सदियों पुराना।\nये है पर्वा धिराज,\nपर्वो का सिरताज,\nजैनियों की शान,\nजिसपे सबको है नाज\nसब.. के.. दिल... में उमंग,\nपलके बिछाकर के,\nसजाये देखो घर और अंगना,\nमहिमा बड़ी है महान,\nके जैनियों का पर्व सुहाना।।',
+    'originalSong': 'O Maahi Ve | Arijit Singh',
     'popularity': 0,
-    'production': 'Saregama GenY',
+    'production': '',
     'share': 0,
-    'singer': 'Kishore Kumar',
-    'songNameEnglish': 'Mukti Poori Ke',
-    'songNameHindi': 'मुक्ति पूरी के',
+    'singer': 'Prachi Jain',
+    'songNameEnglish': 'Parva Aaya Paryushan',
+    'songNameHindi': 'पर्व आया पर्युषण',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
-    'trendPoints': 0,
-    'youTubeLink': 'https://youtu.be/vmDWt1skq24'
+    'trendPoints': 0.0,
+    'youTubeLink': 'https://youtu.be/vMXD6QCgTMw'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

@@ -113,6 +113,12 @@ class FireStoreHelper {
           valueIsliked = false;
         }
         currentSongDetails.isLiked = valueIsliked;
+        String originalSong = currentSongDetails.originalSong;
+        if (originalSong == null ||
+            originalSong.length < 3 ||
+            originalSong.toLowerCase() == 'unknown') {
+          currentSongDetails.originalSong = currentSongDetails.songNameHindi;
+        }
         songList.add(
           currentSongDetails,
         );
