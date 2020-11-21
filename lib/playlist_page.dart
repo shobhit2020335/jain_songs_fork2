@@ -22,7 +22,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     setState(() {
       showProgress = true;
     });
-    await FireStoreHelper().getSongs('');
+    await FireStoreHelper().getSongs();
 
     addElementsToList('Popular');
 
@@ -49,7 +49,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            // title: Text('Liked Songs'),
             centerTitle: true,
             pinned: true,
             expandedHeight: 200,
@@ -99,14 +98,33 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ],
                     ),
                   );
-                } else if (index < songList.length) {
+                }
+                //TODO: Edited below this, test it.
+                else if (listToShow.length == 0) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 70,
+                      ),
+                      Text(
+                        'Like some songs to save them here.',
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      )
+                    ],
+                  );
+                } else if (index < listToShow.length) {
                   return BuildRow(
                     currentSong: listToShow[index],
                     color: currentPlaylist.color,
                   );
                 }
               },
-              childCount: showProgress ? 1 : listToShow.length,
+              childCount: showProgress
+                  ? 1
+                  : (listToShow.length == 0 ? 1 : listToShow.length),
             ),
           ),
         ],

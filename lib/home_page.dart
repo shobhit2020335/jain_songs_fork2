@@ -11,6 +11,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'services/network_helper.dart';
 
 //TODO: Crashlytics in detail.
+//TODO: disable ss taking in app.
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,17 +31,22 @@ class _HomePageState extends State<HomePage> {
     color: Color(0xFF54BEE6),
   );
 
-  void getSongs(String query) async {
+  void getSongs(String query, bool flag) async {
     setState(() {
       showProgress = true;
     });
-    await NetworkHelper().changeDate();
-    if (totalDays > fetchedDays) {
-      fetchedDays = totalDays;
-      print('Ghusa in daily update');
-      await FireStoreHelper().dailyUpdate();
+    if (query != null && flag == false) {
+      searchInList(query);
+    } else {
+      await NetworkHelper().changeDate();
+      if (totalDays > fetchedDays) {
+        fetchedDays = totalDays;
+        print('Ghusa in daily update');
+        await FireStoreHelper().dailyUpdate();
+      }
+      await FireStoreHelper().getSongs();
+      addElementsToList('home');
     }
-    await FireStoreHelper().getSongs(query);
     setState(() {
       showProgress = false;
     });
@@ -49,8 +55,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    getSongs('');
+    getSongs('', true);
   }
 
   @override
@@ -73,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                               //use focus node if autofoucs is not working.
                               autofocus: true,
                               onChanged: (value) {
-                                getSongs(value);
+                                getSongs(value, false);
                               },
                               style: TextStyle(color: Colors.black),
                               decoration: InputDecoration(
@@ -87,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                           } else {
                             searchOrCrossIcon = Icon(Icons.search);
                             this.appBarTitle = Text('Jain Songs');
-                            getSongs('');
+                            getSongs('', true);
                           }
                         });
                       })
@@ -132,6 +137,8 @@ class _HomePageState extends State<HomePage> {
               appBarTitle = Text('Settings and More');
             } else {
               appBarTitle = Text('Jain Songs');
+              getSongs('', false);
+              this.searchOrCrossIcon = Icon(Icons.search);
             }
           });
         },

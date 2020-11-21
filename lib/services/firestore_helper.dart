@@ -77,18 +77,12 @@ class FireStoreHelper {
     });
   }
 
-  Future<void> getSongs(String query) async {
+  Future<void> getSongs() async {
     songList.clear();
 
     QuerySnapshot songs;
-    if (query == '') {
-      songs = await _firestore.collection('songs').get();
-    } else {
-      songs = await _firestore
-          .collection('songs')
-          .where('searchKeywords', arrayContains: query.toLowerCase())
-          .get();
-    }
+    songs = await _firestore.collection('songs').get();
+
     for (var song in songs.docs) {
       Map<String, dynamic> currentSong = song.data();
       String state = currentSong['aaa'];
@@ -119,6 +113,12 @@ class FireStoreHelper {
           valueIsliked = false;
         }
         currentSongDetails.isLiked = valueIsliked;
+        String originalSong = currentSongDetails.originalSong;
+        if (originalSong == null ||
+            originalSong.length < 3 ||
+            originalSong.toLowerCase() == 'unknown') {
+          currentSongDetails.originalSong = currentSongDetails.songNameHindi;
+        }
         songList.add(
           currentSongDetails,
         );

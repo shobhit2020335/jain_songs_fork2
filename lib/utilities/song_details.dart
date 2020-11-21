@@ -10,7 +10,7 @@ class SongDetails {
   String originalSong;
   int popularity;
   String production;
-  List searchKeywords;
+  String searchKeywords;
   int share;
   String singer;
   String songNameEnglish;

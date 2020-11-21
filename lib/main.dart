@@ -14,6 +14,7 @@
 //IndexedStack
 //Shared Preferences
 //DateTime
+//Search Bar (flappy search bar)
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
