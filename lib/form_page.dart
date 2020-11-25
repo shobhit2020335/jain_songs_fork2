@@ -49,11 +49,7 @@ class _FormPageState extends State<FormPage> {
                     CircleAvatar(
                       radius: 28,
                       backgroundColor: Colors.black,
-                      child: Icon(
-                        FontAwesomeIcons.music,
-                        color: Colors.white,
-                        size: 30,
-                      ),
+                      child: showLogo(),
                     ),
                     SizedBox(
                       width: 10,

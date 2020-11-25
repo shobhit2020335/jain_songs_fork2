@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 
 //TODO: Adding new page for settings.
@@ -23,12 +24,14 @@ class BuildSettingsRow extends StatelessWidget {
           style: TextStyle(color: Colors.grey),
         ),
         onTap: () {
-          // await Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => SongPage(currentSong: currentSong),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InformationPage(
+                settingsDetails,
+              ),
+            ),
+          );
         },
       ),
     );

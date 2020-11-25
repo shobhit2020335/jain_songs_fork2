@@ -13,39 +13,40 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('PAP',
-      englishName: 'Parva Aaya Paryushan',
-      hindiName: 'पर्व आया पर्युषण',
-      originalSong: 'O Maahi Ve',
-      album: 'Kesari',
-      tirthankar: 'Arijit Singh',
+  currentSong.makestringSearchKeyword('AKMSTM',
+      englishName: 'Aa Kal Ma Sadhu Thanara Mahan',
+      hindiName: 'आ काल मा साधु थनारा महान',
+      originalSong: 'Diksha',
+      album: 'दिक्षा',
+      tirthankar: '',
       extra1: '',
       extra2: '',
       extra3: '');
+  //पारसनाथ पार्श्वनाथ महावीर
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'PAP',
-    'album': 'Kesari',
-    'aaa': 'valid',
-    'genre': 'Paryushan | Latest | Stavan',
-    'language': 'Hindi',
+    'code': 'AKMSTM',
+    'album': '',
+    'aaa': 'valid | Original Song',
+    'genre': 'Diksha Stavan',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'हो.. आया रे..\nपर्व आया पर्युषण,\nके जैनियों का पर्व सुहाना,\nमहिमा बड़ी है महान,\nके पर्व है ये सदियों पुराना।\nये है पर्वा धिराज,\nपर्वो का सिरताज,\nजैनियों की शान,\nजिसपे सबको है नाज\nसब.. के.. दिल... में उमंग,\nपलके बिछाकर के,\nसजाये देखो घर और अंगना,\nमहिमा बड़ी है महान,\nके जैनियों का पर्व सुहाना।।\n\nमंदिर ये सज गये जिनवर के,\nउपाश्रय में पड़े चरण गुरुवर के,\nआठ दिनों के ये, पल है सुहाने,\nभक्ति की मस्ती में, सब है दीवाने,\nक्षमादान का ये पर्व,\nजिसपे हमको है गर्व,\nदिलबर दिल से मनाना,\nपर्युषण महापर्व,\nबीत ना जाये ये पल,\nप्राची गाये दिल से भजन,\nकी भक्तो को भक्ति में झूमना।\nमहिमा बड़ी है महान,\nके पर्व है ये सदियों पुराना।\n\nहो.. आया रे..\nपर्व आया पर्युषण,\nके जैनियों का पर्व सुहाना,\nमहिमा बड़ी है महान,\nके पर्व है ये सदियों पुराना।\nये है पर्वा धिराज,\nपर्वो का सिरताज,\nजैनियों की शान,\nजिसपे सबको है नाज\nसब.. के.. दिल... में उमंग,\nपलके बिछाकर के,\nसजाये देखो घर और अंगना,\nमहिमा बड़ी है महान,\nके जैनियों का पर्व सुहाना।।',
-    'originalSong': 'O Maahi Ve | Arijit Singh',
+        'यौवन वैमा सुख छोडनारा महान,\nआ कदम साधु थनारा महान (२)\n\nयौवन नु पतन करावे एवो छे आ समय (२)\nविषयो नु व्यसन करावे एवो छे आ समय (२)\nआवा समय माँ सगड़ी वासनाओ जितिन (२)\nमैंनेः विरागमा वाद्नारा महान (२)\nआ काल मा साधु थनारा महान…\nसाधु थनारा महान (४)\n\nनमस्कार अंगारने, जिनशषण शृंगारने (२)\nनमस्कार अंगारने (२)\nनमो लोए सव्वा साहूणं (२)\nआ काल मा साधु थनारा महान…\n\nजेने गुरु कनैठी तत्वों ग्रैहम करया (२)\nशाश्त्रोमाही रहेला सत्यो श्रवण करया (२)\nभावमा भमादनारा करमोथि छुटवा (२)\nसंयम भनी कदम मांडणारा महान\nआ काल मा साधु थनारा महान…\n\nआ काल मा साधु थनारा महान…\nयौवन वैमा सुख छोडनारा महान,\nआ काल मा साधु थनारा महान… (2)\n',
+    'originalSong': '',
     'popularity': 0,
     'production': '',
     'share': 0,
-    'singer': 'Prachi Jain',
-    'songNameEnglish': 'Parva Aaya Paryushan',
-    'songNameHindi': 'पर्व आया पर्युषण',
+    'singer': '',
+    'songNameEnglish': 'Aa Kal Ma Sadhu Thanara Mahan',
+    'songNameHindi': 'आ काल मा साधु थनारा महान',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/vMXD6QCgTMw'
+    'youTubeLink': 'https://youtu.be/g5JZD4tOHaE'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

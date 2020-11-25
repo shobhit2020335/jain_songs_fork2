@@ -31,6 +31,8 @@ class _HomePageState extends State<HomePage> {
     color: Color(0xFF54BEE6),
   );
 
+  //Here flag determines wheter the user is searching within the list or he is querying the whole list for first time.
+  //Searching has flag = false.
   void getSongs(String query, bool flag) async {
     setState(() {
       showProgress = true;
@@ -64,6 +66,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: appBarTitle,
         centerTitle: true,
+        leading: Icon(
+          FontAwesomeIcons.music,
+          color: Colors.indigo,
+          size: 20,
+        ),
         actions: <Widget>[
           Row(
             children: [
@@ -92,7 +99,9 @@ class _HomePageState extends State<HomePage> {
                           } else {
                             searchOrCrossIcon = Icon(Icons.search);
                             this.appBarTitle = Text('Jain Songs');
-                            getSongs('', true);
+                            //TODO: below line is for refresh when cross is clicked.
+                            //I am remvoing this feature, can be enabled later.
+                            // getSongs('', true);
                           }
                         });
                       })

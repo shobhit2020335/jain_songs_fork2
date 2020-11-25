@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/utilities/settings_details.dart';
 
-import 'custom_widgets/build_settingsList.dart';
+//TODO: Think about feedback page.
+//TODO:
+class InformationPage extends StatelessWidget {
+  final SettingsDetails settingsDetails;
 
-class SettingsPage extends StatelessWidget {
+  InformationPage(this.settingsDetails);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: BuildSettingsList(),
-          ),
-          Expanded(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(settingsDetails.title),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(
@@ -21,7 +27,7 @@ class SettingsPage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      backgroundColor: Colors.black87,
+                      backgroundColor: Colors.black,
                       child: showLogo(),
                     ),
                     SizedBox(
@@ -30,7 +36,6 @@ class SettingsPage extends StatelessWidget {
                     RichText(
                       text: TextSpan(
                         style: TextStyle(
-                          color: Colors.indigo,
                           fontSize: 40,
                           fontFamily: 'Pacifico',
                           fontWeight: FontWeight.w100,
@@ -38,31 +43,50 @@ class SettingsPage extends StatelessWidget {
                         children: [
                           TextSpan(
                             text: 'G',
+                            style: TextStyle(color: Colors.pink[300]),
                           ),
                           TextSpan(
                             text: 'E',
+                            style: TextStyle(color: Colors.green),
                           ),
                           TextSpan(
                             text: 'E',
+                            style: TextStyle(color: Colors.amber),
                           ),
                           TextSpan(
                             text: 'T',
+                            style: TextStyle(color: Colors.redAccent),
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
-                  'v1.0.0',
+                  settingsDetails.subtitle,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                //This Text is main information text.
+                Text(
+                  settingsDetails.information,
                   style: TextStyle(
                     color: Colors.black,
+                    fontSize: 14,
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
