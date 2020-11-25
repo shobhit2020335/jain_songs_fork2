@@ -22,6 +22,7 @@ dependencies:
   shared_preferences: ^0.5.12+2
   progress_hud: ^1.1.0
   firebase_crashlytics: ^0.2.3
+  firebase_database: "^4.3.0"
 
 dev_dependencies:
   flutter_test:

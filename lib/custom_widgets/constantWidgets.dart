@@ -1,4 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+Widget showLogo({Color color = Colors.indigo, double size = 30}) {
+  return Icon(
+    FontAwesomeIcons.music,
+    color: color,
+    size: size,
+  );
+}
 
 void showToast(BuildContext context, String message, {int duration: 4}) {
   final scaffold = Scaffold.of(context);
