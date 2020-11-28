@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
@@ -28,7 +29,7 @@ class _HomePageState extends State<HomePage> {
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
-    color: Color(0xFF54BEE6),
+    color: Colors.white,
   );
 
   //Here flag determines wheter the user is searching within the list or he is querying the whole list for first time.
@@ -66,10 +67,19 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: appBarTitle,
         centerTitle: true,
-        leading: Icon(
-          FontAwesomeIcons.music,
-          color: Colors.indigo,
-          size: 20,
+        leading: Transform.scale(
+          scale: 0.5,
+          child: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                showToast(context, 'Jai Jinendra');
+              },
+              child: Image.asset(
+                'images/Logo.png',
+                color: Colors.indigo,
+              ),
+            ),
+          ),
         ),
         actions: <Widget>[
           Row(
@@ -99,9 +109,10 @@ class _HomePageState extends State<HomePage> {
                           } else {
                             searchOrCrossIcon = Icon(Icons.search);
                             this.appBarTitle = Text('Jain Songs');
-                            //TODO: below line is for refresh when cross is clicked.
+                            //Below line is for refresh when cross is clicked.
                             //I am remvoing this feature, can be enabled later.
                             // getSongs('', true);
+                            getSongs('', false);
                           }
                         });
                       })

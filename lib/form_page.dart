@@ -48,21 +48,20 @@ class _FormPageState extends State<FormPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      backgroundColor: Colors.black,
                       child: showLogo(),
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Text(
-                      'Geet',
+                      'स्तवन',
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.indigo,
                         fontSize: 40,
                         fontFamily: 'Pacifico',
-                        fontWeight: FontWeight.w100,
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(

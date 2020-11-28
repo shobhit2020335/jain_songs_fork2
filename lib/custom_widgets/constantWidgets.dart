@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Widget showLogo({Color color = Colors.indigo, double size = 30}) {
-  return Icon(
-    FontAwesomeIcons.music,
-    color: color,
-    size: size,
-  );
+Widget showLogo({double scale = 0.6}) {
+  return Transform.scale(
+      scale: scale,
+      child: Image.asset(
+        'images/Logo.png',
+        color: Colors.indigo,
+      ));
 }
 
 void showToast(BuildContext context, String message, {int duration: 4}) {

@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
+import 'package:jain_songs/services/launch_otherApp.dart';
 
 //TODO: Adding new page for settings.
 
@@ -24,14 +24,18 @@ class BuildSettingsRow extends StatelessWidget {
           style: TextStyle(color: Colors.grey),
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => InformationPage(
-                settingsDetails,
+          if (settingsDetails.title == 'Feedback & Support') {
+            sendEmail();
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => InformationPage(
+                  settingsDetails,
+                ),
               ),
-            ),
-          );
+            );
+          }
         },
       ),
     );
