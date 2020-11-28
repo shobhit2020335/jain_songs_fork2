@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 
 //TODO: Think about feedback page.
-//TODO:
 class InformationPage extends StatelessWidget {
   final SettingsDetails settingsDetails;
 
@@ -27,7 +25,6 @@ class InformationPage extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      backgroundColor: Colors.black,
                       child: showLogo(),
                     ),
                     SizedBox(
@@ -42,20 +39,28 @@ class InformationPage extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: 'G',
+                            text: 'S',
                             style: TextStyle(color: Colors.pink[300]),
-                          ),
-                          TextSpan(
-                            text: 'E',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          TextSpan(
-                            text: 'E',
-                            style: TextStyle(color: Colors.amber),
                           ),
                           TextSpan(
                             text: 'T',
                             style: TextStyle(color: Colors.redAccent),
+                          ),
+                          TextSpan(
+                            text: 'A',
+                            style: TextStyle(color: Colors.amber),
+                          ),
+                          TextSpan(
+                            text: 'V',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          TextSpan(
+                            text: 'A',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                          TextSpan(
+                            text: 'N',
+                            style: TextStyle(color: Colors.deepOrange),
                           ),
                         ],
                       ),
