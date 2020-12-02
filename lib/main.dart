@@ -17,6 +17,10 @@
 //Search Bar (flappy search bar)
 //RichText
 //DeviceInfo (Fetches device info)
+//flutter_launcher_icon
+//TODO: provider(State management)
+//TODO: Audio Player
+//TODO: TensorFlow (Recommendations)
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

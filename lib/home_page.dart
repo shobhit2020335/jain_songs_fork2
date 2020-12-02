@@ -8,11 +8,11 @@ import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
+import 'package:firebase_performance/firebase_performance.dart';
 import 'services/network_helper.dart';
 
 //TODO: Crashlytics in detail.
-//TODO: disable ss taking in app.
+//TODO: Disable ss taking in app.
 
 class HomePage extends StatefulWidget {
   @override
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
     color: Colors.white,
   );
 
-  //Here flag determines wheter the user is searching within the list or he is querying the whole list for first time.
+  //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
   //Searching has flag = false.
   void getSongs(String query, bool flag) async {
     setState(() {
