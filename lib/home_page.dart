@@ -163,16 +163,23 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      //IndexedStack use to store state of its children here used for bottom navigation's children.
-      body: IndexedStack(
-        index: _currentIndex,
-        children: <Widget>[
-          BuildList(showProgress: showProgress),
-          FormPage(),
-          BuildPlaylistList(),
-          SettingsPage(),
-        ],
-      ),
+      //TODO: Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
+      body: <Widget>[
+        BuildList(showProgress: showProgress),
+        FormPage(),
+        BuildPlaylistList(),
+        SettingsPage(),
+      ][_currentIndex],
     );
   }
 }
+
+// IndexedStack(
+//         index: _currentIndex,
+//         children: <Widget>[
+//           BuildList(showProgress: showProgress),
+//           FormPage(),
+//           BuildPlaylistList(),
+//           SettingsPage(),
+//         ],
+//       ),

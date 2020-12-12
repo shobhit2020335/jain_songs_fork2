@@ -25,6 +25,7 @@ dependencies:
   firebase_database: "^4.3.0"
   device_info: ^1.0.0
   firebase_performance: ^0.4.2
+  firebase_admob: ^0.10.3
 
 dev_dependencies:
   flutter_test:
