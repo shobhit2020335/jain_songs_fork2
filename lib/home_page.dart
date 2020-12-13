@@ -4,15 +4,14 @@ import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
+import 'package:jain_songs/searchEmpty_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
 import 'services/network_helper.dart';
 
 //TODO: Crashlytics in detail.
-//TODO: disable ss taking in app.
+//TODO: Disable ss taking in app.
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,7 +19,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var searchController = TextEditingController();
   int _currentIndex = 0;
+  //This variable is used to determine whether the user searching is found or not.
+  bool isSeacrchEmpty = false;
   bool showProgress = false;
   Widget appBarTitle = Text(
     'Jain Songs',
@@ -32,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     color: Colors.white,
   );
 
-  //Here flag determines wheter the user is searching within the list or he is querying the whole list for first time.
+  //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
   //Searching has flag = false.
   void getSongs(String query, bool flag) async {
     setState(() {
@@ -40,6 +42,13 @@ class _HomePageState extends State<HomePage> {
     });
     if (query != null && flag == false) {
       searchInList(query);
+      if (listToShow.isEmpty && query.length > 2) {
+        setState(() {
+          isSeacrchEmpty = true;
+        });
+      } else {
+        isSeacrchEmpty = false;
+      }
     } else {
       await NetworkHelper().changeDate();
       if (totalDays > fetchedDays) {
@@ -59,6 +68,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getSongs('', true);
+  }
+
+  @override
+  void dispose() {
+    searchController.clear();
+    super.dispose();
   }
 
   @override
@@ -92,6 +107,7 @@ class _HomePageState extends State<HomePage> {
                           if (this.searchOrCrossIcon.icon == Icons.search) {
                             this.searchOrCrossIcon = Icon(Icons.close);
                             this.appBarTitle = TextField(
+                              controller: searchController,
                               //use focus node if autofoucs is not working.
                               autofocus: true,
                               onChanged: (value) {
@@ -109,6 +125,7 @@ class _HomePageState extends State<HomePage> {
                           } else {
                             searchOrCrossIcon = Icon(Icons.search);
                             this.appBarTitle = Text('Jain Songs');
+                            searchController.clear();
                             //Below line is for refresh when cross is clicked.
                             //I am remvoing this feature, can be enabled later.
                             // getSongs('', true);
@@ -163,16 +180,25 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      //IndexedStack use to store state of its children here used for bottom navigation's children.
-      body: IndexedStack(
-        index: _currentIndex,
-        children: <Widget>[
-          BuildList(showProgress: showProgress),
-          FormPage(),
-          BuildPlaylistList(),
-          SettingsPage(),
-        ],
-      ),
+      //TODO: Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
+      body: <Widget>[
+        isSeacrchEmpty == false
+            ? BuildList(showProgress: showProgress)
+            : SearchEmpty(searchController),
+        FormPage(),
+        BuildPlaylistList(),
+        SettingsPage(),
+      ][_currentIndex],
     );
   }
 }
+
+// IndexedStack(
+//         index: _currentIndex,
+//         children: <Widget>[
+//           BuildList(showProgress: showProgress),
+//           FormPage(),
+//           BuildPlaylistList(),
+//           SettingsPage(),
+//         ],
+//       ),

@@ -1,3 +1,4 @@
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
@@ -17,10 +18,40 @@ class SongPage extends StatefulWidget {
 }
 
 class _SongPageState extends State<SongPage> {
+  InterstitialAd _interstitialAd;
+
+  void _loadInterstitialAd() {
+    _interstitialAd = _interstitialAd
+      ..load()
+      ..show(
+        anchorType: AnchorType.bottom,
+        anchorOffset: 0.0,
+        horizontalCenterOffset: 0.0,
+      );
+  }
+
   @override
   void initState() {
     super.initState();
+    _interstitialAd = InterstitialAd(
+      //TODO: Change the below id at launch.
+      adUnitId: InterstitialAd.testAdUnitId,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+      },
+    );
+    _loadInterstitialAd();
     FireStoreHelper().changeClicks(context, widget.currentSong);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    if (_interstitialAd != null) {
+      _interstitialAd.dispose();
+    }
+
+    super.dispose();
   }
 
   @override

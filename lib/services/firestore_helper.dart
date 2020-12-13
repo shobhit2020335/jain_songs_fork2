@@ -6,14 +6,18 @@ import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 
 class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
+  final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
+  final Trace _trace2 = FirebasePerformance.instance.newTrace('getSongs');
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
   Future<void> fetchDays() async {
+
     bool isInternetConnected = await NetworkHelper().check();
 
     if (isInternetConnected == false) {
@@ -25,10 +29,12 @@ class FireStoreHelper {
     Map<String, dynamic> othersMap = docSnap.data();
 
     fetchedDays = othersMap['totalDays'];
+
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
   Future<void> dailyUpdate() async {
+    _trace.start();
     bool isInternetConnected = await NetworkHelper().check();
 
     if (isInternetConnected == false) {
@@ -75,9 +81,11 @@ class FireStoreHelper {
     }).catchError((error) {
       print('Error updating days.' + error);
     });
+    _trace.stop();
   }
 
   Future<void> getSongs() async {
+    _trace2.start();
     songList.clear();
 
     QuerySnapshot songs;
@@ -124,6 +132,7 @@ class FireStoreHelper {
         );
       }
     }
+    _trace2.stop();
   }
 
   Future<void> addSuggestions(

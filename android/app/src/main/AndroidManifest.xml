@@ -5,7 +5,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="jain_songs"
+        android:label="Stavan"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -17,13 +17,17 @@
          
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+              android:resource="@style/NormalTheme" />
          
             <meta-data
               android:name="io.flutter.embedding.android.SplashScreenDrawable"
-              android:resource="@drawable/launch_background"
-              />
+              android:resource="@drawable/launch_background"/>
+
+            <!--Below meta data is for performance monitoring logs-->
+            <meta-data
+                android:name="firebase_performance_logcat_enabled"
+                android:value="true" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -33,5 +37,8 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1265975785443681~2810280418"/>
     </application>
 </manifest>

@@ -17,17 +17,32 @@
 //Search Bar (flappy search bar)
 //RichText
 //DeviceInfo (Fetches device info)
+//flutter_launcher_icon
+//firebase_admob
+//TODO: different ads than banner ads (native ads).
+//TODO: facebook ads
+//TODO: provider(State management)
+//TODO: Audio Player
+//TODO: TensorFlow (Recommendations)
 
+import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(MainTheme());
+
+  //Initialising AdMob.
+  _initAdMob();
+}
+
+Future<void> _initAdMob() {
+  // TODO: Initialize AdMob SDK
+  return FirebaseAdMob.instance.initialize(appId: AdManager().appId);
 }
 
 class MainTheme extends StatelessWidget {
