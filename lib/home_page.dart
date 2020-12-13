@@ -7,8 +7,6 @@ import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'services/network_helper.dart';
 
 //TODO: Crashlytics in detail.

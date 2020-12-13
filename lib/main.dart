@@ -28,7 +28,6 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
