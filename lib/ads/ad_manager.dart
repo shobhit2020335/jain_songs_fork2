@@ -26,4 +26,14 @@ class AdManager {
       throw new UnsupportedError("Unsupported Platform");
     }
   }
+
+  String get songPageinterstitialId {
+    if (Platform.isAndroid) {
+      return "ca-app-pub-1265975785443681/2850690740";
+    } else if (Platform.isIOS) {
+      return "Not yet defined";
+    } else {
+      throw new UnsupportedError("Unsupported Platform");
+    }
+  }
 }
