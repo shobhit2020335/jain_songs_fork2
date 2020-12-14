@@ -92,6 +92,7 @@ class _SearchEmptyState extends State<SearchEmpty> {
                         .addSuggestions(context, currentSongSuggestion);
                     showForm = true;
                     buttonString = "Submit";
+                    nameController.clear();
                   },
                 );
               },
