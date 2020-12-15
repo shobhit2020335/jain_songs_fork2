@@ -42,7 +42,7 @@ int trendComparison(SongDetails a, SongDetails b) {
 //TODO: can do searching after some words are typed.
 void searchInList(String query) {
   listToShow.clear();
-  query.toLowerCase();
+  query = query.toLowerCase();
   for (int i = 0; i < songList.length; i++) {
     if (songList[i].searchKeywords.contains(query)) {
       listToShow.add(songList[i]);

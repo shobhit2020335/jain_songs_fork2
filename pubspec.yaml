@@ -26,6 +26,7 @@ dependencies:
   device_info: ^1.0.0
   firebase_performance: ^0.4.2
   firebase_admob: ^0.10.3
+  translator: ^0.1.5
 
 dev_dependencies:
   flutter_test:

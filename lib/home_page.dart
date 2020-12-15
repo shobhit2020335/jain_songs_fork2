@@ -8,6 +8,7 @@ import 'package:jain_songs/searchEmpty_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:translator/translator.dart';
 import 'services/network_helper.dart';
 
 //TODO: Crashlytics in detail.
@@ -42,6 +43,21 @@ class _HomePageState extends State<HomePage> {
     });
     if (query != null && flag == false) {
       searchInList(query);
+      //This if condition takes care when list become empty and convert the languages and check.
+      //TODO: This do not work perfectly. It has to be changed.
+      if (listToShow.isEmpty) {
+        GoogleTranslator translator = GoogleTranslator();
+        var queryInHindi =
+            await translator.translate(query, from: 'en', to: 'hi');
+        searchInList(queryInHindi.toString());
+        if (listToShow.isEmpty) {
+          translator = GoogleTranslator();
+          var queryInEnglish =
+              await translator.translate(query, from: 'hi', to: 'en');
+          searchInList(queryInEnglish.toString());
+        }
+      }
+
       if (listToShow.isEmpty && query.length > 2) {
         setState(() {
           isSeacrchEmpty = true;
