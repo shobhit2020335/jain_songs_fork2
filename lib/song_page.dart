@@ -1,6 +1,7 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
@@ -35,7 +36,7 @@ class _SongPageState extends State<SongPage> {
     super.initState();
     _interstitialAd = InterstitialAd(
       //TODO: Change the below id at launch.
-      adUnitId: InterstitialAd.testAdUnitId,
+      adUnitId: AdManager().songPageinterstitialId,
       listener: (MobileAdEvent event) {
         print("InterstitialAd event is $event");
       },
