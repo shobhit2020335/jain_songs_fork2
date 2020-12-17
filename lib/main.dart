@@ -25,6 +25,11 @@
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
+//TODO: Mic
+//TODO: zoom/size
+//TODO: Dark mode
+//TODO: youTube miniplayer
+//TODO: Karoke
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
