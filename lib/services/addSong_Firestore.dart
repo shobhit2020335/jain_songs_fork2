@@ -13,40 +13,40 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('AKMSTM',
-      englishName: 'Aa Kal Ma Sadhu Thanara Mahan',
-      hindiName: 'आ काल मा साधु थनारा महान',
+  currentSong.makestringSearchKeyword('SMSS',
+      englishName: 'Sanyam Maro Swas Sanyam',
+      hindiName: '',
       originalSong: 'Diksha',
       album: 'दिक्षा',
-      tirthankar: '',
-      extra1: '',
+      tirthankar: 'Saiyam Maro Swas Saiyam',
+      extra1: 'Sayam Maro Swas Sayam',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर
+  //पारसनाथ पार्श्वनाथ महावीर दिक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'AKMSTM',
+    'code': 'SMSS',
     'album': '',
     'aaa': 'valid | Original Song',
-    'genre': 'Diksha Stavan',
+    'genre': 'Diksha Geet | Latest',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'यौवन वैमा सुख छोडनारा महान,\nआ कदम साधु थनारा महान (२)\n\nयौवन नु पतन करावे एवो छे आ समय (२)\nविषयो नु व्यसन करावे एवो छे आ समय (२)\nआवा समय माँ सगड़ी वासनाओ जितिन (२)\nमैंनेः विरागमा वाद्नारा महान (२)\nआ काल मा साधु थनारा महान…\nसाधु थनारा महान (४)\n\nनमस्कार अंगारने, जिनशषण शृंगारने (२)\nनमस्कार अंगारने (२)\nनमो लोए सव्वा साहूणं (२)\nआ काल मा साधु थनारा महान…\n\nजेने गुरु कनैठी तत्वों ग्रैहम करया (२)\nशाश्त्रोमाही रहेला सत्यो श्रवण करया (२)\nभावमा भमादनारा करमोथि छुटवा (२)\nसंयम भनी कदम मांडणारा महान\nआ काल मा साधु थनारा महान…\n\nआ काल मा साधु थनारा महान…\nयौवन वैमा सुख छोडनारा महान,\nआ काल मा साधु थनारा महान… (2)\n',
+        'पर थी थया पराया, अमे स्व ना सगा थया\nसंसार नो सार समजी, परम ना पथिक थया\n\nआतम थयो ऊजागर (२)\nपरमातमा थवा\nसंयम मारो श्वास, संयम प्रभु नो अहेसास\nसंयम मारो श्वास, संयम प्रभु नो अहेसास\n\nकाया नो मेल धोवा, केटला भवो करया\nआतम नो मेल धोवा, गुरु ना चरण मल्या\nगुरु ना वचन थी जाणे (२),\nसिद्धि ना द्वार खुलया\nसंयम मारो श्वास, संयम प्रभुनो अहेसास\nसंयम मारो श्वास, संयम प्रभुनो अहेसास\n\nदुनिया नी द्रष्टि छुटी, अंतर ना नयन खुलया\nप्रभु ने पामवा हवे, पलपल तरसी रहया\nप्रीत परम नी पामवा (२),\nप्रभु ना पगले चालया\nसंयम मारो श्वास, संयम प्रभुनो अहेसास\nसंयम मारो श्वास, संयम प्रभुनो अहेसास\n\nजग मां मारुं न कोई, ऐ सत्य ने समजी गयाnआ आतम ऐक ज मारो, ऐ सत्य ने जाणी गया\nवितराग जेवा बनवा (२),\nअमे वैरागी थया\nसंयम मारो श्वास, संयम प्रभुनो अहेसास\nसंयम मारो श्वास, संयम प्रभुनो अहेसास\n\nपर थी थया पराया, अमे स्व ना सगा थया\nसंसार नो सार समजी, परम ना पथिक थया\n\nआतम थयो ऊजागर (२)\nपरमातमा थवा\nसंयम मारो श्वास, संयम प्रभु नो अहेसास\nसंयम मारो श्वास, संयम प्रभु नो अहेसास\n',
     'originalSong': '',
     'popularity': 0,
-    'production': '',
+    'production': 'Ritesh Gandhi',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Aa Kal Ma Sadhu Thanara Mahan',
-    'songNameHindi': 'आ काल मा साधु थनारा महान',
+    'singer': 'Ritesh Gandhi',
+    'songNameEnglish': 'Saiyam Maro Swas Saiyam',
+    'songNameHindi': 'संयम मारो श्वास',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/g5JZD4tOHaE'
+    'youTubeLink': 'https://youtu.be/00IWkbAqtao'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

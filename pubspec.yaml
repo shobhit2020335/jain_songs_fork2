@@ -26,6 +26,8 @@ dependencies:
   device_info: ^1.0.0
   firebase_performance: ^0.4.2
   firebase_admob: ^0.10.3
+  audioplayer: ^0.8.1
+  audioplayer_web: 0.7.1
   translator: ^0.1.5
 
 dev_dependencies:

@@ -19,7 +19,7 @@
 //DeviceInfo (Fetches device info)
 //flutter_launcher_icon
 //firebase_admob
-//TODO: different ads than banner ads (native ads).
+//TODO: more ads than interstitial ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
 //TODO: Audio Player
