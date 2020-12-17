@@ -105,7 +105,6 @@ void addElementsToList(String playlistTag) {
 }
 
 //List for settings page.
-//TODO: Test about page.
 List<SettingsDetails> settingsList = [
   SettingsDetails(
     title: 'About',

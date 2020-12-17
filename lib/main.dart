@@ -19,6 +19,7 @@
 //DeviceInfo (Fetches device info)
 //flutter_launcher_icon
 //firebase_admob
+//flutter_windowmanager (disable ss and srec)
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
@@ -28,6 +29,7 @@
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/uisettings.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
@@ -35,7 +37,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MainTheme());
-
+  secureScreen();
   //Initialising AdMob.
   _initAdMob();
 }
