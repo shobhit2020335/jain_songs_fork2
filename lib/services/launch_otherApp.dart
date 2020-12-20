@@ -23,7 +23,7 @@ void shareApp(String name) async {
 
 void sendEmail() async {
   String subject = 'Feedback and Support: ';
-  String email = 'priyanshjain301@gmail.com';
+  String email = 'stavan.co.j@gmail.com';
 
   // Code to get system info for android.
   //TODO: Include for IOS also.
