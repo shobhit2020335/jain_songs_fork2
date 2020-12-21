@@ -7,6 +7,7 @@ class SongDetails {
   bool isLiked;
   int likes;
   String lyrics;
+  String englishLyrics;
   String originalSong;
   int popularity;
   String production;
@@ -27,6 +28,7 @@ class SongDetails {
       this.genre: 'Bhakti',
       this.likes: 0,
       this.lyrics,
+      @required this.englishLyrics,
       this.originalSong: 'Unknown',
       this.popularity: 0,
       this.production,
@@ -45,6 +47,9 @@ class SongDetails {
     }
     if (this.todayClicks == null) {
       this.todayClicks = 0;
+    }
+    if (this.englishLyrics == null) {
+      this.englishLyrics = '';
     }
   }
 }

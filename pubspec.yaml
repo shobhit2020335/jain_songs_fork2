@@ -42,9 +42,8 @@ flutter_icons:
   adaptive_icon_foreground: "dev_assets/Logo-adaptive.png"
 
 flutter:
-
   assets:
-  - images/
+    - images/
 
   uses-material-design: true
   fonts:

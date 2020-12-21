@@ -30,6 +30,8 @@
 //TODO: Dark mode
 //TODO: youTube miniplayer
 //TODO: Karoke
+//TODO: English Lyrics
+//TODO: Update Automatically
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
