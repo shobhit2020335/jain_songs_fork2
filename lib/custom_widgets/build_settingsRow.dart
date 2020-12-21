@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
@@ -29,7 +28,6 @@ class BuildSettingsRow extends StatelessWidget {
             sendEmail();
           } else {
             if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-
             Navigator.push(
               context,
               MaterialPageRoute(

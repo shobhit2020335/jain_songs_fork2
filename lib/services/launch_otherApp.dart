@@ -17,7 +17,7 @@ void shareApp(String name) async {
   await FlutterShare.share(
     title: 'Google Play link',
     text: 'Find lyrics and listen to *$name* and other *Jain bhajans* on:',
-    linkUrl: 'https://play.google.com/store/apps',
+    linkUrl: 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs',
   );
 }
 

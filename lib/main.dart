@@ -33,6 +33,8 @@
 //TODO: Karoke
 //TODO: English Lyrics
 //TODO: Update Automatically
+//TODO: playlist list to be square.
+//TODO:
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';

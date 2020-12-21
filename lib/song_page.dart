@@ -20,6 +20,7 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage> {
   InterstitialAd _interstitialAd;
+  bool isHindi = true;
 
   void _loadInterstitialAd() {
     _interstitialAd = _interstitialAd
@@ -29,6 +30,7 @@ class _SongPageState extends State<SongPage> {
         anchorOffset: 0.0,
         horizontalCenterOffset: 0.0,
       );
+    isHindi = true;
   }
 
   @override
@@ -105,12 +107,14 @@ class _SongPageState extends State<SongPage> {
                       showToast(context,
                           'Video URL is not available at this moment!');
                     } else {
-                      //TODO: Add play Store link.
+                      //TODO: Check playStore link.
                       launchURL(context, link);
                     }
                   },
-                  saveTap: () {
-                    showToast(context, 'Saving lyrics Offline');
+                  languageTap: () {
+                    setState(() {
+                      isHindi = !isHindi;
+                    });
                   },
                 ),
                 SizedBox(
@@ -129,7 +133,7 @@ class _SongPageState extends State<SongPage> {
                   height: 10,
                 ),
                 LyricsWidget(
-                  lyrics: currentSong.lyrics,
+                  lyrics: isHindi ? currentSong.lyrics:currentSong.englishLyrics,
                 ),
                 Text(
                   '-----XXXXX-----',

@@ -28,7 +28,7 @@ class SongDetails {
       this.genre: 'Bhakti',
       this.likes: 0,
       this.lyrics,
-      @required this.englishLyrics,
+      this.englishLyrics,
       this.originalSong: 'Unknown',
       this.popularity: 0,
       this.production,
@@ -49,7 +49,7 @@ class SongDetails {
       this.todayClicks = 0;
     }
     if (this.englishLyrics == null) {
-      this.englishLyrics = '';
+      this.englishLyrics = "English lyrics not Available right now! Switch language to Hindi.\n";
     }
   }
 }
