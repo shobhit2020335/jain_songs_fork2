@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
-
-//TODO: Adding new page for settings.
+import 'package:webview_flutter/webview_flutter.dart';
 
 class BuildSettingsRow extends StatelessWidget {
   final SettingsDetails settingsDetails;
@@ -27,6 +28,8 @@ class BuildSettingsRow extends StatelessWidget {
           if (settingsDetails.title == 'Feedback & Support') {
             sendEmail();
           } else {
+            if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+
             Navigator.push(
               context,
               MaterialPageRoute(

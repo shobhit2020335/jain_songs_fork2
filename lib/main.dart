@@ -20,6 +20,7 @@
 //flutter_launcher_icon
 //firebase_admob
 //flutter_windowmanager (disable ss and srec)
+//Webview (Open website in app)
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
