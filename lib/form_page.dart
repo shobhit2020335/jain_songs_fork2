@@ -91,7 +91,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       child: Column(
                         children: [
-                          formFieldTitle('Name'),
+                          formFieldTitle('Name (Optional)'),
                           SizedBox(
                             height: 7,
                           ),
@@ -109,7 +109,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       child: Column(
                         children: [
-                          formFieldTitle('Email'),
+                          formFieldTitle('Email (Optional)'),
                           SizedBox(
                             height: 7,
                           ),

@@ -36,10 +36,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
     super.initState();
     listToShow.clear();
     currentPlaylist = widget.currentPlaylist;
-    if (currentPlaylist.title.contains('Popular')) {
+    if (currentPlaylist.playlistTag.contains('popular')) {
       getSongs();
     } else {
-      addElementsToList(currentPlaylist.title);
+      addElementsToList(currentPlaylist.playlistTag);
     }
   }
 
@@ -84,6 +84,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
+              // ignore: missing_return
               (context, index) {
                 if (showProgress) {
                   return Center(

@@ -19,15 +19,27 @@
 //DeviceInfo (Fetches device info)
 //flutter_launcher_icon
 //firebase_admob
-//TODO: more ads than interstitial ads (native ads).
+//flutter_windowmanager (disable ss and srec)
+//Webview (Open website in app)
+//TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
+//TODO: Mic
+//TODO: zoom/size
+//TODO: Dark mode
+//TODO: youTube miniplayer
+//TODO: Karoke
+//TODO: English Lyrics
+//TODO: Update Automatically
+//TODO: playlist list to be square.
+//TODO:
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/uisettings.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
@@ -35,7 +47,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MainTheme());
-
+  secureScreen();
   //Initialising AdMob.
   _initAdMob();
 }

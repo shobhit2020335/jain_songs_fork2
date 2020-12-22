@@ -10,7 +10,7 @@ Widget miniCard(
     Function likesTap,
     IconData likesIcon,
     Function youtubeTap,
-    Function saveTap,
+    Function languageTap,
     Function shareTap}) {
   return Card(
     margin: EdgeInsets.only(bottom: 0),
@@ -48,9 +48,9 @@ Widget miniCard(
             width: 40,
           ),
           songFunctionIcon(
-            icon: FontAwesomeIcons.download,
-            text: 'Save',
-            onPress: saveTap,
+            icon: FontAwesomeIcons.language,
+            text: 'Language',
+            onPress: languageTap,
           ),
           SizedBox(
             width: 40,
@@ -71,7 +71,7 @@ class SongCard extends StatelessWidget {
   final SongDetails currentSong;
   Function likesTap;
   Function youtubeTap;
-  Function saveTap;
+  Function languageTap;
   Function shareTap;
   IconData likesIcon;
 
@@ -79,7 +79,7 @@ class SongCard extends StatelessWidget {
       {@required this.currentSong,
       this.likesIcon,
       this.likesTap,
-      this.saveTap,
+      this.languageTap,
       this.shareTap,
       this.youtubeTap});
 
@@ -133,7 +133,7 @@ class SongCard extends StatelessWidget {
               likesTap: likesTap,
               likesIcon: likesIcon,
               youtubeTap: youtubeTap,
-              saveTap: saveTap,
+              languageTap: languageTap,
               share: currentSong.share,
               shareTap: shareTap,
             ),

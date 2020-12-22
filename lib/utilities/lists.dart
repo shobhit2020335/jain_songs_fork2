@@ -95,9 +95,11 @@ void addElementsToList(String playlistTag) {
     }
   }
   //This is for Parshwanath playlist.
-  else if (playlistTag.contains('parshwanath')) {
+  else {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].tirthankar.toLowerCase().contains('parshwanath')) {
+      if (songList[i].tirthankar.toLowerCase().contains(playlistTag)) {
+        listToShow.add(songList[i]);
+      } else if (songList[i].genre.toLowerCase().contains(playlistTag)) {
         listToShow.add(songList[i]);
       }
     }
@@ -105,7 +107,6 @@ void addElementsToList(String playlistTag) {
 }
 
 //List for settings page.
-//TODO: Test about page.
 List<SettingsDetails> settingsList = [
   SettingsDetails(
     title: 'About',
@@ -132,6 +133,7 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Favourites',
     subtitle: 'Likes Songs',
+    playlistTag: 'favourites',
     leadIcon: FontAwesomeIcons.gratipay,
     color: Colors.pink[300],
   ),
@@ -139,6 +141,7 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Latest Releases',
     subtitle: 'New song lyrics',
+    playlistTag: 'latest',
     leadIcon: FontAwesomeIcons.calendarPlus,
     color: Colors.green,
   ),
@@ -146,6 +149,7 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Popular',
     subtitle: 'All time hits',
+    playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
     color: Colors.amber,
   ),
@@ -153,6 +157,7 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Bhakti Special',
     subtitle: 'Playlist for Bhakti',
+    playlistTag: 'bhakti',
     leadIcon: Icons.ac_unit,
     color: Colors.redAccent,
   ),
@@ -160,7 +165,24 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Parshwanath',
     subtitle: 'Parasnath Bhajans',
+    playlistTag: 'parshwanath',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Color(0xFF54BEE6),
+    color: Colors.blue,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Mahaveer Swami',
+    subtitle: 'Mahaveer Swami Bhajans',
+    playlistTag: 'mahavir',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue[700],
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Adinath Swami',
+    subtitle: 'Adinath Swami Bhajans',
+    playlistTag: 'adinath',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue[900],
   ),
 ];
