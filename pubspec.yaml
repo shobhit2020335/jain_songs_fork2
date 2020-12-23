@@ -29,6 +29,7 @@ dependencies:
   flutter_windowmanager: ^0.0.2
   translator: ^0.1.5
   webview_flutter: ^1.0.7
+  youtube_player_flutter: ^7.0.0+7
 
 dev_dependencies:
   flutter_test:

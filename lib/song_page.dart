@@ -6,6 +6,7 @@ import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
 
@@ -21,6 +22,7 @@ class SongPage extends StatefulWidget {
 class _SongPageState extends State<SongPage> {
   InterstitialAd _interstitialAd;
   bool isHindi = true;
+  YoutubePlayerController _youtubePlayerController;
 
   void _loadInterstitialAd() {
     _interstitialAd = _interstitialAd
@@ -45,15 +47,21 @@ class _SongPageState extends State<SongPage> {
     );
     _loadInterstitialAd();
     FireStoreHelper().changeClicks(context, widget.currentSong);
+    _youtubePlayerController = YoutubePlayerController(
+      initialVideoId:YoutubePlayer.convertUrlToId(widget.currentSong.youTubeLink),
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (_interstitialAd != null) {
       _interstitialAd.dispose();
     }
-
     super.dispose();
   }
 
@@ -108,7 +116,12 @@ class _SongPageState extends State<SongPage> {
                           'Video URL is not available at this moment!');
                     } else {
                       //TODO: Check playStore link.
-                      launchURL(context, link);
+                      // launchURL(context, link);
+
+                      print('Launching');
+
+
+
                     }
                   },
                   languageTap: () {
@@ -133,7 +146,8 @@ class _SongPageState extends State<SongPage> {
                   height: 10,
                 ),
                 LyricsWidget(
-                  lyrics: isHindi ? currentSong.lyrics:currentSong.englishLyrics,
+                  lyrics:
+                      isHindi ? currentSong.lyrics : currentSong.englishLyrics,
                 ),
                 Text(
                   '-----XXXXX-----',
@@ -144,6 +158,13 @@ class _SongPageState extends State<SongPage> {
                     color: Color(0xFF18191A),
                   ),
                 ),
+            YoutubePlayer(
+              controller: _youtubePlayerController,
+              showVideoProgressIndicator: true,
+              onReady: () {
+                print('On ready');
+              },
+            ),
               ],
             ),
           ),
