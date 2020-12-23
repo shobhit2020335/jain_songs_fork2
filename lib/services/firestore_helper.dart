@@ -98,6 +98,7 @@ class FireStoreHelper {
             album: currentSong['album'],
             code: currentSong['code'],
             genre: currentSong['genre'],
+            language: currentSong['language'],
             lyrics: currentSong['lyrics'],
             englishLyrics: currentSong['englishLyrics'],
             songNameEnglish: currentSong['songNameEnglish'],

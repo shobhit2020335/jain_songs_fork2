@@ -13,40 +13,42 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('AKMSTM',
-      englishName: 'Aa Kal Ma Sadhu Thanara Mahan',
-      hindiName: 'आ काल मा साधु थनारा महान',
-      originalSong: 'Diksha',
-      album: 'Diksa',
+  currentSong.makestringSearchKeyword('CJSJ',
+      englishName: 'Chandan Jevu Saiyam Jivan',
+      hindiName: 'चंदन जेवुं संयम जीवन',
+      originalSong: 'Chandan Jevu Saiyam Jivan',
+      album: 'Diksha',
       tirthankar: 'दीक्षा',
       extra1: '',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'BTMKL',
+    'code': 'CJSJ',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Bhajan',
-    'language': 'Hindi',
+    'genre': 'Diksha Geet',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'भगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\nदुःख भी लिखती सुख भी लिखती पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nसूरज से पूछा चंदा से पूछा पूछा टीम टीम तारो से,\nइन सब ने कहा अम्बर में है पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nफूलो से पूछा कलियों से पुछया पूछा भाग के माली से,\nइन सब ने कहा हर डाल पे है पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nनदियों से पूछा लेहरो से पूछा पूछा बेह्ते झरनो से\nझरनो से कहा सागर में है पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nइन्से पुछा,उनसे पुछा, पूछा दुनिया के लोगो से,\nउन सब ने कहा हिरदये में है पर तुम्हने कभी ढूंढा ही नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n',
-    'originalSong': 'Ek Phool Me Baas Nahi',
+        'चंदन जेवुं संयम जीवन,\nजीववुं छे मारे उज्जवल जीवन\nगुरुजी करो हवे कृपा मुजपर,\nरहेवुं छे मारे संयम उपवन\nचंदन जेवुं संयम…\n\nचंदन ठंडक आपे छे,\nशीतळता प्रसरावे छे\nचंदननी छे आ विशेषता,\nएज चाहुं विशिष्टता\nचंदन सम थाये मारु जीवन,\nअर्पी दउं तुजने आ तनमन\nचंदन जेवुं संयम…\n\nकलीकाळनो आ प्रभाव छे,\nज्यां जुओ त्यां संताप छे\nसंसार घोर अंधकार छे,\nसंयम सुंदर प्रभात छे\nचंदन थकी आ शीतळता,\nरोमे रोम प्रसन्नता\nचंदन जेवुं संयम…\n\nसिद्धिगतिनी छे साधना,\nकरवी छे संयम आराधना\nगाईश तुज गुण कविता,\nपामीश हुं वीतरागता\nविज्ञानशिशुनी भावना,\nप्रियंकर थाये परमात्मा\nचंदन जेवुं संयम…\n',
+    'englishLyrics':
+        'Chandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\nGuruji karo have krupa muj pas\n Rehavu che mare saiyam upavan\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\n\nChandan thandak aape che\nSheetalata prasarave che\nChandan ni che aa visheshata\nEj chahu vishishtata\nChandan sam thau maru jivan\nArpi dau tujne aa tan man\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\n\nKalikaal no aa prabhaav che\nJyaa juvo tya santaap che\nSansaar ghor andhakar che\nSaiyam sundar prabhat che\nChandan thaki aa sheetalta\nRome rom prasanata\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\n\nSiddhigati ni che sadhana\nKarvi che saiyam aaradhana\nGaais tuj gun kavita\nPamis hu vitaragata\nVigyaan shishu ni bhavna\nPriyankar thaye paramatama\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan..\n',
+    'originalSong': '',
     'popularity': 0,
-    'production': 'JainGuruGanesh',
+    'production': 'Jain Diksha',
     'share': 0,
-    'singer': 'Sunil Parekh',
-    'songNameEnglish': 'Bhagwan Tujhe Mai Khat Likhta',
-    'songNameHindi': 'भगवान तुम्हे मैं खत लिखती ',
+    'singer': '',
+    'songNameEnglish': 'Chandan Jevu Saiyam Jivan',
+    'songNameHindi': 'चंदन जेवुं संयम जीवन',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/8Ph4W8QCJgo'
+    'youTubeLink': 'https://youtu.be/pbr6sikyhtY'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
@@ -66,19 +68,19 @@ class AddSong {
     String extra3: '',
   }) {
     String currentString;
-    currentString = englishName.toLowerCase() + ' | ' + hindiName.toLowerCase();
+    currentString = englishName.toLowerCase() + ' ' + hindiName.toLowerCase();
     currentString = currentString +
-        ' | ' +
+        ' ' +
         tirthankar.toLowerCase() +
-        ' | ' +
+        ' ' +
         originalSong.toLowerCase() +
-        ' | ' +
+        ' ' +
         album.toLowerCase() +
-        ' | ' +
+        ' ' +
         extra1.toLowerCase() +
-        ' | ' +
+        ' ' +
         extra2.toLowerCase() +
-        ' | ' +
+        ' ' +
         extra3.toLowerCase();
     _addSearchKeywords(code, currentString);
   }

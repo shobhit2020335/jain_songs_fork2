@@ -5,6 +5,7 @@ class SongDetails {
   String code;
   String genre;
   bool isLiked;
+  String language;
   int likes;
   String lyrics;
   String englishLyrics;
@@ -25,7 +26,8 @@ class SongDetails {
   SongDetails(
       {this.album,
       this.code,
-      this.genre: 'Bhakti',
+      this.genre,
+      @required this.language,
       this.likes: 0,
       this.lyrics,
       this.englishLyrics,
@@ -43,13 +45,23 @@ class SongDetails {
       this.trendPoints: 0,
       this.youTubeLink}) {
     if (this.trendPoints == null) {
-      this.trendPoints = 0;
+      this.trendPoints = 0.0;
     }
     if (this.todayClicks == null) {
       this.todayClicks = 0;
     }
-    if (this.englishLyrics == null) {
-      this.englishLyrics = "English lyrics not Available right now! Switch language to Hindi.\n";
+    if (totalClicks == null) {
+      this.totalClicks = 0;
+    }
+    if (popularity == null) {
+      this.popularity = 0;
+    }
+    if (likes == null) {
+      this.likes = 0;
+    }
+    if (this.englishLyrics == null || this.englishLyrics.length <= 2) {
+      this.englishLyrics =
+          "English lyrics not Available right now! Switch language to Hindi.\n";
     }
   }
 }
