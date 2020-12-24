@@ -7,11 +7,9 @@ class NetworkHelper {
 
   Future<void> changeDate() async {
     todayDate = DateTime.now();
-    print(todayDate);
     var diffDate = todayDate.difference(startDate);
     totalDays = diffDate.inDays;
     await FireStoreHelper().fetchDays();
-    print(fetchedDays);
   }
 
   Future<bool> check() async {

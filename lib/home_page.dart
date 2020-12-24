@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
@@ -11,9 +12,6 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:translator/translator.dart';
 import 'services/network_helper.dart';
 
-//TODO: Crashlytics in detail.
-//TODO: Disable ss taking in app.
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -23,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   var searchController = TextEditingController();
   int _currentIndex = 0;
   //This variable is used to determine whether the user searching is found or not.
-  bool isSeacrchEmpty = false;
+  bool isSearchEmpty = false;
   bool showProgress = false;
   Widget appBarTitle = Text(
     'Jain Songs',
@@ -60,16 +58,16 @@ class _HomePageState extends State<HomePage> {
 
       if (listToShow.isEmpty && query.length > 2) {
         setState(() {
-          isSeacrchEmpty = true;
+          isSearchEmpty = true;
         });
       } else {
-        isSeacrchEmpty = false;
+        isSearchEmpty = false;
       }
     } else {
       await NetworkHelper().changeDate();
       if (totalDays > fetchedDays) {
         fetchedDays = totalDays;
-        print('Ghusa in daily update');
+        FirebaseCrashlytics.instance.log('Ghusa in Daily update on $todayDate');
         await FireStoreHelper().dailyUpdate();
       }
       await FireStoreHelper().getSongs();
@@ -143,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                             this.appBarTitle = Text('Jain Songs');
                             searchController.clear();
                             //Below line is for refresh when cross is clicked.
-                            //I am remvoing this feature, can be enabled later.
+                            //I am removing this feature, can be enabled later.
                             // getSongs('', true);
                             getSongs('', false);
                           }
@@ -196,9 +194,9 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      //TODO: Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
+      //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
       body: <Widget>[
-        isSeacrchEmpty == false
+        isSearchEmpty == false
             ? BuildList(showProgress: showProgress)
             : SearchEmpty(searchController),
         FormPage(),

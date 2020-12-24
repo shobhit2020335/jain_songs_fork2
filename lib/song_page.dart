@@ -37,7 +37,6 @@ class _SongPageState extends State<SongPage> {
   void initState() {
     super.initState();
     _interstitialAd = InterstitialAd(
-      //TODO: Change the below id at launch.
       adUnitId: AdManager().songPageinterstitialId,
       listener: (MobileAdEvent event) {
         print("InterstitialAd event is $event");
@@ -49,7 +48,6 @@ class _SongPageState extends State<SongPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     if (_interstitialAd != null) {
       _interstitialAd.dispose();
     }

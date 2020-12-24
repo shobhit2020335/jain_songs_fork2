@@ -10,7 +10,7 @@ List<SongDetails> songList = [];
 
 List<SongDetails> listToShow = [];
 
-final DateTime startDate = DateTime(2020, 11, 5);
+final DateTime startDate = DateTime(2020, 12, 23);
 DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;

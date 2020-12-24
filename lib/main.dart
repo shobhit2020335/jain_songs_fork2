@@ -26,7 +26,7 @@
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
-//TODO: Mic
+//TODO: Mic search
 //TODO: zoom/size
 //TODO: Dark mode
 //TODO: youTube miniplayer
@@ -34,7 +34,11 @@
 //TODO: English Lyrics
 //TODO: Update Automatically
 //TODO: playlist list to be square.
-//TODO:
+//TODO: Search Algo
+
+//TODO: button size
+//TODO: automatic update
+//TODO: firebsae rules
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -53,7 +57,7 @@ void main() async {
 }
 
 Future<void> _initAdMob() {
-  // TODO: Initialize AdMob SDK
+  //Initialize AdMob SDK
   return FirebaseAdMob.instance.initialize(appId: AdManager().appId);
 }
 
