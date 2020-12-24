@@ -1,5 +1,6 @@
 //This file contains all the global variables for the app.
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -14,6 +15,8 @@ final DateTime startDate = DateTime(2020, 12, 23);
 DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;
+//Anonymous user's variable.
+UserCredential userCredential;
 
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;

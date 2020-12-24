@@ -30,7 +30,7 @@
 //TODO: zoom/size
 //TODO: Dark mode
 //TODO: youTube miniplayer
-//TODO: Karoke
+//TODO: Karaoke
 //TODO: English Lyrics
 //TODO: Update Automatically
 //TODO: playlist list to be square.
@@ -38,18 +38,22 @@
 
 //TODO: button size
 //TODO: automatic update
-//TODO: firebsae rules
+//TODO: firebase rules
 
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/uisettings.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  //Firebase Anonymous signIn.
+  userCredential = await FirebaseAuth.instance.signInAnonymously();
   runApp(MainTheme());
   secureScreen();
   //Initialising AdMob.

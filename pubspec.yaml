@@ -29,6 +29,7 @@ dependencies:
   flutter_windowmanager: ^0.0.2
   translator: ^0.1.5
   webview_flutter: ^1.0.7
+  firebase_auth: "^0.18.4+1"
 
 dev_dependencies:
   flutter_test:
