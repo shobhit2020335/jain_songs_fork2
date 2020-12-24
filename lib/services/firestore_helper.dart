@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
@@ -17,11 +16,12 @@ class FireStoreHelper {
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
-  Future<void> fetchDays() async {
+  Future<void> fetchDaysAndVersion() async {
     bool isInternetConnected = await NetworkHelper().check();
 
     if (isInternetConnected == false) {
       fetchedDays = totalDays;
+      fetchedVersion = appVersion;
       return;
     }
     CollectionReference others = _firestore.collection('others');
@@ -29,6 +29,8 @@ class FireStoreHelper {
     Map<String, dynamic> othersMap = docSnap.data();
 
     fetchedDays = othersMap['totalDays'];
+    fetchedVersion = othersMap['appVersion'];
+    print(fetchedVersion);
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.

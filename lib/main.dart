@@ -34,10 +34,9 @@
 //TODO: English Lyrics
 //TODO: Update Automatically
 //TODO: playlist list to be square.
+//TODO: user can make playlist
 //TODO: Search Algo
-
-//TODO: button size
-//TODO: automatic update
+//TODO: IOS
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';

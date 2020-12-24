@@ -5,11 +5,11 @@ import 'package:jain_songs/utilities/lists.dart';
 class NetworkHelper {
   NetworkHelper();
 
-  Future<void> changeDate() async {
+  Future<void> changeDateAndVersion() async {
     todayDate = DateTime.now();
     var diffDate = todayDate.difference(startDate);
     totalDays = diffDate.inDays;
-    await FireStoreHelper().fetchDays();
+    await FireStoreHelper().fetchDaysAndVersion();
   }
 
   Future<bool> check() async {
