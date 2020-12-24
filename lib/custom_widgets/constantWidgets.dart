@@ -69,7 +69,6 @@ Widget songFunctionIcon(
   return Column(
     children: [
       GestureDetector(
-        // onLongPress: onPress,
         onTap: onPress,
         child: Icon(
           icon,

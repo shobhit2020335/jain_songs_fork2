@@ -38,7 +38,6 @@
 
 //TODO: button size
 //TODO: automatic update
-//TODO: firebase rules
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
