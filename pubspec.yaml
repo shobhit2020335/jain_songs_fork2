@@ -2,7 +2,7 @@ name: jain_songs
 description: Contains Jain Bhajans
 
 publish_to: 'none' 
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -30,6 +30,7 @@ dependencies:
   translator: ^0.1.5
   webview_flutter: ^1.0.7
   firebase_auth: "^0.18.4+1"
+  package_info: ^0.4.3+2
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:package_info/package_info.dart';
 
 class NetworkHelper {
   NetworkHelper();
@@ -10,6 +12,25 @@ class NetworkHelper {
     var diffDate = todayDate.difference(startDate);
     totalDays = diffDate.inDays;
     await FireStoreHelper().fetchDaysAndVersion();
+  }
+
+  //Package_info is used to get the information about the app name and version.
+  Future<String> getPackageInfo(String appInfoName) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String appName = packageInfo.appName;
+    String packageName = packageInfo.packageName;
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+
+    if (appInfoName == 'appName') {
+      return appName;
+    } else if (appInfoName == 'packageName') {
+      return packageName;
+    } else if (appInfoName == 'version') {
+      return version;
+    } else {
+      return buildNumber;
+    }
   }
 
   Future<bool> check() async {

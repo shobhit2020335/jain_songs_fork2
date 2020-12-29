@@ -21,6 +21,7 @@
 //firebase_admob
 //flutter_windowmanager (disable ss and srec)
 //Webview (Open website in app)
+//package info
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
@@ -42,6 +43,7 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'ads/ad_manager.dart';
@@ -56,6 +58,8 @@ void main() async {
   secureScreen();
   //Initialising AdMob.
   _initAdMob();
+
+  print(await NetworkHelper().getPackageInfo('version'));
 }
 
 Future<void> _initAdMob() {

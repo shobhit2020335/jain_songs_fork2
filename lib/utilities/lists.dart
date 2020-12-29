@@ -1,4 +1,4 @@
-//This file contains all the global variables for the app.
+//This file contains all the global variables and functions for the app.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

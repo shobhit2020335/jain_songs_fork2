@@ -13,12 +13,12 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('CJSJ',
-      englishName: 'Chandan Jevu Saiyam Jivan',
-      hindiName: 'चंदन जेवुं संयम जीवन',
-      originalSong: 'Chandan Jevu Saiyam Jivan',
-      album: 'Diksha',
-      tirthankar: 'दीक्षा',
+  currentSong.makestringSearchKeyword('TSAC',
+      englishName: 'Tara Sharne Aavyo Chu Suvikari le',
+      hindiName: 'तारा शरणे आव्यो छुं स्वीकारी ले',
+      originalSong: 'Tara Sharne Avyo Chu Svikari le',
+      album: '',
+      tirthankar: '',
       extra1: '',
       extra2: '',
       extra3: '');
@@ -27,28 +27,28 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'CJSJ',
+    'code': 'TSAC',
     'album': '',
-    'aaa': 'valid',
-    'genre': 'Diksha Geet',
+    'aaa': 'valid | Lyrics invalid | Original Song',
+    'genre': 'Stavan | Bhajan',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'चंदन जेवुं संयम जीवन,\nजीववुं छे मारे उज्जवल जीवन\nगुरुजी करो हवे कृपा मुजपर,\nरहेवुं छे मारे संयम उपवन\nचंदन जेवुं संयम…\n\nचंदन ठंडक आपे छे,\nशीतळता प्रसरावे छे\nचंदननी छे आ विशेषता,\nएज चाहुं विशिष्टता\nचंदन सम थाये मारु जीवन,\nअर्पी दउं तुजने आ तनमन\nचंदन जेवुं संयम…\n\nकलीकाळनो आ प्रभाव छे,\nज्यां जुओ त्यां संताप छे\nसंसार घोर अंधकार छे,\nसंयम सुंदर प्रभात छे\nचंदन थकी आ शीतळता,\nरोमे रोम प्रसन्नता\nचंदन जेवुं संयम…\n\nसिद्धिगतिनी छे साधना,\nकरवी छे संयम आराधना\nगाईश तुज गुण कविता,\nपामीश हुं वीतरागता\nविज्ञानशिशुनी भावना,\nप्रियंकर थाये परमात्मा\nचंदन जेवुं संयम…\n',
+        'आव्यो छुं प्रभु तारे द्वारे…\nदर्शन दो मुक्ति दो…\nआ संसार नी माया थी…\nमुक्ति दो दर्शन दो\n\nतारा शरणे आव्यो छुं स्वीकारी ले\nमने लइ जा प्रभु तारा धाममां (२)\n\nलावी द्यो नैया प्रभजी किनारे,\nफसायो छुं हुं प्रभुजी आ चकरावे\nमारा तारणहार मने तारी ल्यो (२)\nमने लइ जा प्रभु तारा धाममां\nहो मने लइ जा…\n\nतारे मंदिरिये देवताओ आवे\nदेवताओ आवे तारी धून मचावे\nमारे प्रभु तारुं गीतडुं गावुं छे (२)\nमने लइ जा प्रभु तारा धाममां\nहो मने लइ जा…\n\nतारे मंदिरिये नोबत वागे\nनोबत वागे सौना आतम जागे\nमारे प्रभु तारी भक्तिमां भींजावुं छे (२)\nमने लइ जा प्रभु तारा धाममां\nहो मने लइ जा…\n',
     'englishLyrics':
-        'Chandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\nGuruji karo have krupa muj pas\n Rehavu che mare saiyam upavan\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\n\nChandan thandak aape che\nSheetalata prasarave che\nChandan ni che aa visheshata\nEj chahu vishishtata\nChandan sam thau maru jivan\nArpi dau tujne aa tan man\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\n\nKalikaal no aa prabhaav che\nJyaa juvo tya santaap che\nSansaar ghor andhakar che\nSaiyam sundar prabhat che\nChandan thaki aa sheetalta\nRome rom prasanata\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan\n\nSiddhigati ni che sadhana\nKarvi che saiyam aaradhana\nGaais tuj gun kavita\nPamis hu vitaragata\nVigyaan shishu ni bhavna\nPriyankar thaye paramatama\nChandan jevu saiyam jivan\nJeevavu che maare ujjval jivan..\n',
+        'Aavyo chu prabhu tara dware\nDarshan do mukti do\nAa sansar ni maya mati\nMukti do darshan do\n\nTara sharne aavyo chu swikari le\nHave laija prabhu tara dham ma..(2)\n\nTara darshan mate manadu adhir che\nTujma samau mujne etlij aas che..(2)\nMara bhav bhav na...Bandhan tu todi de..(2)\nHave laija prabhu tara dham ma..(2)\n\nTare mandir ye bhala devtao aave\nDevatao aave tari bhoomi machave\nMara tarae..Ye naak kaan jodi de\nHave laija prabhu tara dham ma..(2)\n\nTare mandir ye bhala nobath vaage\nNobath vaage sau na aatam jage..(2)\nMara taran ne har...Mane tari de..(2)\nHave laija prabhu tara dham ma..(2)\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Jain Diksha',
+    'production': '',
     'share': 0,
     'singer': '',
-    'songNameEnglish': 'Chandan Jevu Saiyam Jivan',
-    'songNameHindi': 'चंदन जेवुं संयम जीवन',
+    'songNameEnglish': 'Tara Sharne Aavyo Chu',
+    'songNameHindi': 'तारा शरणे आव्यो छुं',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/pbr6sikyhtY'
+    'youTubeLink': 'https://youtu.be/yXJ_rCv4U1U'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
