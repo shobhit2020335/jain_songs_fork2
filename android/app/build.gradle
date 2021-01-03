@@ -46,13 +46,8 @@ android {
 
     defaultConfig {
         applicationId "com.JainDevelopers.jain_songs"
-<<<<<<< HEAD
         minSdkVersion 17
         targetSdkVersion 28
-=======
-        minSdkVersion 16
-        targetSdkVersion 30
->>>>>>> v1.0.1
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

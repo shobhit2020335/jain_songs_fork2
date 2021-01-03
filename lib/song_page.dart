@@ -49,7 +49,7 @@ class _SongPageState extends State<SongPage> {
     _youtubePlayerController = YoutubePlayerController(
       initialVideoId:YoutubePlayer.convertUrlToId(widget.currentSong.youTubeLink),
       flags: YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
       ),
     );
@@ -103,7 +103,7 @@ class _SongPageState extends State<SongPage> {
                   shareTap: () async {
                     //Opens other app to share song.
                     shareApp(currentSong.songNameHindi);
-                    //Increases likes in FIrebase.
+                    //Increases likes in Firebase.
                     FireStoreHelper fireStoreHelper = FireStoreHelper();
                     await fireStoreHelper.changeShare(context, currentSong);
                     setState(() {});
@@ -116,11 +116,7 @@ class _SongPageState extends State<SongPage> {
                     } else {
                       //TODO: Check playStore link.
                       // launchURL(context, link);
-
                       print('Launching');
-
-
-
                     }
                   },
                   languageTap: () {
