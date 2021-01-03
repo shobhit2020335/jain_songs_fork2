@@ -16,11 +16,12 @@ class FireStoreHelper {
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
-  Future<void> fetchDays() async {
+  Future<void> fetchDaysAndVersion() async {
     bool isInternetConnected = await NetworkHelper().check();
 
     if (isInternetConnected == false) {
       fetchedDays = totalDays;
+      fetchedVersion = appVersion;
       return;
     }
     CollectionReference others = _firestore.collection('others');
@@ -28,6 +29,8 @@ class FireStoreHelper {
     Map<String, dynamic> othersMap = docSnap.data();
 
     fetchedDays = othersMap['totalDays'];
+    fetchedVersion = othersMap['appVersion'];
+    print(fetchedVersion);
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
@@ -98,6 +101,7 @@ class FireStoreHelper {
             album: currentSong['album'],
             code: currentSong['code'],
             genre: currentSong['genre'],
+            language: currentSong['language'],
             lyrics: currentSong['lyrics'],
             englishLyrics: currentSong['englishLyrics'],
             songNameEnglish: currentSong['songNameEnglish'],

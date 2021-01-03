@@ -9,44 +9,48 @@ void main() async {
   AddSong currentSong = AddSong();
 
   //Uncomment below to add a new song.
-  await currentSong.addToFirestore();
+  await currentSong.addToFirestore().catchError((error) {
+    print('Error: ' + error);
+  });
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('SMSS',
-      englishName: 'Sanyam Maro Swas Sanyam',
-      hindiName: '',
-      originalSong: 'Diksha',
-      album: 'Diksa',
-      tirthankar: 'दीक्षा',
-      extra1: '',
-      extra2: '',
+  currentSong.makestringSearchKeyword('CPMG',
+      englishName: 'Chowk purao mangal gao',
+      hindiName: 'चोख पुरावो माटी रंगावो',
+      originalSong: 'Chok purao mangal gao',
+      album: 'Kailash Kher',
+      tirthankar: '',
+      extra1: 'आज मेरे प्रभु घर आवेंगे',
+      extra2: 'Aaj mere prabhu ghar aavenge',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दिक्षा
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'BTMKL',
+    'code': 'CPMG',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Bhajan',
-    'language': 'Hindi',
+    'genre': 'Stavan',
+    'language': 'Marwadi',
     'likes': 0,
     'lyrics':
-        'भगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\nदुःख भी लिखती सुख भी लिखती पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nसूरज से पूछा चंदा से पूछा पूछा टीम टीम तारो से,\nइन सब ने कहा अम्बर में है पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nफूलो से पूछा कलियों से पुछया पूछा भाग के माली से,\nइन सब ने कहा हर डाल पे है पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nनदियों से पूछा लेहरो से पूछा पूछा बेह्ते झरनो से\nझरनो से कहा सागर में है पर पता मुझे मालुम नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n\nइन्से पुछा,उनसे पुछा, पूछा दुनिया के लोगो से,\nउन सब ने कहा हिरदये में है पर तुम्हने कभी ढूंढा ही नहीं,\nभगवान तुम्हे मैं खत लिखती पर पता मुझे मालूम नहीं,\n',
-    'originalSong': 'Ek Phool Me Baas Nahi',
+        'Chowk purao mangal gao\nAaj mere prabhu ghar aavenge...\nAangi rachavo mughat chadavo...(2)\nAaj mere prabhu mann bhaye hai ...(2)\nAaj mere prabhu ghar aavenge...\n\nAeri sakhi mangal gavo reh...\nDharti ambar sajavo reh...\nUtarege aaj mere\nPrabhu ki savari... (2)\nHar koi nacho gaavo re...\nDhol manjira bajavo reh...(2)\nAaj prabhuji mere mann padhare hai...\nAaj jinji mere mann padhare hai…\nKhabar sunavujo khusi reh jatavujo...(2)\nAaj mere prabhu ghar aavenge...\n\nRim jhim badal barase\nKali kali phul khile...(2)\nKhusiya ne aaj mere daale hain dera..(2)\nGannnnanan gant baje...Prabhu naam shank rateh...\nAangan aangan hai khusiyo ka mela...(2)\nAnhad naad bajavo ori sab mil...(2)\nAaj mere prabhu ghar aavenge...\n\nChowk purao mangal gao\nAaj mere prabhu ghar aavenge...\n',
+    'englishLyrics':
+        '(Not Accurate)\nचोख पुरावो, माटी रंगावो,\nआज मेरे प्रभु घर आवेंगे,\n\nखबर सुनाऊ जो, ख़ुशी ये बताओ जो,\nआज मेरे प्रभु घर आवेंगे।।\n\nहेरी सखी मंगल गावो री,\nधरती अम्बर सजाओ री,\nउतरेगी आज मेरे प्रभु की सवारी,\nहेरी कोई काजल लाओ रे,\nमोहे काला टीका लगाओ री,\nउनकी छब से दिखु में तो प्यारी,\nलक्ष्मी जी वारो ,\nनजर उतारो,\nआज मेरे प्रभु घर आवेंगे।।\n\nरंगो से रंग मिले,\nनए नए ढंग खिले,\nख़ुशी आज द्वारे मेरे डाले है डेरा,\nपीहू पीहू पपीहा रटे,\nकुहू कुहू कोयल जपे,\nआँगन आँगन है परियो ने घेरा,\nअनहद नाद बजाओ रे सब-मिल,\nआज मेरे प्रभु घर आवेंगे।।\n\nचोख पुरावो, माटी रंगावो,\nआज मेरे प्रभु घर आवेंगे,\nआज मेरे प्रभु घर आवेंगे।।\n',
+    'originalSong': 'Piya Ghar Aavenge | Kailash Kher',
     'popularity': 0,
-    'production': 'JainGuruGanesh',
+    'production': 'Jain Stavan Official',
     'share': 0,
-    'singer': 'Sunil Parekh',
-    'songNameEnglish': 'Bhagwan Tujhe Mai Khat Likhta',
-    'songNameHindi': 'भगवान तुम्हे मैं खत लिखती ',
+    'singer': '',
+    'songNameEnglish': 'Chowk purao (Aaj Mere Prabhu Ghar Aavenge)',
+    'songNameHindi': 'चोख पुरावो (आज मेरे प्रभु घर आवेंगे)',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/8Ph4W8QCJgo'
+    'youTubeLink': 'https://youtu.be/jE8J4C3HxQ0'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
@@ -66,19 +70,19 @@ class AddSong {
     String extra3: '',
   }) {
     String currentString;
-    currentString = englishName.toLowerCase() + ' | ' + hindiName.toLowerCase();
+    currentString = englishName.toLowerCase() + ' ' + hindiName.toLowerCase();
     currentString = currentString +
-        ' | ' +
+        ' ' +
         tirthankar.toLowerCase() +
-        ' | ' +
+        ' ' +
         originalSong.toLowerCase() +
-        ' | ' +
+        ' ' +
         album.toLowerCase() +
-        ' | ' +
+        ' ' +
         extra1.toLowerCase() +
-        ' | ' +
+        ' ' +
         extra2.toLowerCase() +
-        ' | ' +
+        ' ' +
         extra3.toLowerCase();
     _addSearchKeywords(code, currentString);
   }

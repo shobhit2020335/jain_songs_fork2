@@ -21,39 +21,52 @@
 //firebase_admob
 //flutter_windowmanager (disable ss and srec)
 //Webview (Open website in app)
+//package info
+//TODO: ADs from different networks- Mediation (Mopub)
+//TODO: Firebase cloud messaging
+//TODO: Jai Jinendra from firebase
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
-//TODO: Mic
+//TODO: Mic search
 //TODO: zoom/size
 //TODO: Dark mode
 //TODO: youTube miniplayer
-//TODO: Karoke
+//TODO: Karaoke
 //TODO: English Lyrics
 //TODO: Update Automatically
 //TODO: playlist list to be square.
-//TODO:
+//TODO: user can make playlist
+//TODO: Search Algo
+//TODO: IOS
 
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  //Firebase Anonymous signIn.
+  userCredential = await FirebaseAuth.instance.signInAnonymously();
   runApp(MainTheme());
   secureScreen();
   //Initialising AdMob.
   _initAdMob();
+
+  print(await NetworkHelper().getPackageInfo('version'));
 }
 
 Future<void> _initAdMob() {
-  // TODO: Initialize AdMob SDK
+  //Initialize AdMob SDK
   return FirebaseAdMob.instance.initialize(appId: AdManager().appId);
 }
 

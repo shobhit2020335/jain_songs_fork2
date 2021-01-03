@@ -1,5 +1,5 @@
-//This file contains all the global variables for the app.
-
+//This file contains all the global variables and functions for the app.
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -10,10 +10,16 @@ List<SongDetails> songList = [];
 
 List<SongDetails> listToShow = [];
 
-final DateTime startDate = DateTime(2020, 11, 5);
+final DateTime startDate = DateTime(2020, 12, 23);
+String appURL = 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
 DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;
+//TODO: update app version for new app.
+double appVersion = 1.001;
+double fetchedVersion;
+//Anonymous user's variable.
+UserCredential userCredential;
 
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;
@@ -39,7 +45,6 @@ int trendComparison(SongDetails a, SongDetails b) {
   }
 }
 
-//TODO: can do searching after some words are typed.
 void searchInList(String query) {
   listToShow.clear();
   query = query.toLowerCase();

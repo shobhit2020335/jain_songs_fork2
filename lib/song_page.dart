@@ -39,7 +39,6 @@ class _SongPageState extends State<SongPage> {
   void initState() {
     super.initState();
     _interstitialAd = InterstitialAd(
-      //TODO: Change the below id at launch.
       adUnitId: AdManager().songPageinterstitialId,
       listener: (MobileAdEvent event) {
         print("InterstitialAd event is $event");

@@ -111,18 +111,21 @@ class SongCard extends StatelessWidget {
                 if (currentSong.tirthankar != null &&
                     currentSong.tirthankar.length > 0)
                   Text('Tirthankar: ${currentSong.tirthankar}'),
-                if (currentSong.singer != null && currentSong.singer.length > 0)
-                  Text('Singer: ${currentSong.singer}'),
                 if (currentSong.genre != null && currentSong.singer.length > 0)
                   Text('Genre: ${currentSong.genre}'),
-                if (currentSong.production != null &&
-                    currentSong.production.length > 0)
-                  Text('Production: ${currentSong.production}'),
+                if (currentSong.singer != null && currentSong.singer.length > 0)
+                  Text('Singer: ${currentSong.singer}'),
+                if (currentSong.album != null && currentSong.album.length > 0)
+                  Text('Album: ${currentSong.album}'),
                 if (currentSong.originalSong != null &&
                     currentSong.originalSong.length > 0)
                   Text('Original Song: ${currentSong.originalSong}'),
-                if (currentSong.album != null && currentSong.album.length > 0)
-                  Text('Album: ${currentSong.album}'),
+                if (currentSong.language != null &&
+                    currentSong.language.length > 0)
+                  Text('Language: ${currentSong.language}'),
+                if (currentSong.production != null &&
+                    currentSong.production.length > 0)
+                  Text('Production: ${currentSong.production}'),
               ],
             ),
           ),

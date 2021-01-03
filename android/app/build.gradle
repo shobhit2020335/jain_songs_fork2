@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = '2'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+    flutterVersionName = '1.0.1'
 }
 
 apply plugin: 'com.android.application'
@@ -38,17 +38,21 @@ android {
         disable 'InvalidPackage'
         checkReleaseBuilds false
     }
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     lintOptions {
         disable 'InvalidPackage'
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.JainDevelopers.jain_songs"
+<<<<<<< HEAD
         minSdkVersion 17
         targetSdkVersion 28
+=======
+        minSdkVersion 16
+        targetSdkVersion 30
+>>>>>>> v1.0.1
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -63,6 +67,9 @@ android {
         }
     }
      buildTypes {
+         debug {
+             applicationIdSuffix ".debug"
+         }
          release {
              signingConfig signingConfigs.release
              minifyEnabled true
@@ -71,14 +78,6 @@ android {
              proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
          }
      }
-
-//    buildTypes {
-//        release {
-//            // TODO: Add your own signing config for the release build.
-//            // Signing with the debug keys for now, so `flutter run --release` works.
-//            signingConfig signingConfigs.debug
-//        }
-//    }
 }
 
 flutter {
