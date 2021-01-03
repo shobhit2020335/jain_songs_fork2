@@ -112,7 +112,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         style: TextStyle(
                           color: Colors.grey,
                         ),
-                      )
+                      ),
                     ],
                   );
                 } else if (index < listToShow.length) {

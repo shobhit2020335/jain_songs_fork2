@@ -22,8 +22,12 @@
 //flutter_windowmanager (disable ss and srec)
 //Webview (Open website in app)
 //package info
-//TODO: ADs from different networks- Mediation (Mopub)
+//TODO: On clicking, liking, sharing songs the number is disabled.
+//TODO: Show toast when search submit is clicked.
+//TODO: Check internet connection before google translate.
 //TODO: Firebase cloud messaging
+//TODO: youTube miniplayer- Make beautiful
+//TODO: ADs from different networks- Mediation (Mopub)
 //TODO: Jai Jinendra from firebase
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
@@ -33,10 +37,7 @@
 //TODO: Mic search
 //TODO: zoom/size
 //TODO: Dark mode
-//TODO: youTube miniplayer
 //TODO: Karaoke
-//TODO: English Lyrics
-//TODO: Update Automatically
 //TODO: playlist list to be square.
 //TODO: user can make playlist
 //TODO: Search Algo

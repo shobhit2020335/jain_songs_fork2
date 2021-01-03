@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +7,7 @@ import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
+import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
@@ -21,7 +24,15 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage> {
   InterstitialAd _interstitialAd;
+
+  //Variable to determine which language is displayed now.
   bool isHindi = true;
+
+  //Variable to determine whether link is available/net is connected.
+  bool isLinkAvail = true;
+
+  //Info to be displayed if net is not on/link is not available.
+  String linkInfo = '';
   YoutubePlayerController _youtubePlayerController;
 
   void _loadInterstitialAd() {
@@ -46,14 +57,28 @@ class _SongPageState extends State<SongPage> {
     );
     _loadInterstitialAd();
     FireStoreHelper().changeClicks(context, widget.currentSong);
-    _youtubePlayerController = YoutubePlayerController(
-      initialVideoId:YoutubePlayer.convertUrlToId(widget.currentSong.youTubeLink),
-      flags: YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
-
+    if (widget.currentSong.youTubeLink.length != null &&
+        widget.currentSong.youTubeLink.length > 2) {
+      NetworkHelper().check().then((value) {
+        isLinkAvail = value;
+        if (isLinkAvail == false) {
+          setState(() {
+            linkInfo = 'Please check your Internet Connection!';
+          });
+        }
+      });
+      _youtubePlayerController = YoutubePlayerController(
+        initialVideoId:
+            YoutubePlayer.convertUrlToId(widget.currentSong.youTubeLink),
+        flags: YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+        ),
+      );
+    } else {
+      isLinkAvail = false;
+      linkInfo = 'Song not available to listen.';
+    }
   }
 
   @override
@@ -128,6 +153,21 @@ class _SongPageState extends State<SongPage> {
                 SizedBox(
                   height: 20,
                 ),
+                isLinkAvail
+                    ? YoutubePlayer(
+                        controller: _youtubePlayerController,
+                        showVideoProgressIndicator: true,
+                        onReady: () {},
+                      )
+                    : Text(
+                        linkInfo,
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                SizedBox(
+                  height: 20,
+                ),
                 Text(
                   'Lyrics',
                   textAlign: TextAlign.center,
@@ -153,13 +193,6 @@ class _SongPageState extends State<SongPage> {
                     color: Color(0xFF18191A),
                   ),
                 ),
-            YoutubePlayer(
-              controller: _youtubePlayerController,
-              showVideoProgressIndicator: true,
-              onReady: () {
-                print('On ready');
-              },
-            ),
               ],
             ),
           ),
