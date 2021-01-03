@@ -22,6 +22,9 @@
 //flutter_windowmanager (disable ss and srec)
 //Webview (Open website in app)
 //package info
+//TODO: ADs from different networks- Mediation (Mopub)
+//TODO: Firebase cloud messaging
+//TODO: Jai Jinendra from firebase
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)

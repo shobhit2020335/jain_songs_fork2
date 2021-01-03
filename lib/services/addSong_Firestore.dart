@@ -9,46 +9,48 @@ void main() async {
   AddSong currentSong = AddSong();
 
   //Uncomment below to add a new song.
-  await currentSong.addToFirestore();
+  await currentSong.addToFirestore().catchError((error) {
+    print('Error: ' + error);
+  });
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('TSAC',
-      englishName: 'Tara Sharne Aavyo Chu Suvikari le',
-      hindiName: 'तारा शरणे आव्यो छुं स्वीकारी ले',
-      originalSong: 'Tara Sharne Avyo Chu Svikari le',
-      album: '',
+  currentSong.makestringSearchKeyword('CPMG',
+      englishName: 'Chowk purao mangal gao',
+      hindiName: 'चोख पुरावो माटी रंगावो',
+      originalSong: 'Chok purao mangal gao',
+      album: 'Kailash Kher',
       tirthankar: '',
-      extra1: '',
-      extra2: '',
+      extra1: 'आज मेरे प्रभु घर आवेंगे',
+      extra2: 'Aaj mere prabhu ghar aavenge',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'TSAC',
+    'code': 'CPMG',
     'album': '',
-    'aaa': 'valid | Lyrics invalid | Original Song',
-    'genre': 'Stavan | Bhajan',
-    'language': 'Gujarati',
+    'aaa': 'valid',
+    'genre': 'Stavan',
+    'language': 'Marwadi',
     'likes': 0,
     'lyrics':
-        'आव्यो छुं प्रभु तारे द्वारे…\nदर्शन दो मुक्ति दो…\nआ संसार नी माया थी…\nमुक्ति दो दर्शन दो\n\nतारा शरणे आव्यो छुं स्वीकारी ले\nमने लइ जा प्रभु तारा धाममां (२)\n\nलावी द्यो नैया प्रभजी किनारे,\nफसायो छुं हुं प्रभुजी आ चकरावे\nमारा तारणहार मने तारी ल्यो (२)\nमने लइ जा प्रभु तारा धाममां\nहो मने लइ जा…\n\nतारे मंदिरिये देवताओ आवे\nदेवताओ आवे तारी धून मचावे\nमारे प्रभु तारुं गीतडुं गावुं छे (२)\nमने लइ जा प्रभु तारा धाममां\nहो मने लइ जा…\n\nतारे मंदिरिये नोबत वागे\nनोबत वागे सौना आतम जागे\nमारे प्रभु तारी भक्तिमां भींजावुं छे (२)\nमने लइ जा प्रभु तारा धाममां\nहो मने लइ जा…\n',
+        'Chowk purao mangal gao\nAaj mere prabhu ghar aavenge...\nAangi rachavo mughat chadavo...(2)\nAaj mere prabhu mann bhaye hai ...(2)\nAaj mere prabhu ghar aavenge...\n\nAeri sakhi mangal gavo reh...\nDharti ambar sajavo reh...\nUtarege aaj mere\nPrabhu ki savari... (2)\nHar koi nacho gaavo re...\nDhol manjira bajavo reh...(2)\nAaj prabhuji mere mann padhare hai...\nAaj jinji mere mann padhare hai…\nKhabar sunavujo khusi reh jatavujo...(2)\nAaj mere prabhu ghar aavenge...\n\nRim jhim badal barase\nKali kali phul khile...(2)\nKhusiya ne aaj mere daale hain dera..(2)\nGannnnanan gant baje...Prabhu naam shank rateh...\nAangan aangan hai khusiyo ka mela...(2)\nAnhad naad bajavo ori sab mil...(2)\nAaj mere prabhu ghar aavenge...\n\nChowk purao mangal gao\nAaj mere prabhu ghar aavenge...\n',
     'englishLyrics':
-        'Aavyo chu prabhu tara dware\nDarshan do mukti do\nAa sansar ni maya mati\nMukti do darshan do\n\nTara sharne aavyo chu swikari le\nHave laija prabhu tara dham ma..(2)\n\nTara darshan mate manadu adhir che\nTujma samau mujne etlij aas che..(2)\nMara bhav bhav na...Bandhan tu todi de..(2)\nHave laija prabhu tara dham ma..(2)\n\nTare mandir ye bhala devtao aave\nDevatao aave tari bhoomi machave\nMara tarae..Ye naak kaan jodi de\nHave laija prabhu tara dham ma..(2)\n\nTare mandir ye bhala nobath vaage\nNobath vaage sau na aatam jage..(2)\nMara taran ne har...Mane tari de..(2)\nHave laija prabhu tara dham ma..(2)\n',
-    'originalSong': '',
+        '(Not Accurate)\nचोख पुरावो, माटी रंगावो,\nआज मेरे प्रभु घर आवेंगे,\n\nखबर सुनाऊ जो, ख़ुशी ये बताओ जो,\nआज मेरे प्रभु घर आवेंगे।।\n\nहेरी सखी मंगल गावो री,\nधरती अम्बर सजाओ री,\nउतरेगी आज मेरे प्रभु की सवारी,\nहेरी कोई काजल लाओ रे,\nमोहे काला टीका लगाओ री,\nउनकी छब से दिखु में तो प्यारी,\nलक्ष्मी जी वारो ,\nनजर उतारो,\nआज मेरे प्रभु घर आवेंगे।।\n\nरंगो से रंग मिले,\nनए नए ढंग खिले,\nख़ुशी आज द्वारे मेरे डाले है डेरा,\nपीहू पीहू पपीहा रटे,\nकुहू कुहू कोयल जपे,\nआँगन आँगन है परियो ने घेरा,\nअनहद नाद बजाओ रे सब-मिल,\nआज मेरे प्रभु घर आवेंगे।।\n\nचोख पुरावो, माटी रंगावो,\nआज मेरे प्रभु घर आवेंगे,\nआज मेरे प्रभु घर आवेंगे।।\n',
+    'originalSong': 'Piya Ghar Aavenge | Kailash Kher',
     'popularity': 0,
-    'production': '',
+    'production': 'Jain Stavan Official',
     'share': 0,
     'singer': '',
-    'songNameEnglish': 'Tara Sharne Aavyo Chu',
-    'songNameHindi': 'तारा शरणे आव्यो छुं',
+    'songNameEnglish': 'Chowk purao (Aaj Mere Prabhu Ghar Aavenge)',
+    'songNameHindi': 'चोख पुरावो (आज मेरे प्रभु घर आवेंगे)',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/yXJ_rCv4U1U'
+    'youTubeLink': 'https://youtu.be/jE8J4C3HxQ0'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
