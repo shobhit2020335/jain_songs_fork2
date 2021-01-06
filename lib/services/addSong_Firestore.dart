@@ -15,42 +15,42 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('CPMG',
-      englishName: 'Chowk purao mangal gao',
-      hindiName: 'चोख पुरावो माटी रंगावो',
-      originalSong: 'Chok purao mangal gao',
-      album: 'Kailash Kher',
+  currentSong.makestringSearchKeyword('HKMAT',
+      englishName: 'He kirtar mane adhar taro',
+      hindiName: 'हे किरतार मने आधार तारोै',
+      originalSong: 'Hey kirtar mane aadhar taro',
+      album: '',
       tirthankar: '',
-      extra1: 'आज मेरे प्रभु घर आवेंगे',
-      extra2: 'Aaj mere prabhu ghar aavenge',
+      extra1: '',
+      extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'CPMG',
+    'code': 'HKMAT',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Stavan',
-    'language': 'Marwadi',
+    'genre': 'Stavan | Garba',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'Chowk purao mangal gao\nAaj mere prabhu ghar aavenge...\nAangi rachavo mughat chadavo...(2)\nAaj mere prabhu mann bhaye hai ...(2)\nAaj mere prabhu ghar aavenge...\n\nAeri sakhi mangal gavo reh...\nDharti ambar sajavo reh...\nUtarege aaj mere\nPrabhu ki savari... (2)\nHar koi nacho gaavo re...\nDhol manjira bajavo reh...(2)\nAaj prabhuji mere mann padhare hai...\nAaj jinji mere mann padhare hai…\nKhabar sunavujo khusi reh jatavujo...(2)\nAaj mere prabhu ghar aavenge...\n\nRim jhim badal barase\nKali kali phul khile...(2)\nKhusiya ne aaj mere daale hain dera..(2)\nGannnnanan gant baje...Prabhu naam shank rateh...\nAangan aangan hai khusiyo ka mela...(2)\nAnhad naad bajavo ori sab mil...(2)\nAaj mere prabhu ghar aavenge...\n\nChowk purao mangal gao\nAaj mere prabhu ghar aavenge...\n',
+        'हे किरतार मने आधार तारो\nजो जे ना छूटी जाय.. (२)\n\nहे प्रभु ! तारा प्रेमनो खजानो\nजो जे ना खूटी जाय.. (२)\n\nतारो आधार मने आ अवनीमां\nआपे प्रकाश ज्योत आ रजनीमां\nश्रध्धाथी बांधी छे गांठो में स्नेहनी\nजो जे ना छूटी जाय… हे किरतार…\n\nशक्ति प्रमाणे भक्ति करुं छुं\nआ जीवन तुं ज चरणे धरुं छुं\nप्रेमनी प्याली पीवा जाउं त्यां\nजो जे ना छूटी जाय… हे किरतार…\n\nगाउं छुं हे प्रभु गीत तुज प्रीतना\nस्नेहथी भरेला सुरो संगीतना\nलाख ना हीराने हाथ मांथी कोई\nजो जे ना छूटी जाय… हे किरतार…\n',
     'englishLyrics':
-        '(Not Accurate)\nचोख पुरावो, माटी रंगावो,\nआज मेरे प्रभु घर आवेंगे,\n\nखबर सुनाऊ जो, ख़ुशी ये बताओ जो,\nआज मेरे प्रभु घर आवेंगे।।\n\nहेरी सखी मंगल गावो री,\nधरती अम्बर सजाओ री,\nउतरेगी आज मेरे प्रभु की सवारी,\nहेरी कोई काजल लाओ रे,\nमोहे काला टीका लगाओ री,\nउनकी छब से दिखु में तो प्यारी,\nलक्ष्मी जी वारो ,\nनजर उतारो,\nआज मेरे प्रभु घर आवेंगे।।\n\nरंगो से रंग मिले,\nनए नए ढंग खिले,\nख़ुशी आज द्वारे मेरे डाले है डेरा,\nपीहू पीहू पपीहा रटे,\nकुहू कुहू कोयल जपे,\nआँगन आँगन है परियो ने घेरा,\nअनहद नाद बजाओ रे सब-मिल,\nआज मेरे प्रभु घर आवेंगे।।\n\nचोख पुरावो, माटी रंगावो,\nआज मेरे प्रभु घर आवेंगे,\nआज मेरे प्रभु घर आवेंगे।।\n',
-    'originalSong': 'Piya Ghar Aavenge | Kailash Kher',
+        'He kirtar mane aadhar taro,\njoje nā tūṭī jāy;\n\nHe Prabhu tāro premno khajāno,\njoje nā khuṭī jāy...\n\nTāro ādhār mune ā avnīmā,\nāpe prakāsh jyot rajnīmā;\nShraddhānī bāndhī chhe gānṭho me snehnī,\njoje nā chhuṭī jāy... he\n\nShakti pramāṇe bhakti karu chhu,\nā jīvan tujne charaṇe dharu chhu;\nPremnī pyālī jāu pīvā tyā,\njoje nā fūṭī jāy... he\n\nSuro sangītnā snehthī bharelā,\ngāu Prabhu gīt tuj prītnā;\nLākhnā hīrāne hāthamāthī koī,\njoje nā lūṭī jāy... he\n',
+    'originalSong': '',
     'popularity': 0,
-    'production': 'Jain Stavan Official',
+    'production': 'Rajmundra Production',
     'share': 0,
     'singer': '',
-    'songNameEnglish': 'Chowk purao (Aaj Mere Prabhu Ghar Aavenge)',
-    'songNameHindi': 'चोख पुरावो (आज मेरे प्रभु घर आवेंगे)',
+    'songNameEnglish': 'He Kirtar Mane Aadhar Taro',
+    'songNameHindi': 'हे किरतार मने आधार तारो',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/jE8J4C3HxQ0'
+    'youTubeLink': 'https://youtu.be/6WhacMsN_Vc'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

@@ -23,6 +23,8 @@
 //Webview (Open website in app)
 //package info
 //TODO: ADs from different networks- Mediation (Mopub)
+//TODO: Filters
+//TODO: Language submission in lyrics.
 //TODO: Firebase cloud messaging
 //TODO: Jai Jinendra from firebase
 //TODO: different ads than banner ads (native ads).
