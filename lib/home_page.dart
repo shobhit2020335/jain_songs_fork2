@@ -1,3 +1,4 @@
+import 'package:filter_list/filter_list.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
-    color: Colors.white,
+    color: Colors.indigo,
   );
 
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
@@ -82,6 +83,25 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       showProgress = false;
     });
+  }
+
+  void _filterDialog() async {
+    await FilterListDialog.display(
+        context,
+        allTextList: filtersAll,
+        height: 480,
+        borderRadius: 20,
+        headlineText: "Select filters",
+        searchFieldHintText: "Search Here",
+        selectedTextList: filtersSelected,
+        onApplyButtonClick: (list) {
+          if (list != null) {
+            setState(() {
+
+            });
+          }
+          Navigator.pop(context);
+        });
   }
 
   @override
@@ -155,7 +175,9 @@ class _HomePageState extends State<HomePage> {
                       })
                   : Icon(null),
               _currentIndex == 0
-                  ? IconButton(icon: filterIcon, onPressed: null)
+                  ? IconButton(icon: filterIcon, onPressed: (){
+                    _filterDialog();
+              })
                   : Icon(null),
             ],
           ),
