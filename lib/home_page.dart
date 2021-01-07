@@ -1,4 +1,4 @@
-import 'package:filter_list/filter_list.dart';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +11,7 @@ import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:translator/translator.dart';
+import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,7 +92,6 @@ class _HomePageState extends State<HomePage> {
         allTextList: filtersAll,
         height: 480,
         borderRadius: 20,
-        headlineText: "Select filters",
         searchFieldHintText: "Search Here",
         selectedTextList: filtersSelected,
         onApplyButtonClick: (list) {
