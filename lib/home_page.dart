@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       showProgress = true;
     });
+    filtersSelected.clear();
     if (query != null && flag == false) {
       searchInList(query);
       //This if condition takes care when list become empty and convert the languages and check.
@@ -97,8 +98,13 @@ class _HomePageState extends State<HomePage> {
         onApplyButtonClick: (list) {
           if (list != null) {
             setState(() {
-
+              showProgress = true;
             });
+            applyFilter();
+            setState(() {
+              showProgress = false;
+            });
+
           }
           Navigator.pop(context);
         });

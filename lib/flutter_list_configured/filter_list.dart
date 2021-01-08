@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jain_songs/flutter_list_configured/src/filter_list_widget.dart';
+import 'filters.dart';
 
 class FilterListDialog {
-  static Future<List<String>> display(
+  static Future<List<Filters>> display(
     context, {
     double height,
     double width,
-    List<String> selectedTextList,
-    List<String> allTextList,
+    List<Filters> selectedTextList,
+    List<Filters> allTextList,
     double borderRadius = 20,
     String headlineText = "Select here",
     String searchFieldHintText = "Search here",
@@ -27,7 +28,7 @@ class FilterListDialog {
     Color searchFieldBackgroundColor = const Color(0xfff5f5f5),
     Color selectedTextBackgroundColor = Colors.indigo,
     Color unselectedTextbackGroundColor = const Color(0xfff8f8f8),
-    Function(List<String>) onApplyButtonClick
+    Function(List<Filters>) onApplyButtonClick
   }) async {
     if (height == null) {
       height = MediaQuery.of(context).size.height * .8;

@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -10,11 +11,35 @@ List<SongDetails> songList = [];
 List<SongDetails> listToShow = [];
 
 //Lists for applying filters.
-List<String> filtersAll = ['24','Parshwanath', 'Mahavir', 'Adinath', 'Nakoda'];
-List<String> filtersSelected = [];
+List<Filters> filtersAll = [
+  Filters('genre', 'Paryushan', color: Colors.blue),
+  Filters('genre', 'Diksha', color: Colors.blue),
+  Filters('genre', 'Tapasya', color: Colors.blue),
+  Filters('genre', 'Latest', color: Colors.blue),
+  Filters('genre', 'Aarti', color: Colors.blue),
+  Filters('tirthankar', '24', color: Colors.redAccent),
+  Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
+  Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
+  Filters('tirthankar', 'Adinath', color: Colors.redAccent),
+  Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
+  Filters('category', 'Bhakti', color: Colors.green),
+  Filters('category', 'Bhajan', color: Colors.green),
+  Filters('category', 'Stavan', color: Colors.green),
+  Filters('category', 'Stuti', color: Colors.green),
+  Filters('category', 'Stotra', color: Colors.green),
+  Filters('language', 'Hindi', color: Colors.amber),
+  Filters('language', 'Gujarati', color: Colors.amber),
+  Filters('language', 'Marwadi', color: Colors.amber),
+];
+List<Filters> filtersSelected = [];
+
+Future<void> applyFilter() async {
+
+}
 
 final DateTime startDate = DateTime(2020, 12, 23);
-String appURL = 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
+String appURL =
+    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
 DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;
