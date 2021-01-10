@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jain_songs/flutter_list_configured/src/filter_list_widget.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'filters.dart';
 
 class FilterListDialog {
@@ -7,8 +8,6 @@ class FilterListDialog {
     context, {
     double height,
     double width,
-    List<Filters> selectedTextList,
-    List<Filters> allTextList,
     double borderRadius = 20,
     String headlineText = "Select here",
     String searchFieldHintText = "Search here",
@@ -50,10 +49,8 @@ class FilterListDialog {
               height: height,
               width: width,
               borderRadius: borderRadius,
-              allTextList: allTextList,
               headlineText: headlineText,
               searchFieldHintText: searchFieldHintText,
-              selectedTextList: selectedTextList,
               allResetButonColor: allResetButonColor,
               applyButonTextBackgroundColor: applyButonTextBackgroundColor,
               applyButonTextColor: applyButonTextColor,
@@ -76,6 +73,6 @@ class FilterListDialog {
         );
       },
     );
-    return list ?? selectedTextList;
+    return filtersSelected;
   }
 }

@@ -15,42 +15,41 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('HKMAT',
-      englishName: 'He kirtar mane adhar taro',
-      hindiName: 'हे किरतार मने आधार तारोै',
-      originalSong: 'Hey kirtar mane aadhar taro',
-      album: '',
-      tirthankar: '',
-      extra1: '',
-      extra2: '',
+  currentSong.makestringSearchKeyword('MAMPPAR',
+      englishName: 'Mari Aakhon Ma Parshwa Prabhu Aavjo Re',
+      hindiName: 'मारी आंखोमां पाश्व प्रभु आवजो रे',
+      originalSong: 'Maari Aakon Ma Parshva Prabhu avjo Re Maari Aakon Ma shankeshwar avjo Re',
+      album: 'Maari Aakon Ma Parsva Prabhu Aavjo Re Maari Aakon Ma sankeshwar Aavjo Re',
+      tirthankar: 'Mari Aakon Ma Parswa Prabhu Aavjo Re Mari Aakon Ma shankheshwar Aavjo Re',
+      extra1: 'Shankheshwar Parshwanath',
+      extra2: 'Shankeshwar Parasnath Sankeshwar Parsvanath',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'HKMAT',
+    'code': 'MAMPPAR',
     'album': '',
     'aaa': 'valid',
-    'genre': 'Stavan | Garba',
+    'category': 'Stavan',
+    'genre': 'Stavan',
     'language': 'Gujarati',
     'likes': 0,
-    'lyrics':
-        'हे किरतार मने आधार तारो\nजो जे ना छूटी जाय.. (२)\n\nहे प्रभु ! तारा प्रेमनो खजानो\nजो जे ना खूटी जाय.. (२)\n\nतारो आधार मने आ अवनीमां\nआपे प्रकाश ज्योत आ रजनीमां\nश्रध्धाथी बांधी छे गांठो में स्नेहनी\nजो जे ना छूटी जाय… हे किरतार…\n\nशक्ति प्रमाणे भक्ति करुं छुं\nआ जीवन तुं ज चरणे धरुं छुं\nप्रेमनी प्याली पीवा जाउं त्यां\nजो जे ना छूटी जाय… हे किरतार…\n\nगाउं छुं हे प्रभु गीत तुज प्रीतना\nस्नेहथी भरेला सुरो संगीतना\nलाख ना हीराने हाथ मांथी कोई\nजो जे ना छूटी जाय… हे किरतार…\n',
-    'englishLyrics':
-        'He kirtar mane aadhar taro,\njoje nā tūṭī jāy;\n\nHe Prabhu tāro premno khajāno,\njoje nā khuṭī jāy...\n\nTāro ādhār mune ā avnīmā,\nāpe prakāsh jyot rajnīmā;\nShraddhānī bāndhī chhe gānṭho me snehnī,\njoje nā chhuṭī jāy... he\n\nShakti pramāṇe bhakti karu chhu,\nā jīvan tujne charaṇe dharu chhu;\nPremnī pyālī jāu pīvā tyā,\njoje nā fūṭī jāy... he\n\nSuro sangītnā snehthī bharelā,\ngāu Prabhu gīt tuj prītnā;\nLākhnā hīrāne hāthamāthī koī,\njoje nā lūṭī jāy... he\n',
+    'lyrics':'मारी आंखोमां पाश्व प्रभु आवजो रे,\nहुं तो पापण ना पुष्पे वधावुं\nमारा हैयाना हार बनी आवजो रे,\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nतमे वामा देवी ना छो जाया,\nत्रण लोक मां आप छवाया (२)\nमारा मनना मंदीर मां पधारजो रे (२),\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nभव सागर छे बहु भारी,\nझोला खाती रे नावडी मारी (२)\nनैया ना सुकानी बनी आवजो रे (२)\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nमने मोह राजाए हराव्यो,\nमने मारग तारो भुलाव्यो (२)\nजीवनना सारथी बनी आवजो रे (२)\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nमारा दिलमां रह्या छो आप,\nमारा मनमां चाले तारो जाप (२)\nमारा मननां मयुर बनी आवजो रे (२)\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n',
+    'englishLyrics':'MARI AAKHOMA PARSHWANATH AAVJO REH (2)\nHU TOH PAPANNA PUSHPEH VADHAVU,\nMARA HAIYANA HAAR BANI AAVJO REH (2)\nHU TOH PAPANNA PUSHPEH VADHAVU (2)\n\nTAME VAMADEVINA JAYA,\nTRAN LOKMA AAP CHAVAYA,(2)\nMARA MANNA..(2)\nMANDIRMA PADHARJO REH…\nHU TOH…..\n\nBHAVSAGAR CHE BAHU BHARI,\nJHOLA KHATI AA NAVADI MARI,(2)\nMARI NAIYANA..(2)\nSUKHANI BANI AAVJO REH ….\nHU TOH…..\n\nMANE MOHRAJAYE HARAVYO,\nMANE MARAG TARO BHULAVYO,(2)\nJIVANNA..(2)\nSARTHI BANI AAVJO REH…\nHU TOH…..\n\nMARA DILMA RAHYA CHO AAP,\nMARA MANNA CHALE CHE TARO JAAP,(2)\nMARA MANNA ..(2)\nMAYUR BANI AAVJO REH\nHU TOH…..\n',
     'originalSong': '',
     'popularity': 0,
     'production': 'Rajmundra Production',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'He Kirtar Mane Aadhar Taro',
-    'songNameHindi': 'हे किरतार मने आधार तारो',
-    'tirthankar': '',
+    'singer': 'Dhira Salia',
+    'songNameEnglish': 'Mari Aakhon Ma Parshwa Prabhu Aavjo Re',
+    'songNameHindi': 'मारी आंखोमां पाश्व प्रभु आवजो रे',
+    'tirthankar': 'Shankheshwar Parshwanath',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/6WhacMsN_Vc'
+    'youTubeLink': 'https://youtu.be/H14jrZZ_XTo'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

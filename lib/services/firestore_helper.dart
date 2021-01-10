@@ -100,6 +100,7 @@ class FireStoreHelper {
         SongDetails currentSongDetails = SongDetails(
             album: currentSong['album'],
             code: currentSong['code'],
+            category: currentSong['category'],
             genre: currentSong['genre'],
             language: currentSong['language'],
             lyrics: currentSong['lyrics'],
@@ -145,110 +146,110 @@ class FireStoreHelper {
 
   Future<void> changeClicks(
       BuildContext context, SongDetails currentSong) async {
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
-    bool isInternetConnected = await NetworkHelper().check();
-
-    if (songMap == null || isInternetConnected == false) {
-      currentSong.totalClicks++;
-      currentSong.todayClicks++;
-      currentSong.popularity = currentSong.totalClicks + currentSong.likes;
-      return;
-    }
-
-    if (songMap.containsKey('totalClicks') == false ||
-        songMap.containsKey('popularity') == false) {
-      songMap['totalClicks'] = 0;
-      songMap['popularity'] = 0;
-    }
-    if (songMap.containsKey('todayClicks') == false ||
-        songMap.containsKey('trendPoints') == false) {
-      songMap['todayClicks'] = 0;
-      songMap['trendPoints'] = 0;
-    }
-
-    int todayClicks = songMap['todayClicks'] + 1;
-    int totalClicks = songMap['totalClicks'] + 1;
-    songMap['totalClicks'] = totalClicks;
-    songMap['popularity'] = totalClicks + songMap['likes'];
-    songMap['todayClicks'] = todayClicks;
-
-    //Algo for trendPoints
-    double avgClicks = totalClicks / totalDays;
-    double nowTrendPoints = todayClicks - avgClicks;
-    if (nowTrendPoints > songMap['trendPoints']) {
-      songMap['trendPoints'] = todayClicks - avgClicks;
-    }
-
-    await songs.doc(currentSong.code).update({
-      'popularity': songMap['popularity'],
-      'totalClicks': songMap['totalClicks'],
-      'todayClicks': songMap['todayClicks'],
-      'trendPoints': songMap['trendPoints'],
-    }).then((value) {
-      currentSong.popularity = songMap['popularity'];
-      currentSong.totalClicks = songMap['totalClicks'];
-    }).catchError((error) {
-      print('Error Updating popularity or trendPoints!');
-    });
+    // var docSnap = await songs.doc(currentSong.code).get();
+    // Map<String, dynamic> songMap = docSnap.data();
+    //
+    // bool isInternetConnected = await NetworkHelper().check();
+    //
+    // if (songMap == null || isInternetConnected == false) {
+    //   currentSong.totalClicks++;
+    //   currentSong.todayClicks++;
+    //   currentSong.popularity = currentSong.totalClicks + currentSong.likes;
+    //   return;
+    // }
+    //
+    // if (songMap.containsKey('totalClicks') == false ||
+    //     songMap.containsKey('popularity') == false) {
+    //   songMap['totalClicks'] = 0;
+    //   songMap['popularity'] = 0;
+    // }
+    // if (songMap.containsKey('todayClicks') == false ||
+    //     songMap.containsKey('trendPoints') == false) {
+    //   songMap['todayClicks'] = 0;
+    //   songMap['trendPoints'] = 0;
+    // }
+    //
+    // int todayClicks = songMap['todayClicks'] + 1;
+    // int totalClicks = songMap['totalClicks'] + 1;
+    // songMap['totalClicks'] = totalClicks;
+    // songMap['popularity'] = totalClicks + songMap['likes'];
+    // songMap['todayClicks'] = todayClicks;
+    //
+    // //Algo for trendPoints
+    // double avgClicks = totalClicks / totalDays;
+    // double nowTrendPoints = todayClicks - avgClicks;
+    // if (nowTrendPoints > songMap['trendPoints']) {
+    //   songMap['trendPoints'] = todayClicks - avgClicks;
+    // }
+    //
+    // await songs.doc(currentSong.code).update({
+    //   'popularity': songMap['popularity'],
+    //   'totalClicks': songMap['totalClicks'],
+    //   'todayClicks': songMap['todayClicks'],
+    //   'trendPoints': songMap['trendPoints'],
+    // }).then((value) {
+    //   currentSong.popularity = songMap['popularity'];
+    //   currentSong.totalClicks = songMap['totalClicks'];
+    // }).catchError((error) {
+    //   print('Error Updating popularity or trendPoints!');
+    // });
   }
 
   Future<void> changeShare(
       BuildContext context, SongDetails currentSong) async {
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
-    bool isInternetConnected = await NetworkHelper().check();
-
-    if (songMap == null || isInternetConnected == false) {
-      currentSong.share++;
-      return;
-    }
-
-    songMap['share']++;
-
-    await songs
-        .doc(currentSong.code)
-        .update({'share': songMap['share']}).then((value) {
-      currentSong.share = songMap['share'];
-    }).catchError((error) {
-      print('Error Updating share count in firebase');
-    });
+    // var docSnap = await songs.doc(currentSong.code).get();
+    // Map<String, dynamic> songMap = docSnap.data();
+    //
+    // bool isInternetConnected = await NetworkHelper().check();
+    //
+    // if (songMap == null || isInternetConnected == false) {
+    //   currentSong.share++;
+    //   return;
+    // }
+    //
+    // songMap['share']++;
+    //
+    // await songs
+    //     .doc(currentSong.code)
+    //     .update({'share': songMap['share']}).then((value) {
+    //   currentSong.share = songMap['share'];
+    // }).catchError((error) {
+    //   print('Error Updating share count in firebase');
+    // });
   }
 
   Future<void> changeLikes(
       BuildContext context, SongDetails currentSong, bool toAdd) async {
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
-    bool isInternetConnected = await NetworkHelper().check();
-
-    if (songMap == null || isInternetConnected == false) {
-      showToast(context, 'No Internet connection!', duration: 2);
-      currentSong.isLiked = !currentSong.isLiked;
-      return;
-    }
-
-    if (songMap.containsKey('popularity') == false) {
-      songMap['popularity'] = 0;
-    }
-
-    songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
-    songMap['popularity'] =
-        toAdd ? songMap['popularity'] + 1 : songMap['popularity'] - 1;
-
-    await songs.doc(currentSong.code).update({
-      'likes': songMap['likes'],
-      'popularity': songMap['popularity']
-    }).then((value) {
-      currentSong.likes = songMap['likes'];
-      currentSong.popularity = songMap['popularity'];
-      setisLiked(currentSong.code, currentSong.isLiked);
-    }).catchError((error) {
-      currentSong.isLiked = !currentSong.isLiked;
-      showToast(context, 'Something went wrong! Please try Later.',
-          duration: 2);
-    });
+  //   var docSnap = await songs.doc(currentSong.code).get();
+  //   Map<String, dynamic> songMap = docSnap.data();
+  //
+  //   bool isInternetConnected = await NetworkHelper().check();
+  //
+  //   if (songMap == null || isInternetConnected == false) {
+  //     showToast(context, 'No Internet connection!', duration: 2);
+  //     currentSong.isLiked = !currentSong.isLiked;
+  //     return;
+  //   }
+  //
+  //   if (songMap.containsKey('popularity') == false) {
+  //     songMap['popularity'] = 0;
+  //   }
+  //
+  //   songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
+  //   songMap['popularity'] =
+  //       toAdd ? songMap['popularity'] + 1 : songMap['popularity'] - 1;
+  //
+  //   await songs.doc(currentSong.code).update({
+  //     'likes': songMap['likes'],
+  //     'popularity': songMap['popularity']
+  //   }).then((value) {
+  //     currentSong.likes = songMap['likes'];
+  //     currentSong.popularity = songMap['popularity'];
+  //     setisLiked(currentSong.code, currentSong.isLiked);
+  //   }).catchError((error) {
+  //     currentSong.isLiked = !currentSong.isLiked;
+  //     showToast(context, 'Something went wrong! Please try Later.',
+  //         duration: 2);
+  //   });
   }
 }

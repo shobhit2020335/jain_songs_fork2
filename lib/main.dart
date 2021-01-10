@@ -24,6 +24,8 @@
 //package info
 //TODO: ADs from different networks- Mediation (Mopub)
 //TODO: Filters
+//TODO: storing filters data
+//TODO: Add google search.
 //TODO: jain songs searchbar.
 //TODO: Language submission in lyrics.
 //TODO: Firebase cloud messaging

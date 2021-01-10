@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class SongDetails {
   String album;
+  String category;
   String code;
   String genre;
   bool isLiked;
@@ -25,9 +26,10 @@ class SongDetails {
 
   SongDetails(
       {this.album,
+        @required this.category,
       this.code,
       this.genre,
-      @required this.language,
+      this.language,
       this.likes: 0,
       this.lyrics,
       this.englishLyrics,
@@ -62,6 +64,9 @@ class SongDetails {
     if (this.englishLyrics == null || this.englishLyrics.length <= 2) {
       this.englishLyrics =
           "English lyrics not Available right now! Switch language to Hindi.\n";
+    }
+    if(this.category == null || this.category.length < 2){
+      this.category = 'stavan';
     }
   }
 }

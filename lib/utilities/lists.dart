@@ -8,33 +8,125 @@ import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
 List<SongDetails> songList = [];
+List<SongDetails> sortedSongList = [];
+//TODO: if not working properly change [] to List() and try.
 List<SongDetails> listToShow = [];
 
 //Lists for applying filters.
 List<Filters> filtersAll = [
-  Filters('genre', 'Paryushan', color: Colors.blue),
-  Filters('genre', 'Diksha', color: Colors.blue),
-  Filters('genre', 'Tapasya', color: Colors.blue),
-  Filters('genre', 'Latest', color: Colors.blue),
-  Filters('genre', 'Aarti', color: Colors.blue),
+  Filters('genre', 'Paryushan', color: Colors.green),
+  Filters('genre', 'Diksha', color: Colors.green),
+  // Filters('genre', 'Tapasya', color: Colors.green),
+  Filters('genre', 'Latest', color: Colors.green),
   Filters('tirthankar', '24', color: Colors.redAccent),
   Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
   Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
+  Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
-  Filters('category', 'Bhakti', color: Colors.green),
-  Filters('category', 'Bhajan', color: Colors.green),
-  Filters('category', 'Stavan', color: Colors.green),
-  Filters('category', 'Stuti', color: Colors.green),
-  Filters('category', 'Stotra', color: Colors.green),
-  Filters('language', 'Hindi', color: Colors.amber),
-  Filters('language', 'Gujarati', color: Colors.amber),
-  Filters('language', 'Marwadi', color: Colors.amber),
+  Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
+  Filters('category', 'Bhakti', color: Colors.amber),
+  Filters('category', 'Stavan', color: Colors.amber),
+  Filters('category', 'Garba', color: Colors.amber),
+  Filters('category', 'Aarti', color: Colors.amber),
+  Filters('category', 'Stotra', color: Colors.amber),
+  Filters('language', 'Hindi', color: Colors.blue),
+  Filters('language', 'Gujarati', color: Colors.blue),
+  Filters('language', 'Marwadi', color: Colors.blue),
 ];
 List<Filters> filtersSelected = [];
 
+//Algo for applying filters.
 Future<void> applyFilter() async {
+  listToShow.clear();
+  int l = filtersSelected.length;
+  int n = sortedSongList.length;
+  if (filtersSelected != null && l > 0 && l < filtersAll.length) {
+    List<String> genreSelected = [];
+    List<String> tirthankarSelected = [];
+    List<String> categorySelected = [];
+    List<String> languageSelected = [];
 
+    for (int i = 0; i < l; i++) {
+      if (filtersSelected[i].category == 'genre') {
+        genreSelected.add(filtersSelected[i].name.toLowerCase());
+      } else if (filtersSelected[i].category == 'tirthankar') {
+        tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
+      } else if (filtersSelected[i].category == 'category') {
+        categorySelected.add(filtersSelected[i].name.toLowerCase());
+      } else if (filtersSelected[i].category == 'language') {
+        languageSelected.add(filtersSelected[i].name.toLowerCase());
+      }
+    }
+
+    for (int i = 0; i < n; i++) {
+      bool toAdd = true;
+      for (int j = 0; j < genreSelected.length; j++) {
+        if (sortedSongList[i].genre.toLowerCase().contains(genreSelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      for (int j = 0; j < tirthankarSelected.length; j++) {
+        if (sortedSongList[i]
+                .tirthankar
+                .toLowerCase()
+                .contains(tirthankarSelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      for (int j = 0; j < categorySelected.length; j++) {
+        if (sortedSongList[i]
+                .category
+                .toLowerCase()
+                .contains(categorySelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      for (int j = 0; j < languageSelected.length; j++) {
+        if (sortedSongList[i]
+                .language
+                .toLowerCase()
+                .contains(languageSelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      listToShow.add(sortedSongList[i]);
+    }
+  } else {
+    listToShow = List.from(sortedSongList);
+  }
 }
 
 final DateTime startDate = DateTime(2020, 12, 23);
@@ -77,23 +169,24 @@ int trendComparison(SongDetails a, SongDetails b) {
 void searchInList(String query) {
   listToShow.clear();
   query = query.toLowerCase();
-  for (int i = 0; i < songList.length; i++) {
-    if (songList[i].searchKeywords.contains(query)) {
-      listToShow.add(songList[i]);
+  for (int i = 0; i < sortedSongList.length; i++) {
+    if (sortedSongList[i].searchKeywords.contains(query)) {
+      listToShow.add(sortedSongList[i]);
     }
-    listToShow.sort(trendComparison);
+    // listToShow.sort(trendComparison);
   }
 }
 
 void addElementsToList(String playlistTag) {
   listToShow.clear();
   playlistTag = playlistTag.toLowerCase();
-  //This is for main list having all songs.
+  //This is for main list having all songs. It is called only when home page loads the songs after refreshing.
   if (playlistTag.contains('home')) {
     for (int i = 0; i < songList.length; i++) {
-      listToShow.add(songList[i]);
+      sortedSongList.add(songList[i]);
     }
-    listToShow.sort(trendComparison);
+    sortedSongList.sort(trendComparison);
+    listToShow = List.from(sortedSongList);
   }
   //This is for likes page.
   else if (playlistTag.contains('favourites')) {
@@ -123,12 +216,12 @@ void addElementsToList(String playlistTag) {
   //This is for bhakti special playlist.
   else if (playlistTag.contains('bhakti')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].genre.toLowerCase().contains('bhakti')) {
+      if (songList[i].category.toLowerCase().contains('bhakti')) {
         listToShow.add(songList[i]);
       }
     }
   }
-  //This is for Parshwanath playlist.
+  //This is Tirthankar playlist.
   else {
     for (int i = 0; i < songList.length; i++) {
       if (songList[i].tirthankar.toLowerCase().contains(playlistTag)) {

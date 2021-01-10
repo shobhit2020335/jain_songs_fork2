@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jain_songs/flutter_list_configured/src/search_field_widget.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import '../filters.dart';
 import 'choice_chip_widget.dart';
 
@@ -8,8 +9,6 @@ class FilterListWidget extends StatefulWidget {
       {Key key,
       this.height,
       this.width,
-      this.selectedTextList,
-      this.allTextList,
       this.borderRadius = 20,
       this.headlineText = "Select here",
       this.searchFieldHintText = "Search here",
@@ -29,13 +28,13 @@ class FilterListWidget extends StatefulWidget {
       this.searchFieldBackgroundColor = const Color(0xfff5f5f5),
       this.selectedTextBackgroundColor = Colors.blue,
       this.unselectedTextbackGroundColor = const Color(0xfff8f8f8),
-      this.onApplyButtonClick})
+      this.onApplyButtonClick,
+      this.onResetButtonClick,
+      this.onAllButtonClick})
       : super(key: key);
   final double height;
   final double width;
   final double borderRadius;
-  final List<Filters> selectedTextList;
-  final List<Filters> allTextList;
   final Color closeIconColor;
   final Color headerTextColor;
   final Color backgroundColor;
@@ -47,7 +46,6 @@ class FilterListWidget extends StatefulWidget {
   final Color searchFieldBackgroundColor;
   final Color selectedTextBackgroundColor;
   final Color unselectedTextbackGroundColor;
-
   final String headlineText;
   final String searchFieldHintText;
   final bool hideSelectedTextCount;
@@ -56,6 +54,8 @@ class FilterListWidget extends StatefulWidget {
   final bool hideHeader;
   final bool hideheaderText;
   final Function(List<Filters>) onApplyButtonClick;
+  final Function(List<Filters>) onResetButtonClick;
+  final Function(List<Filters>) onAllButtonClick;
 
   @override
   _FilterListWidgetState createState() => _FilterListWidgetState();
@@ -67,11 +67,8 @@ class _FilterListWidgetState extends State<FilterListWidget> {
 
   @override
   void initState() {
-    _allTextList =
-        widget.allTextList == null ? [] : List.from(widget.allTextList);
-    _selectedTextList = widget.selectedTextList != null
-        ? List.from(widget.selectedTextList)
-        : [];
+    _allTextList = List.from(filtersAll);
+    _selectedTextList = List.from(filtersSelected);
     super.initState();
   }
 
@@ -181,7 +178,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                           onChanged: (value) {
                             setState(() {
                               if (value.isEmpty) {}
-                              _allTextList = widget.allTextList
+                              _allTextList = filtersAll
                                   .where((filter) =>
                                       filter.name.toLowerCase().contains(
                                             value.toLowerCase(),
@@ -297,7 +294,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'All',
-                        style: Theme.of(context).textTheme.headline.copyWith(
+                        style: Theme.of(context).textTheme.headline5.copyWith(
                             fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,
                       ),
@@ -316,7 +313,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'Reset',
-                        style: Theme.of(context).textTheme.headline.copyWith(
+                        style: Theme.of(context).textTheme.headline5.copyWith(
                             fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,
                       ),
@@ -337,7 +334,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                     child: Center(
                       child: Text(
                         'Apply',
-                        style: Theme.of(context).textTheme.headline.copyWith(
+                        style: Theme.of(context).textTheme.headline5.copyWith(
                             fontSize: 20, color: widget.applyButonTextColor),
                         textAlign: TextAlign.center,
                       ),

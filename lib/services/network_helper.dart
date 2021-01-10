@@ -1,5 +1,4 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:package_info/package_info.dart';

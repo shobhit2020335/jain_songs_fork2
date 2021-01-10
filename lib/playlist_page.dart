@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
@@ -112,7 +111,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         style: TextStyle(
                           color: Colors.grey,
                         ),
-                      )
+                      ),
                     ],
                   );
                 } else if (index < listToShow.length) {

@@ -1,4 +1,3 @@
-
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var searchController = TextEditingController();
   int _currentIndex = 0;
+
   //This variable is used to determine whether the user searching is found or not.
   bool isSearchEmpty = false;
   bool showProgress = false;
@@ -41,7 +41,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       showProgress = true;
     });
+
     filtersSelected.clear();
+
     if (query != null && flag == false) {
       searchInList(query);
       //This if condition takes care when list become empty and convert the languages and check.
@@ -68,11 +70,10 @@ class _HomePageState extends State<HomePage> {
       }
     } else {
       await NetworkHelper().changeDateAndVersion();
-      if(fetchedVersion > appVersion){
+      if (fetchedVersion > appVersion) {
         setState(() {
           showUpdateDialog(context);
         });
-
       }
       if (totalDays > fetchedDays) {
         fetchedDays = totalDays;
@@ -82,32 +83,36 @@ class _HomePageState extends State<HomePage> {
       await FireStoreHelper().getSongs();
       addElementsToList('home');
     }
+
     setState(() {
       showProgress = false;
     });
   }
 
   void _filterDialog() async {
-    await FilterListDialog.display(
-        context,
-        allTextList: filtersAll,
+    await FilterListDialog.display(context,
         height: 480,
         borderRadius: 20,
-        searchFieldHintText: "Search Here",
-        selectedTextList: filtersSelected,
-        onApplyButtonClick: (list) {
-          if (list != null) {
-            setState(() {
-              showProgress = true;
-            });
-            applyFilter();
-            setState(() {
-              showProgress = false;
-            });
-
-          }
-          Navigator.pop(context);
+        searchFieldHintText: "Search Here", onApplyButtonClick: (list) {
+      filtersSelected = List.from(list);
+      setState(() {
+        showProgress = true;
+      });
+      applyFilter().then((value) {
+        setState(() {
+          showProgress = false;
         });
+      }).catchError((onError) {
+        FirebaseCrashlytics.instance
+            .log('home_page/_filterDialog(): ' + onError.toString());
+        listToShow = List.from(sortedSongList);
+        showToast(context, 'Error applying Filter');
+        setState(() {
+          showProgress = false;
+        });
+      });
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -181,9 +186,11 @@ class _HomePageState extends State<HomePage> {
                       })
                   : Icon(null),
               _currentIndex == 0
-                  ? IconButton(icon: filterIcon, onPressed: (){
-                    _filterDialog();
-              })
+                  ? IconButton(
+                      icon: filterIcon,
+                      onPressed: () {
+                        _filterDialog();
+                      })
                   : Icon(null),
             ],
           ),
