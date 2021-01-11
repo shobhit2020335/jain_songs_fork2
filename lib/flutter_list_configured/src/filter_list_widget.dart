@@ -29,7 +29,7 @@ class FilterListWidget extends StatefulWidget {
       this.selectedTextBackgroundColor = Colors.blue,
       this.unselectedTextbackGroundColor = const Color(0xfff8f8f8),
       this.onApplyButtonClick,
-      this.onResetButtonClick,
+      @required this.onResetButtonClick,
       this.onAllButtonClick})
       : super(key: key);
   final double height;
@@ -103,33 +103,58 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       children: [
                         Text(
                           '   Genre',
-                          style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold,),
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Divider(height: 5,color: Colors.indigo,),
+                        Divider(
+                          height: 5,
+                          color: Colors.indigo,
+                        ),
                         Wrap(
                           children: _buildChoiceList(_allTextList, 'genre'),
                         ),
                         Text(
                           '   Tirthankar',
-                          style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold,),
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Divider(height: 5,color: Colors.indigo,),
+                        Divider(
+                          height: 5,
+                          color: Colors.indigo,
+                        ),
                         Wrap(
-                          children: _buildChoiceList(_allTextList, 'tirthankar'),
+                          children:
+                              _buildChoiceList(_allTextList, 'tirthankar'),
                         ),
                         Text(
                           '   Category',
-                          style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold,),
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Divider(height: 5,color: Colors.indigo,),
+                        Divider(
+                          height: 5,
+                          color: Colors.indigo,
+                        ),
                         Wrap(
                           children: _buildChoiceList(_allTextList, 'category'),
                         ),
                         Text(
                           '   Language',
-                          style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold,),
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Divider(height: 5,color: Colors.indigo,),
+                        Divider(
+                          height: 5,
+                          color: Colors.indigo,
+                        ),
                         Wrap(
                           children: _buildChoiceList(_allTextList, 'language'),
                         ),
@@ -138,7 +163,9 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                   ),
                 ),
               ),
-              SizedBox(height: 60,),
+              SizedBox(
+                height: 60,
+              ),
             ],
           ),
           _controlButon()
@@ -220,13 +247,13 @@ class _FilterListWidgetState extends State<FilterListWidget> {
     List<Widget> choices = List();
     list.forEach(
       (item) {
-        if(item.category == category) {
+        if (item.category == category) {
           var selectedText = _selectedTextList.contains(item);
           choices.add(
             ChoicechipWidget(
               onSelected: (value) {
                 setState(
-                      () {
+                  () {
                     selectedText
                         ? _selectedTextList.remove(item)
                         : _selectedTextList.add(item);
@@ -236,8 +263,8 @@ class _FilterListWidgetState extends State<FilterListWidget> {
               selected: selectedText,
               selectedTextColor: widget.selectedTextColor,
               selectedTextBackgroundColor: item.color,
-              unselectedTextBackgroundColor: widget
-                  .unselectedTextbackGroundColor,
+              unselectedTextBackgroundColor:
+                  widget.unselectedTextbackGroundColor,
               unselectedTextColor: widget.unselectedTextColor,
               text: item.name,
             ),
@@ -307,6 +334,11 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       setState(() {
                         _selectedTextList.clear();
                       });
+                      if (widget.onResetButtonClick != null) {
+                        widget.onResetButtonClick(_selectedTextList);
+                      } else {
+                        Navigator.pop(context, _selectedTextList);
+                      }
                     },
                     child: Container(
                       height: double.infinity,
@@ -324,13 +356,6 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                     padding: EdgeInsets.only(bottom: 5),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),
-                    onPressed: () {
-                      if (widget.onApplyButtonClick != null) {
-                        widget.onApplyButtonClick(_selectedTextList);
-                      } else {
-                        Navigator.pop(context, _selectedTextList);
-                      }
-                    },
                     child: Center(
                       child: Text(
                         'Apply',
@@ -339,6 +364,13 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                         textAlign: TextAlign.center,
                       ),
                     ),
+                    onPressed: () {
+                      if (widget.onApplyButtonClick != null) {
+                        widget.onApplyButtonClick(_selectedTextList);
+                      } else {
+                        Navigator.pop(context, _selectedTextList);
+                      }
+                    },
                   )
                 ],
               ),

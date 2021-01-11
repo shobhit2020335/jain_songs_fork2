@@ -220,36 +220,36 @@ class FireStoreHelper {
 
   Future<void> changeLikes(
       BuildContext context, SongDetails currentSong, bool toAdd) async {
-  //   var docSnap = await songs.doc(currentSong.code).get();
-  //   Map<String, dynamic> songMap = docSnap.data();
-  //
-  //   bool isInternetConnected = await NetworkHelper().check();
-  //
-  //   if (songMap == null || isInternetConnected == false) {
-  //     showToast(context, 'No Internet connection!', duration: 2);
-  //     currentSong.isLiked = !currentSong.isLiked;
-  //     return;
-  //   }
-  //
-  //   if (songMap.containsKey('popularity') == false) {
-  //     songMap['popularity'] = 0;
-  //   }
-  //
-  //   songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
-  //   songMap['popularity'] =
-  //       toAdd ? songMap['popularity'] + 1 : songMap['popularity'] - 1;
-  //
-  //   await songs.doc(currentSong.code).update({
-  //     'likes': songMap['likes'],
-  //     'popularity': songMap['popularity']
-  //   }).then((value) {
-  //     currentSong.likes = songMap['likes'];
-  //     currentSong.popularity = songMap['popularity'];
-  //     setisLiked(currentSong.code, currentSong.isLiked);
-  //   }).catchError((error) {
-  //     currentSong.isLiked = !currentSong.isLiked;
-  //     showToast(context, 'Something went wrong! Please try Later.',
-  //         duration: 2);
-  //   });
+    //   var docSnap = await songs.doc(currentSong.code).get();
+    //   Map<String, dynamic> songMap = docSnap.data();
+    //
+    //   bool isInternetConnected = await NetworkHelper().check();
+    //
+    //   if (songMap == null || isInternetConnected == false) {
+    //     showToast(context, 'No Internet connection!', duration: 2);
+    //     currentSong.isLiked = !currentSong.isLiked;
+    //     return;
+    //   }
+    //
+    //   if (songMap.containsKey('popularity') == false) {
+    //     songMap['popularity'] = 0;
+    //   }
+    //
+    //   songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
+    //   songMap['popularity'] =
+    //       toAdd ? songMap['popularity'] + 1 : songMap['popularity'] - 1;
+    //
+    //   await songs.doc(currentSong.code).update({
+    //     'likes': songMap['likes'],
+    //     'popularity': songMap['popularity']
+    //   }).then((value) {
+    //     currentSong.likes = songMap['likes'];
+    //     currentSong.popularity = songMap['popularity'];
+    //     setisLiked(currentSong.code, currentSong.isLiked);
+    //   }).catchError((error) {
+    //     currentSong.isLiked = !currentSong.isLiked;
+    //     showToast(context, 'Something went wrong! Please try Later.',
+    //         duration: 2);
+    //   });
   }
 }

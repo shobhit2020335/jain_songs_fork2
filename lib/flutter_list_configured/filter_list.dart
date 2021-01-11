@@ -27,7 +27,8 @@ class FilterListDialog {
     Color searchFieldBackgroundColor = const Color(0xfff5f5f5),
     Color selectedTextBackgroundColor = Colors.indigo,
     Color unselectedTextbackGroundColor = const Color(0xfff8f8f8),
-    Function(List<Filters>) onApplyButtonClick
+    Function(List<Filters>) onApplyButtonClick,
+    Function(List<Filters>) onResetButtonClick,
   }) async {
     if (height == null) {
       height = MediaQuery.of(context).size.height * .8;
@@ -67,7 +68,8 @@ class FilterListDialog {
               hideHeader: hideheader,
               hideheaderText: hideheaderText,
               hideSearchField: hideSearchField,
-              onApplyButtonClick:onApplyButtonClick
+              onApplyButtonClick: onApplyButtonClick,
+              onResetButtonClick: onResetButtonClick,
             ),
           ),
         );

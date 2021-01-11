@@ -112,6 +112,27 @@ class _HomePageState extends State<HomePage> {
         });
       });
       Navigator.pop(context);
+    },
+        //To implement onAllButtonCLick see how onResetButtonClick is made.
+        onResetButtonClick: (list) {
+      filtersSelected = List.from(list);
+      setState(() {
+        showProgress = true;
+      });
+      applyFilter().then((value) {
+        setState(() {
+          showProgress = false;
+        });
+      }).catchError((onError) {
+        FirebaseCrashlytics.instance
+            .log('home_page/_filterDialog(): ' + onError.toString());
+        listToShow = List.from(sortedSongList);
+        showToast(context, 'Error applying Filter');
+        setState(() {
+          showProgress = false;
+        });
+      });
+      Navigator.pop(context);
     });
   }
 
