@@ -139,8 +139,7 @@ class _SongPageState extends State<SongPage> {
                       showToast(context,
                           'Video URL is not available at this moment!');
                     } else {
-                      //TODO: Check playStore link.
-                      // launchURL(context, link);
+                      launchURL(context, link);
                       print('Launching');
                     }
                   },

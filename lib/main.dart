@@ -23,6 +23,7 @@
 //Webview (Open website in app)
 //package info
 //TODO: On clicking, liking, sharing songs the number is disabled.
+//TODO: check network connection more accuratley.
 //TODO: Show toast when search submit is clicked.
 //TODO: Check internet connection before google translate.
 //TODO: Firebase cloud messaging
