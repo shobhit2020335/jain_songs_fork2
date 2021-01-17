@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -16,13 +17,14 @@ List<SongDetails> listToShow = [];
 List<Filters> filtersAll = [
   Filters('genre', 'Paryushan', color: Colors.green),
   Filters('genre', 'Diksha', color: Colors.green),
-  // Filters('genre', 'Tapasya', color: Colors.green),
+  Filters('genre', 'Tapasya', color: Colors.green),
   Filters('genre', 'Latest', color: Colors.green),
   Filters('tirthankar', '24', color: Colors.redAccent),
   Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
   Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
   Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
+  Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
   Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
   Filters('category', 'Bhakti', color: Colors.amber),
@@ -51,20 +53,20 @@ Future<void> applyFilter() async {
     for (int i = 0; i < l; i++) {
       if (filtersSelected[i].category == 'genre') {
         genreSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.genre += filtersSelected[i].name;
+        userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'tirthankar') {
         tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.tirthankar += filtersSelected[i].name;
+        userFilters.tirthankar = userFilters.tirthankar + " "+ filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'category') {
         categorySelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.category += filtersSelected[i].name;
+        userFilters.category = userFilters.category + " " +filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'language') {
         languageSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.language += filtersSelected[i].name;
+        userFilters.language =  userFilters.language+ " "+ filtersSelected[i].name;
       }
     }
 
-
+    FireStoreHelper().userSelectedFilters(userFilters);
 
     for (int i = 0; i < n; i++) {
       bool toAdd = true;

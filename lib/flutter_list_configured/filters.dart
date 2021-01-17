@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Filters{
+class Filters {
   String category;
   String name;
   Color color;
@@ -20,4 +20,13 @@ class UserFilters {
     this.category: "",
     this.language: "",
   });
+
+  Map<String, String> toMap(){
+    return{
+      'genre': genre,
+      'tirthankar': tirthankar,
+      'category': category,
+      'language': language,
+    };
+  }
 }
