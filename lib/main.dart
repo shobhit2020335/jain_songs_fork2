@@ -22,20 +22,18 @@
 //flutter_windowmanager (disable ss and srec)
 //Webview (Open website in app)
 //package info
+//Filter_list
 //TODO: ADs from different networks- Mediation (Mopub)
-//TODO: Filters
-//TODO: storing filters data
+//TODO: storing filters data in firestore
 //TODO: Add google search.
 //TODO: jain songs searchbar.
 //TODO: Language submission in lyrics.
-//TODO: On clicking, liking, sharing songs the number is disabled.
-//TODO: check network connection more accuratley.
 //TODO: Show toast when search submit is clicked.
 //TODO: Check internet connection before google translate.
-//TODO: Firebase cloud messaging
+//TODO: Improve Firebase cloud messaging
 //TODO: youTube miniplayer- Make beautiful
 //TODO: ADs from different networks- Mediation (Mopub)
-//TODO: Jai Jinendra from firebase
+//TODO: Jai Jinendra from firebase - Depends on reads.
 //TODO: different ads than banner ads (native ads).
 //TODO: facebook ads
 //TODO: provider(State management)
@@ -66,7 +64,8 @@ void main() async {
   //Firebase Anonymous signIn.
   userCredential = await FirebaseAuth.instance.signInAnonymously();
   runApp(MainTheme());
-  secureScreen();
+  //Disabling ss.
+  // secureScreen();
   //Initialising AdMob.
   _initAdMob();
 

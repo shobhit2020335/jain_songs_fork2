@@ -167,7 +167,7 @@ class _FormPageState extends State<FormPage> {
                       otherController.text,
                     );
 
-                    bool isInternetConnected = await NetworkHelper().check();
+                    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
                     if ((currentSongSuggestion.songSuggestionMap['songName'] ==
                                 '' ||

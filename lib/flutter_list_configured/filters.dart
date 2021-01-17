@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Filters{
+class Filters {
   String category;
   String name;
   Color color;

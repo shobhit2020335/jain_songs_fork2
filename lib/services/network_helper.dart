@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -32,7 +33,7 @@ class NetworkHelper {
     }
   }
 
-  Future<bool> check() async {
+  Future<bool> checkConnectionMode() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
       return true;
@@ -41,5 +42,18 @@ class NetworkHelper {
     } else {
       return false;
     }
+  }
+
+  Future<bool> checkNetworkConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (error) {
+      print('Net not connected due to: '+ error.toString());
+      return false;
+    }
+    return false;
   }
 }

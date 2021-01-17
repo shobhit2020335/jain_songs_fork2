@@ -17,7 +17,7 @@ class FireStoreHelper {
       FirebaseFirestore.instance.collection('suggestions');
 
   Future<void> fetchDaysAndVersion() async {
-    bool isInternetConnected = await NetworkHelper().check();
+    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (isInternetConnected == false) {
       fetchedDays = totalDays;
@@ -36,7 +36,7 @@ class FireStoreHelper {
   //It updates the trending points when a new day appears and make todayClicks to 0.
   Future<void> dailyUpdate() async {
     _trace.start();
-    bool isInternetConnected = await NetworkHelper().check();
+    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (isInternetConnected == false) {
       return;
@@ -149,7 +149,7 @@ class FireStoreHelper {
     var docSnap = await songs.doc(currentSong.code).get();
     Map<String, dynamic> songMap = docSnap.data();
 
-    bool isInternetConnected = await NetworkHelper().check();
+    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (songMap == null || isInternetConnected == false) {
       currentSong.totalClicks++;
@@ -200,7 +200,7 @@ class FireStoreHelper {
     var docSnap = await songs.doc(currentSong.code).get();
     Map<String, dynamic> songMap = docSnap.data();
 
-    bool isInternetConnected = await NetworkHelper().check();
+    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (songMap == null || isInternetConnected == false) {
       currentSong.share++;
@@ -223,7 +223,7 @@ class FireStoreHelper {
       var docSnap = await songs.doc(currentSong.code).get();
       Map<String, dynamic> songMap = docSnap.data();
 
-      bool isInternetConnected = await NetworkHelper().check();
+      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
       if (songMap == null || isInternetConnected == false) {
         showToast(context, 'No Internet connection!', duration: 2);

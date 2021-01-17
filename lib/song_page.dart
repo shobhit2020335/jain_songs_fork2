@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -59,7 +58,7 @@ class _SongPageState extends State<SongPage> {
     FireStoreHelper().changeClicks(context, widget.currentSong);
     if (widget.currentSong.youTubeLink.length != null &&
         widget.currentSong.youTubeLink.length > 2) {
-      NetworkHelper().check().then((value) {
+      NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
         if (isLinkAvail == false) {
           setState(() {
