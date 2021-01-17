@@ -7,3 +7,17 @@ class Filters{
 
   Filters(this.category, this.name, {this.color: Colors.indigo});
 }
+
+class UserFilters {
+  String genre;
+  String tirthankar;
+  String category;
+  String language;
+
+  UserFilters({
+    this.genre: "",
+    this.tirthankar: "",
+    this.category: "",
+    this.language: "",
+  });
+}

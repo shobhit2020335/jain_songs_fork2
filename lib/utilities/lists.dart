@@ -46,18 +46,25 @@ Future<void> applyFilter() async {
     List<String> tirthankarSelected = [];
     List<String> categorySelected = [];
     List<String> languageSelected = [];
+    UserFilters userFilters = UserFilters();
 
     for (int i = 0; i < l; i++) {
       if (filtersSelected[i].category == 'genre') {
         genreSelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.genre += filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'tirthankar') {
         tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.tirthankar += filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'category') {
         categorySelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.category += filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'language') {
         languageSelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.language += filtersSelected[i].name;
       }
     }
+
+
 
     for (int i = 0; i < n; i++) {
       bool toAdd = true;
