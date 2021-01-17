@@ -1,5 +1,5 @@
 name: jain_songs
-description: Contains Jain Bhajans
+description: Contains Jain Bhajans, Stavans, Bhakti, Diksha songs and much more.
 
 publish_to: 'none' 
 version: 1.0.1+2
@@ -32,6 +32,7 @@ dependencies:
   firebase_auth: "^0.18.4+1"
   package_info: ^0.4.3+2
   firebase_messaging: ^7.0.3
+  youtube_player_flutter: ^7.0.0+7
 
 dev_dependencies:
   flutter_test:
