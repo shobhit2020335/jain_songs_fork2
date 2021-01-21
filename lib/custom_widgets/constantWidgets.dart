@@ -100,6 +100,17 @@ Widget textBold20(String text) {
   );
 }
 
+Widget mainAppTitle(){
+  return Text(
+    'Jain Songs',
+    style: TextStyle(
+      fontFamily: 'Pacifico',
+      color: Color(0xFF212323),
+      fontSize: 20,
+    ),
+  );
+}
+
 Widget songFunctionIcon(
     {@required IconData icon, String text, Function onPress}) {
   return Column(

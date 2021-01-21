@@ -10,7 +10,6 @@ import 'package:jain_songs/utilities/song_details.dart';
 
 List<SongDetails> songList = [];
 List<SongDetails> sortedSongList = [];
-//TODO: if not working properly change [] to List() and try.
 List<SongDetails> listToShow = [];
 
 //Lists for applying filters.
@@ -24,8 +23,8 @@ List<Filters> filtersAll = [
   Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
   Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
-  Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
+  Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
   Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
   Filters('category', 'Bhakti', color: Colors.amber),
   Filters('category', 'Stavan', color: Colors.amber),
@@ -146,11 +145,12 @@ int totalDays = 1;
 int fetchedDays = 0;
 
 //TODO: update app version for new app.
-double appVersion = 1.001;
+double appVersion = 1.08;
 double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;
 
+//This is not used now.
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;
   final propertyB = b.popularity;
@@ -214,9 +214,10 @@ void addElementsToList(String playlistTag) {
     }
   }
   //This is for popular playlist.
+  //This code below is disabled. Popular songs are directly queried now.
   else if (playlistTag.contains('popular')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].popularity > 5 && songList[i].likes > 0) {
+      if (songList[i].popularity > 24 && songList[i].likes > 2) {
         listToShow.add(songList[i]);
       }
     }

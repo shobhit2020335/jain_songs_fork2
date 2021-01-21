@@ -15,41 +15,41 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('MAMPPAR',
-      englishName: 'Mari Aakhon Ma Parshwa Prabhu Aavjo Re',
-      hindiName: 'मारी आंखोमां पाश्व प्रभु आवजो रे',
-      originalSong: 'Maari Aakon Ma Parshva Prabhu avjo Re Maari Aakon Ma shankeshwar avjo Re',
-      album: 'Maari Aakon Ma Parsva Prabhu Aavjo Re Maari Aakon Ma sankeshwar Aavjo Re',
-      tirthankar: 'Mari Aakon Ma Parswa Prabhu Aavjo Re Mari Aakon Ma shankheshwar Aavjo Re',
-      extra1: 'Shankheshwar Parshwanath',
-      extra2: 'Shankeshwar Parasnath Sankeshwar Parsvanath',
+  currentSong.makestringSearchKeyword('TKKH',
+      englishName: 'Tapasya Karta Karta Ho Ke Danka',
+      hindiName: 'तपस्या करता करता हो',
+      originalSong: '',
+      album: '',
+      tirthankar: '',
+      extra1: '',
+      extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'MAMPPAR',
+    'code': 'TKKH',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Stavan',
+    'genre': 'Tapasya',
     'language': 'Gujarati',
     'likes': 0,
-    'lyrics':'मारी आंखोमां पाश्व प्रभु आवजो रे,\nहुं तो पापण ना पुष्पे वधावुं\nमारा हैयाना हार बनी आवजो रे,\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nतमे वामा देवी ना छो जाया,\nत्रण लोक मां आप छवाया (२)\nमारा मनना मंदीर मां पधारजो रे (२),\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nभव सागर छे बहु भारी,\nझोला खाती रे नावडी मारी (२)\nनैया ना सुकानी बनी आवजो रे (२)\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nमने मोह राजाए हराव्यो,\nमने मारग तारो भुलाव्यो (२)\nजीवनना सारथी बनी आवजो रे (२)\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n\nमारा दिलमां रह्या छो आप,\nमारा मनमां चाले तारो जाप (२)\nमारा मननां मयुर बनी आवजो रे (२)\nहुं तो पांपण ना पुष्पे वधावुं\nमारी आंखोमां…\n',
-    'englishLyrics':'MARI AAKHOMA PARSHWANATH AAVJO REH (2)\nHU TOH PAPANNA PUSHPEH VADHAVU,\nMARA HAIYANA HAAR BANI AAVJO REH (2)\nHU TOH PAPANNA PUSHPEH VADHAVU (2)\n\nTAME VAMADEVINA JAYA,\nTRAN LOKMA AAP CHAVAYA,(2)\nMARA MANNA..(2)\nMANDIRMA PADHARJO REH…\nHU TOH…..\n\nBHAVSAGAR CHE BAHU BHARI,\nJHOLA KHATI AA NAVADI MARI,(2)\nMARI NAIYANA..(2)\nSUKHANI BANI AAVJO REH ….\nHU TOH…..\n\nMANE MOHRAJAYE HARAVYO,\nMANE MARAG TARO BHULAVYO,(2)\nJIVANNA..(2)\nSARTHI BANI AAVJO REH…\nHU TOH…..\n\nMARA DILMA RAHYA CHO AAP,\nMARA MANNA CHALE CHE TARO JAAP,(2)\nMARA MANNA ..(2)\nMAYUR BANI AAVJO REH\nHU TOH…..\n',
+    'lyrics':'तपस्या करता करता हो के,\nडंका जोर बजाया हो..\n\nतपस्या करता करता हो के,\nडंका जोर बजाया हो..\n\nउजमणा तप केरां करता,\nशासन सोह चढाया हो;\nवीर्य उल्लास वधे तेने कारण,\nकर्म निर्जरा पाया\nतपस्या…\n\nअडसिद्धि अणिमा लचिमादिक,\nतिम लब्धी अडवीसा हो;\nविष्णुकुमारादिक परे जगमां,\nपावत जयंत जगीशा\nतपस्या…\n\nगौतम अष्टापदगीरी चढीया,\nतापस आहार कराया हो;\nते तप कर्म निकाचित तपवे,\nक्षमा सहित मुनिराया\nतपस्या…\n\nसाडा बार वर्ष जिन उत्तम,\nवीरजी भूमि न ठाया हो;\nघोर तपे केवल लाह्या तेहना,\nपद्मविजय नमे पाया\nतपस्या…\n',
+  'englishLyrics':'',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Rajmundra Production',
+    'production': 'Jain Sargam',
     'share': 0,
-    'singer': 'Dhira Salia',
-    'songNameEnglish': 'Mari Aakhon Ma Parshwa Prabhu Aavjo Re',
-    'songNameHindi': 'मारी आंखोमां पाश्व प्रभु आवजो रे',
-    'tirthankar': 'Shankheshwar Parshwanath',
+    'singer': '',
+    'songNameEnglish': 'Tapasya Karta Karta Ho',
+    'songNameHindi': 'तपस्या करता करता हो' ,
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/H14jrZZ_XTo'
+    'youTubeLink': 'https://youtu.be/Y2An7hwy4LA'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

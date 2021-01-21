@@ -19,7 +19,6 @@ class FireStoreHelper {
       FirebaseFirestore.instance.collection('suggestions');
 
   //Storing the user's selected filters in realtime database.
-  //Todo: commit this then compare with v1.0.8 then merge this in it.
   Future<void> userSelectedFilters(UserFilters userFilters) async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
     if(isInternetConnected == false){
@@ -98,6 +97,57 @@ class FireStoreHelper {
       print('Error updating days.' + error);
     });
     _trace.stop();
+  }
+
+  Future<void> getPopularSongs() async{
+    listToShow.clear();
+    QuerySnapshot songs;
+    songs = await _firestore.collection('songs').orderBy('popularity', descending: true).limit(20).get();
+
+    for (var song in songs.docs) {
+      Map<String, dynamic> currentSong = song.data();
+      String state = currentSong['aaa'];
+      state = state.toLowerCase();
+      if (state.contains('invalid') != true) {
+        SongDetails currentSongDetails = SongDetails(
+            album: currentSong['album'],
+            code: currentSong['code'],
+            category: currentSong['category'],
+            genre: currentSong['genre'],
+            language: currentSong['language'],
+            lyrics: currentSong['lyrics'],
+            englishLyrics: currentSong['englishLyrics'],
+            songNameEnglish: currentSong['songNameEnglish'],
+            songNameHindi: currentSong['songNameHindi'],
+            originalSong: currentSong['originalSong'],
+            popularity: currentSong['popularity'],
+            production: currentSong['production'],
+            searchKeywords: currentSong['searchKeywords'],
+            singer: currentSong['singer'],
+            tirthankar: currentSong['tirthankar'],
+            todayClicks: currentSong['todayClicks'],
+            totalClicks: currentSong['totalClicks'],
+            trendPoints: currentSong['trendPoints'],
+            likes: currentSong['likes'],
+            share: currentSong['share'],
+            youTubeLink: currentSong['youTubeLink']);
+        bool valueIsliked = await getisLiked(currentSong['code']);
+        if (valueIsliked == null) {
+          setisLiked(currentSong['code'], false);
+          valueIsliked = false;
+        }
+        currentSongDetails.isLiked = valueIsliked;
+        String originalSong = currentSongDetails.originalSong;
+        if (originalSong == null ||
+            originalSong.length < 3 ||
+            originalSong.toLowerCase() == 'unknown') {
+          currentSongDetails.originalSong = currentSongDetails.songNameHindi;
+        }
+        listToShow.add(
+          currentSongDetails,
+        );
+      }
+    }
   }
 
   Future<void> getSongs() async {

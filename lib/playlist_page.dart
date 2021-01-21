@@ -21,9 +21,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     setState(() {
       showProgress = true;
     });
-    await FireStoreHelper().getSongs();
-
-    addElementsToList('Popular');
+    await FireStoreHelper().getPopularSongs();
 
     setState(() {
       showProgress = false;

@@ -25,9 +25,7 @@ class _HomePageState extends State<HomePage> {
   //This variable is used to determine whether the user searching is found or not.
   bool isSearchEmpty = false;
   bool showProgress = false;
-  Widget appBarTitle = Text(
-    'Jain Songs',
-  );
+  Widget appBarTitle = mainAppTitle();
 
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
@@ -155,7 +153,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: appBarTitle,
+        title: _currentIndex == 0
+            ? FlatButton(
+                onPressed: () {
+                  setState(() {
+                    this.searchOrCrossIcon = Icon(Icons.close);
+                    this.appBarTitle = TextField(
+                      controller: searchController,
+                      //use focus node if autofoucs is not working.
+                      autofocus: true,
+                      onChanged: (value) {
+                        getSongs(value, false);
+                      },
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.black,
+                        ),
+                        hintText: 'Search anything...',
+                      ),
+                    );
+                  });
+                },
+                child: appBarTitle,
+              )
+            : appBarTitle,
         centerTitle: true,
         leading: Transform.scale(
           scale: 0.5,
@@ -194,12 +217,12 @@ class _HomePageState extends State<HomePage> {
                                   Icons.search,
                                   color: Colors.black,
                                 ),
-                                hintText: 'Search...',
+                                hintText: 'Search anything...',
                               ),
                             );
                           } else {
                             searchOrCrossIcon = Icon(Icons.search);
-                            this.appBarTitle = Text('Jain Songs');
+                            this.appBarTitle = mainAppTitle();
                             searchController.clear();
                             //Below line is for refresh when cross is clicked.
                             //I am removing this feature, can be enabled later.
@@ -252,8 +275,9 @@ class _HomePageState extends State<HomePage> {
             } else if (index == 3) {
               appBarTitle = Text('Settings and More');
             } else {
-              appBarTitle = Text('Jain Songs');
+              appBarTitle = mainAppTitle();
               getSongs('', false);
+              searchController.clear();
               this.searchOrCrossIcon = Icon(Icons.search);
             }
           });
