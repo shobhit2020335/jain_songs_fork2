@@ -15,12 +15,12 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('TKKH',
-      englishName: 'Tapasya Karta Karta Ho Ke Danka',
-      hindiName: 'तपस्या करता करता हो',
+  currentSong.makestringSearchKeyword('SSMHT',
+      englishName: 'Sambhav Saheb Maro Hu Taro',
+      hindiName: 'संभव साहिब मारो हुं ताहरो',
       originalSong: '',
       album: '',
-      tirthankar: '',
+      tirthankar: 'Sambhavnath Swami',
       extra1: '',
       extra2: '',
       extra3: '');
@@ -29,27 +29,27 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'TKKH',
+    'code': 'SSMHT',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Tapasya',
+    'genre': '',
     'language': 'Gujarati',
     'likes': 0,
-    'lyrics':'तपस्या करता करता हो के,\nडंका जोर बजाया हो..\n\nतपस्या करता करता हो के,\nडंका जोर बजाया हो..\n\nउजमणा तप केरां करता,\nशासन सोह चढाया हो;\nवीर्य उल्लास वधे तेने कारण,\nकर्म निर्जरा पाया\nतपस्या…\n\nअडसिद्धि अणिमा लचिमादिक,\nतिम लब्धी अडवीसा हो;\nविष्णुकुमारादिक परे जगमां,\nपावत जयंत जगीशा\nतपस्या…\n\nगौतम अष्टापदगीरी चढीया,\nतापस आहार कराया हो;\nते तप कर्म निकाचित तपवे,\nक्षमा सहित मुनिराया\nतपस्या…\n\nसाडा बार वर्ष जिन उत्तम,\nवीरजी भूमि न ठाया हो;\nघोर तपे केवल लाह्या तेहना,\nपद्मविजय नमे पाया\nतपस्या…\n',
-  'englishLyrics':'',
+    'lyrics':'संभव साहिब मारो हुं ताहरो, सेवक सिरदार कि\nमहेर करी मुज-उपरे उतारो, भव सायर पार कि\nसंभव… (१)\n\nआनन अद्दभुत चंदले, तें मोह्यों, मुज नयण चकोर कि\nमनडुं मिलवा तुमहैं प्रभुजीस्युं, जिम मेहां मोर कि\nसंभव… (२)हुं नि गुणो पण तारीए, गुण अवगुण मत आणो चित्त कि\nबांह्य गह्यां निरवाहीए सु सनेही, सयणांनी रीत कि\nसंभव… (३)\n\nसार संसारे ताहरी, प्रभु सेवा, सुखदायक देव कि\nदिल धरी दरसण दीजीए तुम ओलग, कीजीयें नित्यमेव कि\nसंभव… (४)\n\nचोतीस अतिशय सुंदरु, पुरंदर, सेवे चित लाय कि\nरूचिर प्रभुजी पय सेवता सुख संपत्ति, अति आणंद थाय कि\nसंभव… (५)\n',
+    'englishLyrics':'',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Jain Sargam',
+    'production': '',
     'share': 0,
     'singer': '',
-    'songNameEnglish': 'Tapasya Karta Karta Ho',
-    'songNameHindi': 'तपस्या करता करता हो' ,
-    'tirthankar': '',
+    'songNameEnglish': 'Sambhav Saheb Maro Hu Taro',
+    'songNameHindi': 'संभव साहिब मारो हुं ताहरो' ,
+    'tirthankar': 'Sambhavnath Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/Y2An7hwy4LA'
+    'youTubeLink': ''
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
