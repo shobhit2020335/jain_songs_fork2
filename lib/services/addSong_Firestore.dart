@@ -15,41 +15,41 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('SSMHT',
-      englishName: 'Sambhav Saheb Maro Hu Taro',
-      hindiName: 'संभव साहिब मारो हुं ताहरो',
-      originalSong: '',
-      album: '',
-      tirthankar: 'Sambhavnath Swami',
-      extra1: '',
+  currentSong.makestringSearchKeyword('SUM',
+      englishName: 'Sayam Usko Mile',
+      hindiName: 'संयम उसको मिले',
+      originalSong: 'Diksha दीक्षा',
+      album: 'Sayam Usko Mile Saiyam Usko Mile Saiam Usko Mile Sayyam Usko Mile',
+      tirthankar: 'Saiyiam Usko Mile Saiyyam Usko Mile Saiyyiam Usko Mile',
+      extra1: 'neele gagan ke tale Humraaz 1967 Mahendra Kapoor',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा नेमिनाथ नेमीनाथ
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'SSMHT',
-    'album': '',
+    'code': 'SUM',
+    'album': 'Humraaz (1967)',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': '',
-    'language': 'Gujarati',
+    'genre': 'Diksha',
+    'language': 'Hindi',
     'likes': 0,
-    'lyrics':'संभव साहिब मारो हुं ताहरो, सेवक सिरदार कि\nमहेर करी मुज-उपरे उतारो, भव सायर पार कि\nसंभव… (१)\n\nआनन अद्दभुत चंदले, तें मोह्यों, मुज नयण चकोर कि\nमनडुं मिलवा तुमहैं प्रभुजीस्युं, जिम मेहां मोर कि\nसंभव… (२)हुं नि गुणो पण तारीए, गुण अवगुण मत आणो चित्त कि\nबांह्य गह्यां निरवाहीए सु सनेही, सयणांनी रीत कि\nसंभव… (३)\n\nसार संसारे ताहरी, प्रभु सेवा, सुखदायक देव कि\nदिल धरी दरसण दीजीए तुम ओलग, कीजीयें नित्यमेव कि\nसंभव… (४)\n\nचोतीस अतिशय सुंदरु, पुरंदर, सेवे चित लाय कि\nरूचिर प्रभुजी पय सेवता सुख संपत्ति, अति आणंद थाय कि\nसंभव… (५)\n',
+    'lyrics':'हो..... संयम उसको मिले, पुण्य हों जिसके फले ।\nऐसे हैं प्राणी लाखों ही जग में, भोगों में बहते चले ।। टेर ।।\n\nमुश्किल से मानव जीवन को पाये,\nकाम करो कुछ गले ।। १ ।।\n\nकर्मों का क्षय हो, इन्द्रिय-जय हो,\nभव-भव के फेरे टले ।। २ ।।\n\nमोगों के रंग में रंगी है दुनियां,\nविषयों के झूले, झूले ।। ३ ।।\n\nविजेता बहन तो संयमी बन कर,\nवीर के पथ पे चले ।। ४ ।।\n\nत्यागी बहन को जीवन है जैसे,\nकीचड़ में कमल खिले ।। ५ ।।\n\nउज्जवल जीवन बन रहा इनका,\nप्रति के पथ पे चले ।। ६ ।।\n',
     'englishLyrics':'',
-    'originalSong': '',
+    'originalSong': 'Neele Gagan Ke Tale | Mahendra Kapoor',
     'popularity': 0,
     'production': '',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Sambhav Saheb Maro Hu Taro',
-    'songNameHindi': 'संभव साहिब मारो हुं ताहरो' ,
-    'tirthankar': 'Sambhavnath Swami',
+    'singer': 'Mahendra Kapoor',
+    'songNameEnglish': 'Saiyam Usko Mile',
+    'songNameHindi': 'संयम उसको मिले',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': ''
+    'youTubeLink': 'https://youtu.be/pSE9QzQ-EKY'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
