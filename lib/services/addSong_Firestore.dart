@@ -15,41 +15,41 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('SUM',
-      englishName: 'Sayam Usko Mile',
-      hindiName: 'संयम उसको मिले',
+  currentSong.makestringSearchKeyword('OCA',
+      englishName: 'Beni Chhod Chali Sansaar',
+      hindiName: 'जा संयम पंथे दीक्षार्थी',
       originalSong: 'Diksha दीक्षा',
-      album: 'Sayam Usko Mile Saiyam Usko Mile Saiam Usko Mile Sayyam Usko Mile',
-      tirthankar: 'Saiyiam Usko Mile Saiyyam Usko Mile Saiyyiam Usko Mile',
-      extra1: 'neele gagan ke tale Humraaz 1967 Mahendra Kapoor',
-      extra2: '',
-      extra3: '');
+      album: 'दीन दुखीया नो तु छे बेली',
+      tirthankar:'Din Dukhiya No Tu Chhe Beli',
+      extra1: 'Din Dukhiya No Tu Che Beli',
+      extra2: 'Beni Chod Chali Sansar',
+      extra3: 'बेनी छोड चली संसार');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा नेमिनाथ नेमीनाथ
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'SUM',
-    'album': 'Humraaz (1967)',
+    'code': 'BCCS',
+    'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
     'genre': 'Diksha',
     'language': 'Hindi',
     'likes': 0,
-    'lyrics':'हो..... संयम उसको मिले, पुण्य हों जिसके फले ।\nऐसे हैं प्राणी लाखों ही जग में, भोगों में बहते चले ।। टेर ।।\n\nमुश्किल से मानव जीवन को पाये,\nकाम करो कुछ गले ।। १ ।।\n\nकर्मों का क्षय हो, इन्द्रिय-जय हो,\nभव-भव के फेरे टले ।। २ ।।\n\nमोगों के रंग में रंगी है दुनियां,\nविषयों के झूले, झूले ।। ३ ।।\n\nविजेता बहन तो संयमी बन कर,\nवीर के पथ पे चले ।। ४ ।।\n\nत्यागी बहन को जीवन है जैसे,\nकीचड़ में कमल खिले ।। ५ ।।\n\nउज्जवल जीवन बन रहा इनका,\nप्रति के पथ पे चले ।। ६ ।।\n',
+    'lyrics':'संसारना सह वैभव छोडी, राख्या कुल ना नाम,\nबेनी छोड चली संसार…\n\nजान भी है पहचान भी है, वो चली गुरूजी के पास,\nबेनी छोड चली संसार…\n\nआये सूरिजी लाने चेलीजी, ले गये वैरागण को साथ,\nदेखो कैसा रीब रीराज, वेनी छोड चली संसार...\n\nजातानी रोवे पिता भी रोदे, भैया करे रे पुकार,\nबेनी छोड चली संसार…\n\nसाई गी रोपे मानी भी गये, भतीजा करे रे पुकार,\nभुआ छोड चली संसार…\n\nवहन भी रोवे बहनोईशा भी रोवे, भाणेजा करे रे पुकार,\nमासी छोड चली संसार…\n\nसखिया भी रोवे सहेलियां भी रोवे, पर्खासी करे रे पुकार,\nबेनी छोड चली संसार…\n',
     'englishLyrics':'',
-    'originalSong': 'Neele Gagan Ke Tale | Mahendra Kapoor',
+    'originalSong': 'Din Dukhiya No Tu Chhe Beli',
     'popularity': 0,
-    'production': '',
+    'production': 'Jain Sargam',
     'share': 0,
-    'singer': 'Mahendra Kapoor',
-    'songNameEnglish': 'Saiyam Usko Mile',
-    'songNameHindi': 'संयम उसको मिले',
+    'singer': '',
+    'songNameEnglish': 'Beni Chhod Chali Sansaar',
+    'songNameHindi': 'बेनी छोड चली संसार',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/pSE9QzQ-EKY'
+    'youTubeLink': 'https://youtu.be/fp8ywWt1CTY'
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
