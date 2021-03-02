@@ -24,7 +24,13 @@
 //package info
 //Filter_list
 //TODO: starting playback time.
+//TODO: Gujarati lyrics support
+//TODO: In App rating
+//TODO: Single user clicks are stored only once for each song.
+//TODO: New tirthankar, categories.
 //TODO: ADs from different networks- Mediation (Mopub)
+//TODO: Playlist Banner in front page.
+//TODO: Searching inside playlists.
 //TODO: Add google search.
 //TODO: Language submission in lyrics.
 //TODO: Improve Firebase cloud messaging
