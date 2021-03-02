@@ -5,6 +5,8 @@ import 'package:jain_songs/utilities/song_suggestions.dart';
 
 import 'services/network_helper.dart';
 
+//TODO: Remove focus when text is not in focus.
+
 class FormPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _FormPageState();

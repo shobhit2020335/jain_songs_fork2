@@ -70,12 +70,7 @@ class _HomePageState extends State<HomePage> {
         isSearchEmpty = false;
       }
     } else {
-      await NetworkHelper().changeDateAndVersion();
-      if (fetchedVersion > appVersion) {
-        setState(() {
-          showUpdateDialog(context);
-        });
-      }
+      await NetworkHelper().changeDate();
       if (totalDays > fetchedDays) {
         fetchedDays = totalDays;
         FirebaseCrashlytics.instance.log('Ghusa in Daily update on $todayDate');

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'build_settingsRow.dart';
 
+//TODO: configure list for playlist.
+
 class BuildSettingsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

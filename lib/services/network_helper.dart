@@ -7,11 +7,11 @@ import 'package:package_info/package_info.dart';
 class NetworkHelper {
   NetworkHelper();
 
-  Future<void> changeDateAndVersion() async {
+  Future<void> changeDate() async {
     todayDate = DateTime.now();
     var diffDate = todayDate.difference(startDate);
     totalDays = diffDate.inDays;
-    await FireStoreHelper().fetchDaysAndVersion();
+    await FireStoreHelper().fetchDays();
   }
 
   //Package_info is used to get the information about the app name and version.

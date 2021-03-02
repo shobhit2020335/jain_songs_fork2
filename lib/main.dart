@@ -45,9 +45,10 @@
 //TODO: Dark mode
 //TODO: Karaoke
 //TODO: playlist list to be square.
-//TODO: user can make playlist
 //TODO: Search Algo
-//TODO: IOS
+
+//TODO: button size
+//TODO: automatic update
 
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';

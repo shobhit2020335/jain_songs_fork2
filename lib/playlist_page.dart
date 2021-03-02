@@ -97,6 +97,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     ),
                   );
                 }
+                //TODO: Edited below this, test it.
                 else if (listToShow.length == 0) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,

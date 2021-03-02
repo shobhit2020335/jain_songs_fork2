@@ -1,4 +1,5 @@
-//This file contains all the global variables and functions for the app.
+//This file contains all the global variables for the app.
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,17 +56,18 @@ Future<void> applyFilter() async {
         userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'tirthankar') {
         tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.tirthankar = userFilters.tirthankar + " "+ filtersSelected[i].name;
+        userFilters.tirthankar =
+            userFilters.tirthankar + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'category') {
         categorySelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.category = userFilters.category + " " +filtersSelected[i].name;
+        userFilters.category =
+            userFilters.category + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'language') {
         languageSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.language =  userFilters.language+ " "+ filtersSelected[i].name;
+        userFilters.language =
+            userFilters.language + " " + filtersSelected[i].name;
       }
     }
-
-    FireStoreHelper().userSelectedFilters(userFilters);
 
     for (int i = 0; i < n; i++) {
       bool toAdd = true;
@@ -138,15 +140,9 @@ Future<void> applyFilter() async {
 }
 
 final DateTime startDate = DateTime(2020, 12, 23);
-String appURL =
-    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
 DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;
-
-//TODO: update app version for new app.
-double appVersion = 1.08;
-double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;
 
@@ -175,6 +171,7 @@ int trendComparison(SongDetails a, SongDetails b) {
   }
 }
 
+//TODO: can do searching after some words are typed.
 void searchInList(String query) {
   listToShow.clear();
   query = query.toLowerCase();
