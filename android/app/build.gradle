@@ -48,8 +48,13 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.JainDevelopers.jain_songs"
 <<<<<<< HEAD
+<<<<<<< HEAD
         minSdkVersion 17
         targetSdkVersion 30
+=======
+        minSdkVersion 16
+        targetSdkVersion 28
+>>>>>>> parent of d1127c1... Button size, Update remainder, bug fixes, v1.0.0 complete
 =======
         minSdkVersion 16
         targetSdkVersion 28
