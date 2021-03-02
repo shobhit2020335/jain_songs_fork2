@@ -55,7 +55,7 @@ class _SongPageState extends State<SongPage> {
       },
     );
     _loadInterstitialAd();
-    FireStoreHelper().changeClicks(context, widget.currentSong);
+    // FireStoreHelper().changeClicks(context, widget.currentSong);
     if (widget.currentSong.youTubeLink.length != null &&
         widget.currentSong.youTubeLink.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
