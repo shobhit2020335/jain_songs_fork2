@@ -25,7 +25,8 @@ class _SongPageState extends State<SongPage> {
   InterstitialAd _interstitialAd;
 
   //Variable to determine which language is displayed now.
-  bool isHindi = true;
+  int langNo = 1;
+  int noOfLang = 1;
 
   //Variable to determine whether link is available/net is connected.
   bool isLinkAvail = true;
@@ -42,7 +43,7 @@ class _SongPageState extends State<SongPage> {
         anchorOffset: 0.0,
         horizontalCenterOffset: 0.0,
       );
-    isHindi = true;
+    langNo = 1;
   }
 
   @override
@@ -56,6 +57,7 @@ class _SongPageState extends State<SongPage> {
     );
     _loadInterstitialAd();
     FireStoreHelper().changeClicks(context, widget.currentSong);
+
     if (widget.currentSong.youTubeLink.length != null &&
         widget.currentSong.youTubeLink.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
@@ -77,6 +79,13 @@ class _SongPageState extends State<SongPage> {
     } else {
       isLinkAvail = false;
       linkInfo = 'Song not available to listen.';
+    }
+
+    if (widget.currentSong.englishLyrics != "NA") {
+      noOfLang++;
+    }
+    if (widget.currentSong.gujaratiLyrics != "NA") {
+      noOfLang++;
     }
   }
 
@@ -144,7 +153,11 @@ class _SongPageState extends State<SongPage> {
                   },
                   languageTap: () {
                     setState(() {
-                      isHindi = !isHindi;
+                      if (langNo >= noOfLang) {
+                        langNo = 1;
+                      } else if (langNo < noOfLang) {
+                        langNo++;
+                      }
                     });
                   },
                 ),
@@ -179,8 +192,11 @@ class _SongPageState extends State<SongPage> {
                   height: 10,
                 ),
                 LyricsWidget(
-                  lyrics:
-                      isHindi ? currentSong.lyrics : currentSong.englishLyrics,
+                  lyrics: langNo == 1
+                      ? currentSong.lyrics
+                      : (langNo == 2
+                          ? currentSong.englishLyrics
+                          : currentSong.gujaratiLyrics),
                 ),
                 Text(
                   '-----XXXXX-----',
