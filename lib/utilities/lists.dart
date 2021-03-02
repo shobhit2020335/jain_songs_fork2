@@ -145,7 +145,7 @@ int totalDays = 1;
 int fetchedDays = 0;
 
 //TODO: update app version for new app.
-double appVersion = 1.08;
+double appVersion = 1.10;
 double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;
