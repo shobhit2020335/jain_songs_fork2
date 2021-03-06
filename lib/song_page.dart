@@ -7,6 +7,7 @@ import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
@@ -56,7 +57,11 @@ class _SongPageState extends State<SongPage> {
       },
     );
     _loadInterstitialAd();
-    FireStoreHelper().changeClicks(context, widget.currentSong);
+
+    if (songsVisited.contains(widget.currentSong.code) == false) {
+      FireStoreHelper().changeClicks(context, widget.currentSong);
+    }
+    songsVisited.add(widget.currentSong.code);
 
     if (widget.currentSong.youTubeLink.length != null &&
         widget.currentSong.youTubeLink.length > 2) {
@@ -81,10 +86,12 @@ class _SongPageState extends State<SongPage> {
       linkInfo = 'Song not available to listen.';
     }
 
-    if (widget.currentSong.englishLyrics != "NA") {
+    if (widget.currentSong.englishLyrics.length > 2 &&
+        widget.currentSong.englishLyrics != "NA") {
       noOfLang++;
     }
-    if (widget.currentSong.gujaratiLyrics != "NA") {
+    if (widget.currentSong.gujaratiLyrics.length > 2 &&
+        widget.currentSong.gujaratiLyrics != "NA") {
       noOfLang++;
     }
   }

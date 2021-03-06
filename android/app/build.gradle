@@ -63,16 +63,9 @@ android {
     }
 
      buildTypes {
-<<<<<<< HEAD
          debug {
              applicationIdSuffix ".debug"
          }
-=======
-        //TODO: Remove debug from and changeClicks from firestoreHelper.
-        //  debug {
-        //      applicationIdSuffix ".debug"
-        //  }
->>>>>>> addDiffLanguage
          release {
              signingConfig signingConfigs.release
              minifyEnabled true

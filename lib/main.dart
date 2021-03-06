@@ -24,10 +24,11 @@
 //package info
 //Filter_list
 //TODO: starting playback time.
-//TODO: Gujarati lyrics support
+//TODO: Check, Lso check speed. Gujarati lyrics support
 //TODO: In App rating
 //TODO: Single user clicks are stored only once for each song.
-//TODO: New tirthankar, categories.
+//TODO: Check New tirthankar, categories. neminath sambhavnath chalisa
+//TODO: Check colors Playlists: Diksha, paryushan.
 //TODO: ADs from different networks- Mediation (Mopub)
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
@@ -69,8 +70,7 @@ void main() async {
   secureScreen();
   //Initialising AdMob.
   _initAdMob();
-
-  print(await NetworkHelper().getPackageInfo('version'));
+  songsVisited.clear();
 }
 
 Future<void> _initAdMob() {
