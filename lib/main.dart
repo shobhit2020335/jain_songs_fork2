@@ -23,12 +23,10 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
-//TODO: starting playback time.
-//TODO: Check, Lso check speed. Gujarati lyrics support
 //TODO: In App rating
 //TODO: Single user clicks are stored only once for each song.
-//TODO: Check New tirthankar, categories. neminath sambhavnath chalisa
-//TODO: Check colors Playlists: Diksha, paryushan.
+//TODO: New tirthankar, categories.
+//TODO: starting playback time.
 //TODO: ADs from different networks- Mediation (Mopub)
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.

@@ -324,11 +324,29 @@ List<PlaylistDetails> playlistList = [
   ),
   PlaylistDetails(
     active: true,
+    title: 'Diksha Stavans',
+    subtitle: 'Diksha playlist',
+    playlistTag: 'diksha',
+    leadIcon: Icons.cleaning_services_rounded,
+    iconSize: 32,
+    color: Colors.blueGrey,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    leadIcon: Icons.self_improvement_rounded,
+    iconSize: 40,
+    color: Colors.brown,
+  ),
+  PlaylistDetails(
+    active: true,
     title: 'Parshwanath',
     subtitle: 'Parasnath Bhajans',
     playlistTag: 'parshwanath',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue[50],
+    color: Colors.blue[300],
   ),
   PlaylistDetails(
     active: true,
@@ -336,7 +354,7 @@ List<PlaylistDetails> playlistList = [
     subtitle: 'Mahaveer Swami Bhajans',
     playlistTag: 'mahavir',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue[300],
+    color: Colors.blue,
   ),
   PlaylistDetails(
     active: true,
@@ -344,7 +362,7 @@ List<PlaylistDetails> playlistList = [
     subtitle: 'Rishabh dev Bhajans',
     playlistTag: 'adinath',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue[600],
+    color: Colors.blue[700],
   ),
   PlaylistDetails(
     active: true,
