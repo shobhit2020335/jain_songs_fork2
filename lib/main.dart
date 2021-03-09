@@ -23,10 +23,9 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
-//TODO: Gujarati lyrics support
+//TODO: starting playback time.
+//TODO: suggestion for next song in song page.
 //TODO: In App rating
-//TODO: Single user clicks are stored only once for each song.
-//TODO: New tirthankar, categories.
 //TODO: ADs from different networks- Mediation (Mopub)
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.

@@ -65,7 +65,7 @@ class SongDetails {
       this.likes = 0;
     }
     if (this.englishLyrics == null || this.englishLyrics.length <= 1) {
-      this.englishLyrics = "NA\n";
+      this.englishLyrics = "NA";
     }
     if (this.gujaratiLyrics == null || this.gujaratiLyrics.length <= 1) {
       this.gujaratiLyrics = "NA";

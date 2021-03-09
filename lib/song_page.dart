@@ -43,7 +43,6 @@ class _SongPageState extends State<SongPage> {
         anchorOffset: 0.0,
         horizontalCenterOffset: 0.0,
       );
-    langNo = 1;
   }
 
   @override
@@ -152,13 +151,16 @@ class _SongPageState extends State<SongPage> {
                     }
                   },
                   languageTap: () {
-                    setState(() {
-                      if (langNo >= noOfLang) {
-                        langNo = 1;
-                      } else if (langNo < noOfLang) {
-                        langNo++;
-                      }
-                    });
+                    if (noOfLang == 1) {
+                      showToast(context,
+                          'No more languages for this song is available now!',
+                          duration: 2);
+                    } else if (langNo >= noOfLang) {
+                      langNo = 1;
+                    } else if (langNo < noOfLang) {
+                      langNo++;
+                    }
+                    setState(() {});
                   },
                 ),
                 SizedBox(
