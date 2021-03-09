@@ -96,8 +96,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ],
                     ),
                   );
-                }
-                else if (listToShow.length == 0) {
+                } else if (listToShow.length == 0) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -105,7 +104,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         height: 70,
                       ),
                       Text(
-                        'Like some songs to save them here.',
+                        'Songs loading...\nLike songs to save them in your Favourites playlist.',
                         style: TextStyle(
                           color: Colors.grey,
                         ),

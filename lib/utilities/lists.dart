@@ -55,13 +55,16 @@ Future<void> applyFilter() async {
         userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'tirthankar') {
         tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.tirthankar = userFilters.tirthankar + " "+ filtersSelected[i].name;
+        userFilters.tirthankar =
+            userFilters.tirthankar + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'category') {
         categorySelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.category = userFilters.category + " " +filtersSelected[i].name;
+        userFilters.category =
+            userFilters.category + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'language') {
         languageSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.language =  userFilters.language+ " "+ filtersSelected[i].name;
+        userFilters.language =
+            userFilters.language + " " + filtersSelected[i].name;
       }
     }
 
@@ -300,11 +303,29 @@ List<PlaylistDetails> playlistList = [
   ),
   PlaylistDetails(
     active: true,
+    title: 'Diksha Stavans',
+    subtitle: 'Diksha playlist',
+    playlistTag: 'diksha',
+    leadIcon: Icons.cleaning_services_rounded,
+    iconSize: 32,
+    color: Colors.blueGrey,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    leadIcon: Icons.self_improvement_rounded,
+    iconSize: 40,
+    color: Colors.brown,
+  ),
+  PlaylistDetails(
+    active: true,
     title: 'Parshwanath',
     subtitle: 'Parasnath Bhajans',
     playlistTag: 'parshwanath',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue,
+    color: Colors.blue[300],
   ),
   PlaylistDetails(
     active: true,
@@ -312,13 +333,21 @@ List<PlaylistDetails> playlistList = [
     subtitle: 'Mahaveer Swami Bhajans',
     playlistTag: 'mahavir',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue[700],
+    color: Colors.blue,
   ),
   PlaylistDetails(
     active: true,
     title: 'Adinath Swami',
     subtitle: 'Adinath Swami Bhajans',
     playlistTag: 'adinath',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue[700],
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Nakoda Bheruji',
+    subtitle: 'Nakoda Bhairav Bhajans',
+    playlistTag: 'nakoda',
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Colors.blue[900],
   ),
