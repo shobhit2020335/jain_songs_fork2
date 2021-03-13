@@ -63,9 +63,10 @@ android {
     }
 
      buildTypes {
-        //  debug {
-        //      applicationIdSuffix ".debug"
-        //  }
+         //TODO: Remove this and also in GservicesJson
+         debug {
+             applicationIdSuffix ".debug"
+         }
          release {
              signingConfig signingConfigs.release
              minifyEnabled true

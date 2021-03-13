@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -154,7 +155,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: _currentIndex == 0
-            ? FlatButton(
+            ? TextButton(
                 onPressed: () {
                   setState(() {
                     this.searchOrCrossIcon = Icon(Icons.close);
@@ -285,9 +286,31 @@ class _HomePageState extends State<HomePage> {
       ),
       //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
       body: <Widget>[
-        isSearchEmpty == false
-            ? BuildList(showProgress: showProgress)
-            : SearchEmpty(searchController),
+        Column(
+          children: <Widget>[
+            CarouselSlider(
+              options: CarouselOptions(height: 400.0),
+              items: [1, 2, 3, 4, 5].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(color: Colors.amber),
+                      child: Text(
+                        'text $i',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+            isSearchEmpty == false
+                ? BuildList(showProgress: showProgress)
+                : SearchEmpty(searchController),
+          ],
+        ),
         FormPage(),
         BuildPlaylistList(),
         SettingsPage(),

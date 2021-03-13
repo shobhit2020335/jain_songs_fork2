@@ -33,6 +33,7 @@ dependencies:
   package_info: ^0.4.3+2
   firebase_messaging: ^7.0.3
   youtube_player_flutter: ^7.0.0+7
+  carousel_slider: ^3.0.0
 
 dev_dependencies:
   flutter_test:
