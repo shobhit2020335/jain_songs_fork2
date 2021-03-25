@@ -7,7 +7,7 @@ class PlaylistDetails {
   IconData leadIcon;
   Color color;
   double iconSize;
-  //Active determines that whether the playlist is currently active or not.
+  //Active determines that whether the playlist is currently shown on the feed of slider or not.
   //Eg. Paryushan playlist is active only in paryushan.
   bool active;
 

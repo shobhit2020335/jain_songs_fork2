@@ -275,7 +275,7 @@ List<SettingsDetails> settingsList = [
 //List for different playlist.
 List<PlaylistDetails> playlistList = [
   PlaylistDetails(
-    active: true,
+    active: false,
     title: 'Favourites',
     subtitle: 'Liked Songs',
     playlistTag: 'favourites',
@@ -283,7 +283,7 @@ List<PlaylistDetails> playlistList = [
     color: Colors.pink[300],
   ),
   PlaylistDetails(
-    active: true,
+    active: false,
     title: 'Latest Releases',
     subtitle: 'New song lyrics',
     playlistTag: 'latest',
@@ -291,28 +291,12 @@ List<PlaylistDetails> playlistList = [
     color: Colors.green,
   ),
   PlaylistDetails(
-    active: true,
+    active: false,
     title: 'Popular',
     subtitle: 'All time hits',
     playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
-    color: Colors.deepPurple,
-  ),
-  PlaylistDetails(
-    active: true,
-    title: 'Diksha Stavans',
-    subtitle: 'Diksha playlist',
-    playlistTag: 'diksha',
-    leadIcon: Icons.cleaning_services_rounded,
     color: Colors.amber,
-  ),
-  PlaylistDetails(
-    active: true,
-    title: 'Paryushan Stavans',
-    subtitle: 'Paryushan Mahaparv Playlist',
-    playlistTag: 'paryushan',
-    leadIcon: Icons.self_improvement_rounded,
-    color: Colors.brown,
   ),
   PlaylistDetails(
     active: true,
@@ -349,7 +333,7 @@ List<PlaylistDetails> playlistList = [
     color: Colors.blue[300],
   ),
   PlaylistDetails(
-    active: true,
+    active: false,
     title: 'Mahaveer Swami',
     subtitle: 'Mahaveer Swami Bhajans',
     playlistTag: 'mahavir',
@@ -357,7 +341,7 @@ List<PlaylistDetails> playlistList = [
     color: Colors.blue,
   ),
   PlaylistDetails(
-    active: true,
+    active: false,
     title: 'Adinath Swami',
     subtitle: 'Rishabh dev Bhajans',
     playlistTag: 'adinath',
@@ -365,7 +349,7 @@ List<PlaylistDetails> playlistList = [
     color: Colors.blue[700],
   ),
   PlaylistDetails(
-    active: true,
+    active: false,
     title: 'Nakoda Bheruji',
     subtitle: 'Nakoda Bhairav Bhajans',
     playlistTag: 'nakoda',

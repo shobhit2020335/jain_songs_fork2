@@ -15,13 +15,14 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('AMPHC',
-      englishName: 'Ankhadi mari prabhu harkhaay che',
-      hindiName: 'આંખડી મારી પ્રભુ હરખાય છે',
-      originalSong: 'आंखडी मारी प्रभु हरखाय छे',
-      album: 'Aankhadi mari prabhu harkhaay che',
-      tirthankar: 'Aankhdi mari prabhu harkhay che',
-      extra1: '',
+  currentSong.makestringSearchKeyword('MVAM',
+      englishName: ' મોતી વેરાના ચોક માં આવ્યા શ્રી જિનરાજ',
+      hindiName: 'मोती वेराना चौक मा आव्या श्री जिनराज',
+      originalSong: 'Moti Veraana Aangan Ma Moti verana Angan ma',
+      album:
+          'Moti Veraana (Re Aavya Tapasvi) Moti verana aangan ma aavya tapasvi',
+      tirthankar: 'Latest tapasya geet',
+      extra1: 'Amit Trivedi',
       extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव
@@ -29,29 +30,28 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'AMPHC',
-    'album': '',
+    'code': 'MVAM',
+    'album': 'Songs Of Faith',
     'aaa': 'valid',
-    'category': 'Stavan',
-    'genre': 'Posh Dashmi',
+    'category': 'Garba',
+    'genre': 'Latest | Tapasya',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'આંખડી મારી પ્રભુ હરખાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ…\n\nપગ અધીરા દોડતા દેરાસરે, (૨)\nદ્વારે પહોચું ત્યાં અજંપો જાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nદેવનું વિમાન જાણે ઉતર્યું, (૨)\nએવું મંદિર આપનું સોહાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nચાંદની જેવી પ્રતિમા આપની, (૨)\nતેજ એનું ચોતરફ ફેલાય છે.\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nમુખડું જાણે પૂનમનો ચંદ્ર મા, (૨)\nચિત્તમાં ઠંડક અનેરી થાય છે.\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nબસ! તમારા રૂપને નીરખ્યા કરું, (૨)\nલાગણી એવી હૃદયમાં થાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n',
-    'englishLyrics':
-        'Ankhadi mari prabhu harkhaay che...\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari…\n\nPag  adhiru dodtu derasare..(2)\nDware paho chu tyaa ajam khoi-jai che..\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari prabhu harkhaay che..(2)\n\nDeva nu vimaan jyaare utaryu..(2)\nEvu mandir aapnu sohay che..\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari prabhu harkhaay che..(2)\n\nBas tamara rup ne nirkhay karu..(2)\nLagni evi hraday ma thay che..\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari prabhu harkhaay che..(2)\n',
-    'originalSong': '',
+        'Ho tame utsav aaje mandavo\n Tame utsav aaje mandavo \nMangal geeto gavo aaje sharnai-dhol vagado\n\nHo mara tapasvi aavya aaje\nHo mara tapasvi aavya aaje\nJai Jai nad gajavo bhai, tapni dhoom machavo\n\nMoti veraana aanganma aavya tapasvi\nHaiya harshit thay re aavya tapasvi\nRe aavya tapasvi (2)\n\nAkshat fulade vadhaavo re aavya tapasvi\nJin Shasan sohaay, re aavya tapasvi\n\nTame aangan aaje sajavo\nTame aangan aaje sajavo\nAso Palavna toran bandhavo\nShasan devi vadhavo\n\nHo aaje avsar rudo aavyo\nHo aaje avsar rudo aavyo\nManna manorat poora thaata,\nTapasvi man harkhayo\n\nMoti veraana aanganma aavya tapasvi\nHaiya harshit thay re aavya tapasvi\nRe aavya tapasvi (2)\n\nAkshat fulade vadhaavo re aavya tapasvi\nJin Shasan sohaay, re aavya tapasvi\nRe aavya tapasvi…(2)\n',
+    'englishLyrics': '',
+    'originalSong': 'Moti Veraana (Amit Trivedi)',
     'popularity': 0,
-    'production': 'Jinshasanam',
+    'production': '',
     'share': 0,
-    'singer': 'Rupal Doshi | Kishore Manraja',
-    'songNameEnglish': 'Ankhadi Mari Prabhu Harkhaay Che',
-    'songNameHindi': 'આંખડી મારી પ્રભુ હરખાય છે',
+    'singer': 'Gautam Baria',
+    'songNameEnglish': 'Moti Veraana (Re Aavya Tapasvi)',
+    'songNameHindi': 'मोती वेराना चौक मा (आव्या श्री जिनराज)',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/R2Z_oH7d_oU',
+    'youTubeLink': 'https://youtu.be/Wy28Xo551ws',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

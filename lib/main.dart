@@ -23,6 +23,13 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
+//Mopub
+//Mopub Ad unit id - 7e9b62190a1f4a6ab748342e6dd012a6
+//Mopub API key- pbnxDSkqaSDci28pQ1wwsq-WzgbfsHXr
+//Mopub Inventory report id - 951f53975b6b4ddc9eff3633219c5078
+//TODO: Snap Ad, Facebook Ad, Mediation in diff networks.
+//TODO: Reduce auth
+//TODO: make search inactve unntil songs are loaded.
 //TODO: Remove debug and then commit.
 //TODO: In App rating
 //TODO: Single user clicks are stored only once for each song.
