@@ -1,15 +1,14 @@
-import 'package:flutter/cupertino.dart';
-
 class SongDetails {
   String album;
   String category;
   String code;
+  String englishLyrics;
   String genre;
+  String gujaratiLyrics;
   bool isLiked;
   String language;
   int likes;
   String lyrics;
-  String englishLyrics;
   String originalSong;
   int popularity;
   String production;
@@ -26,9 +25,10 @@ class SongDetails {
 
   SongDetails(
       {this.album,
-        @required this.category,
+      this.category: "Stavan",
       this.code,
       this.genre,
+      this.gujaratiLyrics,
       this.language,
       this.likes: 0,
       this.lyrics,
@@ -36,7 +36,7 @@ class SongDetails {
       this.originalSong: 'Unknown',
       this.popularity: 0,
       this.production,
-      @required this.searchKeywords,
+      this.searchKeywords,
       this.share,
       this.singer,
       this.songNameEnglish,
@@ -46,6 +46,9 @@ class SongDetails {
       this.totalClicks: 0,
       this.trendPoints: 0,
       this.youTubeLink}) {
+    if (searchKeywords == null) {
+      this.searchKeywords = '';
+    }
     if (this.trendPoints == null) {
       this.trendPoints = 0.0;
     }
@@ -61,12 +64,11 @@ class SongDetails {
     if (likes == null) {
       this.likes = 0;
     }
-    if (this.englishLyrics == null || this.englishLyrics.length <= 2) {
-      this.englishLyrics =
-          "English lyrics not Available right now! Switch language to Hindi.\n";
+    if (this.englishLyrics == null || this.englishLyrics.length <= 1) {
+      this.englishLyrics = "NA";
     }
-    if(this.category == null || this.category.length < 2){
-      this.category = 'stavan';
+    if (this.gujaratiLyrics == null || this.gujaratiLyrics.length <= 1) {
+      this.gujaratiLyrics = "NA";
     }
   }
 }

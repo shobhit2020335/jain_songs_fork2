@@ -15,41 +15,44 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('OCA',
-      englishName: 'Beni Chhod Chali Sansaar',
-      hindiName: 'जा संयम पंथे दीक्षार्थी',
-      originalSong: 'Diksha दीक्षा',
-      album: 'दीन दुखीया नो तु छे बेली',
-      tirthankar:'Din Dukhiya No Tu Chhe Beli',
-      extra1: 'Din Dukhiya No Tu Che Beli',
-      extra2: 'Beni Chod Chali Sansar',
-      extra3: 'बेनी छोड चली संसार');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा नेमिनाथ नेमीनाथ
+  currentSong.makestringSearchKeyword('AMPHC',
+      englishName: 'Ankhadi mari prabhu harkhaay che',
+      hindiName: 'આંખડી મારી પ્રભુ હરખાય છે',
+      originalSong: 'आंखडी मारी प्रभु हरखाय छे',
+      album: 'Aankhadi mari prabhu harkhaay che',
+      tirthankar: 'Aankhdi mari prabhu harkhay che',
+      extra1: '',
+      extra2: '',
+      extra3: '');
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'BCCS',
+    'code': 'AMPHC',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
     'genre': 'Diksha',
+    'gujaratiLyrics': '',
     'language': 'Hindi',
     'likes': 0,
-    'lyrics':'संसारना सह वैभव छोडी, राख्या कुल ना नाम,\nबेनी छोड चली संसार…\n\nजान भी है पहचान भी है, वो चली गुरूजी के पास,\nबेनी छोड चली संसार…\n\nआये सूरिजी लाने चेलीजी, ले गये वैरागण को साथ,\nदेखो कैसा रीब रीराज, वेनी छोड चली संसार...\n\nजातानी रोवे पिता भी रोदे, भैया करे रे पुकार,\nबेनी छोड चली संसार…\n\nसाई गी रोपे मानी भी गये, भतीजा करे रे पुकार,\nभुआ छोड चली संसार…\n\nवहन भी रोवे बहनोईशा भी रोवे, भाणेजा करे रे पुकार,\nमासी छोड चली संसार…\n\nसखिया भी रोवे सहेलियां भी रोवे, पर्खासी करे रे पुकार,\nबेनी छोड चली संसार…\n',
-    'englishLyrics':'',
-    'originalSong': 'Din Dukhiya No Tu Chhe Beli',
+    'lyrics':
+        'આંખડી મારી પ્રભુ હરખાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ…\n\nપગ અધીરા દોડતા દેરાસરે, (૨)\nદ્વારે પહોચું ત્યાં અજંપો જાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nદેવનું વિમાન જાણે ઉતર્યું, (૨)\nએવું મંદિર આપનું સોહાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nચાંદની જેવી પ્રતિમા આપની, (૨)\nતેજ એનું ચોતરફ ફેલાય છે.\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nમુખડું જાણે પૂનમનો ચંદ્ર મા, (૨)\nચિત્તમાં ઠંડક અનેરી થાય છે.\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n\nબસ! તમારા રૂપને નીરખ્યા કરું, (૨)\nલાગણી એવી હૃદયમાં થાય છે\nજ્યાં તમારા મુખના દર્શન થાય છે (૨)\nઆંખડી મારી પ્રભુ… (૨)\n',
+    'englishLyrics':
+        'Ankhadi mari prabhu harkhaay che...\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari…\n\nPag  adhiru dodtu derasare..(2)\nDware paho chu tyaa ajam khoi-jai che..\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari prabhu harkhaay che..(2)\n\nDeva nu vimaan jyaare utaryu..(2)\nEvu mandir aapnu sohay che..\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari prabhu harkhaay che..(2)\n\nBas tamara rup ne nirkhay karu..(2)\nLagni evi hraday ma thay che..\nJya tamara muk na darshan thay che ..(2)\nAnkhadi mari prabhu harkhaay che..(2)\n',
+    'originalSong': '',
     'popularity': 0,
-    'production': 'Jain Sargam',
+    'production': 'Jinshasanam',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Beni Chhod Chali Sansaar',
-    'songNameHindi': 'बेनी छोड चली संसार',
+    'singer': 'Rupal Doshi | Kishore Manraja',
+    'songNameEnglish': 'Ankhadi Mari Prabhu Harkhaay Che',
+    'songNameHindi': 'આંખડી મારી પ્રભુ હરખાય છે',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/fp8ywWt1CTY'
+    'youTubeLink': 'https://youtu.be/R2Z_oH7d_oU',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

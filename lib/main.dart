@@ -23,9 +23,14 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
+//TODO: In App rating
+//TODO: Single user clicks are stored only once for each song.
+//TODO: New tirthankar, categories.
 //TODO: starting playback time.
 //TODO: Storing time stamps.
 //TODO: ADs from different networks- Mediation (Mopub)
+//TODO: Playlist Banner in front page.
+//TODO: Searching inside playlists.
 //TODO: Add google search.
 //TODO: Language submission in lyrics.
 //TODO: Improve Firebase cloud messaging.
@@ -68,8 +73,7 @@ void main() async {
   secureScreen();
   //Initialising AdMob.
   _initAdMob();
-
-  print(await NetworkHelper().getPackageInfo('version'));
+  songsVisited.clear();
 }
 
 Future<void> _initAdMob() {
