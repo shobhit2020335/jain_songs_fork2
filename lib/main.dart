@@ -24,15 +24,14 @@
 //package info
 //Filter_list
 //TODO: In App rating
-//TODO: Single user clicks are stored only once for each song.
 //TODO: New tirthankar, categories.
 //TODO: starting playback time.
-//TODO: ADs from different networks- Mediation (Mopub)
+//TODO: Storing time stamps.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
 //TODO: Add google search.
 //TODO: Language submission in lyrics.
-//TODO: Improve Firebase cloud messaging
+//TODO: Improve Firebase cloud messaging.
 //TODO: youTube miniplayer- Make beautiful
 //TODO: Jai Jinendra from firebase - Depends on reads.
 //TODO: different ads than banner ads (native ads).
@@ -53,9 +52,12 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:mopub_flutter/mopub.dart';
+import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
@@ -64,6 +66,7 @@ void main() async {
   await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   userCredential = await FirebaseAuth.instance.signInAnonymously();
+
   runApp(MainTheme());
   secureScreen();
   //Initialising AdMob.

@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         applicationId "com.JainDevelopers.jain_songs"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -80,6 +80,13 @@ flutter {
     source '../..'
 }
 
+repositories {
+    jcenter()
+    maven {
+        url 'https://maven.google.com'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -89,4 +96,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:19.0.10'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
     implementation 'com.google.android.gms:play-services-ads:19.6.0'
+    implementation('com.mopub:mopub-sdk:5.16.0@aar') {
+        transitive = true
+    }
 }

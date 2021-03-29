@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
@@ -9,6 +10,8 @@ import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'package:mopub_flutter/mopub.dart';
+import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
@@ -36,7 +39,7 @@ class _SongPageState extends State<SongPage> {
   String linkInfo = '';
   YoutubePlayerController _youtubePlayerController;
 
-  void _loadInterstitialAd() {
+  void _loadAdmobInterstitialAd() {
     _interstitialAd = _interstitialAd
       ..load()
       ..show(
@@ -46,16 +49,39 @@ class _SongPageState extends State<SongPage> {
       );
   }
 
+  MoPubInterstitialAd interstitialAd;
+  void _loadMopubInterstitialAd() async {
+    interstitialAd = MoPubInterstitialAd(
+      '7e9b62190a1f4a6ab748342e6dd012a6',
+      (result, args) {
+        print('Interstitial $result');
+      },
+      reloadOnClosed: true,
+    );
+    await interstitialAd.load();
+    print('ad loaded');
+    interstitialAd.show();
+    print('ad showed');
+  }
+
   @override
   void initState() {
     super.initState();
-    _interstitialAd = InterstitialAd(
-      adUnitId: AdManager().songPageinterstitialId,
-      listener: (MobileAdEvent event) {
-        print("InterstitialAd event is $event");
-      },
-    );
-    _loadInterstitialAd();
+    //Below code is for admob ads.
+    // _interstitialAd = InterstitialAd(
+    //   adUnitId: AdManager().songPageinterstitialId,
+    //   listener: (MobileAdEvent event) {
+    //     print("InterstitialAd event is $event");
+    //   },
+    // );
+    // _loadAdmobInterstitialAd();
+
+    //Below code is for mopub ads.
+    try {
+      MoPub.init('7e9b62190a1f4a6ab748342e6dd012a6', testMode: false).then((_) {
+        _loadMopubInterstitialAd();
+      });
+    } on PlatformException {}
 
     if (songsVisited.contains(widget.currentSong.code) == false) {
       FireStoreHelper().changeClicks(context, widget.currentSong);
