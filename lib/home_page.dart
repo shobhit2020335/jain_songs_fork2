@@ -142,31 +142,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  MoPubInterstitialAd interstitialAd;
-  void _loadInterstitialAd() {
-    interstitialAd = MoPubInterstitialAd(
-      '7e9b62190a1f4a6ab748342e6dd012a6',
-          (result, args) {
-        print('Interstitial $result');
-      },
-      reloadOnClosed: true,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
-    try {
-      MoPub.init('7e9b62190a1f4a6ab748342e6dd012a6', testMode: true).then((_) {
-        _loadInterstitialAd();
-      });
-    } on PlatformException {}
-    // getSongs('', true);
+    getSongs('', true);
   }
 
   @override
   void dispose() {
     searchController.clear();
+    MoPub.dispose();
     super.dispose();
   }
 
@@ -175,7 +160,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: _currentIndex == 0
-            ? FlatButton(
+            ? TextButton(
                 onPressed: () {
                   setState(() {
                     this.searchOrCrossIcon = Icon(Icons.close);
@@ -305,40 +290,19 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
-      body: Column(
-        children: <Widget>[
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                onPressed: () async {
-                  await interstitialAd.load();
-                },
-                child: Text('Load interstitial'),
-              ),
-              RaisedButton(
-                onPressed: () async {
-                  interstitialAd.show();
-                },
-                child: Text('Show interstitial'),
-              ),
-            ],
-          ),
-        ],
-      ),
+      body: <Widget>[
+        isSearchEmpty == false
+            ? BuildList(showProgress: showProgress)
+            : SearchEmpty(searchController),
+        FormPage(),
+        BuildPlaylistList(),
+        SettingsPage(),
+      ][_currentIndex],
     );
   }
 }
 
-// <Widget>[
-// isSearchEmpty == false
-// ? BuildList(showProgress: showProgress)
-// : SearchEmpty(searchController),
-// FormPage(),
-// BuildPlaylistList(),
-// SettingsPage(),
-// ][_currentIndex],
+
 
 // IndexedStack(
 //         index: _currentIndex,
