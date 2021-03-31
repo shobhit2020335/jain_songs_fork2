@@ -15,7 +15,7 @@ class BuildPlaylistRow extends StatelessWidget {
         leading: Icon(
           playlistDetails.leadIcon,
           color: playlistDetails.color,
-          size: 30,
+          size: playlistDetails.iconSize,
         ),
         title: Text(
           playlistDetails.title,

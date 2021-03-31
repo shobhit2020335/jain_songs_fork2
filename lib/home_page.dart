@@ -1,5 +1,7 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
@@ -9,6 +11,8 @@ import 'package:jain_songs/searchEmpty_page.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:mopub_flutter/mopub.dart';
+import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:translator/translator.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -78,7 +82,8 @@ class _HomePageState extends State<HomePage> {
       }
       if (totalDays > fetchedDays) {
         fetchedDays = totalDays;
-        FirebaseCrashlytics.instance.log('Ghusa in Daily update on $todayDate');
+        FirebaseAnalytics()
+            .logLevelStart(levelName: 'Ghusa in Daily update on $todayDate');
         await FireStoreHelper().dailyUpdate();
       }
       await FireStoreHelper().getSongs();
@@ -146,6 +151,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     searchController.clear();
+    MoPub.dispose();
     super.dispose();
   }
 
@@ -154,7 +160,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: _currentIndex == 0
-            ? FlatButton(
+            ? TextButton(
                 onPressed: () {
                   setState(() {
                     this.searchOrCrossIcon = Icon(Icons.close);
@@ -295,6 +301,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
 
 // IndexedStack(
 //         index: _currentIndex,

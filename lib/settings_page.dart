@@ -51,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 Text(
-                  'v1.0.8',
+                  'v1.1.0 - The Gujarati Update',
                   style: TextStyle(
                     color: Colors.black,
                   ),

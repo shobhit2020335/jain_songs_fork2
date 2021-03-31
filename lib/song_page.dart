@@ -1,13 +1,16 @@
 import 'dart:ui';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'package:mopub_flutter/mopub.dart';
+import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
@@ -25,7 +28,8 @@ class _SongPageState extends State<SongPage> {
   InterstitialAd _interstitialAd;
 
   //Variable to determine which language is displayed now.
-  bool isHindi = true;
+  int langNo = 1;
+  int noOfLang = 1;
 
   //Variable to determine whether link is available/net is connected.
   bool isLinkAvail = true;
@@ -34,7 +38,7 @@ class _SongPageState extends State<SongPage> {
   String linkInfo = '';
   YoutubePlayerController _youtubePlayerController;
 
-  void _loadInterstitialAd() {
+  void _loadAdmobInterstitialAd() {
     _interstitialAd = _interstitialAd
       ..load()
       ..show(
@@ -42,20 +46,47 @@ class _SongPageState extends State<SongPage> {
         anchorOffset: 0.0,
         horizontalCenterOffset: 0.0,
       );
-    isHindi = true;
+  }
+
+  MoPubInterstitialAd interstitialAd;
+  void _loadMopubInterstitialAd() async {
+    interstitialAd = MoPubInterstitialAd(
+      '7e9b62190a1f4a6ab748342e6dd012a6',
+      (result, args) {
+        print('Interstitial $result');
+      },
+      reloadOnClosed: true,
+    );
+    await interstitialAd.load();
+    print('ad loaded');
+    interstitialAd.show();
+    print('ad showed');
   }
 
   @override
   void initState() {
     super.initState();
-    _interstitialAd = InterstitialAd(
-      adUnitId: AdManager().songPageinterstitialId,
-      listener: (MobileAdEvent event) {
-        print("InterstitialAd event is $event");
-      },
-    );
-    _loadInterstitialAd();
-    FireStoreHelper().changeClicks(context, widget.currentSong);
+    //Below code is for admob ads.
+    // _interstitialAd = InterstitialAd(
+    //   adUnitId: AdManager().songPageinterstitialId,
+    //   listener: (MobileAdEvent event) {
+    //     print("InterstitialAd event is $event");
+    //   },
+    // );
+    // _loadAdmobInterstitialAd();
+
+    //Below code is for mopub ads.
+    try {
+      MoPub.init('7e9b62190a1f4a6ab748342e6dd012a6', testMode: false).then((_) {
+        _loadMopubInterstitialAd();
+      });
+    } on PlatformException {}
+
+    if (songsVisited.contains(widget.currentSong.code) == false) {
+      FireStoreHelper().changeClicks(context, widget.currentSong);
+    }
+    songsVisited.add(widget.currentSong.code);
+
     if (widget.currentSong.youTubeLink.length != null &&
         widget.currentSong.youTubeLink.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
@@ -77,6 +108,15 @@ class _SongPageState extends State<SongPage> {
     } else {
       isLinkAvail = false;
       linkInfo = 'Song not available to listen.';
+    }
+
+    if (widget.currentSong.englishLyrics.length > 2 &&
+        widget.currentSong.englishLyrics != "NA") {
+      noOfLang++;
+    }
+    if (widget.currentSong.gujaratiLyrics.length > 2 &&
+        widget.currentSong.gujaratiLyrics != "NA") {
+      noOfLang++;
     }
   }
 
@@ -143,9 +183,16 @@ class _SongPageState extends State<SongPage> {
                     }
                   },
                   languageTap: () {
-                    setState(() {
-                      isHindi = !isHindi;
-                    });
+                    if (noOfLang == 1) {
+                      showToast(context,
+                          'No more languages for this song is available now!',
+                          duration: 2);
+                    } else if (langNo >= noOfLang) {
+                      langNo = 1;
+                    } else if (langNo < noOfLang) {
+                      langNo++;
+                    }
+                    setState(() {});
                   },
                 ),
                 SizedBox(
@@ -179,8 +226,11 @@ class _SongPageState extends State<SongPage> {
                   height: 10,
                 ),
                 LyricsWidget(
-                  lyrics:
-                      isHindi ? currentSong.lyrics : currentSong.englishLyrics,
+                  lyrics: langNo == 1
+                      ? currentSong.lyrics
+                      : (langNo == 2
+                          ? currentSong.englishLyrics
+                          : currentSong.gujaratiLyrics),
                 ),
                 Text(
                   '-----XXXXX-----',

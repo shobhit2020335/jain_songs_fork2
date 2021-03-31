@@ -11,6 +11,7 @@ import 'package:jain_songs/utilities/song_details.dart';
 List<SongDetails> songList = [];
 List<SongDetails> sortedSongList = [];
 List<SongDetails> listToShow = [];
+Set<String> songsVisited = Set();
 
 //Lists for applying filters.
 List<Filters> filtersAll = [
@@ -23,14 +24,17 @@ List<Filters> filtersAll = [
   Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
   Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
+  Filters('tirthankar', 'Neminath', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
   Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
+  Filters('tirthankar', 'Sambhavnath', color: Colors.redAccent),
   Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
   Filters('category', 'Bhakti', color: Colors.amber),
   Filters('category', 'Stavan', color: Colors.amber),
   Filters('category', 'Garba', color: Colors.amber),
   Filters('category', 'Aarti', color: Colors.amber),
   Filters('category', 'Stotra', color: Colors.amber),
+  Filters('category', 'Chalisa', color: Colors.amber),
   Filters('language', 'Hindi', color: Colors.blue),
   Filters('language', 'Gujarati', color: Colors.blue),
   Filters('language', 'Marwadi', color: Colors.blue),
@@ -55,16 +59,20 @@ Future<void> applyFilter() async {
         userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'tirthankar') {
         tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.tirthankar = userFilters.tirthankar + " "+ filtersSelected[i].name;
+        userFilters.tirthankar =
+            userFilters.tirthankar + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'category') {
         categorySelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.category = userFilters.category + " " +filtersSelected[i].name;
+        userFilters.category =
+            userFilters.category + " " + filtersSelected[i].name;
       } else if (filtersSelected[i].category == 'language') {
         languageSelected.add(filtersSelected[i].name.toLowerCase());
-        userFilters.language =  userFilters.language+ " "+ filtersSelected[i].name;
+        userFilters.language =
+            userFilters.language + " " + filtersSelected[i].name;
       }
     }
 
+    //TODO: Remove below before commit.
     FireStoreHelper().userSelectedFilters(userFilters);
 
     for (int i = 0; i < n; i++) {
@@ -145,7 +153,7 @@ int totalDays = 1;
 int fetchedDays = 0;
 
 //TODO: update app version for new app.
-double appVersion = 1.08;
+double appVersion = 1.10;
 double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;
@@ -231,7 +239,7 @@ void addElementsToList(String playlistTag) {
       }
     }
   }
-  //This is Tirthankar playlist.
+  //This is Tirthankar, diksha and paryushan playlist
   else {
     for (int i = 0; i < songList.length; i++) {
       if (songList[i].tirthankar.toLowerCase().contains(playlistTag)) {
@@ -269,7 +277,7 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Favourites',
-    subtitle: 'Likes Songs',
+    subtitle: 'Liked Songs',
     playlistTag: 'favourites',
     leadIcon: FontAwesomeIcons.gratipay,
     color: Colors.pink[300],
@@ -300,11 +308,29 @@ List<PlaylistDetails> playlistList = [
   ),
   PlaylistDetails(
     active: true,
+    title: 'Diksha Stavans',
+    subtitle: 'Diksha playlist',
+    playlistTag: 'diksha',
+    leadIcon: Icons.cleaning_services_rounded,
+    iconSize: 32,
+    color: Colors.blueGrey,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    leadIcon: Icons.self_improvement_rounded,
+    iconSize: 40,
+    color: Colors.brown,
+  ),
+  PlaylistDetails(
+    active: true,
     title: 'Parshwanath',
     subtitle: 'Parasnath Bhajans',
     playlistTag: 'parshwanath',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue,
+    color: Colors.blue[300],
   ),
   PlaylistDetails(
     active: true,
@@ -312,13 +338,21 @@ List<PlaylistDetails> playlistList = [
     subtitle: 'Mahaveer Swami Bhajans',
     playlistTag: 'mahavir',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Colors.blue[700],
+    color: Colors.blue,
   ),
   PlaylistDetails(
     active: true,
     title: 'Adinath Swami',
-    subtitle: 'Adinath Swami Bhajans',
+    subtitle: 'Rishabh dev Bhajans',
     playlistTag: 'adinath',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue[700],
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Nakoda Bheruji',
+    subtitle: 'Nakoda Bhairav Bhajans',
+    playlistTag: 'nakoda',
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Colors.blue[900],
   ),
