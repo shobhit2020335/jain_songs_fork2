@@ -24,6 +24,8 @@
 //package info
 //Filter_list
 //TODO: In App rating
+//TODO: Remove spaces and special characters from search.
+//TODO: Remove common words from search and then search
 //TODO: New tirthankar, categories.
 //TODO: starting playback time.
 //TODO: Storing time stamps.
@@ -52,12 +54,8 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'package:mopub_flutter/mopub.dart';
-import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
