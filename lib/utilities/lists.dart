@@ -296,23 +296,7 @@ List<PlaylistDetails> playlistList = [
     subtitle: 'All time hits',
     playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
-    color: Colors.deepPurple,
-  ),
-  PlaylistDetails(
-    active: true,
-    title: 'Diksha Stavans',
-    subtitle: 'Diksha playlist',
-    playlistTag: 'diksha',
-    leadIcon: Icons.cleaning_services_rounded,
     color: Colors.amber,
-  ),
-  PlaylistDetails(
-    active: true,
-    title: 'Paryushan Stavans',
-    subtitle: 'Paryushan Mahaparv Playlist',
-    playlistTag: 'paryushan',
-    leadIcon: Icons.self_improvement_rounded,
-    color: Colors.brown,
   ),
   PlaylistDetails(
     active: true,
