@@ -23,9 +23,15 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
+//TODO: trasaction in firestore for likes and shares.
+//TODO: Cache size unlimited in firestore.
+//TODO: Disable latest songs for unsbcribed users.
+//TODO: Search algo by words, Remove spaces in searching., extra search button, Remove common words from search and then search, Show search button after refresh.
+//TODO: Subscripition
+//TODO: Google ad bidding.
+//TODO: Dynamic link sharing.
+//TODO: Genre and category in searching.
 //TODO: In App rating
-//TODO: Remove spaces and special characters from search.
-//TODO: Remove common words from search and then search
 //TODO: New tirthankar, categories.
 //TODO: starting playback time.
 //TODO: Storing time stamps.

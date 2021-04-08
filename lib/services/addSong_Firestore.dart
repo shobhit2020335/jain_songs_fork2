@@ -15,13 +15,13 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('HTNTT',
-      englishName: 'Have Tara Nai Tam Tame Have Tara Nahi Tam Tame',
-      hindiName: '',
-      originalSong: '',
-      album: '',
-      tirthankar: '',
-      extra1: 'Jainam Varia',
+  currentSong.makestringSearchKeyword('RRHTTJC',
+      englishName: 'Rome Rome Hu Taro Thati Jau Chu',
+      hindiName: 'रोमे रोमे हुं तारो थतो जाउ छुं',
+      originalSong: 'Rome Rome Hu Taro Thato Jav Chu',
+      album: 'Rome Rome Hu Tari Thati Jau Chhu',
+      tirthankar: 'Rome Rome Hu Tari Thati Jav Chu',
+      extra1: 'રોમે રોમે હું તારો થતો જાઉ છું',
       extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव
@@ -29,30 +29,31 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'HTNTT',
+    'code': 'RRHTTJC',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Diksha',
-    'gujaratiLyrics': '',
+    'genre': '',
+    'gujaratiLyrics':
+        'Suggested by:- Ruchi Gada\n\nરોમે રોમે હું તારો થતો જાઉ છું\nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું\n\nહવે પરવડે નહી રહેવાનું તારાથી દૂર,\nતારે રહેવાનુ હૈયામાં હાજરા હજુર,\nતારી નજરોમાં નજરાતો જાઉ છું \nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું\nરોમે રોમે હું…\n\nહવે જોડુ નહી જગમાં હું નાતો કોઇથી,\nમને વહાલો તુ વહાલો તુ વહાલો સહુથી,\nતારા યાદોમા ખોવાતો જાઉ છું \nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું\nરોમે રોમે હું…\n\nહવે શરણુ દીઘુ છે તો શત રાખજે,\nઆ બાળ ને તારા શરણે રાખજે,\nવિતરાગી તારા થકી હું સોહાઉ છુ \nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું…\nરોમે રોમે હું…\n',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'हवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\nहवे पूनम नई आवे मारा बारने\nमारा आँसू नो दरियो घडवाडे रे लोल\nहवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\n\nमारा पालव नो प्रेम आ तो छोड़ी गयो\nऐना मंगमता आकाशे दोड़ी गयो\nएने मुकि छे...\nएने मुकि छे ममता नी मोजड़ी\nप्रभु प्रीति नी बांधसे कसदि\nहवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\n\nतू पिता प्रेम नो क्यारो हतो\nधन वैभव ने पेढ़ी नो वारस हतो\nजिन शाशन नी...\nजिन शाशन नी शान ने वधारषे\nएमा महाव्रत नी मोह लगावशे रे लोल\nहवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\n\nकाली शेरीमाँ बालपने रमतो हतो\nभाई बेहेन नी संगते जमतो हतो\nकेम अनधारयो....\nकेम अनधारयो तहको आ मोरलो\nएने आवे छे सैयाम ना शोनला रे लोल\nहवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\n\nभोग सुखो ना शामनाओ छूटता नाता\nसुख मानवा मा दिवसों पान खुट्टा नाता\nभर यौवन मा...\nभर यौवन मा त्याग पंथे मोहातो\nआ तो सैयाम ना शणगारे सोहातो जाय\nहवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\n\nआ धरती तू बजे ने कोमल सदा\nमारा लाडला ने खुप ना काकरा काढ़ा\nआ तो  चाल्यो छे...\nआ तो चाल्यो छे कशता नी केडीए\nएने पादशे रे अष्ट अष्ट मावड़ी रे लोल\nहवे तारा नई तम तमे आ आंगने\nएक सैयाम नो तारलो जळहळे रे लोल\nएक सैयाम नो तारलो जळहळे रे लोल\nएक सैयाम नो तारलो जळहळे रे लोल\n',
+        'Suggested by:- Ruchi Gada\n\nरोमे रोमे हुं तारो थतो जाउ छुं\nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं\nहवे परवडे नही रहेवानुं ताराथी दूर,\nतारे रहेवानु हैयामां हाजरा हजुर,\nतारी नजरोमां नजरातो जाउ छुं (२)\nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं\nरोमे रोमे हुं…\n\nहवे जोडु नही जगमां हुं नातो कोइथी,\nमने वहालो तु वहालो तु वहालो सहुथी,\nतारा यादोमा खोवातो जाउ छुं \nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं\nरोमे रोमे हुं…\n\nहवे शरणु दीघु छे तो शत राखजे,\nआ बाळ ने तारा शरणे राखजे,\nवितरागी तारा थकी हुं सोहाउ छु\nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं…\nरोमे रोमे हुं…\n',
     'englishLyrics':
-        'Have taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\nHave poonam nai aave maaraa baarane\nMaaraa aasu no dariyo ghadvade re lol\nHave taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\n\nMaaraa paalav no prem a to chodi gayo\nEna mangamta aakaashe dodi gayo\nEne muki che....\nEne muki che mamta ni mojadi\nPrabu priti ni bandhse kasadi\nHave taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\n\nTu pita prem no kyaaro hato\nDhan vaibhav ne pedhi no vaaras hato\nJin shaashan ni...\nJin shaashan ni shaan ne vadharshe\nEma mahavrat ni moh lagavshe re lol\nHave taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\n\nKaali sheri ma baalpane ramto hato\nBhai behen ni sangaate jamto hato\nKem anadhaaryo....\nKem anadhaaryo tahuko aa moralo\nEne aave che saiyam na shonala re lol\nHave taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\n\nBhog sukho na shamanao chutata nata\nSukh maanavaa maa divaso pan khutata nata\nBhar yovan maa...\nBhar yovan maa tyaag panthe mohaato\nA to saiyam na shanagaare sohato jaay\nHave taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\n\nA dharti tu banje ne komal sada\nMaaraa laadalaa ne khupe naa kaakaraa kada\nA to chaalyo che...\nA to chaalyo che kashta ni kediye\nEne paadashe re ashta ashta maavadi re lol\nHave taaraa nai tam tame aa aangane\nEk saiyam no taarlo jalhale re lol\nEk saiyam no taarlo jalhale re lol\nEk saiyam no taarlo jalhale re lol\n',
+        'Suggested by:- Ruchi Gada\n\nRome Rome Hu Taro Thato Jau Chu\nTara Prem Maa Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\nHave Parvade Nahi Rehvanu Tara Thi Dur\nTare Reh wanu Haraday Ma Hajra Hajur (2)\nTari Najaro Maa Najarato Jau Chu\nTara Prem Ma Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\n\nHave Jodu Nahi Nato Hu Jag Ma Koi Thi\nMane Vhalo Tu Vhalo Tu Vhalo Sau Thi (2)\nTari Yaado Ma Khovato Jau Chu\nTara Prem Ma Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\n\nHave Sharnu Lidhu Che To Sat Rakhje\nTara Baal Ne Tara Charne Rakhje (2)\nVitragi Tara Thaki Hu Sohau Chu\nTara Prem Ma Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Virti Vivah',
+    'production': '',
     'share': 0,
-    'singer': 'Jainam Varia',
-    'songNameEnglish': 'Have Tara Nai Tam Tame',
-    'songNameHindi': '',
+    'singer': 'Hiral Shah',
+    'songNameEnglish': 'Rome Rome Hu Taro Thati Jau Chu',
+    'songNameHindi': 'रोमे रोमे हुं तारो थतो जाउ छुं',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/F6DFXtFCmzA',
+    'youTubeLink': 'https://youtu.be/2xZcQTIUlH4',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
