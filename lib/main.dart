@@ -23,6 +23,13 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
+//TODO: Recommended tag in trending list
+//TODO: Janam Kalyanak category/genre
+//TODO; Store UID as song name+ random for suggestions
+//TODO: Top 30 for popular
+//TODO: Adeshwar, adinath, rishabhdev consider equal in searching.
+//TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
+//TODO: mahaveer + mahavir, adeshwar + adinath + rishabhdev
 //TODO: trasaction in firestore for likes and shares.
 //TODO: Cache size unlimited in firestore.
 //TODO: Disable latest songs for unsbcribed users.

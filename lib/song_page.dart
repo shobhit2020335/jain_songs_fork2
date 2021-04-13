@@ -17,8 +17,9 @@ import 'services/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
   final SongDetails currentSong;
+  final MoPubInterstitialAd interstitialAd;
 
-  SongPage({this.currentSong});
+  SongPage({this.currentSong, @required this.interstitialAd});
 
   @override
   _SongPageState createState() => _SongPageState();
@@ -48,19 +49,13 @@ class _SongPageState extends State<SongPage> {
       );
   }
 
-  MoPubInterstitialAd interstitialAd;
-  void _loadMopubInterstitialAd() async {
-    interstitialAd = MoPubInterstitialAd(
-      '7e9b62190a1f4a6ab748342e6dd012a6',
-      (result, args) {
-        print('Interstitial $result');
-      },
-      reloadOnClosed: true,
-    );
-    await interstitialAd.load();
-    print('ad loaded');
-    interstitialAd.show();
-    print('ad showed');
+  void _showMopubInterstitialAd() async {
+    if (widget.interstitialAd != null) {
+      await widget.interstitialAd.load();
+      print('ad loaded');
+      widget.interstitialAd.show();
+      print('ad showed');
+    }
   }
 
   @override
@@ -76,11 +71,7 @@ class _SongPageState extends State<SongPage> {
     // _loadAdmobInterstitialAd();
 
     //Below code is for mopub ads.
-    try {
-      MoPub.init('7e9b62190a1f4a6ab748342e6dd012a6', testMode: false).then((_) {
-        _loadMopubInterstitialAd();
-      });
-    } on PlatformException {}
+    _showMopubInterstitialAd();
 
     if (songsVisited.contains(widget.currentSong.code) == false) {
       FireStoreHelper().changeClicks(context, widget.currentSong);

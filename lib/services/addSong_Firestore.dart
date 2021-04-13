@@ -15,45 +15,44 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('RRHTTJC',
-      englishName: 'Rome Rome Hu Taro Thati Jau Chu',
-      hindiName: 'रोमे रोमे हुं तारो थतो जाउ छुं',
-      originalSong: 'Rome Rome Hu Taro Thato Jav Chu',
-      album: 'Rome Rome Hu Tari Thati Jau Chhu',
-      tirthankar: 'Rome Rome Hu Tari Thati Jav Chu',
-      extra1: 'રોમે રોમે હું તારો થતો જાઉ છું',
+  currentSong.makestringSearchKeyword('HCTTCA',
+      englishName: 'Hu Chu Tamara Tame Cho Amara hu chu tamaro tame cho amara',
+      hindiName: 'हुं छुं तमारों तमे छो मारा',
+      originalSong: '',
+      album: '',
+      tirthankar: '',
+      extra1: '',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'RRHTTJC',
+    'code': 'HCTTCA',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
     'genre': '',
-    'gujaratiLyrics':
-        'Suggested by:- Ruchi Gada\n\nરોમે રોમે હું તારો થતો જાઉ છું\nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું\n\nહવે પરવડે નહી રહેવાનું તારાથી દૂર,\nતારે રહેવાનુ હૈયામાં હાજરા હજુર,\nતારી નજરોમાં નજરાતો જાઉ છું \nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું\nરોમે રોમે હું…\n\nહવે જોડુ નહી જગમાં હું નાતો કોઇથી,\nમને વહાલો તુ વહાલો તુ વહાલો સહુથી,\nતારા યાદોમા ખોવાતો જાઉ છું \nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું\nરોમે રોમે હું…\n\nહવે શરણુ દીઘુ છે તો શત રાખજે,\nઆ બાળ ને તારા શરણે રાખજે,\nવિતરાગી તારા થકી હું સોહાઉ છુ \nતારા પ્રેમમાં પ્રભુજી હું ભિંજાઉ છું…\nરોમે રોમે હું…\n',
+    'gujaratiLyrics': '',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'Suggested by:- Ruchi Gada\n\nरोमे रोमे हुं तारो थतो जाउ छुं\nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं\nहवे परवडे नही रहेवानुं ताराथी दूर,\nतारे रहेवानु हैयामां हाजरा हजुर,\nतारी नजरोमां नजरातो जाउ छुं (२)\nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं\nरोमे रोमे हुं…\n\nहवे जोडु नही जगमां हुं नातो कोइथी,\nमने वहालो तु वहालो तु वहालो सहुथी,\nतारा यादोमा खोवातो जाउ छुं \nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं\nरोमे रोमे हुं…\n\nहवे शरणु दीघु छे तो शत राखजे,\nआ बाळ ने तारा शरणे राखजे,\nवितरागी तारा थकी हुं सोहाउ छु\nतारा प्रेममां प्रभुजी हुं भिंजाउ छुं…\nरोमे रोमे हुं…\n',
+        'धर्मना दायक तमे धुरंधर, तमे परम तारक शुभंकर\nतमे कृपानो सरस सागर, तमने आपु अनंत आदर, \nसाहेब...साहेब...साहेब........\n\nतमे तो मुजने बधु ज आप्यु मैं तो तमोने कोई न आप्यु\nतमें छो मारा जीवन दाता, तमें ज पिता तमे ज माता\nहुं छुं तमारो, तमे छो मारा, आ वात तमने, कही दऊ छूं..\n\nतमारी पासे ज बेसवु छे, तमारी छायामां मां बसवु छे\nतमारी भक्ति थी खुशी मळे छे, तमारो शक्तिथी दुःख टळे छ\nहं छु नमारो, नमे छो अमारा, आ वात तमने, कही दऊ छु...\n\nयाद करू छु हर पळे, मनमा धरु छु हर पळे\nजे तमारा मां मळे, तेवु बीजामा ना मळे\nसाहेब मारा प्राण तमे छो. साहेब मारु ध्यान तमे छो\nसोथी सलामत स्थान तमे छो, आतम तत्व नु जान तमे छो\nहुं छुं तमारो, तमे छो अमारा, आ वात तमने, कही दऊ छुं..\n\nहूं तमारा संगमा, दीनरात रहेवा चाहुं छु\nमारा मननी वान बधी, तमने ज कहेवा चाहुं छु\nतमारा दरबारनी, देवधि ने जोया करूं\nक्यारे मळशे परमपद औ, चिंता थी रोया कर\nतमारी पासे ज बसवु छे. तमारी छायामां बस छ\nतमारी भक्तिधी खुशी मळे छे, तमारी शक्तिथी दुःख टळे छे\nहुं छुं तमारों, तमे छो मारा, आ बात तमने, कहीं दऊ छु..\n\nसौथी मोटुं बळ तमे  ने, सोथी पावन पळ तमे\nसौथी ऊंचु मंगळ तमे नै, नंदप्रभा जळहळ तमें\nसाचुं तीरथ स्थळ नमे ,मुज पुण्यनु शुभ फळ तमै\nआनंदमां अविचल नमे ने, जळ झाकळ ने कमळ नमे....\nहुं छुं तमारों, तमे छो मारा, आ बात तमने, कहीं दऊ छु.. (2)\n',
     'englishLyrics':
-        'Suggested by:- Ruchi Gada\n\nRome Rome Hu Taro Thato Jau Chu\nTara Prem Maa Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\nHave Parvade Nahi Rehvanu Tara Thi Dur\nTare Reh wanu Haraday Ma Hajra Hajur (2)\nTari Najaro Maa Najarato Jau Chu\nTara Prem Ma Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\n\nHave Jodu Nahi Nato Hu Jag Ma Koi Thi\nMane Vhalo Tu Vhalo Tu Vhalo Sau Thi (2)\nTari Yaado Ma Khovato Jau Chu\nTara Prem Ma Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\n\nHave Sharnu Lidhu Che To Sat Rakhje\nTara Baal Ne Tara Charne Rakhje (2)\nVitragi Tara Thaki Hu Sohau Chu\nTara Prem Ma Prabhuji Hu Bhinjau Chu\nRome Rome Hu…\n',
+        'Dharma na dayak tame dhurandhar\nTame param tarak shubhankar\nTame krupa nu saras saagar\nTamane aapu anant aadar\nSaheb......(4)\n\nTame to mujne badhuj aapyu\nMe to tamone kai na aapyu\nTame cho mara jeevan daata\nTamej pita tamej mata\nHu chu tamaro,tame cho mara...(2)\nAa vaat tamane kai dau chu\n\nTamari pasej besavu che\nTamari chaya ma vasavu che...(2)\nTamari bhakti thi khushi made che\nTamati shakti thi dukh tade che\nHu chu tamaro,tame cho mara\nAa vaat tamane kai dau chu\n\nYaad karu chu har pade\nMan ma dharu chu har pade\nJe tamara ma made\nEvu bija ma na made\nSaheb mara praan tame cho\nSaheb maru dhyaan tame cho\nSaheb mara praan tame cho\nSaheb maru dhyaan tame cho\nSahu thi salamat sthaan tame cho\nAatam tatva nu gyaan tame cho\nHu chu tamaro,tame cho mara\nAa vaat tamane kai dau chu\n\nHu tamara sang ma\nDin raat rehava chahu chu\nMara mann ni vaat badhi\nTamanej kehava chahu chu\nTamara darabar ni\nDevardhi ne joya karu\nKyare madshe param pad\nA chinta thi roya karu\nHu chu tamaro,tame cho mara...(2)\n\nSau thi motu bad tame re\nSauthi pawan pad tane\nSauthi uchu mangal tame re\nKshatriya kund jadhad tame\nSachu tirth sthad tame\nMuj punya nu shubh fad tame\nAanand ma avichal tane\nJad jaakad ne a kamad tame\nHu chu tamaro,tame cho mara...(2)\nAa vaat tamane kai dau chu\nHu chu tamaro,tame cho mara...(2)\n',
     'originalSong': '',
     'popularity': 0,
-    'production': '',
+    'production': 'Jin Stavan',
     'share': 0,
-    'singer': 'Hiral Shah',
-    'songNameEnglish': 'Rome Rome Hu Taro Thati Jau Chu',
-    'songNameHindi': 'रोमे रोमे हुं तारो थतो जाउ छुं',
+    'singer': '',
+    'songNameEnglish': 'hu chu tamaro',
+    'songNameHindi': 'हुं छुं तमारों',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/2xZcQTIUlH4',
+    'youTubeLink': 'https://youtu.be/Ro-eq7obIMc',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
