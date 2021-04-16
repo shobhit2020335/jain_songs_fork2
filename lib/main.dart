@@ -23,9 +23,13 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
+//TODO: change UI for song page like, app bar, loading, laoding song, colors.
+//TODO: Check version and whehter all the firebase function commented or not.
+//TODO: set Rigtone option.
+//TODO: Review ads and admob.
 //TODO: Recommended tag in trending list
 //TODO: Janam Kalyanak category/genre
-//TODO; Store UID as song name+ random for suggestions
+//TODO; Store UID as song name + random for suggestions
 //TODO: Top 30 for popular
 //TODO: Adeshwar, adinath, rishabhdev consider equal in searching.
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
@@ -35,8 +39,6 @@
 //TODO: Disable latest songs for unsbcribed users.
 //TODO: Search algo by words, Remove spaces in searching., extra search button, Remove common words from search and then search, Show search button after refresh.
 //TODO: Subscripition
-//TODO: Google ad bidding.
-//TODO: Dynamic link sharing.
 //TODO: Genre and category in searching.
 //TODO: In App rating
 //TODO: New tirthankar, categories.
@@ -67,7 +69,11 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:jain_songs/playlist_page.dart';
+import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/uisettings.dart';
+import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
@@ -77,6 +83,14 @@ void main() async {
   await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   userCredential = await FirebaseAuth.instance.signInAnonymously();
+
+  var initializationSettingsAndroid =
+      new AndroidInitializationSettings('icon_notification');
+  var initializationSettings =
+      new InitializationSettings(android: initializationSettingsAndroid);
+  FirebaseFCMManager.flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
   runApp(MainTheme());
   secureScreen();
@@ -94,6 +108,27 @@ class MainTheme extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      onGenerateRoute: (settings) {
+        if (settings.name == '/song') {
+          final Map<String, dynamic> args = settings.arguments;
+
+          return MaterialPageRoute(builder: (context) {
+            return SongPage(
+              codeFromDynamicLink: args['code'],
+            );
+          });
+        } else if (settings.name == '/playlist') {
+          final Map<String, dynamic> args = settings.arguments;
+
+          return MaterialPageRoute(builder: (context) {
+            return PlaylistPage(
+              playlistCode: args['code'],
+            );
+          });
+        }
+        // assert(false, 'Need to implement ${settings.name}');
+        return null;
+      },
       theme: ThemeData(
         primaryColor: Colors.white,
         appBarTheme: AppBarTheme(

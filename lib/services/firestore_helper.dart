@@ -221,27 +221,23 @@ class FireStoreHelper {
 
   Future<void> changeClicks(
       BuildContext context, SongDetails currentSong) async {
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
-    if (songMap == null || isInternetConnected == false) {
+    if (isInternetConnected == false) {
       currentSong.totalClicks++;
       currentSong.todayClicks++;
       currentSong.popularity = currentSong.totalClicks + currentSong.likes;
       return;
     }
 
-    if (songMap.containsKey('totalClicks') == false ||
-        songMap.containsKey('popularity') == false) {
-      songMap['totalClicks'] = 0;
-      songMap['popularity'] = 0;
-    }
-    if (songMap.containsKey('todayClicks') == false ||
-        songMap.containsKey('trendPoints') == false) {
-      songMap['todayClicks'] = 0;
-      songMap['trendPoints'] = 0;
+    var docSnap = await songs.doc(currentSong.code).get();
+    Map<String, dynamic> songMap = docSnap.data();
+
+    if (songMap == null) {
+      currentSong.totalClicks++;
+      currentSong.todayClicks++;
+      currentSong.popularity = currentSong.totalClicks + currentSong.likes;
+      return;
     }
 
     int todayClicks = songMap['todayClicks'] + 1;
@@ -272,12 +268,17 @@ class FireStoreHelper {
 
   Future<void> changeShare(
       BuildContext context, SongDetails currentSong) async {
+    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+
+    if (isInternetConnected == false) {
+      currentSong.share++;
+      return;
+    }
+
     var docSnap = await songs.doc(currentSong.code).get();
     Map<String, dynamic> songMap = docSnap.data();
 
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-
-    if (songMap == null || isInternetConnected == false) {
+    if (songMap == null) {
       currentSong.share++;
       return;
     }
@@ -295,19 +296,21 @@ class FireStoreHelper {
 
   Future<void> changeLikes(
       BuildContext context, SongDetails currentSong, bool toAdd) async {
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
-    if (songMap == null || isInternetConnected == false) {
+    if (isInternetConnected == false) {
       showToast(context, 'No Internet connection!', duration: 2);
       currentSong.isLiked = !currentSong.isLiked;
       return;
     }
 
-    if (songMap.containsKey('popularity') == false) {
-      songMap['popularity'] = 0;
+    var docSnap = await songs.doc(currentSong.code).get();
+    Map<String, dynamic> songMap = docSnap.data();
+
+    if (songMap == null) {
+      showToast(context, 'No Internet connection!', duration: 2);
+      currentSong.isLiked = !currentSong.isLiked;
+      return;
     }
 
     songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;

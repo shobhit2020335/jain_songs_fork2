@@ -1,18 +1,18 @@
+import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/searchEmpty_page.dart';
+import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
+import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'package:mopub_flutter/mopub.dart';
-import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:translator/translator.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -22,9 +22,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
   int _currentIndex = 0;
+  Timer _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
   bool isSearchEmpty = false;
@@ -143,14 +144,40 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _timerLink = Timer(
+        Duration(milliseconds: 1000),
+        () {
+          print('Lifecycle state resumed');
+          FirebaseDynamicLinkService.retrieveDynamicLink(context);
+        },
+      );
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     getSongs('', true);
+
+    FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
+    FirebaseDynamicLinkService.retrieveDynamicLink(context);
+
+    WidgetsBinding.instance.addObserver(this);
+
+    FirebaseFCMManager.saveFCMToken();
+    FirebaseFCMManager.handleFCMRecieved(context);
   }
 
   @override
   void dispose() {
     searchController.clear();
+    WidgetsBinding.instance.removeObserver(this);
+    if (_timerLink != null) {
+      _timerLink.cancel();
+    }
     super.dispose();
   }
 

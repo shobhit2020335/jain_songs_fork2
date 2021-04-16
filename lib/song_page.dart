@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,11 @@ import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
+  final String codeFromDynamicLink;
   final SongDetails currentSong;
   final MoPubInterstitialAd interstitialAd;
 
-  SongPage({this.currentSong, @required this.interstitialAd});
+  SongPage({this.currentSong, this.interstitialAd, this.codeFromDynamicLink});
 
   @override
   _SongPageState createState() => _SongPageState();
@@ -27,6 +29,9 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage> {
   InterstitialAd _interstitialAd;
+  SongDetails currentSong;
+  bool showProgress = true;
+  Timer _timerLink;
 
   //Variable to determine which language is displayed now.
   int langNo = 1;
@@ -58,8 +63,54 @@ class _SongPageState extends State<SongPage> {
     }
   }
 
+  void setUpSongDetails() {
+    if (songsVisited.contains(currentSong.code) == false) {
+      FireStoreHelper().changeClicks(context, currentSong);
+    }
+    songsVisited.add(currentSong.code);
+
+    if (currentSong.youTubeLink.length != null &&
+        currentSong.youTubeLink.length > 2) {
+      NetworkHelper().checkNetworkConnection().then((value) {
+        isLinkAvail = value;
+        if (isLinkAvail == false) {
+          setState(() {
+            linkInfo = 'Please check your Internet Connection!';
+          });
+        }
+      });
+      _youtubePlayerController = YoutubePlayerController(
+        initialVideoId: YoutubePlayer.convertUrlToId(currentSong.youTubeLink),
+        flags: YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+          enableCaption: false,
+          useHybridComposition: false,
+        ),
+      );
+    } else {
+      isLinkAvail = false;
+      linkInfo = 'Song not available to listen.';
+    }
+
+    if (currentSong.englishLyrics.length > 2 &&
+        currentSong.englishLyrics != "NA") {
+      noOfLang++;
+    }
+    if (currentSong.gujaratiLyrics.length > 2 &&
+        currentSong.gujaratiLyrics != "NA") {
+      noOfLang++;
+    }
+    setState(() {
+      showProgress = false;
+    });
+  }
+
   @override
   void initState() {
+    setState(() {
+      showProgress = true;
+    });
     super.initState();
     //Below code is for admob ads.
     // _interstitialAd = InterstitialAd(
@@ -73,170 +124,170 @@ class _SongPageState extends State<SongPage> {
     //Below code is for mopub ads.
     _showMopubInterstitialAd();
 
-    if (songsVisited.contains(widget.currentSong.code) == false) {
-      FireStoreHelper().changeClicks(context, widget.currentSong);
-    }
-    songsVisited.add(widget.currentSong.code);
-
-    if (widget.currentSong.youTubeLink.length != null &&
-        widget.currentSong.youTubeLink.length > 2) {
-      NetworkHelper().checkNetworkConnection().then((value) {
-        isLinkAvail = value;
-        if (isLinkAvail == false) {
-          setState(() {
-            linkInfo = 'Please check your Internet Connection!';
+    if (widget.codeFromDynamicLink == null ||
+        widget.codeFromDynamicLink == '') {
+      currentSong = widget.currentSong;
+      setUpSongDetails();
+    } else {
+      _timerLink = Timer(Duration(milliseconds: 3000), () {
+        if (songList.isNotEmpty) {
+          currentSong = songList.firstWhere((song) {
+            return song.code == widget.codeFromDynamicLink;
+          }, orElse: () {
+            return null;
           });
+          if (currentSong == null) {
+            Navigator.of(context).pop();
+          } else {
+            setUpSongDetails();
+          }
+        } else {
+          print('Song list is empty in song page');
+          Navigator.of(context).pop();
         }
       });
-      _youtubePlayerController = YoutubePlayerController(
-        initialVideoId:
-            YoutubePlayer.convertUrlToId(widget.currentSong.youTubeLink),
-        flags: YoutubePlayerFlags(
-          autoPlay: false,
-          mute: false,
-        ),
-      );
-    } else {
-      isLinkAvail = false;
-      linkInfo = 'Song not available to listen.';
-    }
-
-    if (widget.currentSong.englishLyrics.length > 2 &&
-        widget.currentSong.englishLyrics != "NA") {
-      noOfLang++;
-    }
-    if (widget.currentSong.gujaratiLyrics.length > 2 &&
-        widget.currentSong.gujaratiLyrics != "NA") {
-      noOfLang++;
     }
   }
 
   @override
   void dispose() {
+    //TODO: Check below.
+    if (_youtubePlayerController != null) {
+      _youtubePlayerController.dispose();
+    }
     if (_interstitialAd != null) {
       _interstitialAd.dispose();
+    }
+    if (_timerLink != null) {
+      _timerLink.cancel();
     }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    SongDetails currentSong = widget.currentSong;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          currentSong.songNameEnglish,
+          currentSong != null ? currentSong.songNameEnglish : 'Loading song',
         ),
       ),
-      body: Builder(
-        builder: (context) => SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 15),
-            child: Column(
-              children: [
-                SongCard(
-                  currentSong: currentSong,
-                  likesIcon: currentSong.isLiked == true
-                      ? FontAwesomeIcons.solidHeart
-                      : FontAwesomeIcons.heart,
-                  likesTap: () async {
-                    if (currentSong.isLiked == true) {
-                      currentSong.isLiked = false;
-                      setState(() {});
-                      FireStoreHelper fireStoreHelper = FireStoreHelper();
-                      await fireStoreHelper.changeLikes(
-                          context, currentSong, false);
-                    } else {
-                      currentSong.isLiked = true;
-                      setState(() {});
-                      FireStoreHelper fireStoreHelper = FireStoreHelper();
-                      await fireStoreHelper.changeLikes(
-                          context, currentSong, true);
-                    }
-                    setState(() {});
-                  },
-                  shareTap: () async {
-                    //Opens other app to share song.
-                    shareApp(currentSong.songNameHindi);
-                    //Increases likes in Firebase.
-                    FireStoreHelper fireStoreHelper = FireStoreHelper();
-                    await fireStoreHelper.changeShare(context, currentSong);
-                    setState(() {});
-                  },
-                  youtubeTap: () {
-                    String link = currentSong.youTubeLink;
-                    if (link == null || link == '') {
-                      showToast(context,
-                          'Video URL is not available at this moment!');
-                    } else {
-                      launchURL(context, link);
-                      print('Launching');
-                    }
-                  },
-                  languageTap: () {
-                    if (noOfLang == 1) {
-                      showToast(context,
-                          'No more languages for this song is available now!',
-                          duration: 2);
-                    } else if (langNo >= noOfLang) {
-                      langNo = 1;
-                    } else if (langNo < noOfLang) {
-                      langNo++;
-                    }
-                    setState(() {});
-                  },
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                isLinkAvail
-                    ? YoutubePlayer(
-                        controller: _youtubePlayerController,
-                        showVideoProgressIndicator: true,
-                        onReady: () {},
-                      )
-                    : Text(
-                        linkInfo,
+      body: showProgress
+          ? Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.indigo,
+              ),
+            )
+          : Builder(
+              builder: (context) => SafeArea(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: 15),
+                  child: Column(
+                    children: [
+                      SongCard(
+                        currentSong: currentSong,
+                        likesIcon: currentSong.isLiked == true
+                            ? FontAwesomeIcons.solidHeart
+                            : FontAwesomeIcons.heart,
+                        likesTap: () async {
+                          if (currentSong.isLiked == true) {
+                            currentSong.isLiked = false;
+                            setState(() {});
+                            FireStoreHelper fireStoreHelper = FireStoreHelper();
+                            await fireStoreHelper.changeLikes(
+                                context, currentSong, false);
+                          } else {
+                            currentSong.isLiked = true;
+                            setState(() {});
+                            FireStoreHelper fireStoreHelper = FireStoreHelper();
+                            await fireStoreHelper.changeLikes(
+                                context, currentSong, true);
+                          }
+                          setState(() {});
+                        },
+                        shareTap: () async {
+                          //Opens other app to share song.
+                          shareApp(currentSong.songNameHindi, currentSong.code);
+
+                          FireStoreHelper fireStoreHelper = FireStoreHelper();
+                          await fireStoreHelper.changeShare(
+                              context, currentSong);
+                          setState(() {});
+                        },
+                        youtubeTap: () {
+                          String link = currentSong.youTubeLink;
+                          if (link == null || link == '') {
+                            showToast(context,
+                                'Video URL is not available at this moment!');
+                          } else {
+                            launchURL(context, link);
+                            print('Launching');
+                          }
+                        },
+                        languageTap: () {
+                          if (noOfLang == 1) {
+                            showToast(context,
+                                'No more languages for this song is available now!',
+                                duration: 2);
+                          } else if (langNo >= noOfLang) {
+                            langNo = 1;
+                          } else if (langNo < noOfLang) {
+                            langNo++;
+                          }
+                          setState(() {});
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      isLinkAvail
+                          ? YoutubePlayer(
+                              controller: _youtubePlayerController,
+                              showVideoProgressIndicator: true,
+                              onReady: () {},
+                            )
+                          : Text(
+                              linkInfo,
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Lyrics',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.grey,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF18191A),
                         ),
                       ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Lyrics',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF18191A),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      LyricsWidget(
+                        lyrics: langNo == 1
+                            ? currentSong.lyrics
+                            : (langNo == 2
+                                ? currentSong.englishLyrics
+                                : currentSong.gujaratiLyrics),
+                      ),
+                      Text(
+                        '-----XXXXX-----',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF18191A),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                LyricsWidget(
-                  lyrics: langNo == 1
-                      ? currentSong.lyrics
-                      : (langNo == 2
-                          ? currentSong.englishLyrics
-                          : currentSong.gujaratiLyrics),
-                ),
-                Text(
-                  '-----XXXXX-----',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF18191A),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

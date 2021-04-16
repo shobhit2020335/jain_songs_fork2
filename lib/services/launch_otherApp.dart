@@ -23,11 +23,16 @@ void launchPlayStore(String url) async {
   }
 }
 
-void shareApp(String name) async {
+String urlBeforeCode =
+    'https://stavan.page.link/?link=https://stavan.com/song?route%3Dsong%26code%3D';
+String urlAfterCode =
+    '&apn=com.JainDevelopers.jain_songs&amv=4&st=Stavan+-+Jain+Bhajan+with+Lyrics&sd=Listen+to+Jain+stavan+along+with+lyrics.&si=https://pbs.twimg.com/media/EfXqpDHUwAAVQHa.jpg';
+
+void shareApp(String name, String code) async {
   await FlutterShare.share(
     title: 'Google Play link',
     text: 'Find lyrics and listen to *$name* and other *Jain bhajans* on:',
-    linkUrl: appURL,
+    linkUrl: '$urlBeforeCode$code$urlAfterCode',
   );
 }
 
@@ -40,7 +45,7 @@ void sendEmail() async {
   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
   print('Running on ${androidInfo.model}');
 
-  String body = '\n\n\nDO NOT DELETE\n{' +
+  String body = '\n\n\nDO NOT DELETE \n{' +
       androidInfo.androidId +
       '\n' +
       androidInfo.brand +
@@ -52,7 +57,7 @@ void sendEmail() async {
       androidInfo.model +
       '\n' +
       androidInfo.version.sdkInt.toString() +
-      '}';
+      '\n}';
   var url = 'mailto:$email?subject=$subject&body=$body';
   if (await canLaunch(url)) {
     await launch(url);

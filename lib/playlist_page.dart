@@ -1,20 +1,26 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
 
 class PlaylistPage extends StatefulWidget {
   final PlaylistDetails currentPlaylist;
+  //Below Variable is recieved when page is opened from Dynamic link or FCM.
+  final String playlistCode;
 
-  PlaylistPage(this.currentPlaylist);
+  PlaylistPage({this.currentPlaylist, this.playlistCode});
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
-  bool showProgress = false;
+  bool showProgress = true;
+  Timer _timerLink;
   PlaylistDetails currentPlaylist;
 
   void getSongs() async {
@@ -28,16 +34,50 @@ class _PlaylistPageState extends State<PlaylistPage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    listToShow.clear();
-    currentPlaylist = widget.currentPlaylist;
+  void setUpPlaylistDetails() {
     if (currentPlaylist.playlistTag.contains('popular')) {
       getSongs();
     } else {
       addElementsToList(currentPlaylist.playlistTag);
+      setState(() {
+        showProgress = false;
+      });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listToShow.clear();
+    setState(() {
+      showProgress = true;
+    });
+
+    if (widget.playlistCode == null || widget.playlistCode.length == 0) {
+      currentPlaylist = widget.currentPlaylist;
+      setUpPlaylistDetails();
+    } else {
+      currentPlaylist = playlistList.firstWhere((playlist) {
+        return playlist.playlistTag.contains(widget.playlistCode);
+      }, orElse: () {
+        return null;
+      });
+      if (currentPlaylist == null) {
+        Navigator.of(context).pop();
+      } else {
+        _timerLink = Timer(Duration(milliseconds: 3000), () {
+          setUpPlaylistDetails();
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_timerLink != null) {
+      _timerLink.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -57,7 +97,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   children: [
                     SizedBox(height: 15),
                     Text(
-                      currentPlaylist.title,
+                      currentPlaylist != null ? currentPlaylist.title : '',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Pacifico',
@@ -73,7 +113,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   end: Alignment.topCenter,
                   colors: [
                     Colors.black,
-                    currentPlaylist.color,
+                    currentPlaylist != null
+                        ? currentPlaylist.color
+                        : Colors.white,
                   ],
                 ),
               ),
@@ -91,7 +133,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
                           height: 200,
                         ),
                         CircularProgressIndicator(
-                          backgroundColor: currentPlaylist.color,
+                          backgroundColor: currentPlaylist != null
+                              ? currentPlaylist.color
+                              : Colors.indigo,
                         ),
                       ],
                     ),
