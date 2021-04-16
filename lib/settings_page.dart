@@ -10,7 +10,6 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -52,7 +51,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 Text(
-                  'v1.0.0',
+                  'v1.1.1',
                   style: TextStyle(
                     color: Colors.black,
                   ),

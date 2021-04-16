@@ -6,6 +6,7 @@ import 'buildRow.dart';
 class BuildList extends StatelessWidget {
   final bool showProgress;
   final Color colorRowIcon;
+
   //The lisToShow might be causing error. See constructor.
 
   BuildList({
@@ -22,14 +23,27 @@ class BuildList extends StatelessWidget {
       color: Colors.white,
       opacity: 1,
       inAsyncCall: showProgress,
-      child: ListView.builder(
-          itemCount: listToShow.length,
-          itemBuilder: (context, i) {
-            return BuildRow(
-              currentSong: listToShow[i],
-              color: colorRowIcon,
-            );
-          }),
+      child: listToShow.length > 0
+          ? ListView.builder(
+              itemCount: listToShow.length,
+              itemBuilder: (context, i) {
+                return BuildRow(
+                  currentSong: listToShow[i],
+                  color: colorRowIcon,
+                );
+              })
+          : Container(
+              padding: EdgeInsets.only(
+                top: 30,
+                left: 10,
+              ),
+              child: Text(
+                'No Songs Available for the filter. Apply other filter or search something else.',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
     );
   }
 }

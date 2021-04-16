@@ -1,46 +1,83 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
 
 class PlaylistPage extends StatefulWidget {
   final PlaylistDetails currentPlaylist;
+  //Below Variable is recieved when page is opened from Dynamic link or FCM.
+  final String playlistCode;
 
-  PlaylistPage(this.currentPlaylist);
+  PlaylistPage({this.currentPlaylist, this.playlistCode});
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
-  bool showProgress = false;
+  bool showProgress = true;
+  Timer _timerLink;
   PlaylistDetails currentPlaylist;
 
   void getSongs() async {
     setState(() {
       showProgress = true;
     });
-    await FireStoreHelper().getSongs();
-
-    addElementsToList('Popular');
+    await FireStoreHelper().getPopularSongs();
 
     setState(() {
       showProgress = false;
     });
   }
 
+  void setUpPlaylistDetails() {
+    if (currentPlaylist.playlistTag.contains('popular')) {
+      getSongs();
+    } else {
+      addElementsToList(currentPlaylist.playlistTag);
+      setState(() {
+        showProgress = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     listToShow.clear();
-    currentPlaylist = widget.currentPlaylist;
-    if (currentPlaylist.title.contains('Popular')) {
-      getSongs();
+    setState(() {
+      showProgress = true;
+    });
+
+    if (widget.playlistCode == null || widget.playlistCode.length == 0) {
+      currentPlaylist = widget.currentPlaylist;
+      setUpPlaylistDetails();
     } else {
-      addElementsToList(currentPlaylist.title);
+      currentPlaylist = playlistList.firstWhere((playlist) {
+        return playlist.playlistTag.contains(widget.playlistCode);
+      }, orElse: () {
+        return null;
+      });
+      if (currentPlaylist == null) {
+        Navigator.of(context).pop();
+      } else {
+        _timerLink = Timer(Duration(milliseconds: 3000), () {
+          setUpPlaylistDetails();
+        });
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    if (_timerLink != null) {
+      _timerLink.cancel();
+    }
+    super.dispose();
   }
 
   @override
@@ -60,7 +97,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   children: [
                     SizedBox(height: 15),
                     Text(
-                      currentPlaylist.title,
+                      currentPlaylist != null ? currentPlaylist.title : '',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Pacifico',
@@ -76,7 +113,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   end: Alignment.topCenter,
                   colors: [
                     Colors.black,
-                    currentPlaylist.color,
+                    currentPlaylist != null
+                        ? currentPlaylist.color
+                        : Colors.white,
                   ],
                 ),
               ),
@@ -84,6 +123,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
+              // ignore: missing_return
               (context, index) {
                 if (showProgress) {
                   return Center(
@@ -93,14 +133,14 @@ class _PlaylistPageState extends State<PlaylistPage> {
                           height: 200,
                         ),
                         CircularProgressIndicator(
-                          backgroundColor: currentPlaylist.color,
+                          backgroundColor: currentPlaylist != null
+                              ? currentPlaylist.color
+                              : Colors.indigo,
                         ),
                       ],
                     ),
                   );
-                }
-                //TODO: Edited below this, test it.
-                else if (listToShow.length == 0) {
+                } else if (listToShow.length == 0) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -108,11 +148,11 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         height: 70,
                       ),
                       Text(
-                        'Like some songs to save them here.',
+                        'Songs loading...\nLike songs to save them in your Favourites playlist.',
                         style: TextStyle(
                           color: Colors.grey,
                         ),
-                      )
+                      ),
                     ],
                   );
                 } else if (index < listToShow.length) {

@@ -5,8 +5,6 @@ import 'package:jain_songs/utilities/song_suggestions.dart';
 
 import 'services/network_helper.dart';
 
-//TODO: Remove focus when text is not in focus.
-
 class FormPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _FormPageState();
@@ -91,7 +89,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       child: Column(
                         children: [
-                          formFieldTitle('Name'),
+                          formFieldTitle('Name (Optional)'),
                           SizedBox(
                             height: 7,
                           ),
@@ -109,7 +107,7 @@ class _FormPageState extends State<FormPage> {
                     Expanded(
                       child: Column(
                         children: [
-                          formFieldTitle('Email'),
+                          formFieldTitle('Email (Optional)'),
                           SizedBox(
                             height: 7,
                           ),
@@ -169,7 +167,7 @@ class _FormPageState extends State<FormPage> {
                       otherController.text,
                     );
 
-                    bool isInternetConnected = await NetworkHelper().check();
+                    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
                     if ((currentSongSuggestion.songSuggestionMap['songName'] ==
                                 '' ||
@@ -187,7 +185,7 @@ class _FormPageState extends State<FormPage> {
                             currentSongSuggestion
                                     .songSuggestionMap['lyrics'].length <
                                 2)) {
-                      showToast(
+                      showToast( 
                           context, 'Song Name and Lyrics both cannot be empty');
                     } else if (isInternetConnected == false) {
                       showToast(context, 'No Internet Connection!');

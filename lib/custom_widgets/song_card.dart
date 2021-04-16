@@ -10,7 +10,7 @@ Widget miniCard(
     Function likesTap,
     IconData likesIcon,
     Function youtubeTap,
-    Function saveTap,
+    Function languageTap,
     Function shareTap}) {
   return Card(
     margin: EdgeInsets.only(bottom: 0),
@@ -48,9 +48,9 @@ Widget miniCard(
             width: 40,
           ),
           songFunctionIcon(
-            icon: FontAwesomeIcons.download,
-            text: 'Save',
-            onPress: saveTap,
+            icon: FontAwesomeIcons.language,
+            text: 'Language',
+            onPress: languageTap,
           ),
           SizedBox(
             width: 40,
@@ -71,7 +71,7 @@ class SongCard extends StatelessWidget {
   final SongDetails currentSong;
   Function likesTap;
   Function youtubeTap;
-  Function saveTap;
+  Function languageTap;
   Function shareTap;
   IconData likesIcon;
 
@@ -79,7 +79,7 @@ class SongCard extends StatelessWidget {
       {@required this.currentSong,
       this.likesIcon,
       this.likesTap,
-      this.saveTap,
+      this.languageTap,
       this.shareTap,
       this.youtubeTap});
 
@@ -111,18 +111,21 @@ class SongCard extends StatelessWidget {
                 if (currentSong.tirthankar != null &&
                     currentSong.tirthankar.length > 0)
                   Text('Tirthankar: ${currentSong.tirthankar}'),
-                if (currentSong.singer != null && currentSong.singer.length > 0)
-                  Text('Singer: ${currentSong.singer}'),
                 if (currentSong.genre != null && currentSong.singer.length > 0)
                   Text('Genre: ${currentSong.genre}'),
-                if (currentSong.production != null &&
-                    currentSong.production.length > 0)
-                  Text('Production: ${currentSong.production}'),
+                if (currentSong.singer != null && currentSong.singer.length > 0)
+                  Text('Singer: ${currentSong.singer}'),
+                if (currentSong.album != null && currentSong.album.length > 0)
+                  Text('Album: ${currentSong.album}'),
                 if (currentSong.originalSong != null &&
                     currentSong.originalSong.length > 0)
                   Text('Original Song: ${currentSong.originalSong}'),
-                if (currentSong.album != null && currentSong.album.length > 0)
-                  Text('Album: ${currentSong.album}'),
+                if (currentSong.language != null &&
+                    currentSong.language.length > 0)
+                  Text('Language: ${currentSong.language}'),
+                if (currentSong.production != null &&
+                    currentSong.production.length > 0)
+                  Text('Production: ${currentSong.production}'),
               ],
             ),
           ),
@@ -133,7 +136,7 @@ class SongCard extends StatelessWidget {
               likesTap: likesTap,
               likesIcon: likesIcon,
               youtubeTap: youtubeTap,
-              saveTap: saveTap,
+              languageTap: languageTap,
               share: currentSong.share,
               shareTap: shareTap,
             ),

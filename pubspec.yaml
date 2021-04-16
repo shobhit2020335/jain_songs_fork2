@@ -1,8 +1,8 @@
 name: jain_songs
 description: Contains Jain Bhajans
 
-publish_to: 'none' 
-version: 1.0.0+1
+publish_to: 'none'
+version: 1.1.1+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -10,28 +10,37 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^0.1.3
-  font_awesome_flutter: ^8.8.1
-  connectivity: ^0.4.9+3
-  firebase_core: ^0.5.2
-  cloud_firestore: ^0.14.1+3
+  cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^9.0.0
+  connectivity: ^3.0.3
+  firebase_core: ^0.7.0
+  cloud_firestore: ^0.16.0+1
   modal_progress_hud: ^0.1.3
-  firebase_analytics: ^6.0.2
-  url_launcher: ^5.7.2
-  flutter_share: ^1.0.2+1
-  shared_preferences: ^0.5.12+2
+  firebase_analytics: ^7.0.1
+  url_launcher: ^6.0.3
+  flutter_share: ^2.0.0
+  shared_preferences: ^2.0.5
   progress_hud: ^1.1.0
-  firebase_crashlytics: ^0.2.3
-  firebase_database: "^4.3.0"
-  device_info: ^1.0.0
-  firebase_performance: ^0.4.2
-  firebase_admob: ^0.10.3
+  firebase_crashlytics: ^0.4.0+1
+  firebase_database: "^6.0.0"
+  device_info: ^2.0.0
+  firebase_performance: ^0.5.0+1
+  firebase_admob: ^0.11.0+2
+  flutter_windowmanager: ^0.0.2
   translator: ^0.1.5
+  webview_flutter: ^2.0.4
+  firebase_auth: "^0.20.1"
+  package_info: ^2.0.0
+  firebase_messaging: ^8.0.0-dev.15
+  youtube_player_flutter: ^8.0.0
+  mopub_flutter: ^1.2.2+1
+  firebase_dynamic_links: ^0.7.0
+  flutter_local_notifications: ^4.0.1+2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: ^0.9.0
 
 flutter_icons:
   android: true
@@ -41,9 +50,8 @@ flutter_icons:
   adaptive_icon_foreground: "dev_assets/Logo-adaptive.png"
 
 flutter:
-
   assets:
-  - images/
+    - images/
 
   uses-material-design: true
   fonts:

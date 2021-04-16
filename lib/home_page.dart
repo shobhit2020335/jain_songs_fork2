@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
@@ -5,34 +8,34 @@ import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/searchEmpty_page.dart';
+import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
+import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:translator/translator.dart';
+import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
-
-//TODO: Crashlytics in detail.
-//TODO: Disable ss taking in app.
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
   int _currentIndex = 0;
+  Timer _timerLink;
+
   //This variable is used to determine whether the user searching is found or not.
-  bool isSeacrchEmpty = false;
+  bool isSearchEmpty = false;
   bool showProgress = false;
-  Widget appBarTitle = Text(
-    'Jain Songs',
-  );
+  Widget appBarTitle = mainAppTitle();
 
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
-    color: Colors.white,
+    color: Colors.indigo,
   );
 
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
@@ -41,54 +44,140 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       showProgress = true;
     });
+
+    filtersSelected.clear();
+
     if (query != null && flag == false) {
       searchInList(query);
       //This if condition takes care when list become empty and convert the languages and check.
       //TODO: This do not work perfectly. It has to be changed.
       if (listToShow.isEmpty) {
-        GoogleTranslator translator = GoogleTranslator();
-        var queryInHindi =
-            await translator.translate(query, from: 'en', to: 'hi');
-        searchInList(queryInHindi.toString());
-        if (listToShow.isEmpty) {
-          translator = GoogleTranslator();
-          var queryInEnglish =
-              await translator.translate(query, from: 'hi', to: 'en');
-          searchInList(queryInEnglish.toString());
+        bool checkNet = await NetworkHelper().checkNetworkConnection();
+        if (checkNet == true) {
+          GoogleTranslator translator = GoogleTranslator();
+          var queryInHindi =
+              await translator.translate(query, from: 'en', to: 'hi');
+          searchInList(queryInHindi.toString());
+          if (listToShow.isEmpty) {
+            translator = GoogleTranslator();
+            var queryInEnglish =
+                await translator.translate(query, from: 'hi', to: 'en');
+            searchInList(queryInEnglish.toString());
+          }
         }
       }
 
       if (listToShow.isEmpty && query.length > 2) {
         setState(() {
-          isSeacrchEmpty = true;
+          isSearchEmpty = true;
         });
       } else {
-        isSeacrchEmpty = false;
+        isSearchEmpty = false;
       }
     } else {
-      await NetworkHelper().changeDate();
+      await NetworkHelper().changeDateAndVersion();
+      if (fetchedVersion > appVersion) {
+        setState(() {
+          showUpdateDialog(context);
+        });
+      }
       if (totalDays > fetchedDays) {
         fetchedDays = totalDays;
-        print('Ghusa in daily update');
+        FirebaseAnalytics()
+            .logLevelStart(levelName: 'Ghusa in Daily update on $todayDate');
         await FireStoreHelper().dailyUpdate();
       }
       await FireStoreHelper().getSongs();
       addElementsToList('home');
     }
+
     setState(() {
       showProgress = false;
     });
+  }
+
+  void _filterDialog() async {
+    await FilterListDialog.display(context,
+        height: 480,
+        borderRadius: 20,
+        searchFieldHintText: "Search Here", onApplyButtonClick: (list) {
+      filtersSelected = List.from(list);
+      setState(() {
+        showProgress = true;
+      });
+      applyFilter().then((value) {
+        setState(() {
+          showProgress = false;
+        });
+      }).catchError((onError) {
+        FirebaseCrashlytics.instance
+            .log('home_page/_filterDialog(): ' + onError.toString());
+        listToShow = List.from(sortedSongList);
+        showToast(context, 'Error applying Filter');
+        setState(() {
+          showProgress = false;
+        });
+      });
+      Navigator.pop(context);
+    },
+        //To implement onAllButtonCLick see how onResetButtonClick is made.
+        onResetButtonClick: (list) {
+      filtersSelected = List.from(list);
+      setState(() {
+        showProgress = true;
+      });
+      applyFilter().then((value) {
+        setState(() {
+          showProgress = false;
+        });
+      }).catchError((onError) {
+        FirebaseCrashlytics.instance
+            .log('home_page/_filterDialog(): ' + onError.toString());
+        listToShow = List.from(sortedSongList);
+        showToast(context, 'Error applying Filter');
+        setState(() {
+          showProgress = false;
+        });
+      });
+      Navigator.pop(context);
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _timerLink = Timer(
+        Duration(milliseconds: 1000),
+        () {
+          print('Lifecycle state resumed');
+          FirebaseDynamicLinkService.retrieveDynamicLink(context);
+        },
+      );
+    }
   }
 
   @override
   void initState() {
     super.initState();
     getSongs('', true);
+
+    FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
+    FirebaseDynamicLinkService.retrieveDynamicLink(context);
+
+    WidgetsBinding.instance.addObserver(this);
+
+    FirebaseFCMManager.saveFCMToken();
+    FirebaseFCMManager.handleFCMRecieved(context);
   }
 
   @override
   void dispose() {
     searchController.clear();
+    WidgetsBinding.instance.removeObserver(this);
+    if (_timerLink != null) {
+      _timerLink.cancel();
+    }
     super.dispose();
   }
 
@@ -96,7 +185,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: appBarTitle,
+        title: _currentIndex == 0
+            ? TextButton(
+                onPressed: () {
+                  setState(() {
+                    this.searchOrCrossIcon = Icon(Icons.close);
+                    this.appBarTitle = TextField(
+                      controller: searchController,
+                      //use focus node if autofoucs is not working.
+                      autofocus: true,
+                      onChanged: (value) {
+                        getSongs(value, false);
+                      },
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.black,
+                        ),
+                        hintText: 'Search anything...',
+                      ),
+                    );
+                  });
+                },
+                child: appBarTitle,
+              )
+            : appBarTitle,
         centerTitle: true,
         leading: Transform.scale(
           scale: 0.5,
@@ -135,15 +249,15 @@ class _HomePageState extends State<HomePage> {
                                   Icons.search,
                                   color: Colors.black,
                                 ),
-                                hintText: 'Search...',
+                                hintText: 'Search anything...',
                               ),
                             );
                           } else {
                             searchOrCrossIcon = Icon(Icons.search);
-                            this.appBarTitle = Text('Jain Songs');
+                            this.appBarTitle = mainAppTitle();
                             searchController.clear();
                             //Below line is for refresh when cross is clicked.
-                            //I am remvoing this feature, can be enabled later.
+                            //I am removing this feature, can be enabled later.
                             // getSongs('', true);
                             getSongs('', false);
                           }
@@ -151,7 +265,11 @@ class _HomePageState extends State<HomePage> {
                       })
                   : Icon(null),
               _currentIndex == 0
-                  ? IconButton(icon: filterIcon, onPressed: null)
+                  ? IconButton(
+                      icon: filterIcon,
+                      onPressed: () {
+                        _filterDialog();
+                      })
                   : Icon(null),
             ],
           ),
@@ -189,16 +307,17 @@ class _HomePageState extends State<HomePage> {
             } else if (index == 3) {
               appBarTitle = Text('Settings and More');
             } else {
-              appBarTitle = Text('Jain Songs');
+              appBarTitle = mainAppTitle();
               getSongs('', false);
+              searchController.clear();
               this.searchOrCrossIcon = Icon(Icons.search);
             }
           });
         },
       ),
-      //TODO: Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
+      //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
       body: <Widget>[
-        isSeacrchEmpty == false
+        isSearchEmpty == false
             ? BuildList(showProgress: showProgress)
             : SearchEmpty(searchController),
         FormPage(),
@@ -208,6 +327,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
 
 // IndexedStack(
 //         index: _currentIndex,

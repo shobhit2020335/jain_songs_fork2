@@ -95,6 +95,7 @@ class _SearchEmptyState extends State<SearchEmpty> {
                     nameController.clear();
                   },
                 );
+                showToast(context, 'ThankYou for submitting! We will update the song soon.');
               },
               child: Container(
                 decoration: BoxDecoration(

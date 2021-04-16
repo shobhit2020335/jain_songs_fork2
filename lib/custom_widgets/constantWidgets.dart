@@ -1,4 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/launch_otherApp.dart';
+import 'package:jain_songs/utilities/lists.dart';
+
+Future<void> showUpdateDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Update Available'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text(
+                'Newer Version of app is available.',
+                style: TextStyle(color: Colors.grey),
+              ),
+              Text(
+                'Press update to update the app now.',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Update'),
+            onPressed: () {
+              launchPlayStore(appURL);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
 Widget showLogo({double scale = 0.6}) {
   return Transform.scale(
@@ -64,30 +100,42 @@ Widget textBold20(String text) {
   );
 }
 
+Widget mainAppTitle(){
+  return Text(
+    'Jain Songs',
+    style: TextStyle(
+      fontFamily: 'Pacifico',
+      color: Color(0xFF212323),
+      fontSize: 20,
+    ),
+  );
+}
+
 Widget songFunctionIcon(
     {@required IconData icon, String text, Function onPress}) {
   return Column(
     children: [
       GestureDetector(
-        // onLongPress: onPress,
+        behavior: HitTestBehavior.translucent,
         onTap: onPress,
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 25,
-        ),
-      ),
-      SizedBox(
-        height: 8,
-      ),
-      GestureDetector(
-        onTap: onPress,
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: Colors.white,
+              size: 25,
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     ],

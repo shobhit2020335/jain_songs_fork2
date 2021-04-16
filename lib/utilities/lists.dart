@@ -1,20 +1,164 @@
-//This file contains all the global variables for the app.
-
+//This file contains all the global variables and functions for the app.
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
 List<SongDetails> songList = [];
-
+List<SongDetails> sortedSongList = [];
 List<SongDetails> listToShow = [];
+Set<String> songsVisited = Set();
 
-final DateTime startDate = DateTime(2020, 11, 5);
+//Lists for applying filters.
+List<Filters> filtersAll = [
+  Filters('genre', 'Paryushan', color: Colors.green),
+  Filters('genre', 'Diksha', color: Colors.green),
+  Filters('genre', 'Tapasya', color: Colors.green),
+  Filters('genre', 'Latest', color: Colors.green),
+  Filters('tirthankar', '24', color: Colors.redAccent),
+  Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
+  Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
+  Filters('tirthankar', 'Adinath', color: Colors.redAccent),
+  Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
+  Filters('tirthankar', 'Neminath', color: Colors.redAccent),
+  Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
+  Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
+  Filters('tirthankar', 'Sambhavnath', color: Colors.redAccent),
+  Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
+  Filters('category', 'Bhakti', color: Colors.amber),
+  Filters('category', 'Stavan', color: Colors.amber),
+  Filters('category', 'Garba', color: Colors.amber),
+  Filters('category', 'Aarti', color: Colors.amber),
+  Filters('category', 'Stotra', color: Colors.amber),
+  Filters('category', 'Chalisa', color: Colors.amber),
+  Filters('language', 'Hindi', color: Colors.blue),
+  Filters('language', 'Gujarati', color: Colors.blue),
+  Filters('language', 'Marwadi', color: Colors.blue),
+];
+List<Filters> filtersSelected = [];
+
+//Algo for applying filters.
+Future<void> applyFilter() async {
+  listToShow.clear();
+  int l = filtersSelected.length;
+  int n = sortedSongList.length;
+  if (filtersSelected != null && l > 0 && l < filtersAll.length) {
+    List<String> genreSelected = [];
+    List<String> tirthankarSelected = [];
+    List<String> categorySelected = [];
+    List<String> languageSelected = [];
+    UserFilters userFilters = UserFilters();
+
+    for (int i = 0; i < l; i++) {
+      if (filtersSelected[i].category == 'genre') {
+        genreSelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
+      } else if (filtersSelected[i].category == 'tirthankar') {
+        tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.tirthankar =
+            userFilters.tirthankar + " " + filtersSelected[i].name;
+      } else if (filtersSelected[i].category == 'category') {
+        categorySelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.category =
+            userFilters.category + " " + filtersSelected[i].name;
+      } else if (filtersSelected[i].category == 'language') {
+        languageSelected.add(filtersSelected[i].name.toLowerCase());
+        userFilters.language =
+            userFilters.language + " " + filtersSelected[i].name;
+      }
+    }
+
+    //TODO: Remove below before commit.
+    FireStoreHelper().userSelectedFilters(userFilters);
+
+    for (int i = 0; i < n; i++) {
+      bool toAdd = true;
+      for (int j = 0; j < genreSelected.length; j++) {
+        if (sortedSongList[i].genre.toLowerCase().contains(genreSelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      for (int j = 0; j < tirthankarSelected.length; j++) {
+        if (sortedSongList[i]
+                .tirthankar
+                .toLowerCase()
+                .contains(tirthankarSelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      for (int j = 0; j < categorySelected.length; j++) {
+        if (sortedSongList[i]
+                .category
+                .toLowerCase()
+                .contains(categorySelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      for (int j = 0; j < languageSelected.length; j++) {
+        if (sortedSongList[i]
+                .language
+                .toLowerCase()
+                .contains(languageSelected[j]) ==
+            true) {
+          toAdd = true;
+          break;
+        } else {
+          toAdd = false;
+        }
+      }
+      if (toAdd == false) {
+        continue;
+      }
+
+      listToShow.add(sortedSongList[i]);
+    }
+  } else {
+    listToShow = List.from(sortedSongList);
+  }
+}
+
+final DateTime startDate = DateTime(2020, 12, 23);
+String appURL =
+    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
 DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;
 
+//TODO: update app version for new app.
+double appVersion = 1.11;
+double fetchedVersion;
+//Anonymous user's variable.
+UserCredential userCredential;
+
+//This is not used now.
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;
   final propertyB = b.popularity;
@@ -39,27 +183,27 @@ int trendComparison(SongDetails a, SongDetails b) {
   }
 }
 
-//TODO: can do searching after some words are typed.
 void searchInList(String query) {
   listToShow.clear();
   query = query.toLowerCase();
-  for (int i = 0; i < songList.length; i++) {
-    if (songList[i].searchKeywords.contains(query)) {
-      listToShow.add(songList[i]);
+  for (int i = 0; i < sortedSongList.length; i++) {
+    if (sortedSongList[i].searchKeywords.contains(query)) {
+      listToShow.add(sortedSongList[i]);
     }
-    listToShow.sort(trendComparison);
+    // listToShow.sort(trendComparison);
   }
 }
 
 void addElementsToList(String playlistTag) {
   listToShow.clear();
   playlistTag = playlistTag.toLowerCase();
-  //This is for main list having all songs.
+  //This is for main list having all songs. It is called only when home page loads the songs after refreshing.
   if (playlistTag.contains('home')) {
     for (int i = 0; i < songList.length; i++) {
-      listToShow.add(songList[i]);
+      sortedSongList.add(songList[i]);
     }
-    listToShow.sort(trendComparison);
+    sortedSongList.sort(trendComparison);
+    listToShow = List.from(sortedSongList);
   }
   //This is for likes page.
   else if (playlistTag.contains('favourites')) {
@@ -78,9 +222,10 @@ void addElementsToList(String playlistTag) {
     }
   }
   //This is for popular playlist.
+  //This code below is disabled. Popular songs are directly queried now.
   else if (playlistTag.contains('popular')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].popularity > 5 && songList[i].likes > 0) {
+      if (songList[i].popularity > 24 && songList[i].likes > 2) {
         listToShow.add(songList[i]);
       }
     }
@@ -89,15 +234,17 @@ void addElementsToList(String playlistTag) {
   //This is for bhakti special playlist.
   else if (playlistTag.contains('bhakti')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].genre.toLowerCase().contains('bhakti')) {
+      if (songList[i].category.toLowerCase().contains('bhakti')) {
         listToShow.add(songList[i]);
       }
     }
   }
-  //This is for Parshwanath playlist.
-  else if (playlistTag.contains('parshwanath')) {
+  //This is Tirthankar, diksha and paryushan playlist
+  else {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].tirthankar.toLowerCase().contains('parshwanath')) {
+      if (songList[i].tirthankar.toLowerCase().contains(playlistTag)) {
+        listToShow.add(songList[i]);
+      } else if (songList[i].genre.toLowerCase().contains(playlistTag)) {
         listToShow.add(songList[i]);
       }
     }
@@ -105,7 +252,6 @@ void addElementsToList(String playlistTag) {
 }
 
 //List for settings page.
-//TODO: Test about page.
 List<SettingsDetails> settingsList = [
   SettingsDetails(
     title: 'About',
@@ -131,7 +277,8 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Favourites',
-    subtitle: 'Likes Songs',
+    subtitle: 'Liked Songs',
+    playlistTag: 'favourites',
     leadIcon: FontAwesomeIcons.gratipay,
     color: Colors.pink[300],
   ),
@@ -139,6 +286,7 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Latest Releases',
     subtitle: 'New song lyrics',
+    playlistTag: 'latest',
     leadIcon: FontAwesomeIcons.calendarPlus,
     color: Colors.green,
   ),
@@ -146,6 +294,7 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Popular',
     subtitle: 'All time hits',
+    playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
     color: Colors.amber,
   ),
@@ -153,14 +302,58 @@ List<PlaylistDetails> playlistList = [
     active: true,
     title: 'Bhakti Special',
     subtitle: 'Playlist for Bhakti',
+    playlistTag: 'bhakti',
     leadIcon: Icons.ac_unit,
     color: Colors.redAccent,
   ),
   PlaylistDetails(
     active: true,
+    title: 'Diksha Stavans',
+    subtitle: 'Diksha playlist',
+    playlistTag: 'diksha',
+    leadIcon: Icons.cleaning_services_rounded,
+    iconSize: 32,
+    color: Colors.blueGrey,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    leadIcon: Icons.self_improvement_rounded,
+    iconSize: 40,
+    color: Colors.brown,
+  ),
+  PlaylistDetails(
+    active: true,
     title: 'Parshwanath',
     subtitle: 'Parasnath Bhajans',
+    playlistTag: 'parshwanath',
     leadIcon: FontAwesomeIcons.prayingHands,
-    color: Color(0xFF54BEE6),
+    color: Colors.blue[300],
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Mahaveer Swami',
+    subtitle: 'Mahaveer Swami Bhajans',
+    playlistTag: 'mahavir',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Adinath Swami',
+    subtitle: 'Rishabh dev Bhajans',
+    playlistTag: 'adinath',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue[700],
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Nakoda Bheruji',
+    subtitle: 'Nakoda Bhairav Bhajans',
+    playlistTag: 'nakoda',
+    leadIcon: FontAwesomeIcons.prayingHands,
+    color: Colors.blue[900],
   ),
 ];

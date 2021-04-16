@@ -15,7 +15,7 @@ class BuildPlaylistRow extends StatelessWidget {
         leading: Icon(
           playlistDetails.leadIcon,
           color: playlistDetails.color,
-          size: 30,
+          size: playlistDetails.iconSize,
         ),
         title: Text(
           playlistDetails.title,
@@ -31,7 +31,8 @@ class BuildPlaylistRow extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PlaylistPage(playlistDetails),
+              builder: (context) =>
+                  PlaylistPage(currentPlaylist: playlistDetails),
             ),
           );
         },
