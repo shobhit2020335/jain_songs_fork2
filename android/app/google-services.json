@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:456042169963:android:ae3fc31522dd1a8547932e",
         "android_client_info": {
-          "package_name": "com.JainDevelopers.jain_songs.debug"
+          "package_name": "com.JainDevelopers.jain_songs"
         }
       },
       "oauth_client": [
