@@ -77,7 +77,7 @@ class _SearchEmptyState extends State<SearchEmpty> {
             SizedBox(
               height: 10,
             ),
-            FlatButton(
+            TextButton(
               onPressed: () {
                 setState(
                   () {
@@ -95,7 +95,8 @@ class _SearchEmptyState extends State<SearchEmpty> {
                     nameController.clear();
                   },
                 );
-                showToast(context, 'ThankYou for submitting! We will update the song soon.');
+                showToast(context,
+                    'ThankYou for submitting! We will update the song soon.');
               },
               child: Container(
                 decoration: BoxDecoration(

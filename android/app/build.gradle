@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '3'
+    flutterVersionCode = '4'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.1.0'
+    flutterVersionName = '1.1.1'
 }
 
 apply plugin: 'com.android.application'
@@ -82,6 +82,7 @@ flutter {
 
 repositories {
     jcenter()
+    mavenCentral()
     maven {
         url 'https://maven.google.com'
     }
@@ -96,6 +97,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:19.0.10'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
     implementation 'com.google.android.gms:play-services-ads:19.6.0'
+    implementation 'com.mopub.mediation:admob:19.8.0.0'
+    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'com.facebook.android:audience-network-sdk:6.+'
+    implementation 'com.mopub.mediation:facebookaudiencenetwork:6.3.0.0'
     implementation('com.mopub:mopub-sdk:5.16.0@aar') {
         transitive = true
     }

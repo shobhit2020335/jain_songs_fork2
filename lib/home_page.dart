@@ -1,18 +1,18 @@
+import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/searchEmpty_page.dart';
+import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
+import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'package:mopub_flutter/mopub.dart';
-import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:translator/translator.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -22,9 +22,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
+  final ScrollController listScrollController = ScrollController();
   int _currentIndex = 0;
+  Timer _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
   bool isSearchEmpty = false;
@@ -143,15 +145,41 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _timerLink = Timer(
+        Duration(milliseconds: 1000),
+        () {
+          print('Lifecycle state resumed');
+          FirebaseDynamicLinkService.retrieveDynamicLink(context);
+        },
+      );
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     getSongs('', true);
+
+    FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
+    FirebaseDynamicLinkService.retrieveDynamicLink(context);
+
+    WidgetsBinding.instance.addObserver(this);
+
+    //TODO: UnComment when debugging..
+    // FirebaseFCMManager.saveFCMToken();
+    FirebaseFCMManager.handleFCMRecieved(context);
   }
 
   @override
   void dispose() {
     searchController.clear();
-    MoPub.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+    if (_timerLink != null) {
+      _timerLink.cancel();
+    }
     super.dispose();
   }
 
@@ -191,6 +219,11 @@ class _HomePageState extends State<HomePage> {
           child: Builder(
             builder: (context) => GestureDetector(
               onTap: () {
+                listScrollController.animateTo(
+                  listScrollController.position.minScrollExtent,
+                  duration: Duration(milliseconds: 1000),
+                  curve: Curves.fastOutSlowIn,
+                );
                 showToast(context, 'Jai Jinendra');
               },
               child: Image.asset(
@@ -292,7 +325,10 @@ class _HomePageState extends State<HomePage> {
       //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
       body: <Widget>[
         isSearchEmpty == false
-            ? BuildList(showProgress: showProgress)
+            ? BuildList(
+                showProgress: showProgress,
+                scrollController: listScrollController,
+              )
             : SearchEmpty(searchController),
         FormPage(),
         BuildPlaylistList(),

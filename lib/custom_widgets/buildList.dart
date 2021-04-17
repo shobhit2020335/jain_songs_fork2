@@ -6,12 +6,12 @@ import 'buildRow.dart';
 class BuildList extends StatelessWidget {
   final bool showProgress;
   final Color colorRowIcon;
-
-  //The lisToShow might be causing error. See constructor.
+  final ScrollController scrollController;
 
   BuildList({
     this.showProgress,
     this.colorRowIcon: Colors.grey,
+    this.scrollController,
   });
 
   @override
@@ -25,6 +25,7 @@ class BuildList extends StatelessWidget {
       inAsyncCall: showProgress,
       child: listToShow.length > 0
           ? ListView.builder(
+              controller: scrollController,
               itemCount: listToShow.length,
               itemBuilder: (context, i) {
                 return BuildRow(
