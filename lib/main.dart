@@ -24,18 +24,12 @@
 //package info
 //Filter_list
 //TODO: change UI for song page like, app bar, loading, laoding song, colors.
-//TODO: Check version and whehter all the firebase function commented or not.
 //TODO: set Rigtone option.
-//TODO: Review ads and admob.
 //TODO: Recommended tag in trending list
-//TODO: Janam Kalyanak category/genre
-//TODO; Store UID as song name + random for suggestions
-//TODO: Top 30 for popular
 //TODO: Adeshwar, adinath, rishabhdev consider equal in searching.
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
 //TODO: mahaveer + mahavir, adeshwar + adinath + rishabhdev
 //TODO: trasaction in firestore for likes and shares.
-//TODO: Cache size unlimited in firestore.
 //TODO: Disable latest songs for unsbcribed users.
 //TODO: Search algo by words, Remove spaces in searching., extra search button, Remove common words from search and then search, Show search button after refresh.
 //TODO: Subscripition
@@ -43,12 +37,11 @@
 //TODO: In App rating
 //TODO: New tirthankar, categories.
 //TODO: starting playback time.
-//TODO: Storing time stamps.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
 //TODO: Add google search.
 //TODO: Language submission in lyrics.
-//TODO: Improve Firebase cloud messaging.
+//TODO: Improve Firebase cloud messaging. with pics and logos.
 //TODO: youTube miniplayer- Make beautiful
 //TODO: Jai Jinendra from firebase - Depends on reads.
 //TODO: different ads than banner ads (native ads).
@@ -65,6 +58,7 @@
 //TODO: Search Algo
 //TODO: IOS
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -83,6 +77,8 @@ void main() async {
   await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   userCredential = await FirebaseAuth.instance.signInAnonymously();
+  FirebaseFirestore.instance.settings = Settings(
+      persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
   var initializationSettingsAndroid =
       new AndroidInitializationSettings('icon_notification');

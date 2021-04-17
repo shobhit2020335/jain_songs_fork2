@@ -4,11 +4,13 @@ import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:random_string/random_string.dart';
 
 class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
@@ -94,9 +96,11 @@ class FireStoreHelper {
       }
     }
 
+    Timestamp lastUpdated = Timestamp.now();
     CollectionReference others = _firestore.collection('others');
     await others.doc('JAINSONGS').update({
       'totalDays': totalDays,
+      'lastUpdated': lastUpdated,
     }).catchError((error) {
       print('Error updating days.' + error);
     });
@@ -109,7 +113,7 @@ class FireStoreHelper {
     songs = await _firestore
         .collection('songs')
         .orderBy('popularity', descending: true)
-        .limit(20)
+        .limit(30)
         .get();
 
     for (var song in songs.docs) {
@@ -216,7 +220,9 @@ class FireStoreHelper {
 
   Future<void> addSuggestions(
       BuildContext context, SongSuggestions songSuggestion) async {
-    return suggestions.add(songSuggestion.songSuggestionMap);
+    String suggestionUID =
+        removeWhiteSpaces(songSuggestion.songName) + randomAlphaNumeric(6);
+    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<void> changeClicks(

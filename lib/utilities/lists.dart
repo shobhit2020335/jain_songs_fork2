@@ -18,6 +18,7 @@ List<Filters> filtersAll = [
   Filters('genre', 'Paryushan', color: Colors.green),
   Filters('genre', 'Diksha', color: Colors.green),
   Filters('genre', 'Tapasya', color: Colors.green),
+  Filters('genre', 'Janam Kalyanak', color: Colors.green),
   Filters('genre', 'Latest', color: Colors.green),
   Filters('tirthankar', '24', color: Colors.redAccent),
   Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
@@ -72,7 +73,6 @@ Future<void> applyFilter() async {
       }
     }
 
-    //TODO: Remove below before commit.
     FireStoreHelper().userSelectedFilters(userFilters);
 
     for (int i = 0; i < n; i++) {
@@ -293,7 +293,7 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Popular',
-    subtitle: 'All time hits',
+    subtitle: 'All time top 30.',
     playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
     color: Colors.amber,

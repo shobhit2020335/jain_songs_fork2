@@ -24,6 +24,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
+  final ScrollController listScrollController = ScrollController();
   int _currentIndex = 0;
   Timer _timerLink;
 
@@ -167,6 +168,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
+    //TODO: UnComment when debugging..
     // FirebaseFCMManager.saveFCMToken();
     FirebaseFCMManager.handleFCMRecieved(context);
   }
@@ -217,6 +219,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           child: Builder(
             builder: (context) => GestureDetector(
               onTap: () {
+                listScrollController.animateTo(
+                  listScrollController.position.minScrollExtent,
+                  duration: Duration(milliseconds: 1000),
+                  curve: Curves.fastOutSlowIn,
+                );
                 showToast(context, 'Jai Jinendra');
               },
               child: Image.asset(
@@ -318,7 +325,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
       body: <Widget>[
         isSearchEmpty == false
-            ? BuildList(showProgress: showProgress)
+            ? BuildList(
+                showProgress: showProgress,
+                scrollController: listScrollController,
+              )
             : SearchEmpty(searchController),
         FormPage(),
         BuildPlaylistList(),
