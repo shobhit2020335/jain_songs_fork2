@@ -2,16 +2,17 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
-import 'package:mopub_flutter/mopub.dart';
-import 'package:mopub_flutter/mopub_interstitial.dart';
+// import 'package:mopub_flutter/mopub.dart';
+// import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
@@ -19,9 +20,9 @@ import 'services/firestore_helper.dart';
 class SongPage extends StatefulWidget {
   final String codeFromDynamicLink;
   final SongDetails currentSong;
-  final MoPubInterstitialAd interstitialAd;
+  // final MoPubInterstitialAd interstitialAd;
 
-  SongPage({this.currentSong, this.interstitialAd, this.codeFromDynamicLink});
+  SongPage({this.currentSong, this.codeFromDynamicLink});
 
   @override
   _SongPageState createState() => _SongPageState();
@@ -54,14 +55,15 @@ class _SongPageState extends State<SongPage> {
       );
   }
 
-  void _showMopubInterstitialAd() async {
-    if (widget.interstitialAd != null) {
-      await widget.interstitialAd.load();
-      print('ad loaded');
-      widget.interstitialAd.show();
-      print('ad showed');
-    }
-  }
+  //Uncomment to show mopub ads.
+  // void _showMopubInterstitialAd() async {
+  //   if (widget.interstitialAd != null) {
+  //     await widget.interstitialAd.load();
+  //     print('ad loaded');
+  //     widget.interstitialAd.show();
+  //     print('ad showed');
+  //   }
+  // }
 
   void setUpSongDetails() {
     if (songsVisited.contains(currentSong.code) == false) {
@@ -113,16 +115,16 @@ class _SongPageState extends State<SongPage> {
     });
     super.initState();
     //Below code is for admob ads.
-    // _interstitialAd = InterstitialAd(
-    //   adUnitId: AdManager().songPageinterstitialId,
-    //   listener: (MobileAdEvent event) {
-    //     print("InterstitialAd event is $event");
-    //   },
-    // );
-    // _loadAdmobInterstitialAd();
+    _interstitialAd = InterstitialAd(
+      adUnitId: AdManager().songPageinterstitialId,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+      },
+    );
+    _loadAdmobInterstitialAd();
 
     //Below code is for mopub ads.
-    _showMopubInterstitialAd();
+    // _showMopubInterstitialAd();
 
     if (widget.codeFromDynamicLink == null ||
         widget.codeFromDynamicLink == '') {

@@ -595,8 +595,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19"
-<<<<<<< HEAD
-=======
   timezone:
     dependency: transitive
     description:
@@ -604,7 +602,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1"
->>>>>>> v1.1.1
   translator:
     dependency: "direct main"
     description:
@@ -668,8 +665,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-<<<<<<< HEAD
-=======
   webview_flutter:
     dependency: "direct main"
     description:
@@ -677,7 +672,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
->>>>>>> v1.1.1
   win32:
     dependency: transitive
     description:
@@ -714,10 +708,5 @@ packages:
     source: hosted
     version: "8.0.0"
 sdks:
-<<<<<<< HEAD
-  dart: ">=2.12.0-0.0 <3.0.0"
-  flutter: ">=1.22.0"
-=======
   dart: ">=2.12.0 <3.0.0"
   flutter: ">=1.22.2"
->>>>>>> v1.1.1
