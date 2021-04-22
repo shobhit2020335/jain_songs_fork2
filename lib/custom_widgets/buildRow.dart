@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
-import 'package:mopub_flutter/mopub.dart';
-import 'package:mopub_flutter/mopub_interstitial.dart';
 import '../song_page.dart';
 
 class BuildRow extends StatefulWidget {

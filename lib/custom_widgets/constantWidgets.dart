@@ -36,6 +36,20 @@ Future<void> showUpdateDialog(BuildContext context) async {
   );
 }
 
+Color signatureColors(int value) {
+  if (value == 0) {
+    return Colors.amber;
+  } else if (value == 1) {
+    return Colors.pink[300];
+  } else if (value == 2) {
+    return Colors.green;
+  } else if (value == 3) {
+    return Colors.redAccent;
+  } else {
+    return Colors.indigo;
+  }
+}
+
 Widget showLogo({double scale = 0.6}) {
   return Transform.scale(
       scale: scale,
@@ -100,7 +114,7 @@ Widget textBold20(String text) {
   );
 }
 
-Widget mainAppTitle(){
+Widget mainAppTitle() {
   return Text(
     'Jain Songs',
     style: TextStyle(

@@ -15,44 +15,44 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('HCTTCA',
-      englishName: 'Hu Chu Tamara Tame Cho Amara hu chu tamaro tame cho amara',
-      hindiName: 'हुं छुं तमारों तमे छो मारा',
-      originalSong: '',
-      album: '',
-      tirthankar: '',
-      extra1: '',
-      extra2: '',
-      extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र
+  currentSong.makestringSearchKeyword('TVNR',
+      englishName: 'Tara Vina Nem mane ek ladu laage',
+      hindiName: 'Tara vina shyam mane ek ladu lage',
+      originalSong: 'तारा विना श्याम मने तारा विना नेम मने एक लडूं लागे',
+      album: 'તારા વિના શ્યામ મને',
+      tirthankar: 'તારા વિના નેમ મને એક લડું લાગે',
+      extra1: 'नेमिनाथ નેમિનાથ',
+      extra2: 'garba',
+      extra3: 'tara vina nem reprised');
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र નેમિનાથ नेमिनाथ
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'HCTTCA',
+    'code': 'TVNR',
     'album': '',
     'aaa': 'valid',
-    'category': 'Stavan',
+    'category': 'Garba | Bhakti',
     'genre': '',
     'gujaratiLyrics': '',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'धर्मना दायक तमे धुरंधर, तमे परम तारक शुभंकर\nतमे कृपानो सरस सागर, तमने आपु अनंत आदर, \nसाहेब...साहेब...साहेब........\n\nतमे तो मुजने बधु ज आप्यु मैं तो तमोने कोई न आप्यु\nतमें छो मारा जीवन दाता, तमें ज पिता तमे ज माता\nहुं छुं तमारो, तमे छो मारा, आ वात तमने, कही दऊ छूं..\n\nतमारी पासे ज बेसवु छे, तमारी छायामां मां बसवु छे\nतमारी भक्ति थी खुशी मळे छे, तमारो शक्तिथी दुःख टळे छ\nहं छु नमारो, नमे छो अमारा, आ वात तमने, कही दऊ छु...\n\nयाद करू छु हर पळे, मनमा धरु छु हर पळे\nजे तमारा मां मळे, तेवु बीजामा ना मळे\nसाहेब मारा प्राण तमे छो. साहेब मारु ध्यान तमे छो\nसोथी सलामत स्थान तमे छो, आतम तत्व नु जान तमे छो\nहुं छुं तमारो, तमे छो अमारा, आ वात तमने, कही दऊ छुं..\n\nहूं तमारा संगमा, दीनरात रहेवा चाहुं छु\nमारा मननी वान बधी, तमने ज कहेवा चाहुं छु\nतमारा दरबारनी, देवधि ने जोया करूं\nक्यारे मळशे परमपद औ, चिंता थी रोया कर\nतमारी पासे ज बसवु छे. तमारी छायामां बस छ\nतमारी भक्तिधी खुशी मळे छे, तमारी शक्तिथी दुःख टळे छे\nहुं छुं तमारों, तमे छो मारा, आ बात तमने, कहीं दऊ छु..\n\nसौथी मोटुं बळ तमे  ने, सोथी पावन पळ तमे\nसौथी ऊंचु मंगळ तमे नै, नंदप्रभा जळहळ तमें\nसाचुं तीरथ स्थळ नमे ,मुज पुण्यनु शुभ फळ तमै\nआनंदमां अविचल नमे ने, जळ झाकळ ने कमळ नमे....\nहुं छुं तमारों, तमे छो मारा, आ बात तमने, कहीं दऊ छु.. (2)\n',
+        'तारा विना नेम मने एक लडूं लागे,\nजान जोडीने वहेलो आवजे. . . .\n\nरोज रोज तारी याद आवे,\nतारा विरहनी वेदना सतावे ( 2 ) ,\nआव्यो हुं तारे द्वार,\nमांगु छुं तारी पास ( 2 ) ,\nदरशन देवाने वहेलो आव आव आव नेम . . . तारा . . .\n\nचोरी बांधी छे चोकमां,\nदीवडा मुक्या छे गोखमां ( 2 ) ,\nतुं ना आवो तो नेम ,\nपरणुंं बीजे केम ? ( 2 ) ,\nजान जोडीने वहेलो आव आव आव नेम . . . तारा . . .\n\nनव नव भवनी आ प्रीतडी,\nराजुलनी साथे छे नेमनी ( 2 ) ,\nसतावे तुं मने केम ?\nतरछोडे तुं शाने नेम ? ( 2 )\nनव भवनो राख नेह नेह नेह नेम . . . तारा . . .\n',
     'englishLyrics':
-        'Dharma na dayak tame dhurandhar\nTame param tarak shubhankar\nTame krupa nu saras saagar\nTamane aapu anant aadar\nSaheb......(4)\n\nTame to mujne badhuj aapyu\nMe to tamone kai na aapyu\nTame cho mara jeevan daata\nTamej pita tamej mata\nHu chu tamaro,tame cho mara...(2)\nAa vaat tamane kai dau chu\n\nTamari pasej besavu che\nTamari chaya ma vasavu che...(2)\nTamari bhakti thi khushi made che\nTamati shakti thi dukh tade che\nHu chu tamaro,tame cho mara\nAa vaat tamane kai dau chu\n\nYaad karu chu har pade\nMan ma dharu chu har pade\nJe tamara ma made\nEvu bija ma na made\nSaheb mara praan tame cho\nSaheb maru dhyaan tame cho\nSaheb mara praan tame cho\nSaheb maru dhyaan tame cho\nSahu thi salamat sthaan tame cho\nAatam tatva nu gyaan tame cho\nHu chu tamaro,tame cho mara\nAa vaat tamane kai dau chu\n\nHu tamara sang ma\nDin raat rehava chahu chu\nMara mann ni vaat badhi\nTamanej kehava chahu chu\nTamara darabar ni\nDevardhi ne joya karu\nKyare madshe param pad\nA chinta thi roya karu\nHu chu tamaro,tame cho mara...(2)\n\nSau thi motu bad tame re\nSauthi pawan pad tane\nSauthi uchu mangal tame re\nKshatriya kund jadhad tame\nSachu tirth sthad tame\nMuj punya nu shubh fad tame\nAanand ma avichal tane\nJad jaakad ne a kamad tame\nHu chu tamaro,tame cho mara...(2)\nAa vaat tamane kai dau chu\nHu chu tamaro,tame cho mara...(2)\n',
+        'તારા વિના નેમ મને એક લડું લાગે,\nજાન જોડી ને વહેલો આવજે...\n\nરોજ રોજ તારી યાદ આવે,\nતારા વિરહ ની વેદના સતાવે (2),\nઆયો હું તારે દ્વાર,\nમાંગુ છું તારી પાસ (2),\nદર્શન દેવાને વહેલો આવ આવ આવ નેમ... તારા વિના...\n\nચોરી બાંધી છે ચોક માં,\nદીવડાં મૂક્યા છે ગોખ માં (2),\nતું ના આવે તો નેમ,\nપરણું હું બીજે કેમ? (2),\nજાન જોડી ને વહેલો આવ આવ આવ નેમ... તારા વિના...\n\nનવ નવ ભવની આ પ્રીતડી,\nરાજુલ ની સાથે છે નેમની (2),\nસતાવે તું મને કેમ?\nતરછોડે તું શાને નેમ? (2),\nનવ ભવનો રાખ નેહ નેહ નેહ નેહ... તારા વિના...\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Jin Stavan',
+    'production': 'Prabhu Panth',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'hu chu tamaro',
-    'songNameHindi': 'हुं छुं तमारों',
-    'tirthankar': '',
+    'singer': 'Manthan Shah',
+    'songNameEnglish': 'Tara Vina Nem Reprised',
+    'songNameHindi': 'तारा विना नेम',
+    'tirthankar': 'Neminath Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/Ro-eq7obIMc',
+    'youTubeLink': 'https://youtu.be/j0T68sNzWpM',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

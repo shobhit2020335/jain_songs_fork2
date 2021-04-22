@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -187,6 +188,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.indigo,
         title: _currentIndex == 0
             ? TextButton(
                 onPressed: () {
@@ -282,28 +284,22 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.chartLine),
-            label: 'Trending',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.edit),
-            label: 'Edit',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.archive),
-            label: 'Playlists',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(FontAwesomeIcons.wrench),
-            label: 'Settings',
-          ),
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        icons: <IconData>[
+          FontAwesomeIcons.chartLine,
+          Icons.edit_rounded,
+          Icons.book_rounded,
+          Icons.info_outline_rounded,
         ],
-        selectedItemColor: Color(0xFF54BEE6),
-        unselectedItemColor: Color(0xFF212323),
-        currentIndex: _currentIndex,
+        inactiveColor: Color(0xFF212323),
+        splashColor: Colors.indigo,
+        iconSize: 30,
+        elevation: 5,
+        activeIndex: _currentIndex,
+        gapLocation: GapLocation.none,
+        notchSmoothness: NotchSmoothness.smoothEdge,
+        activeColor: signatureColors(5),
+        backgroundColor: Colors.white,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
