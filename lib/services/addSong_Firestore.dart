@@ -15,44 +15,44 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('TVNR',
-      englishName: 'Tara Vina Nem mane ek ladu laage',
-      hindiName: 'Tara vina shyam mane ek ladu lage',
-      originalSong: 'तारा विना श्याम मने तारा विना नेम मने एक लडूं लागे',
-      album: 'તારા વિના શ્યામ મને',
-      tirthankar: 'તારા વિના નેમ મને એક લડું લાગે',
-      extra1: 'नेमिनाथ નેમિનાથ',
-      extra2: 'garba',
-      extra3: 'tara vina nem reprised');
+  currentSong.makestringSearchKeyword('LLL',
+      englishName: 'Lori Lori Lori Trishala Mata Ra Laadla',
+      hindiName: 'lori lori lori Trishla Mata Ra Ladla',
+      originalSong: 'लोरी लोरी लोरी त्रिशला माता रा लाडला',
+      album: '',
+      tirthankar: 'Rowdy Rathore Chandaniya Shreya Ghoshal',
+      extra1:
+          'महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak',
+      extra2: '',
+      extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र નેમિનાથ नेमिनाथ
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'TVNR',
-    'album': '',
+    'code': 'LLL',
+    'album': 'Rowdy Rathore',
     'aaa': 'valid',
-    'category': 'Garba | Bhakti',
-    'genre': '',
+    'category': 'Stavan',
+    'genre': 'Janam Kalyanak | Latest',
     'gujaratiLyrics': '',
-    'language': 'Gujarati',
+    'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'तारा विना नेम मने एक लडूं लागे,\nजान जोडीने वहेलो आवजे. . . .\n\nरोज रोज तारी याद आवे,\nतारा विरहनी वेदना सतावे ( 2 ) ,\nआव्यो हुं तारे द्वार,\nमांगु छुं तारी पास ( 2 ) ,\nदरशन देवाने वहेलो आव आव आव नेम . . . तारा . . .\n\nचोरी बांधी छे चोकमां,\nदीवडा मुक्या छे गोखमां ( 2 ) ,\nतुं ना आवो तो नेम ,\nपरणुंं बीजे केम ? ( 2 ) ,\nजान जोडीने वहेलो आव आव आव नेम . . . तारा . . .\n\nनव नव भवनी आ प्रीतडी,\nराजुलनी साथे छे नेमनी ( 2 ) ,\nसतावे तुं मने केम ?\nतरछोडे तुं शाने नेम ? ( 2 )\nनव भवनो राख नेह नेह नेह नेम . . . तारा . . .\n',
-    'englishLyrics':
-        'તારા વિના નેમ મને એક લડું લાગે,\nજાન જોડી ને વહેલો આવજે...\n\nરોજ રોજ તારી યાદ આવે,\nતારા વિરહ ની વેદના સતાવે (2),\nઆયો હું તારે દ્વાર,\nમાંગુ છું તારી પાસ (2),\nદર્શન દેવાને વહેલો આવ આવ આવ નેમ... તારા વિના...\n\nચોરી બાંધી છે ચોક માં,\nદીવડાં મૂક્યા છે ગોખ માં (2),\nતું ના આવે તો નેમ,\nપરણું હું બીજે કેમ? (2),\nજાન જોડી ને વહેલો આવ આવ આવ નેમ... તારા વિના...\n\nનવ નવ ભવની આ પ્રીતડી,\nરાજુલ ની સાથે છે નેમની (2),\nસતાવે તું મને કેમ?\nતરછોડે તું શાને નેમ? (2),\nનવ ભવનો રાખ નેહ નેહ નેહ નેહ... તારા વિના...\n',
-    'originalSong': '',
+        'Lori Lori Lori…(4)\nTrishala Mata Ra Laadla\nAur Tu Sidhharath Shangara\nNindiya Aankho Mein Aaye\nVardhaman Mera Sojaye….\nLeke God Mein Sulavu\nGaavu Raat Bhar Sunavu\nMein Lori Lori….\nLori Lori Lori…(4)\n\nRatna Maniro Maro Parno\nSaav Sonari Dor Ro\nDevi Devta Nar Naari\nThane Zhulave Sabhi\nLeke God Mein Sulavu\nGaavu Raat Bhar Sunavu\nMein Lori Lori….\nLori Lori Lori…(4)\n\nMaa Trishala Gaave Loriya\nDhire Dhire Podho Mara Vira…..\nChappandik Kunwari Aave\nNav Nava Geeto Gaave\nLeke God Mein Sulavu\nGaavu Raat Bhar Sunavu\nMein Lori Lori….\nLori Lori Lori…(4)\n',
+    'englishLyrics': '',
+    'originalSong': 'Chandaniya | Shreya Ghoshal',
     'popularity': 0,
-    'production': 'Prabhu Panth',
+    'production': 'Music Of Jainism',
     'share': 0,
-    'singer': 'Manthan Shah',
-    'songNameEnglish': 'Tara Vina Nem Reprised',
-    'songNameHindi': 'तारा विना नेम',
-    'tirthankar': 'Neminath Swami',
+    'singer': 'Jainam Varia',
+    'songNameEnglish': 'Lori Lori Lori (Trishala Mata Ra Laadla)',
+    'songNameHindi': 'लोरी लोरी लोरी (त्रिशला माता रा लाडला)',
+    'tirthankar': 'Mahavir Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/j0T68sNzWpM',
+    'youTubeLink': 'https://youtu.be/jFV8xyiMeBo',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
