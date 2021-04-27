@@ -81,6 +81,11 @@ class _SearchEmptyState extends State<SearchEmpty> {
               onPressed: () {
                 setState(
                   () {
+                    if (buttonString == 'Submit') {
+                      showToast(
+                          'ThankYou for submitting! We will update the song soon.',
+                          toastColor: Colors.green);
+                    }
                     SongSuggestions currentSongSuggestion = SongSuggestions(
                       "Got from search",
                       "Got from search",
@@ -95,8 +100,6 @@ class _SearchEmptyState extends State<SearchEmpty> {
                     nameController.clear();
                   },
                 );
-                showToast(context,
-                    'ThankYou for submitting! We will update the song soon.');
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -1,6 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,10 +9,11 @@ import 'package:device_info/device_info.dart';
 
 void launchURL(BuildContext context, String url) async {
   if (await canLaunch(url)) {
-    showToast(context, 'Starting YouTube!');
+    showToast('Starting YouTube!',
+        toastLength: Toast.LENGTH_SHORT, toastColor: Colors.green);
     await launch(url);
   } else {
-    showToast(context, 'Could not launch the song!');
+    showToast('Could not launch the song!', toastColor: Colors.red);
   }
 }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Future<void> showUpdateDialog(BuildContext context) async {
   return showDialog<void>(
@@ -59,15 +60,18 @@ Widget showLogo({double scale = 0.6}) {
       ));
 }
 
-void showToast(BuildContext context, String message, {int duration: 4}) {
-  final scaffold = Scaffold.of(context);
-  final snackBar = SnackBar(
-    content: Text(message),
-    duration: Duration(seconds: duration),
-    action:
-        SnackBarAction(label: 'HIDE', onPressed: scaffold.hideCurrentSnackBar),
+void showToast(
+  String message, {
+  Toast toastLength: Toast.LENGTH_LONG,
+  Color toastColor: Colors.indigo,
+}) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: toastLength,
+    gravity: ToastGravity.SNACKBAR,
+    textColor: Colors.white,
+    backgroundColor: toastColor,
   );
-  scaffold.showSnackBar(snackBar);
 }
 
 Widget formFieldTitle(String title) {

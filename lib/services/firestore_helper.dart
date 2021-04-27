@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/network_helper.dart';
@@ -305,7 +307,7 @@ class FireStoreHelper {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (isInternetConnected == false) {
-      showToast(context, 'No Internet connection!', duration: 2);
+      showToast('No Internet connection!', toastColor: Colors.red);
       currentSong.isLiked = !currentSong.isLiked;
       return;
     }
@@ -314,7 +316,7 @@ class FireStoreHelper {
     Map<String, dynamic> songMap = docSnap.data();
 
     if (songMap == null) {
-      showToast(context, 'No Internet connection!', duration: 2);
+      showToast('No Internet connection!', toastColor: Colors.red);
       currentSong.isLiked = !currentSong.isLiked;
       return;
     }
@@ -332,8 +334,8 @@ class FireStoreHelper {
       setisLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
-      showToast(context, 'Something went wrong! Please try Later.',
-          duration: 2);
+      showToast('Something went wrong! Please try Later.',
+          toastLength: Toast.LENGTH_SHORT, toastColor: Colors.red);
     });
   }
 }

@@ -23,9 +23,11 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
-//TODO: change UI for song page like, app bar, loading, laoding song, colors.
+//TODO: Change Toast like nearst, without context and beautiful.
 //TODO: set Rigtone option.
-//TODO: Recommended tag in trending list
+//TODO: Stavan for web
+//TODO: Whatsapp Status.
+//TODO: New database
 //TODO: Adeshwar, adinath, rishabhdev consider equal in searching.
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
 //TODO: mahaveer + mahavir, adeshwar + adinath + rishabhdev
@@ -40,8 +42,6 @@
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
 //TODO: Add google search.
-//TODO: Language submission in lyrics.
-//TODO: Improve Firebase cloud messaging. with pics and logos.
 //TODO: youTube miniplayer- Make beautiful
 //TODO: Jai Jinendra from firebase - Depends on reads.
 //TODO: different ads than banner ads (native ads).

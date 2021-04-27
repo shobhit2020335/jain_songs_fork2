@@ -68,7 +68,7 @@ class _SongPageState extends State<SongPage> {
   void setUpSongDetails() {
     if (songsVisited.contains(currentSong.code) == false) {
       //TODO: Comment while debugging.
-      FireStoreHelper().changeClicks(context, currentSong);
+      // FireStoreHelper().changeClicks(context, currentSong);
     }
     songsVisited.add(currentSong.code);
 
@@ -220,8 +220,9 @@ class _SongPageState extends State<SongPage> {
                         youtubeTap: () {
                           String link = currentSong.youTubeLink;
                           if (link == null || link == '') {
-                            showToast(context,
-                                'Video URL is not available at this moment!');
+                            showToast(
+                                'Video URL is not available at this moment!',
+                                toastColor: Colors.amber);
                           } else {
                             launchURL(context, link);
                             print('Launching');
@@ -229,9 +230,9 @@ class _SongPageState extends State<SongPage> {
                         },
                         languageTap: () {
                           if (noOfLang == 1) {
-                            showToast(context,
+                            showToast(
                                 'No more languages for this song is available now!',
-                                duration: 2);
+                                toastColor: Colors.amber);
                           } else if (langNo >= noOfLang) {
                             langNo = 1;
                           } else if (langNo < noOfLang) {
