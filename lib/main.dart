@@ -23,6 +23,8 @@
 //Webview (Open website in app)
 //package info
 //Filter_list
+//TODO: See realtime db for categories.
+//TODO: store FCM token for user giving suggestions.
 //TODO: Change Toast like nearst, without context and beautiful.
 //TODO: set Rigtone option.
 //TODO: Stavan for web

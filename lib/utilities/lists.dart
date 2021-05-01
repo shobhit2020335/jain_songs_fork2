@@ -8,6 +8,20 @@ import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
+final DateTime startDate = DateTime(2020, 12, 23);
+String appURL =
+    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
+DateTime todayDate;
+int totalDays = 1;
+int fetchedDays = 0;
+String welcomeMessage = 'Jai Jinendra';
+
+//TODO: update app version for new app.
+double appVersion = 1.21;
+double fetchedVersion;
+//Anonymous user's variable.
+UserCredential userCredential;
+
 List<SongDetails> songList = [];
 List<SongDetails> sortedSongList = [];
 List<SongDetails> listToShow = [];
@@ -144,19 +158,6 @@ Future<void> applyFilter() async {
     listToShow = List.from(sortedSongList);
   }
 }
-
-final DateTime startDate = DateTime(2020, 12, 23);
-String appURL =
-    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
-DateTime todayDate;
-int totalDays = 1;
-int fetchedDays = 0;
-
-//TODO: update app version for new app.
-double appVersion = 1.21;
-double fetchedVersion;
-//Anonymous user's variable.
-UserCredential userCredential;
 
 //This is not used now.
 int popularityComparison(SongDetails a, SongDetails b) {

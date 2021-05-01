@@ -13,6 +13,7 @@ import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:random_string/random_string.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
@@ -21,6 +22,14 @@ class FireStoreHelper {
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
+
+  static Future<String> fetchWelcomeMessage() async {
+    RemoteConfig remoteConfig = await RemoteConfig.instance;
+    await remoteConfig.fetch(expiration: Duration(days: 1));
+    await remoteConfig.activateFetched();
+    String message = remoteConfig.getString('welcome_message');
+    return message;
+  }
 
   //Storing the user's selected filters in realtime database.
   Future<void> userSelectedFilters(UserFilters userFilters) async {
@@ -49,6 +58,12 @@ class FireStoreHelper {
     CollectionReference others = _firestore.collection('others');
     var docSnap = await others.doc('JAINSONGS').get();
     Map<String, dynamic> othersMap = docSnap.data();
+
+    FireStoreHelper.fetchWelcomeMessage().then((value) {
+      welcomeMessage = value;
+    }).onError((error, stackTrace) {
+      welcomeMessage = 'Jai Jinendra';
+    });
 
     fetchedDays = othersMap['totalDays'];
     fetchedVersion = othersMap['appVersion'];

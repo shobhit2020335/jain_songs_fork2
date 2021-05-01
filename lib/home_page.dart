@@ -226,7 +226,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastOutSlowIn,
                 );
-                showToast('Jai Jinendra');
+                showToast(welcomeMessage);
               },
               child: Image.asset(
                 'images/Logo.png',
