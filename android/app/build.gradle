@@ -63,9 +63,9 @@ android {
     }
 
      buildTypes {
-         debug {
-             applicationIdSuffix ".debug"
-         }
+        //  debug {
+        //      applicationIdSuffix ".debug"
+        //  }
          release {
              signingConfig signingConfigs.release
              minifyEnabled true
@@ -99,8 +99,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:19.6.0'
     implementation 'com.mopub.mediation:admob:19.8.0.0'
     implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'com.facebook.android:audience-network-sdk:6.+'
+//    implementation 'com.facebook.android:audience-network-sdk:6.4.0'
     implementation 'com.mopub.mediation:facebookaudiencenetwork:6.3.0.0'
+    implementation 'com.google.ads.mediation:facebook:6.3.0.1'
     implementation('com.mopub:mopub-sdk:5.16.0@aar') {
         transitive = true
     }

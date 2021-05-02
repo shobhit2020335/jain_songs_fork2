@@ -1,23 +1,23 @@
 import 'dart:io';
-import 'package:facebook_audience_network/facebook_audience_network.dart';
+// import 'package:facebook_audience_network/facebook_audience_network.dart';
 
 class AdManager {
-  static void initializeFBAds() {
-    print('Initialising FB ads.');
-    FacebookAudienceNetwork.init();
-  }
-
-  static void loadAndShowFBInterstitialAd() {
-    FacebookInterstitialAd.loadInterstitialAd(
-      placementId: '491030148594375_491067548590635',
-      listener: (result, value) {
-        print(">> FB > Interstitial Ad: $result --> $value");
-        if (result == InterstitialAdResult.LOADED) {
-          FacebookInterstitialAd.showInterstitialAd();
-        }
-      },
-    );
-  }
+  // static void initializeFBAds() {
+  //   print('Initialising FB ads.');
+  //   FacebookAudienceNetwork.init();
+  // }
+  //
+  // static void loadAndShowFBInterstitialAd() {
+  //   FacebookInterstitialAd.loadInterstitialAd(
+  //     placementId: '491030148594375_491067548590635',
+  //     listener: (result, value) {
+  //       print(">> FB > Interstitial Ad: $result --> $value");
+  //       if (result == InterstitialAdResult.LOADED) {
+  //         FacebookInterstitialAd.showInterstitialAd();
+  //       }
+  //     },
+  //   );
+  // }
 
   String get appId {
     if (Platform.isAndroid) {

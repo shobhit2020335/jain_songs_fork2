@@ -141,13 +141,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  facebook_audience_network:
-    dependency: "direct main"
-    description:
-      name: facebook_audience_network
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.9.0"
   fake_async:
     dependency: transitive
     description:
@@ -477,7 +470,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   pedantic:
     dependency: transitive
     description:

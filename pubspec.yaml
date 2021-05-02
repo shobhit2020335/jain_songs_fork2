@@ -40,7 +40,7 @@ dependencies:
   fluttertoast: ^8.0.6
   animated_bottom_navigation_bar: ^0.3.2
   firebase_remote_config: ^0.6.0
-  facebook_audience_network: ^0.9.0
+#  facebook_audience_network: ^0.9.0
   
 
 dev_dependencies:
