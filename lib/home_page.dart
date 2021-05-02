@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
@@ -169,9 +170,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
-    //TODO: UnComment when debugging..
-    // FirebaseFCMManager.saveFCMToken();
     FirebaseFCMManager.handleFCMRecieved(context);
+    AdManager.initializeFBAds();
   }
 
   @override
@@ -333,8 +333,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 }
-
-
 
 // IndexedStack(
 //         index: _currentIndex,

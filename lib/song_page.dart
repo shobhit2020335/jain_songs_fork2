@@ -124,6 +124,9 @@ class _SongPageState extends State<SongPage> {
     );
     _loadAdmobInterstitialAd();
 
+    //Below Code is to call facebook ads.
+    // AdManager.loadAndShowFBInterstitialAd();
+
     //Below code is for mopub ads.
     // _showMopubInterstitialAd();
 
@@ -154,7 +157,6 @@ class _SongPageState extends State<SongPage> {
 
   @override
   void dispose() {
-    //TODO: Check below.
     if (_youtubePlayerController != null) {
       _youtubePlayerController.dispose();
     }
