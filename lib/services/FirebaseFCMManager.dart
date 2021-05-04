@@ -40,6 +40,12 @@ class FirebaseFCMManager {
     print('FCM token: $fcmToken');
   }
 
+  static Future<String> getFCMToken() async {
+    String fcmToken = await FirebaseMessaging.instance.getToken();
+
+    return fcmToken;
+  }
+
   static Future<void> handleFCMRecieved(BuildContext context) async {
     //FCM code for opening Notification when app is terminated.
     FirebaseMessaging.instance

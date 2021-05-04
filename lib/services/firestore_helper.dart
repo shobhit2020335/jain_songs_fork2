@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
@@ -39,13 +40,13 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    // final DatabaseReference databaseReference =
-    //     FirebaseDatabase.instance.reference();
-    // databaseReference
-    //     .child("userBehaviour")
-    //     .child("filters")
-    //     .push()
-    //     .set(userFilters.toMap());
+    final DatabaseReference databaseReference =
+        FirebaseDatabase.instance.reference();
+    databaseReference
+        .child("userBehaviour")
+        .child("filters")
+        .push()
+        .set(userFilters.toMap());
   }
 
   Future<void> fetchDaysAndVersion() async {
@@ -240,6 +241,8 @@ class FireStoreHelper {
       BuildContext context, SongSuggestions songSuggestion) async {
     String suggestionUID =
         removeWhiteSpaces(songSuggestion.songName) + randomAlphaNumeric(6);
+    String fcmToken = await FirebaseFCMManager.getFCMToken();
+    songSuggestion.setFCMToken(fcmToken);
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
