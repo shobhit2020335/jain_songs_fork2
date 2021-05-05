@@ -4,7 +4,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
@@ -86,11 +85,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       }
       if (totalDays > fetchedDays) {
         fetchedDays = totalDays;
-        FirebaseAnalytics()
-            .logLevelStart(levelName: 'Ghusa in Daily update on $todayDate');
         await FireStoreHelper().dailyUpdate();
+      } else {
+        await FireStoreHelper().getSongs();
       }
-      await FireStoreHelper().getSongs();
       addElementsToList('home');
     }
 
@@ -236,51 +234,55 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           ),
         ),
         actions: <Widget>[
-          Row(
-            children: [
-              _currentIndex == 0
-                  ? IconButton(
-                      icon: searchOrCrossIcon,
-                      onPressed: () {
-                        setState(() {
-                          if (this.searchOrCrossIcon.icon == Icons.search) {
-                            this.searchOrCrossIcon = Icon(Icons.close);
-                            this.appBarTitle = TextField(
-                              controller: searchController,
-                              //use focus node if autofoucs is not working.
-                              autofocus: true,
-                              onChanged: (value) {
-                                getSongs(value, false);
-                              },
-                              style: TextStyle(color: Colors.black),
-                              decoration: InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.search,
-                                  color: Colors.black,
+          //Search icon and filter icon is hidden when progress is going on.
+          Visibility(
+            visible: !showProgress,
+            child: Row(
+              children: [
+                _currentIndex == 0
+                    ? IconButton(
+                        icon: searchOrCrossIcon,
+                        onPressed: () {
+                          setState(() {
+                            if (this.searchOrCrossIcon.icon == Icons.search) {
+                              this.searchOrCrossIcon = Icon(Icons.close);
+                              this.appBarTitle = TextField(
+                                controller: searchController,
+                                //use focus node if autofoucs is not working.
+                                autofocus: true,
+                                onChanged: (value) {
+                                  getSongs(value, false);
+                                },
+                                style: TextStyle(color: Colors.black),
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.search,
+                                    color: Colors.black,
+                                  ),
+                                  hintText: 'Search anything...',
                                 ),
-                                hintText: 'Search anything...',
-                              ),
-                            );
-                          } else {
-                            searchOrCrossIcon = Icon(Icons.search);
-                            this.appBarTitle = mainAppTitle();
-                            searchController.clear();
-                            //Below line is for refresh when cross is clicked.
-                            //I am removing this feature, can be enabled later.
-                            // getSongs('', true);
-                            getSongs('', false);
-                          }
-                        });
-                      })
-                  : Icon(null),
-              _currentIndex == 0
-                  ? IconButton(
-                      icon: filterIcon,
-                      onPressed: () {
-                        _filterDialog();
-                      })
-                  : Icon(null),
-            ],
+                              );
+                            } else {
+                              searchOrCrossIcon = Icon(Icons.search);
+                              this.appBarTitle = mainAppTitle();
+                              searchController.clear();
+                              //Below line is for refresh when cross is clicked.
+                              //I am removing this feature, can be enabled later.
+                              // getSongs('', true);
+                              getSongs('', false);
+                            }
+                          });
+                        })
+                    : Icon(null),
+                _currentIndex == 0
+                    ? IconButton(
+                        icon: filterIcon,
+                        onPressed: () {
+                          _filterDialog();
+                        })
+                    : Icon(null),
+              ],
+            ),
           ),
         ],
       ),
