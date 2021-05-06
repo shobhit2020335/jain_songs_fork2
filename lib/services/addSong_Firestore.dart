@@ -15,47 +15,45 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('SS',
-      englishName: 'Saiyam Sargam mashup Diksha Mashup saiyam mashup',
-      hindiName: 'सैयाम सरगम मैशप दीक्षा मैशप',
-      originalSong: 'सैयाम मैशप',
-      album: 'saiyyam sargam saiyyam mashup saiyyiam mashup saiyyiam sargam',
-      tirthankar: 'diksa mashup',
+  currentSong.makestringSearchKeyword('MB',
+      englishName: 'मेरी भावना ',
+      hindiName: 'Meri Bhavna mere',
+      originalSong: 'Asli Naqli Tera Mera Pyar Amar Lata Mangeshkar',
+      album: 'Vicky D Parekh',
+      tirthankar: '',
       extra1: '',
       extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र નેમિનાથ नेमिनाथ
-  //शत्रुंजय shatrunjay पालीताना पालीताणा
+  //शत्रुंजय shatrunjay पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू
   //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'SS',
-    'album': '',
+    'code': 'MB',
+    'album': 'Jinwani Sangrah',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Diksha',
+    'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Gujarati',
+    'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'हे वितराग तुज पाए,  हु करु विनंती एटली\nसाधु नो वेश क्यारे मळे, मांगु प्रभु बस एटलु\nकुमकुम तणा ते छाटणा, केशर तणा ते साथीया\nरजोहरण क्यारे मळे, मांगु प्रभु बस एटलु\n\nविरती धर नो वेश प्यारो प्यारो लागे रे\nसंसारी नो संग खारो, खारो लागे रे\nरजोहरण मेळववा ने हवे मन मारु लोभायु\nगुरुकुल मा वसवाने काजे दिल मारु ललचायु\nमहावीर तारो मार्ग कामणगारो लागे रे... संसारी...., \nएक मनोरथ एवो छे, वेश श्रमण नो लेवो छे\nअंतरनी ए प्यास छे, संयम नी अभीलाष छे\nमारा जीवन नो एकज सार, संयम लई करवो उद्धार\nवीर प्रभु नो अंश मळे, गुरु गौतम नो वंश मळे\n\nपतित पावन प्रभुजी उगारो, \nरात्रत्रयी नो याचक तारो\nक्यारे मळशे मने निग्रंथ पंथ, \nक्यारे थशे मारा भवनों रेअंत\nक्यारे बनीश... \n\nलागी रे लागी रे लागी रे, संयम नी लगन लागी\nजागी रे जागी रे जागी रे, संयम नी अगन जागी\nत्यागी रे लागी रे लागी रे, मारे बनवु छे त्यागी\nलागी रे लागी रे.... \n\nघेल्यु लाग्यु मुजने, हु तारा पंथे चालु\nतारा पंथे चाली, हु कर्मो सगळा बाळु\nदेवो पण, झंखे रे, वंदे रे जेवा जीवन ने\nलगनी लागी रे, अग्री जागी रे, संयम जीवन नी प्रभु\n\nसाधना ना पंथे मारा, जेवो पामर क्यारे जाए\nआज मारा मनमा जागे छे आ रुडो अंतर्नाद\nवहेली वहेली मळजो रे मने मुक्ति नी मंजील\n\nमारा जेवा लोको फ़क्त सुखना साधना मांगे छे ने दुखाई छेता भागे छे\nविरला कोइ निकळे छे जे सुख सामग्री त्याग छे ने कष्ट कसोटी मांगे छे\nआ जगनी मोह मायाथी मारी मुक्ति क्यारे थाए\nआज मारे मनमा..... \n\nसिद्धि माटे गावी पडे, साधना नी सरगम\nआखरे तो लीधु संयम, स्वामी ऐवी स्वयं ऐ सय्यम क्यारे मळशे. \n\nजो सुख पावु वीर वचन में, वो सुख नाही अमीरी में\nमन लागो मेरो यार विरति में\nधन्य समझ लु खुदके जीवन को जीनशासन की फकीरी में\nमन लागो मेरो यार विरति में\n\nमळजो रे मने वेश श्रमण नौ मळजो\nआठ प्रहर नी साधना काजे, वहेली परोडे जागु\nश्वासो लेवा माटे पण हु, गुरु नी आणा मांगु\nप्रभुजी मारो साद आजे सांभळजो मळजो रे मने.... \n\nमारे बनवु अणगार, मारे बनवु अणगार, \nमारे तरवो संसार, मारे बनवु अणगार, \nप्रभु पंथ ने पामी करु, हु आतमने उजमाळ\nगुरु चरण ही ने मारे, थावो छे भवपार\nमानव जीवन नो सार ... .मारे बनवु अणगार\nसंयम संयम मारे लेवो संयम\n',
-    'englishLyrics':
-        'Vitaraag tuj paaye padi..Hu karu vinanti etli..\nSadhu no vesh khyare male..Maangu prabhu bas etlu..\nKumkum tana te chatna..Kesar tana te saathiya..\nRajoharan khyare male..Maangu prabhu bas etlu\nAree..Maangu prabhu bas etlu...\n\nVirtih dhar no vesh pyaaro pyaaro laage re\nSansari no sang khaaro khaaro laage re\nVirtih dhar no vesh pyaaro pyaaro laage re\nRajoharan medavava ne have man maaru lubhayu\nGurukal ma vasavaane kaaje dil maaru lalchaayu\nMahaveer tharo maarg kamangaaro re\nSansari no sang khaaro khaaro laage re\nVirtih dhar no vesh pyaaro pyaaro laage re\n\nEk manorath evo che, vesh shraman no levo che[2] \nAntar ni ae pyaas che, saiyam ni abhilash che[2] \nMhara jeevan no ekaj saar, saiyam lai karvo udhaar[2] \nVeer prabhu no ansh made, guru gautham no vansh made[2] \n\nPateet paawan prabhuji ugaaro, \nRatnatrai no hu yaachak taaro[2] \nKhyare malshe mujhne nirgranth panth? \nKhyare tashe mhara bhavno re anth.. \nKhyare banish hu vairagya vant.. \nKhyare tashe mhara bhav no re ant? \n\nLaagi re laagi re laagi re, saiyam ni lagan laagi[2] \nJaagi re jaagi re jaagi re, saiyam ni agan jaagi\nTyaagi re tyaagi re tyaagi re, mhare vanvu che tyaagi.. \nLaagi re laagi re laagi re, saiyam ni lagan laagi[2] \n\nGhelu laagyu mujhne, hu thara panthe chaalu.. \nThara panthe chali hu karmo sagda bhaadu.. \nDevo pan..Jankhe re.. Vande re.. Jeva jeevan ne\nLagni laagi re, agni jaagi re\nSaiyam jeevan ne prabhu... \n\nSaadhna na panthe mhara jevo paamar khyare ja.. \nAaj maara manma jaage che aarudo antarnaad.. \nVehli vehli madajo re mhane mukti ni manzil\nVehli vehli madajo mujhne mukti ni manzil\n\nHoo..Mhara jeva loko fakt sukh na saadhan maange che ne\nDukhti che ta bhaage che\nVirla koi nikde che, je sukh saamagri tyaage che nekasth kasauti maange che.. \nAa jagni moh-maaya thi.. \nAa jagni moh-maaya thi..Maari mukhti khyare thaay\nAaj maara manma jaage che aarudo antarnaad.. \nVehli vehli madajo re mhane mukti ni manzil\nVehli vehli madajo mujhne mukti ni manzil\n\nSiddhi maate gaavi pade, saadhna ni sargam\nAakhare toh lidhu saiyam, swami ye bhi swayam\nKe saiyam khyare madshe? O khyare khyare madshe? \nO mujhne khayre madshe? O saiyam khyare madshe? \n\nJo sukh paau veer vachan mei[2] \nVo sukh naahi ameeri mei[2] \nMan laago mero yaar virtih mei[3] \nDhanya samaj lu khud ke jeevan ko[2] \nJin shasan ki fakeeri mei..Ho ho jin shasan ki fakeeri mei\nMan laago mero yaar virtih mei[3] \n\nMadjo re mhane vesh shraman no madjo[4] \nAat prahar ni saadhna kaaje, vehli parodhe hu jaagu\nShwaso leva maate pan hu guru ni aana maangu\nPrabhuji mharo saad aaje sambhaljo[2] \nMadjo re mhane vesh shraman no madjo[2] \nMhare banvu angaar[2] \nMhare taravo sansaar\nMhare banavu angaar\n\nMhare banvu angaar[2] \nMhare taravo sansaar\nMhare banavu angaar\n\nPrabhu panth ne paami karu hu aatam ne ujamaad\nGuru charan grahi ne maare thavo che bhavpaar\nMaanav jeevan no saar, mhare banvu angaar[2] \nMhare banvu angaar[2] \nMhare taravo sansaar\nMhare banavu angaar\n\nSaiyam..Saiyam.. \nSaiyam..Saiyam.. \nMhare levo saiyam[2] \nMhare levo saiyam[3] \n',
-    'originalSong':
-        'Jaydeep Swadia, Jatin Bid, Kethan Dedhia, Bhavik Shah, Gautham Shah, Piyush Shah, Jainam Variya, Prashant Shah, Viral Surana, Paras Gada & Devansh Shah',
+        'जिसने राग - द्वेष - कामादिक जीते , सब जग जान लिया |\nसब जीवो को मोक्ष मार्ग का , निस्पृह हो उपदेश दिया ||\nबुध्ध - वीर - जिन - हरि - हर - ब्रम्हा , या उसको स्वाधीन कहो |\nभक्ति - भाव से प्रेरित हो यह , चित्त उसी में लीन रहो ||१||\n\nविषयो की आशा नहि जिनके , साम्य भाव धन रखते हैं |\nनिज पर के हित - साधन में जो , निश दिन तत्पर रहते हैं ||\nस्वार्थ त्याग की कठिन तपस्या , बिना खेद जो करते हैं |\nऐसे ज्ञानी साधू जगत के , दुःख समूह को हारते हैं ||२||\n\nरहे सदा सत्संग उन्ही का , ध्यान उन्ही का नित्य रहे हैं |\nउन्ही जैसी चर्या में यह , चित्त सदा अनुरक्त रहे हैं ||\nनहीं सताऊ किसी जीव को , झूठ कभी नहीं कहा करू |\nपर - धन - वनिता पर न लुभाऊ , संतोशामृत पीया करू ||३||\n\nअहंकार का भाव न रखु , नहीं किसी पर क्रोध करू |\nदेख दुसरो की बढती को , कभी न इर्ष्या भाव धरु ||\nरहे भावना ऐसी मेरी , सरल सत्य व्यव्हार करू |\nबने जहा तक जीवन में , औरो का उपकार करू ||४||\n\nमैत्री भाव जगत में मेरा , सब जीवो से नित्य रहे |\nदींन - दुखी जीवो पर मेरे , उर से करुना - स्रोत बहे ||\nदुर्जन - क्रूर - कुमार्ग - रतो पर , क्षोभ नहीं मुझको आवे |\nसाम्यभाव रखु में उन पर , ऐसी परिणति हो जावे ||५||\n\nगुनी जनों को देख ह्रदय , में मेरे प्रेम उमड़ आवे |\nबने जहाँ तक उनकी सेवा , करके यह मन सुख पावे ||\nहोऊ नहीं क्रुत्ग्न कभी में , द्रोह न मेरे उर आवे |\nगुण ग्रहण का भाव रहे , नित दृस्थी न दोषों पर जावे ||६||\n\nकोई बुरा कहो या अच्छा , लक्ष्मी आवे या जावे |\nअनेक वर्षो तक जीउ या , मृत्यु आज ही आ जावे ||\nअथवा कोई ऐसा ही भय , या लालच देने आवे |\nतो भी न्याय मार्ग से मेरा , कभी न पद डिगने पावे ||७||\n\nहोकर सुख में मग्न न दुले दुःख में कभी न घबरावे |\nपर्वत नदी श्मशान भयानक अटवी से नहीं भय खावे ||\nरहे अडोल अकंप निरंतर यह मन दृद्तर बन जावे |\nइस्ट वियोग अनिस्ठ योग में सहन - शीलता दिखलावे ||८||\n\nसुखी रहे सब जीव जगत , के कोई कभी न घबरावे |\nबैर पाप अभिमान छोड़ जग , नित्य नए मंगल गावे ||\nघर घर चर्चा रहे धर्मं की , दुष्कृत दुस्खर हो जावे |\nज्ञान चरित उन्नत कर अपना , मनुज जन्म फल सब पावे ||९||\n\nइति भीती व्यापे नहीं जग में , वृस्ती समय पर हुआ करे |\nधर्मनिस्ट होकर राजा भी न्याय , प्रजा का किया करे ||\nरोग मरी दुर्भिक्स न फैले , प्रजा शांति से जिया करे |\nपरम अहिंसा धर्म जगत में , फ़ैल सर्व हित किया करे ||१०||\n\nफैले प्रेम परस्पर जगत में , मोह दूर हो राह करे |\nअप्रिय कटुक कठोर शब्द नहीं , कोई मुख से कहा करे ||\nबनकर सब “युगवीर” ह्रदय , से देशोंनती रत रहा करें |\nवस्तु स्वरुप विचार खुशी , से सब संकट सहा करे ||११||\n',
+    'englishLyrics': '',
+    'originalSong': '',
     'popularity': 0,
-    'production': 'Tattva Tarang',
+    'production': 'Yuki Music',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Saiyam Sargam (Diksha Mashup)',
-    'songNameHindi': 'सैयाम मैशप (दीक्षा मैशप)',
+    'singer': 'Ravindra Jain',
+    'songNameEnglish': 'Meri Bhavna',
+    'songNameHindi': 'मेरी भावना',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/S5pOhGqP-JE',
+    'youTubeLink': 'https://youtu.be/75WzV_lL3Mw',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
