@@ -49,32 +49,35 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     filtersSelected.clear();
 
+    //TODO: Check this statement about query.length
     if (query != null && flag == false) {
       searchInList(query);
       //This if condition takes care when list become empty and convert the languages and check.
-      //TODO: This do not work perfectly. It has to be changed.
-      if (listToShow.isEmpty) {
-        bool checkNet = await NetworkHelper().checkNetworkConnection();
-        if (checkNet == true) {
-          GoogleTranslator translator = GoogleTranslator();
-          var queryInHindi =
-              await translator.translate(query, from: 'en', to: 'hi');
-          searchInList(queryInHindi.toString());
-          if (listToShow.isEmpty) {
-            translator = GoogleTranslator();
-            var queryInEnglish =
-                await translator.translate(query, from: 'hi', to: 'en');
-            searchInList(queryInEnglish.toString());
-          }
-        }
-      }
+      // //TODO: This do not work perfectly. It has to be changed.
+      // if (listToShow.isEmpty) {
+      //   bool checkNet = await NetworkHelper().checkNetworkConnection();
+      //   if (checkNet == true) {
+      //     GoogleTranslator translator = GoogleTranslator();
+      //     var queryInHindi =
+      //         await translator.translate(query, from: 'en', to: 'hi');
+      //     searchInList(queryInHindi.toString());
+      //     if (listToShow.isEmpty) {
+      //       translator = GoogleTranslator();
+      //       var queryInEnglish =
+      //           await translator.translate(query, from: 'hi', to: 'en');
+      //       searchInList(queryInEnglish.toString());
+      //     }
+      //   }
+      // }
 
       if (listToShow.isEmpty && query.length > 2) {
         setState(() {
           isSearchEmpty = true;
         });
       } else {
-        isSearchEmpty = false;
+        setState(() {
+          isSearchEmpty = false;
+        });
       }
     } else {
       await NetworkHelper().changeDateAndVersion();
