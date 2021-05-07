@@ -11,10 +11,10 @@ import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/searchEmpty_page.dart';
 import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/Searchify.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'package:translator/translator.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
 
@@ -49,27 +49,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     filtersSelected.clear();
 
-    //TODO: Check this statement about query.length
     if (query != null && flag == false) {
-      searchInList(query);
-      //This if condition takes care when list become empty and convert the languages and check.
-      // //TODO: This do not work perfectly. It has to be changed.
-      // if (listToShow.isEmpty) {
-      //   bool checkNet = await NetworkHelper().checkNetworkConnection();
-      //   if (checkNet == true) {
-      //     GoogleTranslator translator = GoogleTranslator();
-      //     var queryInHindi =
-      //         await translator.translate(query, from: 'en', to: 'hi');
-      //     searchInList(queryInHindi.toString());
-      //     if (listToShow.isEmpty) {
-      //       translator = GoogleTranslator();
-      //       var queryInEnglish =
-      //           await translator.translate(query, from: 'hi', to: 'en');
-      //       searchInList(queryInEnglish.toString());
-      //     }
-      //   }
-      // }
-
+      Searchify().basicSearch(query);
       if (listToShow.isEmpty && query.length > 2) {
         setState(() {
           isSearchEmpty = true;
@@ -197,7 +178,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     this.searchOrCrossIcon = Icon(Icons.close);
                     this.appBarTitle = TextField(
                       controller: searchController,
-                      //use focus node if autofoucs is not working.
                       autofocus: true,
                       onChanged: (value) {
                         getSongs(value, false);
@@ -251,7 +231,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               this.searchOrCrossIcon = Icon(Icons.close);
                               this.appBarTitle = TextField(
                                 controller: searchController,
-                                //use focus node if autofoucs is not working.
                                 autofocus: true,
                                 onChanged: (value) {
                                   getSongs(value, false);
@@ -269,9 +248,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               searchOrCrossIcon = Icon(Icons.search);
                               this.appBarTitle = mainAppTitle();
                               searchController.clear();
-                              //Below line is for refresh when cross is clicked.
-                              //I am removing this feature, can be enabled later.
-                              // getSongs('', true);
                               getSongs('', false);
                             }
                           });
@@ -323,7 +299,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           });
         },
       ),
-      //Disabling IndexedStack- use to store state of its children here used for bottom navigation's children.
       body: <Widget>[
         isSearchEmpty == false
             ? BuildList(
@@ -338,13 +313,3 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 }
-
-// IndexedStack(
-//         index: _currentIndex,
-//         children: <Widget>[
-//           BuildList(showProgress: showProgress),
-//           FormPage(),
-//           BuildPlaylistList(),
-//           SettingsPage(),
-//         ],
-//       ),
