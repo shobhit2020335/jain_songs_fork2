@@ -26,7 +26,7 @@ class FireStoreHelper {
 
   static Future<String> fetchWelcomeMessage() async {
     RemoteConfig remoteConfig = await RemoteConfig.instance;
-    await remoteConfig.fetch(expiration: Duration(days: 1));
+    await remoteConfig.fetch(expiration: Duration(hours: 1));
     await remoteConfig.activateFetched();
     String message = remoteConfig.getString('welcome_message');
     return message;
