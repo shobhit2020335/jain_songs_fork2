@@ -19,14 +19,16 @@ class Searchify {
 
       for (int i = 0; i < sortedSongList.length; i++) {
         int songScore = 0;
+        String searchKeywords =
+            removeWhiteSpaces(sortedSongList[i].searchKeywords);
+
         if (_map.containsKey(i)) {
           songScore = _map[i];
         }
 
         for (int j = 0; j < words.length; j++) {
           String word = words[j].trim();
-          if (word.length > 0 &&
-              sortedSongList[i].searchKeywords.contains(word)) {
+          if (word.length > 0 && searchKeywords.contains(word)) {
             songScore++;
           }
         }
@@ -37,34 +39,37 @@ class Searchify {
       }
 
       _map.forEach((key, value) {
-        // print('Info= $key : $value');
         int keyInt = int.parse(key.toString());
-        listToShow.add(sortedSongList[keyInt]);
+        listToShow.insert(0, sortedSongList[keyInt]);
       });
-      listToShow = List.from(listToShow.reversed);
     }
   }
 
-  void basicSearch(String query) {
+  bool basicSearch(String query) {
+    bool isBasicSearchEmpty = true;
     listToShow.clear();
     query = query.toLowerCase();
     String tempquery = removeWhiteSpaces(query);
 
     //This condition is added because if query was equal to '' then no songs were shown.
     if (query == '' || tempquery == '') {
+      isBasicSearchEmpty = false;
       for (int i = 0; i < sortedSongList.length; i++) {
         listToShow.add(sortedSongList[i]);
       }
     } else {
       int noOfWords = query.split(' ').length;
       for (int i = 0; i < sortedSongList.length; i++) {
-        sortedSongList[i].searchKeywords =
-            removeWhiteSpaces(sortedSongList[i].searchKeywords);
-        if (sortedSongList[i].searchKeywords.contains(tempquery)) {
-          _map[i] = noOfWords;
+        // sortedSongList[i].searchKeywords =
+        //     removeWhiteSpaces(sortedSongList[i].searchKeywords);
+        if (sortedSongList[i].searchKeywords.contains(query)) {
+          isBasicSearchEmpty = false;
+          _map[i] = noOfWords * 2;
         }
       }
       wordWiseSearch(query);
     }
+
+    return isBasicSearchEmpty;
   }
 }

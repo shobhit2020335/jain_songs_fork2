@@ -3,32 +3,11 @@ import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'custom_widgets/constantWidgets.dart';
 
-class SearchEmpty extends StatefulWidget {
+class SearchEmpty extends StatelessWidget {
+  final nameController = TextEditingController();
   final TextEditingController searchController;
+
   SearchEmpty(this.searchController);
-
-  @override
-  _SearchEmptyState createState() => _SearchEmptyState();
-}
-
-class _SearchEmptyState extends State<SearchEmpty> {
-  var nameController = TextEditingController();
-  TextEditingController searchController;
-  //If shwForm is true then the user has clicked to suggest what was he trying to search.
-  bool showForm = false;
-  String buttonString = "Search";
-
-  @override
-  void initState() {
-    super.initState();
-    searchController = widget.searchController;
-  }
-
-  @override
-  void dispose() {
-    nameController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +20,7 @@ class _SearchEmptyState extends State<SearchEmpty> {
               height: 20,
             ),
             Text(
-              "No results found for your search terms.\n",
+              "Couldn't find the Song you are looking for? Try below steps:\n\n",
               style: TextStyle(
                 color: Colors.indigo,
                 fontSize: 18,
@@ -49,7 +28,7 @@ class _SearchEmptyState extends State<SearchEmpty> {
               ),
             ),
             Text(
-              "You can try typing HINDI.\nIf you could find the song you can click below button.",
+              "Check for any spelling mistakes.\nChange the filters if filters are applied.\nTry typing in HINDI.\nIf you still couldn't find the song or have a suggestion you can submit the song below.",
               style: TextStyle(
                 color: Colors.indigo,
                 fontSize: 15,
@@ -58,48 +37,46 @@ class _SearchEmptyState extends State<SearchEmpty> {
             SizedBox(
               height: 15,
             ),
-            Visibility(
-              visible: showForm,
-              child: Column(
-                children: [
-                  formFieldTitle('Song Name'),
-                  SizedBox(
-                    height: 7,
-                  ),
-                  formTextField(
-                    null,
-                    hint: 'Song name you are trying to find.',
-                    editingController: nameController,
-                  ),
-                ],
-              ),
+            Column(
+              children: [
+                formFieldTitle('Song Name'),
+                SizedBox(
+                  height: 7,
+                ),
+                formTextField(
+                  null,
+                  hint: 'Song name you are trying to find.',
+                  editingController: nameController,
+                ),
+              ],
             ),
             SizedBox(
               height: 10,
             ),
             TextButton(
               onPressed: () {
-                setState(
-                  () {
-                    if (buttonString == 'Submit') {
-                      showToast(
-                          'ThankYou for submitting! We will update the song soon.',
-                          toastColor: Colors.green);
-                    }
-                    SongSuggestions currentSongSuggestion = SongSuggestions(
-                      "Got from search",
-                      "Got from search",
-                      nameController.text,
-                      "What user tried to search is given in otherDetails.",
-                      searchController.text,
-                    );
-                    FireStoreHelper()
-                        .addSuggestions(context, currentSongSuggestion);
-                    showForm = true;
-                    buttonString = "Submit";
-                    nameController.clear();
-                  },
-                );
+                if (nameController != null &&
+                    searchController != null &&
+                    nameController.text.trim().length > 4) {
+                  showToast(
+                      'ThankYou for submitting! We will update the song soon.',
+                      toastColor: Colors.green);
+
+                  SongSuggestions currentSongSuggestion = SongSuggestions(
+                    "Got by search submission",
+                    "Got from search submission",
+                    nameController.text,
+                    "What user tried to search is given in otherDetails.",
+                    searchController.text,
+                  );
+                  FireStoreHelper()
+                      .addSuggestions(context, currentSongSuggestion);
+
+                  nameController.clear();
+                } else {
+                  showToast('Please Enter correct song name.',
+                      toastColor: Colors.red);
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -115,7 +92,7 @@ class _SearchEmptyState extends State<SearchEmpty> {
                 height: 40,
                 child: Center(
                   child: Text(
-                    buttonString,
+                    'Submit',
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.white,

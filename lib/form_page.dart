@@ -157,7 +157,7 @@ class _FormPageState extends State<FormPage> {
                 SizedBox(
                   height: 30,
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () async {
                     SongSuggestions currentSongSuggestion = SongSuggestions(
                       nameController.text,

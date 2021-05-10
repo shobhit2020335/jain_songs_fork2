@@ -8,15 +8,16 @@ import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
-import 'package:jain_songs/searchEmpty_page.dart';
 import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -30,7 +31,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Timer _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
-  bool isSearchEmpty = false;
+  KeyboardVisibilityNotification _keyboardVisibilityNotification =
+      KeyboardVisibilityNotification();
+  bool isBasicSearchEmpty = false;
   bool showProgress = false;
   Widget appBarTitle = mainAppTitle();
 
@@ -50,16 +53,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     filtersSelected.clear();
 
     if (query != null && flag == false) {
-      Searchify().basicSearch(query);
-      if (listToShow.isEmpty && query.length > 2) {
-        setState(() {
-          isSearchEmpty = true;
-        });
-      } else {
-        setState(() {
-          isSearchEmpty = false;
-        });
-      }
+      isBasicSearchEmpty = Searchify().basicSearch(query);
     } else {
       await NetworkHelper().changeDateAndVersion();
       if (fetchedVersion > appVersion) {
@@ -67,7 +61,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           showUpdateDialog(context);
         });
       }
-      if (totalDays > fetchedDays) {
+      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+      if (totalDays > fetchedDays && isInternetConnected) {
         fetchedDays = totalDays;
         await FireStoreHelper().dailyUpdate();
       } else {
@@ -154,6 +149,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     FirebaseFCMManager.handleFCMRecieved(context);
     // AdManager.initializeFBAds();
+
+    _keyboardVisibilityNotification.addNewListener(onHide: () {
+      if (isBasicSearchEmpty && searchController.text.length > 5) {
+        isBasicSearchEmpty = false;
+        SongSuggestions currentSongSuggestion = SongSuggestions(
+          "Got from search",
+          "Got from basic search emptiness",
+          searchController.text,
+          "What user tried to search is given in otherDetails.",
+          '',
+        );
+        FireStoreHelper().addSuggestions(context, currentSongSuggestion);
+      }
+    });
   }
 
   @override
@@ -163,6 +172,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     if (_timerLink != null) {
       _timerLink.cancel();
     }
+    _keyboardVisibilityNotification.dispose();
     super.dispose();
   }
 
@@ -177,6 +187,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   setState(() {
                     this.searchOrCrossIcon = Icon(Icons.close);
                     this.appBarTitle = TextField(
+                      textInputAction: TextInputAction.search,
                       controller: searchController,
                       autofocus: true,
                       onChanged: (value) {
@@ -185,7 +196,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         prefixIcon: Icon(
-                          Icons.search,
+                          Icons.search_rounded,
                           color: Colors.black,
                         ),
                         hintText: 'Search anything...',
@@ -300,12 +311,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         },
       ),
       body: <Widget>[
-        isSearchEmpty == false
-            ? BuildList(
-                showProgress: showProgress,
-                scrollController: listScrollController,
-              )
-            : SearchEmpty(searchController),
+        BuildList(
+          showProgress: showProgress,
+          scrollController: listScrollController,
+          searchController: searchController,
+        ),
         FormPage(),
         BuildPlaylistList(),
         SettingsPage(),
