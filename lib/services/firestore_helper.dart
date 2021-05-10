@@ -12,7 +12,6 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -26,7 +25,7 @@ class FireStoreHelper {
 
   static Future<String> fetchWelcomeMessage() async {
     RemoteConfig remoteConfig = await RemoteConfig.instance;
-    await remoteConfig.fetch(expiration: Duration(days: 1));
+    await remoteConfig.fetch(expiration: Duration(hours: 1));
     await remoteConfig.activateFetched();
     String message = remoteConfig.getString('welcome_message');
     return message;
@@ -40,13 +39,13 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    // final DatabaseReference databaseReference =
-    //     FirebaseDatabase.instance.reference();
-    // databaseReference
-    //     .child("userBehaviour")
-    //     .child("filters")
-    //     .push()
-    //     .set(userFilters.toMap());
+    final DatabaseReference databaseReference =
+        FirebaseDatabase.instance.reference();
+    databaseReference
+        .child("userBehaviour")
+        .child("filters")
+        .push()
+        .set(userFilters.toMap());
   }
 
   Future<void> fetchDaysAndVersion() async {
@@ -76,47 +75,40 @@ class FireStoreHelper {
   Future<void> dailyUpdate() async {
     _trace.start();
     songList.clear();
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-
-    if (isInternetConnected == false) {
-      return;
-    }
 
     QuerySnapshot songs;
     songs = await _firestore.collection('songs').get();
 
-    if (isInternetConnected == true) {
-      for (var song in songs.docs) {
-        Map<String, dynamic> songMap = song.data();
-        String state = songMap['aaa'];
-        state = state.toLowerCase();
-        if (state.contains('invalid') != true) {
-          int todayClicks = songMap['todayClicks'];
-          int totalClicks = songMap['totalClicks'];
+    for (var song in songs.docs) {
+      Map<String, dynamic> songMap = song.data();
+      String state = songMap['aaa'];
+      state = state.toLowerCase();
+      if (state.contains('invalid') != true) {
+        int todayClicks = songMap['todayClicks'];
+        int totalClicks = songMap['totalClicks'];
 
-          //Algo for trendPoints
-          double avgClicks = totalClicks / totalDays;
-          songMap['trendPoints'] = (todayClicks - avgClicks) / 2;
-          songMap['todayClicks'] = 0;
+        //Algo for trendPoints
+        double avgClicks = totalClicks / totalDays;
+        songMap['trendPoints'] = (todayClicks - avgClicks) / 2;
+        songMap['todayClicks'] = 0;
 
-          await this.songs.doc(songMap['code']).update({
-            'todayClicks': songMap['todayClicks'],
-            'trendPoints': songMap['trendPoints'],
-          }).catchError((error) {
-            print('Error Updating popularity!');
-          });
-        }
+        await this.songs.doc(songMap['code']).update({
+          'todayClicks': songMap['todayClicks'],
+          'trendPoints': songMap['trendPoints'],
+        }).catchError((error) {
+          print('Error Updating popularity!');
+        });
       }
-
-      Timestamp lastUpdated = Timestamp.now();
-      CollectionReference others = _firestore.collection('others');
-      others.doc('JAINSONGS').update({
-        'totalDays': totalDays,
-        'lastUpdated': lastUpdated,
-      }).catchError((error) {
-        print('Error updating days.' + error);
-      });
     }
+
+    Timestamp lastUpdated = Timestamp.now();
+    CollectionReference others = _firestore.collection('others');
+    others.doc('JAINSONGS').update({
+      'totalDays': totalDays,
+      'lastUpdated': lastUpdated,
+    }).catchError((error) {
+      print('Error updating days.' + error);
+    });
     _trace.stop();
 
     await _readFetchedSongs(songs, songList);

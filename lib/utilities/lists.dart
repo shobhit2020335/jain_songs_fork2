@@ -184,24 +184,6 @@ int trendComparison(SongDetails a, SongDetails b) {
   }
 }
 
-void searchInList(String query) {
-  listToShow.clear();
-  //This condition is added because if query was equal to '' then no songs were shown.
-  if (query == '') {
-    for (int i = 0; i < sortedSongList.length; i++) {
-      listToShow.add(sortedSongList[i]);
-    }
-  } else {
-    query = query.toLowerCase();
-    for (int i = 0; i < sortedSongList.length; i++) {
-      if (sortedSongList[i].searchKeywords.contains(query)) {
-        listToShow.add(sortedSongList[i]);
-      }
-      // listToShow.sort(trendComparison);
-    }
-  }
-}
-
 void addElementsToList(String playlistTag) {
   listToShow.clear();
   playlistTag = playlistTag.toLowerCase();

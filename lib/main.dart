@@ -27,25 +27,18 @@
 //TODO: set Rigtone option.
 //TODO: Stavan for web
 //TODO: Whatsapp Status.
-//TODO: New database
-//TODO: Adeshwar, adinath, rishabhdev consider equal in searching.
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
-//TODO: mahaveer + mahavir, adeshwar + adinath + rishabhdev
 //TODO: trasaction in firestore for likes and shares.
 //TODO: Disable latest songs for unsbcribed users.
-//TODO: Search algo by words, Remove spaces in searching., extra search button, Remove common words from search and then search, Show search button after refresh.
 //TODO: Subscripition
-//TODO: Genre and category in searching.
 //TODO: In App rating
-//TODO: New tirthankar, categories.
+//TODO: New tirthankar, categories. - navakar mantra, varsitap/tapasya
 //TODO: starting playback time.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
 //TODO: Add google search.
 //TODO: youTube miniplayer- Make beautiful
-//TODO: Jai Jinendra from firebase - Depends on reads.
 //TODO: different ads than banner ads (native ads).
-//TODO: facebook ads
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
@@ -55,7 +48,6 @@
 //TODO: Karaoke
 //TODO: playlist list to be square.
 //TODO: user can make playlist
-//TODO: Search Algo
 //TODO: IOS
 
 import 'package:cloud_firestore/cloud_firestore.dart';

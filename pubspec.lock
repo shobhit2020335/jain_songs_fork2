@@ -126,7 +126,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   device_info:
     dependency: "direct main"
     description:
@@ -189,7 +189,7 @@ packages:
       name: firebase_analytics_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.0.3"
   firebase_analytics_web:
     dependency: transitive
     description:
@@ -408,6 +408,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  keyboard_visibility:
+    dependency: "direct main"
+    description:
+      name: keyboard_visibility
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.6"
   matcher:
     dependency: transitive
     description:
@@ -470,14 +477,14 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   pedantic:
     dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.0"
+    version: "1.9.2"
   petitparser:
     dependency: transitive
     description:
@@ -581,6 +588,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sortedmap:
+    dependency: "direct main"
+    description:
+      name: sortedmap
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.2+1"
   source_span:
     dependency: transitive
     description:
@@ -630,13 +644,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.1"
-  translator:
-    dependency: "direct main"
-    description:
-      name: translator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.5"
   typed_data:
     dependency: transitive
     description:
