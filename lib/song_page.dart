@@ -68,7 +68,7 @@ class _SongPageState extends State<SongPage> {
   void setUpSongDetails() {
     if (songsVisited.contains(currentSong.code) == false) {
       //TODO: Comment while debugging.
-      // FireStoreHelper().changeClicks(context, currentSong);
+      FireStoreHelper().changeClicks(currentSong);
     }
     songsVisited.add(currentSong.code);
 

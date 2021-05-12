@@ -15,6 +15,7 @@ DateTime todayDate;
 int totalDays = 1;
 int fetchedDays = 0;
 String welcomeMessage = 'Jai Jinendra';
+bool fromCache = false;
 
 //TODO: update app version for new app.
 double appVersion = 1.21;
@@ -32,14 +33,18 @@ List<Filters> filtersAll = [
   Filters('genre', 'Paryushan', color: Colors.green),
   Filters('genre', 'Diksha', color: Colors.green),
   Filters('genre', 'Tapasya', color: Colors.green),
-  Filters('genre', 'Janam Kalyanak', color: Colors.green),
+  Filters('genre', 'Navkar Mantra', color: Colors.green),
+  Filters('genre', 'Bollywood', color: Colors.green),
+  Filters('genre', 'Palitana', color: Colors.green),
   Filters('genre', 'Latest', color: Colors.green),
+  Filters('genre', 'Janam Kalyanak', color: Colors.green),
   Filters('tirthankar', '24', color: Colors.redAccent),
   Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
   Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
   Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
   Filters('tirthankar', 'Neminath', color: Colors.redAccent),
+  Filters('tirthankar', 'Bhikshu', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
   Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
   Filters('tirthankar', 'Sambhavnath', color: Colors.redAccent),

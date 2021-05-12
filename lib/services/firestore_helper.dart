@@ -24,11 +24,12 @@ class FireStoreHelper {
   CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
-  static Future<String> fetchWelcomeMessage() async {
+  static Future<String> fetchRemoteConfigs() async {
     RemoteConfig remoteConfig = await RemoteConfig.instance;
-    await remoteConfig.fetch(expiration: Duration(hours: 1));
+    await remoteConfig.fetch(expiration: Duration(seconds: 1));
     await remoteConfig.activateFetched();
     String message = remoteConfig.getString('welcome_message');
+    fromCache = remoteConfig.getBool('from_cache');
     return message;
   }
 
@@ -40,13 +41,13 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    // final DatabaseReference databaseReference =
-    //     FirebaseDatabase.instance.reference();
-    // databaseReference
-    //     .child("userBehaviour")
-    //     .child("filters")
-    //     .push()
-    //     .set(userFilters.toMap());
+    final DatabaseReference databaseReference =
+        FirebaseDatabase.instance.reference();
+    databaseReference
+        .child("userBehaviour")
+        .child("filters")
+        .push()
+        .set(userFilters.toMap());
   }
 
   Future<void> fetchDaysAndVersion() async {
@@ -61,7 +62,7 @@ class FireStoreHelper {
     var docSnap = await others.doc('JAINSONGS').get();
     Map<String, dynamic> othersMap = docSnap.data();
 
-    FireStoreHelper.fetchWelcomeMessage().then((value) {
+    await fetchRemoteConfigs().then((value) {
       welcomeMessage = value;
     }).onError((error, stackTrace) {
       welcomeMessage = 'Jai Jinendra';
@@ -118,9 +119,23 @@ class FireStoreHelper {
   Future<void> getSongs() async {
     _trace2.start();
     songList.clear();
-
     QuerySnapshot songs;
-    songs = await _firestore.collection('songs').get();
+
+    bool isFirstOpen = await SharedPrefs.getIsFirstOpen();
+
+    if (fromCache == false || isFirstOpen == null) {
+      if(isFirstOpen == null){
+        SharedPrefs.setIsFirstOpen(false);
+      }
+      songs = await _firestore.collection('songs').get();
+    } else {
+      songs = await _firestore
+          .collection('songs')
+          .get(GetOptions(source: Source.cache));
+      if (songs == null || songs.size == 0) {
+        songs = await _firestore.collection('songs').get();
+      }
+    }
 
     await _readFetchedSongs(songs, songList);
     _trace2.stop();
@@ -166,11 +181,11 @@ class FireStoreHelper {
             totalClicks: currentSong['totalClicks'],
             trendPoints: currentSong['trendPoints'],
             likes: currentSong['likes'],
-            share: currentSong['share'],
+            share: currentSong['share'], 
             youTubeLink: currentSong['youTubeLink']);
-        bool valueIsliked = await getisLiked(currentSong['code']);
+        bool valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
         if (valueIsliked == null) {
-          setisLiked(currentSong['code'], false);
+          SharedPrefs.setIsLiked(currentSong['code'], false);
           valueIsliked = false;
         }
         currentSongDetails.isLiked = valueIsliked;
@@ -196,78 +211,52 @@ class FireStoreHelper {
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
-  Future<void> changeClicks(
-      BuildContext context, SongDetails currentSong) async {
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-
-    if (isInternetConnected == false) {
-      currentSong.totalClicks++;
-      currentSong.todayClicks++;
-      currentSong.popularity = currentSong.totalClicks + currentSong.likes;
-      return;
-    }
-
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
-    if (songMap == null) {
-      currentSong.totalClicks++;
-      currentSong.todayClicks++;
-      currentSong.popularity = currentSong.totalClicks + currentSong.likes;
-      return;
-    }
-
-    int todayClicks = songMap['todayClicks'] + 1;
-    int totalClicks = songMap['totalClicks'] + 1;
-    songMap['totalClicks'] = totalClicks;
-    songMap['popularity'] = totalClicks + songMap['likes'];
-    songMap['todayClicks'] = todayClicks;
+  Future<void> changeClicks(SongDetails currentSong) async {
+    int todayClicks = currentSong.todayClicks + 1;
+    int totalClicks = currentSong.totalClicks + 1;
 
     //Algo for trendPoints
     double avgClicks = totalClicks / totalDays;
     double nowTrendPoints = todayClicks - avgClicks;
-    if (nowTrendPoints > songMap['trendPoints']) {
-      songMap['trendPoints'] = todayClicks - avgClicks;
+    double trendPointInc = nowTrendPoints - currentSong.trendPoints;
+
+    if (nowTrendPoints < currentSong.trendPoints) {
+      trendPointInc = 0;
     }
 
     await songs.doc(currentSong.code).update({
-      'popularity': songMap['popularity'],
-      'totalClicks': songMap['totalClicks'],
-      'todayClicks': songMap['todayClicks'],
-      'trendPoints': songMap['trendPoints'],
+      'popularity': FieldValue.increment(1),
+      'totalClicks': FieldValue.increment(1),
+      'todayClicks': FieldValue.increment(1),
+      'trendPoints': FieldValue.increment(trendPointInc),
     }).then((value) {
-      currentSong.popularity = songMap['popularity'];
-      currentSong.totalClicks = songMap['totalClicks'];
+      currentSong.todayClicks++;
+      currentSong.totalClicks++;
+      currentSong.popularity++;
+      currentSong.trendPoints = currentSong.trendPoints + trendPointInc;
     }).catchError((error) {
       print('Error Updating popularity or trendPoints!');
     });
   }
 
   Future<void> changeShare(SongDetails currentSong) async {
-    currentSong.share++;
     await songs
         .doc(currentSong.code)
-        .update({'share': FieldValue.increment(1)}).catchError((error) {
+        .update({'share': FieldValue.increment(1)}).then((value) {
+      currentSong.share++;
+    }).catchError((error) {
       print('Error Updating share count in firebase');
     });
   }
 
   Future<void> changeLikes(SongDetails currentSong, int toAdd) async {
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-
-    if (isInternetConnected == false) {
-      showToast('No Internet connection!', toastColor: Colors.red);
-      currentSong.isLiked = !currentSong.isLiked;
-      return;
-    }
-
     await songs.doc(currentSong.code).update({
       'likes': FieldValue.increment(toAdd),
       'popularity': FieldValue.increment(toAdd)
     }).then((value) {
       currentSong.likes = currentSong.likes + toAdd;
       currentSong.popularity = currentSong.popularity + toAdd;
-      setisLiked(currentSong.code, currentSong.isLiked);
+      SharedPrefs.setIsLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
       showToast('Something went wrong! Please try Later.',

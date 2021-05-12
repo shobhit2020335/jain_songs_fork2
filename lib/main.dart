@@ -1,15 +1,14 @@
 //TODO: See realtime db for categories.
 //TODO: Change firestore caching way.
+//TODO: New tirthankar, categories.
 //TODO: Jain Dict
 //TODO: set Rigtone option.
 //TODO: Stavan for web
 //TODO: Whatsapp Status
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
-//TODO: trasaction in firestore for likes and shares.
 //TODO: Disable latest songs for unsbcribed users.
 //TODO: Subscripition
 //TODO: In App rating
-//TODO: New tirthankar, categories. - navakar mantra, varsitap/tapasya
 //TODO: starting playback time.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
