@@ -303,6 +303,24 @@ List<PlaylistDetails> playlistList = [
   ),
   PlaylistDetails(
     active: true,
+    title: 'Tapasya Geet',
+    subtitle: 'Varitap parna, Navtap & others',
+    playlistTag: 'tapasya',
+    leadIcon: Icons.self_improvement_rounded,
+    iconSize: 40,
+    color: Colors.teal,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    leadIcon: FontAwesomeIcons.pray,
+    iconSize: 32,
+    color: Colors.brown,
+  ),
+  PlaylistDetails(
+    active: true,
     title: 'Diksha Stavans',
     subtitle: 'Diksha playlist',
     playlistTag: 'diksha',
@@ -310,15 +328,7 @@ List<PlaylistDetails> playlistList = [
     iconSize: 32,
     color: Colors.blueGrey,
   ),
-  PlaylistDetails(
-    active: true,
-    title: 'Paryushan Stavans',
-    subtitle: 'Paryushan Mahaparv Playlist',
-    playlistTag: 'paryushan',
-    leadIcon: Icons.self_improvement_rounded,
-    iconSize: 40,
-    color: Colors.brown,
-  ),
+
   PlaylistDetails(
     active: true,
     title: 'Parshwanath',
