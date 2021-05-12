@@ -1,32 +1,9 @@
-//Expansion Tile
-//Card
-//SnackBar (Toast)
-//TabBar, TabController, TabView
-//Bottom Navigation
-//ListView
-//Future, async, await, future.then()/.whenComplete()
-//connectivity package
-//url_launcher package
-//flutter share package
-//modal progress hud
-//SearchBar
-//Firebase Firestore
-//IndexedStack
-//Shared Preferences
-//DateTime
-//Search Bar (flappy search bar)
-//RichText
-//DeviceInfo (Fetches device info)
-//flutter_launcher_icon
-//firebase_admob
-//flutter_windowmanager (disable ss and srec)
-//Webview (Open website in app)
-//package info
-//Filter_list
 //TODO: See realtime db for categories.
+//TODO: Change firestore caching way.
+//TODO: Jain Dict
 //TODO: set Rigtone option.
 //TODO: Stavan for web
-//TODO: Whatsapp Status.
+//TODO: Whatsapp Status
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
 //TODO: trasaction in firestore for likes and shares.
 //TODO: Disable latest songs for unsbcribed users.

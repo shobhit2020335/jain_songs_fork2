@@ -15,92 +15,83 @@ class SearchEmpty extends StatelessWidget {
       padding: EdgeInsets.all(20),
       child: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 20,
+              height: 50,
             ),
             Text(
-              "Couldn't find the Song you are looking for? Try below steps:\n\n",
+              "✔ Check for any spelling mistakes.\n✔ Change the filters if applied.\n",
               style: TextStyle(
-                color: Colors.indigo,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              "Check for any spelling mistakes.\nChange the filters if filters are applied.\nTry typing in HINDI.\nIf you still couldn't find the song or have a suggestion you can submit the song below.",
-              style: TextStyle(
-                color: Colors.indigo,
+                color: Colors.grey,
                 fontSize: 15,
               ),
             ),
             SizedBox(
               height: 15,
             ),
-            Column(
+            Row(
               children: [
-                formFieldTitle('Song Name'),
-                SizedBox(
-                  height: 7,
-                ),
-                formTextField(
-                  null,
-                  hint: 'Song name you are trying to find.',
-                  editingController: nameController,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            TextButton(
-              onPressed: () {
-                if (nameController != null &&
-                    searchController != null &&
-                    nameController.text.trim().length > 4) {
-                  showToast(
-                      'ThankYou for submitting! We will update the song soon.',
-                      toastColor: Colors.green);
-
-                  SongSuggestions currentSongSuggestion = SongSuggestions(
-                    "Got by search submission",
-                    "Got from search submission",
-                    nameController.text,
-                    "What user tried to search is given in otherDetails.",
-                    searchController.text,
-                  );
-                  FireStoreHelper()
-                      .addSuggestions(context, currentSongSuggestion);
-
-                  nameController.clear();
-                } else {
-                  showToast('Please Enter correct song name.',
-                      toastColor: Colors.red);
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+                Expanded(
+                  flex: 2,
+                  child: formTextField(
+                    null,
+                    hint: 'Song you are searching',
+                    editingController: nameController,
                   ),
-                  color: Color(0xFF54BEE6),
                 ),
-                width: 150,
-                height: 40,
-                child: Center(
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                Expanded(
+                  flex: 1,
+                  child: TextButton(
+                    onPressed: () {
+                      if (nameController != null &&
+                          searchController != null &&
+                          nameController.text.trim().length > 4) {
+                        showToast(
+                            'ThankYou for submitting! We will update the song soon.',
+                            toastColor: Colors.green);
+
+                        SongSuggestions currentSongSuggestion = SongSuggestions(
+                          "Got by search submission",
+                          "Got from search submission",
+                          nameController.text,
+                          "What user tried to search is given in otherDetails.",
+                          searchController.text,
+                        );
+                        FireStoreHelper()
+                            .addSuggestions(context, currentSongSuggestion);
+
+                        nameController.clear();
+                      } else {
+                        showToast('Please Enter correct song name.',
+                            toastColor: Colors.red);
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        color: Colors.indigo,
+                      ),
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'Submit',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),

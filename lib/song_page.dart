@@ -68,7 +68,7 @@ class _SongPageState extends State<SongPage> {
   void setUpSongDetails() {
     if (songsVisited.contains(currentSong.code) == false) {
       //TODO: Comment while debugging.
-      FireStoreHelper().changeClicks(context, currentSong);
+      // FireStoreHelper().changeClicks(context, currentSong);
     }
     songsVisited.add(currentSong.code);
 
@@ -194,29 +194,37 @@ class _SongPageState extends State<SongPage> {
                         likesIcon: currentSong.isLiked == true
                             ? FontAwesomeIcons.solidHeart
                             : FontAwesomeIcons.heart,
-                        likesTap: () async {
+                        likesTap: () {
                           if (currentSong.isLiked == true) {
                             currentSong.isLiked = false;
                             setState(() {});
                             FireStoreHelper fireStoreHelper = FireStoreHelper();
-                            await fireStoreHelper.changeLikes(
-                                context, currentSong, false);
+                            fireStoreHelper
+                                .changeLikes(currentSong, -1)
+                                .then((value) {
+                              setState(() {});
+                            });
                           } else {
                             currentSong.isLiked = true;
                             setState(() {});
                             FireStoreHelper fireStoreHelper = FireStoreHelper();
-                            await fireStoreHelper.changeLikes(
-                                context, currentSong, true);
+                            fireStoreHelper
+                                .changeLikes(currentSong, 1)
+                                .then((value) {
+                              setState(() {});
+                            });
                           }
-                          setState(() {});
                         },
-                        shareTap: () async {
+                        shareTap: () {
                           //Opens other app to share song.
                           shareApp(currentSong.songNameHindi, currentSong.code);
 
                           FireStoreHelper fireStoreHelper = FireStoreHelper();
-                          await fireStoreHelper.changeShare(
-                              context, currentSong);
+                          fireStoreHelper
+                              .changeShare(currentSong)
+                              .then((value) {
+                            setState(() {});
+                          });
                           setState(() {});
                         },
                         youtubeTap: () {

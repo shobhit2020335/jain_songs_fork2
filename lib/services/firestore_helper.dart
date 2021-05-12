@@ -40,13 +40,13 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    final DatabaseReference databaseReference =
-        FirebaseDatabase.instance.reference();
-    databaseReference
-        .child("userBehaviour")
-        .child("filters")
-        .push()
-        .set(userFilters.toMap());
+    // final DatabaseReference databaseReference =
+    //     FirebaseDatabase.instance.reference();
+    // databaseReference
+    //     .child("userBehaviour")
+    //     .child("filters")
+    //     .push()
+    //     .set(userFilters.toMap());
   }
 
   Future<void> fetchDaysAndVersion() async {
@@ -243,36 +243,16 @@ class FireStoreHelper {
     });
   }
 
-  Future<void> changeShare(
-      BuildContext context, SongDetails currentSong) async {
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-
-    if (isInternetConnected == false) {
-      currentSong.share++;
-      return;
-    }
-
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
-    if (songMap == null) {
-      currentSong.share++;
-      return;
-    }
-
-    songMap['share']++;
-
+  Future<void> changeShare(SongDetails currentSong) async {
+    currentSong.share++;
     await songs
         .doc(currentSong.code)
-        .update({'share': songMap['share']}).then((value) {
-      currentSong.share = songMap['share'];
-    }).catchError((error) {
+        .update({'share': FieldValue.increment(1)}).catchError((error) {
       print('Error Updating share count in firebase');
     });
   }
 
-  Future<void> changeLikes(
-      BuildContext context, SongDetails currentSong, bool toAdd) async {
+  Future<void> changeLikes(SongDetails currentSong, int toAdd) async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (isInternetConnected == false) {
@@ -281,25 +261,12 @@ class FireStoreHelper {
       return;
     }
 
-    var docSnap = await songs.doc(currentSong.code).get();
-    Map<String, dynamic> songMap = docSnap.data();
-
-    if (songMap == null) {
-      showToast('No Internet connection!', toastColor: Colors.red);
-      currentSong.isLiked = !currentSong.isLiked;
-      return;
-    }
-
-    songMap['likes'] = toAdd ? songMap['likes'] + 1 : songMap['likes'] - 1;
-    songMap['popularity'] =
-        toAdd ? songMap['popularity'] + 1 : songMap['popularity'] - 1;
-
     await songs.doc(currentSong.code).update({
-      'likes': songMap['likes'],
-      'popularity': songMap['popularity']
+      'likes': FieldValue.increment(toAdd),
+      'popularity': FieldValue.increment(toAdd)
     }).then((value) {
-      currentSong.likes = songMap['likes'];
-      currentSong.popularity = songMap['popularity'];
+      currentSong.likes = currentSong.likes + toAdd;
+      currentSong.popularity = currentSong.popularity + toAdd;
       setisLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
