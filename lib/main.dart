@@ -1,51 +1,20 @@
-//Expansion Tile
-//Card
-//SnackBar (Toast)
-//TabBar, TabController, TabView
-//Bottom Navigation
-//ListView
-//Future, async, await, future.then()/.whenComplete()
-//connectivity package
-//url_launcher package
-//flutter share package
-//modal progress hud
-//SearchBar
-//Firebase Firestore
-//IndexedStack
-//Shared Preferences
-//DateTime
-//Search Bar (flappy search bar)
-//RichText
-//DeviceInfo (Fetches device info)
-//flutter_launcher_icon
-//firebase_admob
-//flutter_windowmanager (disable ss and srec)
-//Webview (Open website in app)
-//package info
-//Filter_list
-//TODO: change UI for song page like, app bar, loading, laoding song, colors.
-//TODO: set Rigtone option.
-//TODO: Recommended tag in trending list
-//TODO: Adeshwar, adinath, rishabhdev consider equal in searching.
-//TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
-//TODO: mahaveer + mahavir, adeshwar + adinath + rishabhdev
-//TODO: trasaction in firestore for likes and shares.
-//TODO: Disable latest songs for unsbcribed users.
-//TODO: Search algo by words, Remove spaces in searching., extra search button, Remove common words from search and then search, Show search button after refresh.
-//TODO: Subscripition
-//TODO: Genre and category in searching.
-//TODO: In App rating
+//TODO: See realtime db for categories.
+//TODO: Change firestore caching way.
 //TODO: New tirthankar, categories.
+//TODO: Jain Dict
+//TODO: set Rigtone option.
+//TODO: Stavan for web
+//TODO: Whatsapp Status
+//TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
+//TODO: Disable latest songs for unsbcribed users.
+//TODO: Subscripition
+//TODO: In App rating
 //TODO: starting playback time.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
 //TODO: Add google search.
-//TODO: Language submission in lyrics.
-//TODO: Improve Firebase cloud messaging. with pics and logos.
 //TODO: youTube miniplayer- Make beautiful
-//TODO: Jai Jinendra from firebase - Depends on reads.
 //TODO: different ads than banner ads (native ads).
-//TODO: facebook ads
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
@@ -55,7 +24,6 @@
 //TODO: Karaoke
 //TODO: playlist list to be square.
 //TODO: user can make playlist
-//TODO: Search Algo
 //TODO: IOS
 
 import 'package:cloud_firestore/cloud_firestore.dart';

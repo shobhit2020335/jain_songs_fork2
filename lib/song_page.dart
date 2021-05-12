@@ -68,7 +68,7 @@ class _SongPageState extends State<SongPage> {
   void setUpSongDetails() {
     if (songsVisited.contains(currentSong.code) == false) {
       //TODO: Comment while debugging.
-      FireStoreHelper().changeClicks(context, currentSong);
+      FireStoreHelper().changeClicks(currentSong);
     }
     songsVisited.add(currentSong.code);
 
@@ -124,6 +124,9 @@ class _SongPageState extends State<SongPage> {
     );
     _loadAdmobInterstitialAd();
 
+    //Below Code is to call facebook ads.
+    // AdManager.loadAndShowFBInterstitialAd();
+
     //Below code is for mopub ads.
     // _showMopubInterstitialAd();
 
@@ -154,7 +157,6 @@ class _SongPageState extends State<SongPage> {
 
   @override
   void dispose() {
-    //TODO: Check below.
     if (_youtubePlayerController != null) {
       _youtubePlayerController.dispose();
     }
@@ -192,36 +194,45 @@ class _SongPageState extends State<SongPage> {
                         likesIcon: currentSong.isLiked == true
                             ? FontAwesomeIcons.solidHeart
                             : FontAwesomeIcons.heart,
-                        likesTap: () async {
+                        likesTap: () {
                           if (currentSong.isLiked == true) {
                             currentSong.isLiked = false;
                             setState(() {});
                             FireStoreHelper fireStoreHelper = FireStoreHelper();
-                            await fireStoreHelper.changeLikes(
-                                context, currentSong, false);
+                            fireStoreHelper
+                                .changeLikes(currentSong, -1)
+                                .then((value) {
+                              setState(() {});
+                            });
                           } else {
                             currentSong.isLiked = true;
                             setState(() {});
                             FireStoreHelper fireStoreHelper = FireStoreHelper();
-                            await fireStoreHelper.changeLikes(
-                                context, currentSong, true);
+                            fireStoreHelper
+                                .changeLikes(currentSong, 1)
+                                .then((value) {
+                              setState(() {});
+                            });
                           }
-                          setState(() {});
                         },
-                        shareTap: () async {
+                        shareTap: () {
                           //Opens other app to share song.
                           shareApp(currentSong.songNameHindi, currentSong.code);
 
                           FireStoreHelper fireStoreHelper = FireStoreHelper();
-                          await fireStoreHelper.changeShare(
-                              context, currentSong);
+                          fireStoreHelper
+                              .changeShare(currentSong)
+                              .then((value) {
+                            setState(() {});
+                          });
                           setState(() {});
                         },
                         youtubeTap: () {
                           String link = currentSong.youTubeLink;
                           if (link == null || link == '') {
-                            showToast(context,
-                                'Video URL is not available at this moment!');
+                            showToast(
+                                'Video URL is not available at this moment!',
+                                toastColor: Colors.amber);
                           } else {
                             launchURL(context, link);
                             print('Launching');
@@ -229,9 +240,9 @@ class _SongPageState extends State<SongPage> {
                         },
                         languageTap: () {
                           if (noOfLang == 1) {
-                            showToast(context,
+                            showToast(
                                 'No more languages for this song is available now!',
-                                duration: 2);
+                                toastColor: Colors.amber);
                           } else if (langNo >= noOfLang) {
                             langNo = 1;
                           } else if (langNo < noOfLang) {

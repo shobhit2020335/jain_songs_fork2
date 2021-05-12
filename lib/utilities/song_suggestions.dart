@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SongSuggestions {
-  String aaa;
+  String fcmToken;
   String name;
   String email;
   String songName;
@@ -12,11 +12,10 @@ class SongSuggestions {
 
   SongSuggestions(
       this.name, this.email, this.songName, this.lyrics, this.otherDetails,
-      {this.submissionTime}) {
-    this.aaa = "incomplete";
+      {this.submissionTime, this.fcmToken: 'NA'}) {
     this.submissionTime = Timestamp.now();
     songSuggestionMap = {
-      'aaa': this.aaa,
+      'fcmToken': this.fcmToken,
       'email': this.email,
       'lyrics': this.lyrics,
       'name': this.name,
@@ -24,6 +23,11 @@ class SongSuggestions {
       'songName': this.songName,
       'submissionTime': this.submissionTime,
     };
+  }
+
+  void setFCMToken(String fcmToken) {
+    this.fcmToken = fcmToken;
+    this.songSuggestionMap['fcmToken'] = fcmToken;
   }
 
   void setSubmissionTime(Timestamp time) {
