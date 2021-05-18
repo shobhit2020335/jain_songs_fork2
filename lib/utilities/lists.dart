@@ -18,7 +18,7 @@ String welcomeMessage = 'Jai Jinendra';
 bool fromCache = false;
 
 //TODO: update app version for new app.
-double appVersion = 1.21;
+double appVersion = 1.22;
 double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;

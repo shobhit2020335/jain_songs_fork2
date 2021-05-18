@@ -41,13 +41,13 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    final DatabaseReference databaseReference =
-        FirebaseDatabase.instance.reference();
-    databaseReference
-        .child("userBehaviour")
-        .child("filters")
-        .push()
-        .set(userFilters.toMap());
+    // final DatabaseReference databaseReference =
+    //     FirebaseDatabase.instance.reference();
+    // databaseReference
+    //     .child("userBehaviour")
+    //     .child("filters")
+    //     .push()
+    //     .set(userFilters.toMap());
   }
 
   Future<void> fetchDaysAndVersion() async {
@@ -124,7 +124,7 @@ class FireStoreHelper {
     bool isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
     if (fromCache == false || isFirstOpen == null) {
-      if(isFirstOpen == null){
+      if (isFirstOpen == null) {
         SharedPrefs.setIsFirstOpen(false);
       }
       songs = await _firestore.collection('songs').get();
@@ -181,7 +181,7 @@ class FireStoreHelper {
             totalClicks: currentSong['totalClicks'],
             trendPoints: currentSong['trendPoints'],
             likes: currentSong['likes'],
-            share: currentSong['share'], 
+            share: currentSong['share'],
             youTubeLink: currentSong['youTubeLink']);
         bool valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
         if (valueIsliked == null) {
