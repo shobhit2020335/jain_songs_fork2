@@ -157,7 +157,7 @@ class _FormPageState extends State<FormPage> {
                 SizedBox(
                   height: 30,
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () async {
                     SongSuggestions currentSongSuggestion = SongSuggestions(
                       nameController.text,
@@ -167,7 +167,8 @@ class _FormPageState extends State<FormPage> {
                       otherController.text,
                     );
 
-                    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+                    bool isInternetConnected =
+                        await NetworkHelper().checkNetworkConnection();
 
                     if ((currentSongSuggestion.songSuggestionMap['songName'] ==
                                 '' ||
@@ -185,10 +186,11 @@ class _FormPageState extends State<FormPage> {
                             currentSongSuggestion
                                     .songSuggestionMap['lyrics'].length <
                                 2)) {
-                      showToast( 
-                          context, 'Song Name and Lyrics both cannot be empty');
+                      showToast('Song Name and Lyrics both cannot be empty',
+                          toastColor: Colors.red);
                     } else if (isInternetConnected == false) {
-                      showToast(context, 'No Internet Connection!');
+                      showToast('No Internet Connection!',
+                          toastColor: Colors.red);
                     } else {
                       await FireStoreHelper()
                           .addSuggestions(context, currentSongSuggestion);
@@ -198,8 +200,8 @@ class _FormPageState extends State<FormPage> {
                       lyricsController.clear();
                       otherController.clear();
                       showToast(
-                        context,
                         'ThankYou for suggesting! Song will be updated soon.',
+                        toastColor: Colors.green,
                       );
                     }
                   },

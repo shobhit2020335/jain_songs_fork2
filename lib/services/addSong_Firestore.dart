@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/useful_functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   AddSong currentSong = AddSong();
+
+  //This automatically creates searchKeywords from song details.
+  currentSong.mainSearchKeywords();
 
   //Uncomment below to add a new song.
   await currentSong.addToFirestore().catchError((error) {
@@ -15,51 +19,69 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.makestringSearchKeyword('MVAM',
-      englishName: ' મોતી વેરાના ચોક માં આવ્યા શ્રી જિનરાજ',
-      hindiName: 'मोती वेराना चौक मा आव्या श्री जिनराज',
-      originalSong: 'Moti Veraana Aangan Ma Moti verana Angan ma',
-      album:
-          'Moti Veraana (Re Aavya Tapasvi) Moti verana aangan ma aavya tapasvi',
-      tirthankar: 'Latest tapasya geet',
-      extra1: 'Amit Trivedi',
+  currentSong.extraSearchKeywords('UPKLAM',
+      englishName: 'नाकोड़ा नगरी घुमाया मुझे',
+      hindiName: 'Nagri Ghumaya mujhe',
+      originalSong: '',
+      album: '',
+      tirthankar: '',
+      extra1: '',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र નેમિનાથ नेमिनाथ
+  //शत्रुंजय shatrunjay पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
+  //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'MVAM',
-    'album': 'Songs Of Faith',
-    'aaa': 'valid',
-    'category': 'Garba',
-    'genre': 'Latest | Tapasya',
-    'language': 'Gujarati',
+    'code': 'UPKLAM',
+    'album': 'Laadla | 1993',
+    'aaa': 'valid | Lyrics',
+    'category': 'Bhakti',
+    'genre': 'Bollywood',
+    'gujaratiLyrics': '',
+    'language': 'Hindi',
     'likes': 0,
-    'lyrics':
-        'Ho tame utsav aaje mandavo\n Tame utsav aaje mandavo \nMangal geeto gavo aaje sharnai-dhol vagado\n\nHo mara tapasvi aavya aaje\nHo mara tapasvi aavya aaje\nJai Jai nad gajavo bhai, tapni dhoom machavo\n\nMoti veraana aanganma aavya tapasvi\nHaiya harshit thay re aavya tapasvi\nRe aavya tapasvi (2)\n\nAkshat fulade vadhaavo re aavya tapasvi\nJin Shasan sohaay, re aavya tapasvi\n\nTame aangan aaje sajavo\nTame aangan aaje sajavo\nAso Palavna toran bandhavo\nShasan devi vadhavo\n\nHo aaje avsar rudo aavyo\nHo aaje avsar rudo aavyo\nManna manorat poora thaata,\nTapasvi man harkhayo\n\nMoti veraana aanganma aavya tapasvi\nHaiya harshit thay re aavya tapasvi\nRe aavya tapasvi (2)\n\nAkshat fulade vadhaavo re aavya tapasvi\nJin Shasan sohaay, re aavya tapasvi\nRe aavya tapasvi…(2)\n',
+    'lyrics': 'Lyrics not available at the moment.',
     'englishLyrics': '',
-    'originalSong': 'Moti Veraana (Amit Trivedi)',
+    'originalSong': 'Ma O Meri Maa | Udit Narayan',
     'popularity': 0,
-    'production': '',
+    'production': 'Jainguruganesh',
     'share': 0,
-    'singer': 'Gautam Baria',
-    'songNameEnglish': 'Moti Veraana (Re Aavya Tapasvi)',
-    'songNameHindi': 'मोती वेराना चौक मा (आव्या श्री जिनराज)',
-    'tirthankar': '',
+    'singer': 'Nahar Sisters',
+    'songNameEnglish': 'Ungli Pakad Ke Le Aaya Mujhe',
+    'songNameHindi': 'उँगली पकड़ के ले आया मुझे',
+    'tirthankar': 'Nakoda Bheru Ji',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/Wy28Xo551ws',
+    'youTubeLink': 'https://youtu.be/R1RryKFMzY8',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
+
+  String searchKeywords = '';
 
   Future<void> addToFirestore() async {
     return songs.doc(currentSongMap['code']).set(currentSongMap);
   }
 
-  void makestringSearchKeyword(
+  void mainSearchKeywords() {
+    searchKeywords = searchKeywords +
+        currentSongMap['language'] +
+        ' ' +
+        currentSongMap['genre'] +
+        ' ' +
+        removeSpecificString(currentSongMap['tirthankar'], ' Swami') +
+        ' ' +
+        currentSongMap['category'] +
+        ' ' +
+        currentSongMap['songNameEnglish'] +
+        ' ';
+    searchKeywords = removeSpecialChars(searchKeywords).toLowerCase();
+  }
+
+  void extraSearchKeywords(
     String code, {
     String englishName: '',
     String hindiName: '',
@@ -70,22 +92,27 @@ class AddSong {
     String extra2: '',
     String extra3: '',
   }) {
-    String currentString;
-    currentString = englishName.toLowerCase() + ' ' + hindiName.toLowerCase();
-    currentString = currentString +
+    searchKeywords = searchKeywords.toLowerCase() + englishName + hindiName;
+    searchKeywords = searchKeywords +
+        currentSongMap['songNameHindi'] +
         ' ' +
-        tirthankar.toLowerCase() +
+        currentSongMap['originalSong'] +
         ' ' +
-        originalSong.toLowerCase() +
+        currentSongMap['album'] +
         ' ' +
-        album.toLowerCase() +
+        tirthankar +
         ' ' +
-        extra1.toLowerCase() +
+        originalSong +
         ' ' +
-        extra2.toLowerCase() +
+        album +
         ' ' +
-        extra3.toLowerCase();
-    _addSearchKeywords(code, currentString);
+        extra1 +
+        ' ' +
+        extra2 +
+        ' ' +
+        extra3 +
+        ' ';
+    _addSearchKeywords(code, searchKeywords.toLowerCase());
   }
 
   void _addSearchKeywords(String code, String stringSearchKeyword) async {

@@ -8,6 +8,21 @@ import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
+final DateTime startDate = DateTime(2020, 12, 23);
+String appURL =
+    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
+DateTime todayDate;
+int totalDays = 1;
+int fetchedDays = 0;
+String welcomeMessage = 'Jai Jinendra';
+bool fromCache = false;
+
+//TODO: update app version for new app.
+double appVersion = 1.22;
+double fetchedVersion;
+//Anonymous user's variable.
+UserCredential userCredential;
+
 List<SongDetails> songList = [];
 List<SongDetails> sortedSongList = [];
 List<SongDetails> listToShow = [];
@@ -18,13 +33,18 @@ List<Filters> filtersAll = [
   Filters('genre', 'Paryushan', color: Colors.green),
   Filters('genre', 'Diksha', color: Colors.green),
   Filters('genre', 'Tapasya', color: Colors.green),
+  Filters('genre', 'Navkar Mantra', color: Colors.green),
+  Filters('genre', 'Bollywood', color: Colors.green),
+  Filters('genre', 'Palitana', color: Colors.green),
   Filters('genre', 'Latest', color: Colors.green),
+  Filters('genre', 'Janam Kalyanak', color: Colors.green),
   Filters('tirthankar', '24', color: Colors.redAccent),
   Filters('tirthankar', 'Parshwanath', color: Colors.redAccent),
   Filters('tirthankar', 'Mahavir', color: Colors.redAccent),
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
   Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
   Filters('tirthankar', 'Neminath', color: Colors.redAccent),
+  Filters('tirthankar', 'Bhikshu', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
   Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
   Filters('tirthankar', 'Sambhavnath', color: Colors.redAccent),
@@ -72,7 +92,6 @@ Future<void> applyFilter() async {
       }
     }
 
-    //TODO: Remove below before commit.
     FireStoreHelper().userSelectedFilters(userFilters);
 
     for (int i = 0; i < n; i++) {
@@ -145,19 +164,6 @@ Future<void> applyFilter() async {
   }
 }
 
-final DateTime startDate = DateTime(2020, 12, 23);
-String appURL =
-    'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
-DateTime todayDate;
-int totalDays = 1;
-int fetchedDays = 0;
-
-//TODO: update app version for new app.
-double appVersion = 1.10;
-double fetchedVersion;
-//Anonymous user's variable.
-UserCredential userCredential;
-
 //This is not used now.
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;
@@ -180,17 +186,6 @@ int trendComparison(SongDetails a, SongDetails b) {
     return -1;
   } else {
     return 0;
-  }
-}
-
-void searchInList(String query) {
-  listToShow.clear();
-  query = query.toLowerCase();
-  for (int i = 0; i < sortedSongList.length; i++) {
-    if (sortedSongList[i].searchKeywords.contains(query)) {
-      listToShow.add(sortedSongList[i]);
-    }
-    // listToShow.sort(trendComparison);
   }
 }
 
@@ -293,7 +288,7 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: false,
     title: 'Popular',
-    subtitle: 'All time hits',
+    subtitle: 'All time top 30.',
     playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
     color: Colors.amber,
@@ -308,6 +303,24 @@ List<PlaylistDetails> playlistList = [
   ),
   PlaylistDetails(
     active: true,
+    title: 'Tapasya Geet',
+    subtitle: 'Varitap parna, Navtap & others',
+    playlistTag: 'tapasya',
+    leadIcon: Icons.self_improvement_rounded,
+    iconSize: 40,
+    color: Colors.teal,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    leadIcon: FontAwesomeIcons.pray,
+    iconSize: 32,
+    color: Colors.brown,
+  ),
+  PlaylistDetails(
+    active: true,
     title: 'Diksha Stavans',
     subtitle: 'Diksha playlist',
     playlistTag: 'diksha',
@@ -315,15 +328,7 @@ List<PlaylistDetails> playlistList = [
     iconSize: 32,
     color: Colors.blueGrey,
   ),
-  PlaylistDetails(
-    active: true,
-    title: 'Paryushan Stavans',
-    subtitle: 'Paryushan Mahaparv Playlist',
-    playlistTag: 'paryushan',
-    leadIcon: Icons.self_improvement_rounded,
-    iconSize: 40,
-    color: Colors.brown,
-  ),
+
   PlaylistDetails(
     active: true,
     title: 'Parshwanath',

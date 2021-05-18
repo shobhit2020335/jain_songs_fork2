@@ -31,7 +31,8 @@ class BuildPlaylistRow extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PlaylistPage(playlistDetails),
+              builder: (context) =>
+                  PlaylistPage(currentPlaylist: playlistDetails),
             ),
           );
         },

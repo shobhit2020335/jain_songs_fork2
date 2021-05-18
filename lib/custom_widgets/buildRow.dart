@@ -18,6 +18,36 @@ class BuildRow extends StatefulWidget {
 }
 
 class _BuildRowState extends State<BuildRow> {
+  //Below full code is for Mopub.
+  // MoPubInterstitialAd interstitialAd;
+
+  // void _loadMopubInterstitialAd() async {
+  //   interstitialAd = MoPubInterstitialAd(
+  //     '7e9b62190a1f4a6ab748342e6dd012a6',
+  //     (result, args) {
+  //       print('Interstitial $result');
+  //     },
+  //     reloadOnClosed: true,
+  //   );
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   try {
+  //     MoPub.init('7e9b62190a1f4a6ab748342e6dd012a6', testMode: false).then((_) {
+  //       _loadMopubInterstitialAd();
+  //     });
+  //   } on PlatformException {}
+  // }
+
+  // @override
+  // void dispose() {
+  //   interstitialAd.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     SongDetails currentSong = widget.currentSong;
@@ -42,12 +72,12 @@ class _BuildRowState extends State<BuildRow> {
               currentSong.isLiked = false;
               setState(() {});
               FireStoreHelper fireStoreHelper = FireStoreHelper();
-              await fireStoreHelper.changeLikes(context, currentSong, false);
+              await fireStoreHelper.changeLikes(currentSong, -1);
             } else {
               currentSong.isLiked = true;
               setState(() {});
               FireStoreHelper fireStoreHelper = FireStoreHelper();
-              await fireStoreHelper.changeLikes(context, currentSong, true);
+              await fireStoreHelper.changeLikes(currentSong, 1);
             }
             setState(() {});
           },
@@ -56,7 +86,10 @@ class _BuildRowState extends State<BuildRow> {
           await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SongPage(currentSong: currentSong),
+              builder: (context) => SongPage(
+                currentSong: currentSong,
+                // interstitialAd: interstitialAd,
+              ),
             ),
           );
           setState(() {});

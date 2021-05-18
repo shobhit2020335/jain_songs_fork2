@@ -36,6 +36,7 @@ class FilterListDialog {
     if (width == null) {
       width = MediaQuery.of(context).size.width;
     }
+    // ignore: unused_local_variable
     var list = await showDialog(
       context: context,
       builder: (BuildContext context) {
