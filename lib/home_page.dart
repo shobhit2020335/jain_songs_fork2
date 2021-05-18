@@ -311,19 +311,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         },
       ),
       body: <Widget>[
-<<<<<<< HEAD
-        Column(
-          children: <Widget>[
-            isSearchEmpty == false
-                ? BuildList(showProgress: showProgress)
-                : SearchEmpty(searchController),
-          ],
-=======
         BuildList(
           showProgress: showProgress,
           scrollController: listScrollController,
           searchController: searchController,
->>>>>>> v1.2.2
         ),
         FormPage(),
         BuildPlaylistList(),
