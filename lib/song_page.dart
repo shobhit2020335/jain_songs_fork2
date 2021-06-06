@@ -2,17 +2,17 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
+import 'package:flutter_playout/player_state.dart' as playout;
+import 'package:flutter_playout/video.dart' as vplayout;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/services/videoPlayout.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
-// import 'package:mopub_flutter/mopub.dart';
-// import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
@@ -20,7 +20,6 @@ import 'services/firestore_helper.dart';
 class SongPage extends StatefulWidget {
   final String codeFromDynamicLink;
   final SongDetails currentSong;
-  // final MoPubInterstitialAd interstitialAd;
 
   SongPage({this.currentSong, this.codeFromDynamicLink});
 
@@ -33,6 +32,7 @@ class _SongPageState extends State<SongPage> {
   SongDetails currentSong;
   bool showProgress = true;
   Timer _timerLink;
+  playout.PlayerState _playerState = playout.PlayerState.PAUSED;
 
   //Variable to determine which language is displayed now.
   int langNo = 1;
@@ -266,6 +266,14 @@ class _SongPageState extends State<SongPage> {
                                 color: Colors.grey,
                               ),
                             ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      VideoPlayout(
+                        desiredState: _playerState,
+                        showPlayerControls: true,
+                        url: currentSong.youTubeLink,
+                      ),
                       SizedBox(
                         height: 20,
                       ),

@@ -19,7 +19,7 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('NBC',
+  currentSong.extraSearchKeywords('PKMJI',
       englishName: '',
       hindiName: '',
       originalSong: '',
@@ -35,30 +35,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'NBC',
+    'code': 'PKMJI',
     'album': '',
     'aaa': 'valid',
-    'category': 'Chalisa',
-    'genre': '',
+    'category': 'Stavan',
+    'genre': 'Diksha',
     'gujaratiLyrics': '',
     'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        '॥ दोहा ॥\nपाश्वर्नाथ भगवान की, मूरत चित बसाए ॥\nभैरव चालीसा लखू, गाता मन हरसाए ॥\n\n।। चौपाई ।।\nनाकोडा भैरव सुखकारी, गुण गाये ये दुनिया सारी ॥\nभैरव की महिमा अति भारी, भैरव नाम जपे नर – नारी ॥\nजिनवर के हैं आज्ञाकारी, श्रद्धा रखते समकित धारी ॥\nप्रातः उठ जो भैरव ध्याता, ऋद्धि सिद्धि सब संपत्ति पाता ॥\nभैरव नाम जपे जो कोई, उस घर में निज मंगल होई ॥\nनाकोडा लाखों नर आवे, श्रद्धा से परसाद चढावे ॥\nभैरव – भैरव आन पुकारे, भक्तों के सब कष्ट निवारे ॥\nभैरव दर्शन शक्ति – शाली, दर से कोई न जावे खाली ॥\nजो नर नित उठ तुमको ध्यावे, भूत पास आने नहीं पावे ॥\nडाकण छूमंतर हो जावे, दुष्ट देव आडे नहीं आवे ॥\nमारवाड की दिव्य मणि हैं, हम सब के तो आप धणी हैं ॥\nकल्पतरु है परतिख भैरव, इच्छित देता सबको भैरव ॥\nआधि व्याधि सब दोष मिटावे, सुमिरत भैरव शान्ति पावे ॥\nबाहर परदेशे जावे नर, नाम मंत्र भैरव का लेकर ॥\nचोघडिया दूषण मिट जावे, काल राहु सब नाठा जावे ॥\nपरदेशा में नाम कमावे, धन बोरा में भरकर लावे ॥\nतन में साता मन में साता, जो भैरव को नित्य मनाता ॥\nमोटा डूंगर रा रहवासी, अर्ज सुणन्ता दौड्या आसी ॥\nजो नर भक्ति से गुण गासी, पावें नव रत्नों की राशि ॥\nश्रद्धा से जो शीष झुकावे, भैरव अमृत रस बरसावे ॥\nमिल जुल सब नर फेरे माला, दौड्या आवे बादल – काला ॥\nवर्षा री झडिया बरसावे, धरती माँ री प्यास बुझावे ॥\nअन्न – संपदा भर भर पावे, चारों ओर सुकाल बनावे ॥\nभैरव है सच्चा रखवाला, दुश्मन मित्र बनाने वाला ॥\nदेश – देश में भैरव गाजे, खूटँ – खूटँ में डंका बाजे ॥\nहो नहीं अपना जिनके कोई, भैरव सहायक उनके होई ॥\nनाभि केन्द्र से तुम्हें बुलावे, भैरव झट – पट दौडे आवे ॥\nभूख्या नर की भूख मिटावे, प्यासे नर को नीर पिलावे ॥\nइधर – उधर अब नहीं भटकना, भैरव के नित पाँव पकडना ॥\nइच्छित संपदा आप मिलेगी, सुख की कलियाँ नित्य खिलेंगी ॥\nभैरव गण खरतर के देवा, सेवा से पाते नर मेवा ॥\nकीर्तिरत्न की आज्ञा पाते, हुक्म – हाजिरी सदा बजाते ॥\nऊँ ह्रीं भैरव बं बं भैरव, कष्ट निवारक भोला भैरव ॥\nनैन मूँद धुन रात लगावे, सपने में वो दर्शन पावे ॥\nप्रश्नों के उत्तर झट मिलते, रस्ते के संकट सब मिटते ॥\nनाकोडा भैरव नित ध्यावो, संकट मेटो मंगल पावो ॥\nभैरव जपन्ता मालम – माला, बुझ जाती दुःखों की ज्वाला ॥\nनित उठे जो चालीसा गावे, धन सुत से घर स्वर्ग बनावे ॥\n\n॥ दोहा ॥\nभैरु चालीसा पढे, मन में श्रद्धा धार ।\nकष्ट कटे महिमा बढे, संपदा होत अपार ॥\nजिन कान्ति गुरुराज के,शिष्य मणिप्रभ राय ।\nभैरव के सानिध्य में,ये चालीसा गाय ॥\n॥ श्री भैरवाय शरणम् ॥\n',
+        'हो हो ... हो हो....\nपंचम काल में जो इंसान, साधु बने वो महान् है\nदेवो से राजा से बड़ा जैन मुनि का मान् है २\nहो हो.... हो हो...\n\nसुख और भोग से राग के रोग से,\nमिलन वियोग से रहे पड़े २\nसमता धारे - ममता त्यागे, \nहर परेसाह से कहे सहे २\nमहाव्रत धारी ये अविकारी, \nधन जिनका आगम ज्ञान है\nपंचम काल में जो इंसान साधु बने वो महान है\n\nमैत्री भावना, मंगल कामना\nक्षमापना हर प्राणी से\nतन मन वचन से जैन साधु \nरखे इन्द्रियाँ निगरानी में\nना प्रमाद करें, ना विवाद करें,\nसमकित का देते कान है\nपंचम काल में जो इंसान साधु बने वो महान है\n\nसिद्धशिला को लक्ष्य में रखके \nजयणा का पालन करे २\nतप, जप योग से कर्म खपाते, \nसदा ये पैदल ही चले\nकुदरत के नियम नही तोड़े कभी, \nपर हित जीवन का विधान है\nपंचम काल में जो इंसान, साधु बने वो महान् है\n\nभूख प्यास क्या? सर्दी गर्मी\nया पीड़ा कोई तन मन की\nना आकुल ना व्याकुल होते,\nआनन्द में करते भक्ति\nनाकोड़ा दरबार प्रदीप नमे,\nयह जैन मुनि वरदान है\nपंचम काल में जो इंसान साधु बने वो महान है\n\nदेवो से राजा से बड़ा जैन मुनि का मान् है २\nहो हो.... हो हो... हो हो.... हो हो....\n',
     'englishLyrics':
-        '॥ Doha ॥\nPaashvarnaath Bhagavaan Kee, Moorat Chit Basae\nBhairav Chaaleesa Lakhoo, Gaata Man Harasae\n\n॥ Chaupai ॥\nNaakoda Bhairav Sukhakaaree, Gun Gaaye Ye Duniya Saaree\nBhairav Kee Mahima Ati Bhaaree, Bhairav Naam Jape Nar – Naaree\nJinavar Ke Hain Aagyaakaaree, Shraddha Rakhate Samakit Dhaaree\nPraatah Uth Jo Bhairav Dhyaata, Rddhi Siddhi Sab Sampatti Paata\nBhairav Naam Jape Jo Koee, Us Ghar Mein Nij Mangal Hoee\nNaakoda Laakhon Nar Aave, Shraddha Se Parasaad Chadhaave\nBhairav – Bhairav Aan Pukaare, Bhakton Ke Sab Kasht Nivaare\nBhairav Darshan Shakti – Shaalee, Dar Se Koee Na Jaave Khaalee\nJo Nar Nit Uth Tumako Dhyaave, Bhoot Paas Aane Nahin Paave .\nDaakan Chhoomantar Ho Jaave, Dusht Dev Aade Nahin Aave .\nMaaravaad Kee Divy Mani Hain, Ham Sab Ke To Aap Dhanee Hain .\nKalpataru Hai Paratikh Bhairav, Ichchhit Deta Sabako Bhairav .\nAadhi Vyaadhi Sab Dosh Mitaave, Sumirat Bhairav Shaanti Paave .\nBaahar Paradeshe Jaave Nar, Naam Mantr Bhairav Ka Lekar .\nChoghadiya Dooshan Mit Jaave, Kaal Raahu Sab Naatha Jaave .\nParadesha Mein Naam Kamaave, Dhan Bora Mein Bharakar Laave .\nTan Mein Saata Man Mein Saata, Jo Bhairav Ko Nity Manaata .\nMota Doongar Ra Rahavaasee, Arj Sunanta Daudya Aasee .\nJo Nar Bhakti Se Gun Gaasee, Paaven Nav Ratnon Kee Raashi .\nShraddha Se Jo Sheesh Jhukaave, Bhairav Amrt Ras Barasaave .\nMil Jul Sab Nar Phere Maala, Daudya Aave Baadal – Kaala .\nVarsha Ree Jhadiya Barasaave, Dharatee Maan Ree Pyaas Bujhaave .\nAnn – Sampada Bhar Bhar Paave, Chaaron Or Sukaal Banaave .\nBhairav Hai Sachcha Rakhavaala, Dushman Mitr Banaane Vaala .\nDesh – Desh Mein Bhairav Gaaje, Khootan – Khootan Mein Danka Baaje .\nHo Nahin Apana Jinake Koee, Bhairav Sahaayak Unake Hoee .\nNaabhi Kendr Se Tumhen Bulaave, Bhairav Jhat – Pat Daude Aave .\nBhookhya Nar Kee Bhookh Mitaave, Pyaase Nar Ko Neer Pilaave .\nIdhar – Udhar Ab Nahin Bhatakana, Bhairav Ke Nit Paanv Pakadana .\nIchchhit Sampada Aap Milegee, Sukh Kee Kaliyaan Nity Khilengee .\nBhairav Gan Kharatar Ke Deva, Seva Se Paate Nar Meva .\nKeertiratn Kee Aagya Paate, Hukm – Haajiree Sada Bajaate .\nOon Hreen Bhairav Ban Ban Bhairav, Kasht Nivaarak Bhola Bhairav .\nNain Moond Dhun Raat Lagaave, Sapane Mein Vo Darshan Paave .\nPrashnon Ke Uttar Jhat Milate, Raste Ke Sankat Sab Mitate .\nNaakoda Bhairav Nit Dhyaavo, Sankat Meto Mangal Paavo .\nBhairav Japanta Maalam – Maala, Bujh Jaatee Duhkhon Kee Jvaala .\nNit Uthe Jo Chaalisa Gaave, Dhan Sut Se Ghar Svarg Banaave .\n\n॥ Doha ॥\nBhairu Chaalisa Padhe, Man Mein Shraddha Dhaar .\nKasht Kate Mahima Badhe, Sampada Hot Apaar .\nJin Kaanti Gururaaj Ke,Shishy Maniprabh Raay .\nBhairav Ke Saanidhy Mein,Ye Chaaleesa Gaay .\n॥ Shree Bhairavaay Sharanam ॥\n',
-    'originalSong': '',
+        'Ohho Oo\nPancham Kal Main Jo Insan\nSadhu Bane Wo Mahan Hain (2)\nDevo Se Raja Se Bada Jain Muni Ka Maan Hain (2)\nOhho Oo ….\n\nSukh Aur Bhog Se\nRaag Keh Rog Se Milan Viyog Se Rahe Pare (2)\nSamta Dhare Mamta Tyage\nHar Paresha Has Keh Sahe\nMahavratdhari Yeh Avikari\nDhan Jinka Aagam Dhyaan Hain\nPancham Kal Main Jo Insan …\n\nMaitri Bhavana Mangal Kaamna\nKshamapana Har Prani Se\nTan Man Vachan Se Jain Sadhu Rakhe Indriya Nigrani Main\nNa Pramad Kare Na Vivaad Kare\nSamkit Ka Dete Daan Hain\nPancham Kal Main Jo Insan …\n\nSiddhashila Ko Laksha Main Rakh Keh\nJin Agnya Palan Kare   (2)\nTap Jap Yog Se Karam Khapate\nSada Yeh Paidal Hi Chale\nKudrat Keh Niyam Nahi Tode Kabhi\nParhit Jivan Ka Vidhan Hain\nPancham Kal Main Jo Insan …\n\nBhukh Pyaas Kya Sardi Garmi\nYa Peeda Koi Tan Man Ki\nNaa Aakul Na Vyakul Hoteh\nAnand Main Karte Bhakti\nNakoda Darbaar Pradeep Name Yeh Jain Muni Vardan Hain\nPancham Kal Main Jo Insan …\n',
+    'originalSong': 'Aaj Purani Raahon Se | Mohammed Rafi',
     'popularity': 0,
-    'production': '',
+    'production': 'Ankita Shah',
     'share': 0,
     'singer': '',
-    'songNameEnglish': 'Shri Nakoda Bhairav Chalisa',
-    'songNameHindi': 'श्री नाकोड़ा भैरव चालीसा',
+    'songNameEnglish': 'Pancham Kaal Me Jo Insaan',
+    'songNameHindi': 'पंचम काल में जो इंसान',
     'tirthankar': 'Nakoda Bheru',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/OYGGL6Ofk5U',
+    'youTubeLink': 'https://youtu.be/bPsEQ_7BSaY',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
