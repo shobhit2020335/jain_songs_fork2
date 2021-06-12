@@ -25,9 +25,11 @@ class FireStoreHelper {
       FirebaseFirestore.instance.collection('suggestions');
 
   static Future<String> fetchRemoteConfigs() async {
-    RemoteConfig remoteConfig = await RemoteConfig.instance;
-    await remoteConfig.fetch(expiration: Duration(seconds: 1));
-    await remoteConfig.activateFetched();
+    RemoteConfig remoteConfig = RemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        minimumFetchInterval: Duration(seconds: 1),
+        fetchTimeout: Duration(seconds: 4)));
+    await remoteConfig.fetchAndActivate();
     String message = remoteConfig.getString('welcome_message');
     fromCache = remoteConfig.getBool('from_cache');
     return message;

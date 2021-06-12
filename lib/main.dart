@@ -1,5 +1,9 @@
 //TODO: See realtime db for categories.
 //TODO: Change firestore caching way.
+//TODO: Change home page name to Stavan.
+//TODO: Simple fonts everywhere.
+//TODO: CHange toast again to normal.
+//TODO: Bhakti Special contains popular songs.
 //TODO: New tirthankar, categories.
 //TODO: Jain Dict
 //TODO: set Rigtone option.
