@@ -3,6 +3,7 @@
 //TODO: Change home page name to Stavan.
 //TODO: Simple fonts everywhere.
 //TODO: CHange toast again to normal.
+//TODO: Change UI acc to manu.
 //TODO: Bhakti Special contains popular songs.
 //TODO: New tirthankar, categories.
 //TODO: Jain Dict
