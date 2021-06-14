@@ -15,6 +15,7 @@ import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
@@ -42,6 +43,31 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     Icons.filter_list_alt,
     color: Colors.indigo,
   );
+
+  SpeechToText speechToText = SpeechToText();
+  bool isListening = false;
+
+  void _searchAppBarUi() {
+    setState(() {
+      this.searchOrCrossIcon = clearIcon;
+      this.appBarTitle = TextField(
+        textInputAction: TextInputAction.search,
+        controller: searchController,
+        autofocus: true,
+        onChanged: (value) {
+          getSongs(value, false);
+        },
+        style: TextStyle(color: Colors.black),
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: Colors.black,
+          ),
+          hintText: 'Search anything...',
+        ),
+      );
+    });
+  }
 
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
   //Searching has flag = false.
@@ -92,6 +118,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       }).catchError((onError) {
         FirebaseCrashlytics.instance
             .log('home_page/_filterDialog(): ' + onError.toString());
+
         listToShow = List.from(sortedSongList);
         showToast('Error applying Filter', toastColor: Colors.amber);
         setState(() {
@@ -150,8 +177,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     FirebaseFCMManager.handleFCMRecieved(context);
     // AdManager.initializeFBAds();
 
+    speechToText.initialize(onError: (error) {
+      setState(() {
+        isListening = false;
+        showSimpleToast(
+            context, "Couldn't recognize your words. Please try again!",
+            duration: 3);
+      });
+    }).then((value) {
+      setState(() {});
+    }).onError((error, stackTrace) {
+      print('Error loading. $error & $stackTrace');
+    });
+
     _keyboardVisibilityNotification.addNewListener(onHide: () {
-      if (isBasicSearchEmpty && searchController.text.length > 5) {
+      if (isBasicSearchEmpty && searchController.text.length > 4) {
         isBasicSearchEmpty = false;
         SongSuggestions currentSongSuggestion = SongSuggestions(
           "Got from search",
@@ -184,25 +224,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         title: _currentIndex == 0
             ? TextButton(
                 onPressed: () {
-                  setState(() {
-                    this.searchOrCrossIcon = Icon(Icons.close);
-                    this.appBarTitle = TextField(
-                      textInputAction: TextInputAction.search,
-                      controller: searchController,
-                      autofocus: true,
-                      onChanged: (value) {
-                        getSongs(value, false);
-                      },
-                      style: TextStyle(color: Colors.black),
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.search_rounded,
-                          color: Colors.black,
-                        ),
-                        hintText: 'Search anything...',
-                      ),
-                    );
-                  });
+                  _searchAppBarUi();
                 },
                 child: appBarTitle,
               )
@@ -233,44 +255,97 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             visible: !showProgress,
             child: Row(
               children: [
-                _currentIndex == 0
-                    ? IconButton(
-                        icon: searchOrCrossIcon,
-                        onPressed: () {
+                Visibility(
+                  visible: speechToText.isAvailable && _currentIndex == 0,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.mic,
+                      color: isListening ? Colors.red : Colors.black,
+                    ),
+                    onPressed: () {
+                      if (isListening) {
+                        showSimpleToast(context, 'Stopped Listening.',
+                            duration: 2);
+                        speechToText.stop().then((value) {
                           setState(() {
-                            if (this.searchOrCrossIcon.icon == Icons.search) {
-                              this.searchOrCrossIcon = Icon(Icons.close);
-                              this.appBarTitle = TextField(
-                                controller: searchController,
-                                autofocus: true,
-                                onChanged: (value) {
-                                  getSongs(value, false);
-                                },
-                                style: TextStyle(color: Colors.black),
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    color: Colors.black,
-                                  ),
-                                  hintText: 'Search anything...',
-                                ),
-                              );
-                            } else {
+                            isListening = false;
+                          });
+                        });
+                      } else {
+                        speechToText.listen(onResult: (speechResult) {
+                          searchController.text = speechResult.recognizedWords;
+                          searchController.selection =
+                              TextSelection.fromPosition(TextPosition(
+                                  offset: searchController.text.length));
+                          setState(() {
+                            getSongs(searchController.text, false);
+                            isListening = false;
+                          });
+                        }).onError((error, stackTrace) {
+                          setState(() {
+                            isListening = false;
+                          });
+                        });
+
+                        isListening = true;
+                        if (searchOrCrossIcon == clearIcon) {
+                          setState(() {
+                            showSimpleToast(context, 'Listening...',
+                                duration: 3);
+                          });
+                        } else {
+                          showSimpleToast(context, 'Listening...', duration: 3);
+                          _searchAppBarUi();
+                        }
+                      }
+                    },
+                    color: Colors.black,
+                  ),
+                ),
+                Visibility(
+                  visible: _currentIndex == 0,
+                  child: IconButton(
+                    icon: searchOrCrossIcon,
+                    onPressed: () {
+                      setState(
+                        () {
+                          if (this.searchOrCrossIcon.icon == Icons.search) {
+                            _searchAppBarUi();
+                          } else {
+                            if (isListening) {
+                              speechToText.stop().then((value) {
+                                setState(() {
+                                  isListening = false;
+                                });
+                              });
+
+                              showSimpleToast(context, 'Stopped Listening.',
+                                  duration: 2);
+                            }
+                            if (searchController.text.trim().length == 0) {
                               searchOrCrossIcon = Icon(Icons.search);
                               this.appBarTitle = mainAppTitle();
                               searchController.clear();
                               getSongs('', false);
+                            } else {
+                              searchController.clear();
+                              getSongs('', false);
                             }
-                          });
-                        })
-                    : Icon(null),
-                _currentIndex == 0
-                    ? IconButton(
-                        icon: filterIcon,
-                        onPressed: () {
-                          _filterDialog();
-                        })
-                    : Icon(null),
+                          }
+                        },
+                      );
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: _currentIndex == 0,
+                  child: IconButton(
+                    icon: filterIcon,
+                    onPressed: () {
+                      _filterDialog();
+                    },
+                  ),
+                ),
               ],
             ),
           ),

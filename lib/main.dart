@@ -22,7 +22,6 @@
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
-//TODO: Mic search
 //TODO: zoom/size
 //TODO: Dark mode
 //TODO: Karaoke

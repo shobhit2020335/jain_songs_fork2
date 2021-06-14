@@ -37,6 +37,11 @@ Future<void> showUpdateDialog(BuildContext context) async {
   );
 }
 
+Icon clearIcon = Icon(
+  Icons.close,
+  size: 20,
+);
+
 Color signatureColors(int value) {
   if (value == 0) {
     return Colors.amber;
@@ -72,6 +77,18 @@ void showToast(
     textColor: Colors.white,
     backgroundColor: toastColor,
   );
+}
+
+void showSimpleToast(BuildContext context, String message, {int duration: 4}) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.hideCurrentSnackBar();
+  final snackBar = SnackBar(
+    content: Text(message),
+    duration: Duration(seconds: duration),
+    action:
+        SnackBarAction(label: 'HIDE', onPressed: scaffold.hideCurrentSnackBar),
+  );
+  scaffold.showSnackBar(snackBar);
 }
 
 Widget formFieldTitle(String title) {
