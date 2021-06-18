@@ -257,12 +257,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               children: [
                 Visibility(
                   visible: speechToText.isAvailable && _currentIndex == 0,
-                  child: IconButton(
-                    icon: Icon(
+                  child: GestureDetector(
+                    child: Icon(
                       Icons.mic,
                       color: isListening ? Colors.red : Colors.black,
                     ),
-                    onPressed: () {
+                    onTap: () {
                       if (isListening) {
                         showSimpleToast(context, 'Stopped Listening.',
                             duration: 2);
@@ -299,14 +299,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         }
                       }
                     },
-                    color: Colors.black,
                   ),
                 ),
+                SizedBox(width: MediaQuery.of(context).size.width / 25),
                 Visibility(
                   visible: _currentIndex == 0,
-                  child: IconButton(
-                    icon: searchOrCrossIcon,
-                    onPressed: () {
+                  child: GestureDetector(
+                    child: searchOrCrossIcon,
+                    onTap: () {
                       setState(
                         () {
                           if (this.searchOrCrossIcon.icon == Icons.search) {
@@ -337,15 +337,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     },
                   ),
                 ),
+                SizedBox(width: MediaQuery.of(context).size.width / 25),
                 Visibility(
                   visible: _currentIndex == 0,
-                  child: IconButton(
-                    icon: filterIcon,
-                    onPressed: () {
+                  child: GestureDetector(
+                    child: filterIcon,
+                    onTap: () {
                       _filterDialog();
                     },
                   ),
                 ),
+                SizedBox(width: MediaQuery.of(context).size.width / 25),
               ],
             ),
           ),

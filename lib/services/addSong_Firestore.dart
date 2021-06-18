@@ -19,7 +19,7 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('DSMH',
+  currentSong.extraSearchKeywords('MRSBJL',
       englishName: '',
       hindiName: '',
       originalSong: '',
@@ -35,30 +35,29 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'DSMH',
+    'code': 'MRSBJL',
     'album': '',
     'aaa': 'valid',
-    'category': 'Bhakti',
+    'category': 'Bhakti | Stavan',
     'genre': '',
-    'gujaratiLyrics':
-        'દીવડો ધરો રે પ્રભુ દીવડો ધરો,\nમારા તન મન કેરાં તિમિર હરો\nદીવડો ધરો…\n\nમાયાનગરનાં રંગરાગમાં,\nકાયા આ રંગાણી રે (૨)\nભવસાગરમાં ભમતાં ભમતાં,\nપીધા ખારા પાણી રે (૨)\nદુઃખડા સર્વે દૂર કરો… દીવડો\n\nજાણી જોઈને મારગ વચ્ચે,\nમેં તો વેર્યા કાંટા (૨)\nઅખંડ વહેતી પ્રેમ નદીના,\nપાડ્યા હજારો ફાંટા (૨)\nદેખાડો પ્રભુ રાહ ખરો… દીવડો\n\nસ્વાર્થ તણી આ દુનિયા માંહે,\nઆશા એક તમારી રે (૨)\nજીવનના સંગ્રામમાં જો જો,\nજાઉં ના હું હારી રે, (૨)\nહૈયે, ભક્તિભાવ ધરો,\nહૈયે મારા વાસ કરો\nઅંતરાયો સર્વે દૂર કરો… દીવડો\n',
-    'language': 'Hindi',
+    'gujaratiLyrics': '',
+    'language': 'Marwadi',
     'likes': 0,
     'lyrics':
-        'दीवडो धरो रे प्रभु दीवडो धरो,\nमारा तन मन केरां तिमिर हरो\nदीवडो धरो…\n\nमायानगरनां रंगरागमां,\nकाया आ रंगाणी रे (२)\nभवसागरमां भमतां भमतां,\nपीधा खारा पाणी रे (२)\nदुःखडा सर्वे दूर करो… दीवडो\n\nजाणी जोईने मारग वच्चे,\nमें तो वेर्या कांटा (२)\nअखंड वहेती प्रेम नदीना,\nपाड्या हजारो फांटा (२)\nदेखाडो प्रभु राह खरो… दीवडो (२)\n\nस्वार्थ तणी आ दुनिया मांहे,\nआशा एक तमारी रे (२)\nजीवनना संग्राममां जो जो,\nजाउं ना हुं हारी रे, (२)\nहैये, भक्तिभाव धरो,\nहैये मारा वास करो\nअंतरायो सर्वे दूर करो… दीवडो (३)\n',
+        'मीठे रस से भरी जिनवाणी लागे, जिनवाणी लागे |\nम्हने आत्मा की बात घणी प्यारी लागे |\n\nआत्मा है उजरो उजरो, तन लागे म्हने कालो |\nशुद्ध आत्म की बात, अपने मन में बसा लो |\nम्हने चेतना की बात, घणी प्यारी लागे, मनहारी लागे |\nम्हने आत्मा की बात घणी प्यारी लागे ||(1)\n\nदेह अचेतन, मैं हूँ चेतन, जिनवाणी बतलाये |\nजिनवाणी है सच्ची माता, सच्चा मार्ग दिखाए |\nअरे मान ले तू चेतन – २, भैया कई लागे, थारो काई लागे |\nम्हने आत्मा की बात घणी प्यारी लागे ||(2)\n\nनहीं भावे म्हाने लाडू पेड़ा, नाहीं भावे काजू |\nमोक्षपूरी में जाऊँगा मैं तो बन के दिगंबर साधू |\nम्हाने मोक्ष महल को – २, मार्ग प्यारो लागे, घणो प्यारो लागे |\nम्हने आत्मा की बात घणी प्यारी लागे ||(3)\n',
     'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Sourabh Kadawat',
+    'production': '',
     'share': 0,
-    'singer': 'Sourabh Kadawat',
-    'songNameEnglish': 'Divdo Dharo Re Prabhu',
-    'songNameHindi': 'दिवड़ो धरो रे प्रभु',
+    'singer': 'Shreya Ranka',
+    'songNameEnglish': 'Mithe Ras Se Bhari Jinwani Lage',
+    'songNameHindi': 'मीठे रस से भरी जिनवाणी लागे',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/_LWRQVBTyFc',
+    'youTubeLink': 'https://youtu.be/mvmkP4sdfbw',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

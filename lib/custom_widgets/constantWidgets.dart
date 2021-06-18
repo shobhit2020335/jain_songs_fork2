@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -137,11 +138,11 @@ Widget textBold20(String text) {
 
 Widget mainAppTitle() {
   return Text(
-    'Jain Songs',
-    style: TextStyle(
-      fontFamily: 'Pacifico',
-      color: Color(0xFF212323),
-      fontSize: 20,
+    'Stavan',
+    style: GoogleFonts.raleway(
+      color: Colors.indigo,
+      fontSize: 25,
+      fontWeight: FontWeight.bold,
     ),
   );
 }

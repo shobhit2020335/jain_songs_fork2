@@ -36,6 +36,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/uisettings.dart';
@@ -107,9 +108,9 @@ class MainTheme extends StatelessWidget {
         ),
         primaryTextTheme: TextTheme(
           //changes color of AppBar title
-          headline6: TextStyle(
-            fontFamily: 'Pacifico',
+          headline6: GoogleFonts.raleway(
             color: Color(0xFF212323),
+            fontWeight: FontWeight.bold,
           ),
         ),
         accentColor: Colors.white,

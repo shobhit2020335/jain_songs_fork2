@@ -55,8 +55,8 @@ class _FormPageState extends State<FormPage> {
                       style: TextStyle(
                         color: Colors.indigo,
                         fontSize: 40,
-                        fontFamily: 'Pacifico',
                         fontWeight: FontWeight.bold,
+                        fontFamily: 'Pacifico',
                       ),
                     ),
                   ],

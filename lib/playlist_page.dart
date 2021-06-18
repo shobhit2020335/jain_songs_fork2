@@ -4,6 +4,7 @@ import 'package:jain_songs/custom_widgets/buildRow.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistPage extends StatefulWidget {
   final PlaylistDetails currentPlaylist;
@@ -96,10 +97,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     SizedBox(height: 15),
                     Text(
                       currentPlaylist != null ? currentPlaylist.title : '',
-                      style: TextStyle(
+                      style: GoogleFonts.raleway(
                         fontSize: 20,
-                        fontFamily: 'Pacifico',
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
