@@ -43,13 +43,13 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    // final DatabaseReference databaseReference =
-    //     FirebaseDatabase.instance.reference();
-    // databaseReference
-    //     .child("userBehaviour")
-    //     .child("filters")
-    //     .push()
-    //     .set(userFilters.toMap());
+    final DatabaseReference databaseReference =
+        FirebaseDatabase.instance.reference();
+    databaseReference
+        .child("userBehaviour")
+        .child("filters")
+        .push()
+        .set(userFilters.toMap());
   }
 
   Future<void> fetchDaysAndVersion() async {
