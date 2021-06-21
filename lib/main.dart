@@ -60,7 +60,7 @@ void main() async {
       onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
   runApp(MainTheme());
-  // secureScreen();
+  secureScreen();
   //Initialising AdMob.
   _initAdMob();
   songsVisited.clear();
