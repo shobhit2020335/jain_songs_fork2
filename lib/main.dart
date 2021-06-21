@@ -1,6 +1,3 @@
-//TODO: See realtime db for categories.
-//TODO: Stuti category. stotra playlist and also check which songs are stotra or not.
-//TODO: disable search on clicking name.
 //TODO: Change firestore caching way.
 //TODO: Change UI acc to manu.
 //TODO: Bhakti Special contains popular songs.
@@ -15,7 +12,6 @@
 //TODO: starting playback time.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
-//TODO: Add google search.
 //TODO: youTube miniplayer- Make beautiful
 //TODO: different ads than banner ads (native ads).
 //TODO: provider(State management)

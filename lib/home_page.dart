@@ -48,25 +48,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool isListening = false;
 
   void _searchAppBarUi() {
-    setState(() {
-      this.searchOrCrossIcon = clearIcon;
-      this.appBarTitle = TextField(
-        textInputAction: TextInputAction.search,
-        controller: searchController,
-        autofocus: true,
-        onChanged: (value) {
-          getSongs(value, false);
-        },
-        style: TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-          prefixIcon: Icon(
-            Icons.search_rounded,
-            color: Colors.black,
+    if (showProgress == false) {
+      setState(() {
+        this.searchOrCrossIcon = clearIcon;
+        this.appBarTitle = TextField(
+          textInputAction: TextInputAction.search,
+          controller: searchController,
+          autofocus: true,
+          onChanged: (value) {
+            getSongs(value, false);
+          },
+          style: TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              Icons.search_rounded,
+              color: Colors.black,
+            ),
+            hintText: 'Search anything...',
           ),
-          hintText: 'Search anything...',
-        ),
-      );
-    });
+        );
+      });
+    }
   }
 
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
