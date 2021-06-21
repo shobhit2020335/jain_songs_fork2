@@ -1,8 +1,7 @@
 //TODO: See realtime db for categories.
+//TODO: Stuti category. stotra playlist and also check which songs are stotra or not.
+//TODO: disable search on clicking name.
 //TODO: Change firestore caching way.
-//TODO: Change home page name to Stavan.
-//TODO: Simple fonts everywhere.
-//TODO: CHange toast again to normal.
 //TODO: Change UI acc to manu.
 //TODO: Bhakti Special contains popular songs.
 //TODO: New tirthankar, categories.
@@ -11,7 +10,6 @@
 //TODO: Stavan for web
 //TODO: Whatsapp Status
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
-//TODO: Disable latest songs for unsbcribed users.
 //TODO: Subscripition
 //TODO: In App rating
 //TODO: starting playback time.
@@ -62,7 +60,7 @@ void main() async {
       onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
   runApp(MainTheme());
-  secureScreen();
+  // secureScreen();
   //Initialising AdMob.
   _initAdMob();
   songsVisited.clear();

@@ -186,11 +186,15 @@ class _FormPageState extends State<FormPage> {
                             currentSongSuggestion
                                     .songSuggestionMap['lyrics'].length <
                                 2)) {
-                      showToast('Song Name and Lyrics both cannot be empty',
-                          toastColor: Colors.red);
+                      showSimpleToast(
+                        context,
+                        'Song Name and Lyrics both cannot be empty',
+                      );
                     } else if (isInternetConnected == false) {
-                      showToast('No Internet Connection!',
-                          toastColor: Colors.red);
+                      showSimpleToast(
+                        context,
+                        'No Internet Connection!',
+                      );
                     } else {
                       await FireStoreHelper()
                           .addSuggestions(context, currentSongSuggestion);
@@ -199,9 +203,9 @@ class _FormPageState extends State<FormPage> {
                       songController.clear();
                       lyricsController.clear();
                       otherController.clear();
-                      showToast(
+                      showSimpleToast(
+                        context,
                         'ThankYou for suggesting! Song will be updated soon.',
-                        toastColor: Colors.green,
                       );
                     }
                   },

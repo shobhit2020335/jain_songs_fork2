@@ -132,6 +132,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                           height: 200,
                         ),
                         CircularProgressIndicator(
+                          color: Colors.white,
                           backgroundColor: currentPlaylist != null
                               ? currentPlaylist.color
                               : Colors.indigo,

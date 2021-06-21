@@ -47,9 +47,10 @@ class SearchEmpty extends StatelessWidget {
                       if (nameController != null &&
                           searchController != null &&
                           nameController.text.trim().length > 4) {
-                        showToast(
-                            'ThankYou for submitting! We will update the song soon.',
-                            toastColor: Colors.green);
+                        showSimpleToast(
+                          context,
+                          'ThankYou for submitting! We will update the song soon.',
+                        );
 
                         SongSuggestions currentSongSuggestion = SongSuggestions(
                           "Got by search submission",
@@ -63,8 +64,10 @@ class SearchEmpty extends StatelessWidget {
 
                         nameController.clear();
                       } else {
-                        showToast('Please Enter correct song name.',
-                            toastColor: Colors.red);
+                        showSimpleToast(
+                          context,
+                          'Please Enter correct song name.',
+                        );
                       }
                     },
                     child: Container(

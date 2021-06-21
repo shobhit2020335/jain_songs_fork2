@@ -120,7 +120,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             .log('home_page/_filterDialog(): ' + onError.toString());
 
         listToShow = List.from(sortedSongList);
-        showToast('Error applying Filter', toastColor: Colors.amber);
+        showSimpleToast(
+          context,
+          'Error applying Filter',
+        );
         setState(() {
           showProgress = false;
         });
@@ -141,7 +144,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         FirebaseCrashlytics.instance
             .log('home_page/_filterDialog(): ' + onError.toString());
         listToShow = List.from(sortedSongList);
-        showToast('Error applying Filter', toastColor: Colors.amber);
+        showSimpleToast(
+          context,
+          'Error applying Filter',
+        );
         setState(() {
           showProgress = false;
         });

@@ -251,7 +251,8 @@ class FireStoreHelper {
     });
   }
 
-  Future<void> changeLikes(SongDetails currentSong, int toAdd) async {
+  Future<void> changeLikes(
+      BuildContext context, SongDetails currentSong, int toAdd) async {
     await songs.doc(currentSong.code).update({
       'likes': FieldValue.increment(toAdd),
       'popularity': FieldValue.increment(toAdd)
@@ -261,8 +262,10 @@ class FireStoreHelper {
       SharedPrefs.setIsLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
-      showToast('Something went wrong! Please try Later.',
-          toastLength: Toast.LENGTH_SHORT, toastColor: Colors.red);
+      showSimpleToast(
+        context,
+        'Something went wrong! Please try Later.',
+      );
     });
   }
 }

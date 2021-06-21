@@ -19,10 +19,10 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('MRSBJL',
-      englishName: '',
-      hindiName: '',
-      originalSong: '',
+  currentSong.extraSearchKeywords('ASDIJK',
+      englishName: 'भगवन तुम्हारे चरणों में',
+      hindiName: 'Nemnath Bhagwan Tumhare Charno Me',
+      originalSong: 'नेमनाथ भगवन तुम्हारे चरणों में',
       album: '',
       tirthankar: '',
       extra1: '',
@@ -35,29 +35,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'MRSBJL',
+    'code': 'ASDIJK',
     'album': '',
     'aaa': 'valid',
-    'category': 'Bhakti | Stavan',
+    'category': 'Stavan',
     'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Marwadi',
+    'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'मीठे रस से भरी जिनवाणी लागे, जिनवाणी लागे |\nम्हने आत्मा की बात घणी प्यारी लागे |\n\nआत्मा है उजरो उजरो, तन लागे म्हने कालो |\nशुद्ध आत्म की बात, अपने मन में बसा लो |\nम्हने चेतना की बात, घणी प्यारी लागे, मनहारी लागे |\nम्हने आत्मा की बात घणी प्यारी लागे ||(1)\n\nदेह अचेतन, मैं हूँ चेतन, जिनवाणी बतलाये |\nजिनवाणी है सच्ची माता, सच्चा मार्ग दिखाए |\nअरे मान ले तू चेतन – २, भैया कई लागे, थारो काई लागे |\nम्हने आत्मा की बात घणी प्यारी लागे ||(2)\n\nनहीं भावे म्हाने लाडू पेड़ा, नाहीं भावे काजू |\nमोक्षपूरी में जाऊँगा मैं तो बन के दिगंबर साधू |\nम्हाने मोक्ष महल को – २, मार्ग प्यारो लागे, घणो प्यारो लागे |\nम्हने आत्मा की बात घणी प्यारी लागे ||(3)\n',
-    'englishLyrics': '',
+        'अब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में…\nनेमनाथ तुम्हारे चरणों में…\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nमेरा निश्चय प्रभु बस एक वही\nमैं तुम चरणों का पुजारी बनु\nअर्पण कर दू दुनिया भर का (2)\nसब प्यार तुम्हारे चरणों में\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nजहा तक संसार में भ्रमण करू\nतुज चरणों में जीवन को धरु (२)\nतुम स्वामी , मैं सेवक तेरा (२)\nधरु ध्यान तुम्हारे चरणों में…\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\nमेरी इच्छा प्रभु बस एक वही\nएक बार तुझे मैं मिल जाऊ\nइस सेवक की हर रग रग का\nहो तार तुम्हारे हाथो में\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\nनेमनाथ तुम्हारे चरणों में…\nनेमनाथ तुम्हारे चरणों में…\n',
+    'englishLyrics':
+        'Ab Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me…\nNemnath Tumhare Charno Me…\nMain Hu Sharanagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nMera Nischay Prabhu Bus Ek Wahi\nMain Tum Charno Ka Pujari Banu\nArpan Kar Du Duniya Bhar Ka (2)\nSab Pyaar Tumhare Charno Me\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nJaha Tak Sansaar Me Bhraman Karu..\nTuj Charno Me Jeevan Ko Dharu..\nTum Swami, Main Sevak Tera…(2)\nDharu Dhyaan Tumhare Charno Me…\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nMeri Icha Prabhu Bus Ek Wahi\nEk Baar Tujhe Main Mil Jaau\nIs Sevak Ki Har Rag Rag Ka\nHo Taar Tumhaare Haatho Me\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhaare Charno Me\n\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\nNemnath Tumhare Charno Me..\nNemnath Tumhare Charno Me…\n',
     'originalSong': '',
     'popularity': 0,
     'production': '',
     'share': 0,
-    'singer': 'Shreya Ranka',
-    'songNameEnglish': 'Mithe Ras Se Bhari Jinwani Lage',
-    'songNameHindi': 'मीठे रस से भरी जिनवाणी लागे',
-    'tirthankar': '',
+    'singer': 'Paras Gada',
+    'songNameEnglish': 'Ab Saup Diya Is Jeevan Ko',
+    'songNameHindi': 'अब सौप दिया इस जीवन को',
+    'tirthankar': 'Neminath Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/mvmkP4sdfbw',
+    'youTubeLink': 'https://youtu.be/PcegrJIhLAM',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 

@@ -139,10 +139,10 @@ Widget textBold20(String text) {
 Widget mainAppTitle() {
   return Text(
     'Stavan',
-    style: GoogleFonts.raleway(
+    style: GoogleFonts.itim(
       color: Colors.indigo,
-      fontSize: 25,
-      fontWeight: FontWeight.bold,
+      fontSize: 30,
+      // fontWeight: FontWeight.bold,
     ),
   );
 }
