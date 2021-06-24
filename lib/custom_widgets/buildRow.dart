@@ -72,12 +72,12 @@ class _BuildRowState extends State<BuildRow> {
               currentSong.isLiked = false;
               setState(() {});
               FireStoreHelper fireStoreHelper = FireStoreHelper();
-              await fireStoreHelper.changeLikes(currentSong, -1);
+              await fireStoreHelper.changeLikes(context, currentSong, -1);
             } else {
               currentSong.isLiked = true;
               setState(() {});
               FireStoreHelper fireStoreHelper = FireStoreHelper();
-              await fireStoreHelper.changeLikes(currentSong, 1);
+              await fireStoreHelper.changeLikes(context, currentSong, 1);
             }
             setState(() {});
           },

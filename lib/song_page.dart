@@ -180,6 +180,7 @@ class _SongPageState extends State<SongPage> {
       body: showProgress
           ? Center(
               child: CircularProgressIndicator(
+                color: Colors.white,
                 backgroundColor: Colors.indigo,
               ),
             )
@@ -200,7 +201,7 @@ class _SongPageState extends State<SongPage> {
                             setState(() {});
                             FireStoreHelper fireStoreHelper = FireStoreHelper();
                             fireStoreHelper
-                                .changeLikes(currentSong, -1)
+                                .changeLikes(context, currentSong, -1)
                                 .then((value) {
                               setState(() {});
                             });
@@ -209,7 +210,7 @@ class _SongPageState extends State<SongPage> {
                             setState(() {});
                             FireStoreHelper fireStoreHelper = FireStoreHelper();
                             fireStoreHelper
-                                .changeLikes(currentSong, 1)
+                                .changeLikes(context, currentSong, 1)
                                 .then((value) {
                               setState(() {});
                             });
@@ -230,9 +231,10 @@ class _SongPageState extends State<SongPage> {
                         youtubeTap: () {
                           String link = currentSong.youTubeLink;
                           if (link == null || link == '') {
-                            showToast(
-                                'Video URL is not available at this moment!',
-                                toastColor: Colors.amber);
+                            showSimpleToast(
+                              context,
+                              'Video URL is not available at this moment!',
+                            );
                           } else {
                             launchURL(context, link);
                             print('Launching');
@@ -240,9 +242,10 @@ class _SongPageState extends State<SongPage> {
                         },
                         languageTap: () {
                           if (noOfLang == 1) {
-                            showToast(
-                                'No more languages for this song is available now!',
-                                toastColor: Colors.amber);
+                            showSimpleToast(
+                              context,
+                              'No more languages for this song is available now!',
+                            );
                           } else if (langNo >= noOfLang) {
                             langNo = 1;
                           } else if (langNo < noOfLang) {

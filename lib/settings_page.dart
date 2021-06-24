@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'custom_widgets/build_settingsList.dart';
 
@@ -40,18 +41,17 @@ class _SettingsPageState extends State<SettingsPage> {
                       width: 10,
                     ),
                     Text(
-                      'STAVAN',
-                      style: TextStyle(
+                      'Stavan',
+                      style: GoogleFonts.itim(
                         color: Colors.indigo,
                         fontSize: 40,
-                        fontFamily: 'Pacifico',
-                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  'v1.2.1',
+                  'v1.2.2',
                   style: TextStyle(
                     color: Colors.black,
                   ),

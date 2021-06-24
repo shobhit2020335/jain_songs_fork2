@@ -18,7 +18,7 @@ String welcomeMessage = 'Jai Jinendra';
 bool fromCache = false;
 
 //TODO: update app version for new app.
-double appVersion = 1.21;
+double appVersion = 1.22;
 double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;
@@ -51,6 +51,7 @@ List<Filters> filtersAll = [
   Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
   Filters('category', 'Bhakti', color: Colors.amber),
   Filters('category', 'Stavan', color: Colors.amber),
+  Filters('category', 'Stuti', color: Colors.amber),
   Filters('category', 'Garba', color: Colors.amber),
   Filters('category', 'Aarti', color: Colors.amber),
   Filters('category', 'Stotra', color: Colors.amber),
@@ -164,7 +165,7 @@ Future<void> applyFilter() async {
   }
 }
 
-//This is not used now.
+//This is used in bhakti playlist.
 int popularityComparison(SongDetails a, SongDetails b) {
   final propertyA = a.popularity;
   final propertyB = b.popularity;
@@ -233,6 +234,16 @@ void addElementsToList(String playlistTag) {
         listToShow.add(songList[i]);
       }
     }
+    listToShow.sort(popularityComparison);
+    listToShow = listToShow.take(30).toList();
+  }
+  //This is for stotra playlist
+  else if (playlistTag.contains('stotra')) {
+    for (int i = 0; i < songList.length; i++) {
+      if (songList[i].category.toLowerCase().contains('stotra')) {
+        listToShow.add(songList[i]);
+      }
+    }
   }
   //This is Tirthankar, diksha and paryushan playlist
   else {
@@ -288,7 +299,7 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Popular',
-    subtitle: 'All time top 30.',
+    subtitle: 'Most Popular Bhajan Special.',
     playlistTag: 'popular',
     leadIcon: FontAwesomeIcons.fire,
     color: Colors.amber,
@@ -296,10 +307,18 @@ List<PlaylistDetails> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Bhakti Special',
-    subtitle: 'Playlist for Bhakti',
+    subtitle: 'All time Favourite Bhakti.',
     playlistTag: 'bhakti',
     leadIcon: Icons.ac_unit,
     color: Colors.redAccent,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Stotra',
+    subtitle: 'Famous Stotra',
+    playlistTag: 'stotra',
+    leadIcon: Icons.menu_book_rounded,
+    color: Colors.brown,
   ),
   PlaylistDetails(
     active: true,
@@ -317,7 +336,7 @@ List<PlaylistDetails> playlistList = [
     playlistTag: 'paryushan',
     leadIcon: FontAwesomeIcons.pray,
     iconSize: 32,
-    color: Colors.brown,
+    color: Colors.lime,
   ),
   PlaylistDetails(
     active: true,
@@ -328,7 +347,6 @@ List<PlaylistDetails> playlistList = [
     iconSize: 32,
     color: Colors.blueGrey,
   ),
-
   PlaylistDetails(
     active: true,
     title: 'Parshwanath',

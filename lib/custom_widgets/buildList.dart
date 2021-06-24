@@ -20,24 +20,27 @@ class BuildList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-        progressIndicator: CircularProgressIndicator(
-          backgroundColor: Color(0xFF54BEE6),
-        ),
+      progressIndicator: CircularProgressIndicator(
         color: Colors.white,
-        opacity: 1,
-        inAsyncCall: showProgress,
-        child: ListView.builder(
-            controller: scrollController,
-            itemCount: listToShow.length + 1,
-            itemBuilder: (context, i) {
-              if (i == listToShow.length) {
-                return SearchEmpty(searchController);
-              } else {
-                return BuildRow(
-                  currentSong: listToShow[i],
-                  color: colorRowIcon,
-                );
-              }
-            }));
+        backgroundColor: Color(0xFF54BEE6),
+      ),
+      color: Colors.white,
+      opacity: 1,
+      inAsyncCall: showProgress,
+      child: ListView.builder(
+        controller: scrollController,
+        itemCount: listToShow.length + 1,
+        itemBuilder: (context, i) {
+          if (i == listToShow.length) {
+            return SearchEmpty(searchController);
+          } else {
+            return BuildRow(
+              currentSong: listToShow[i],
+              color: colorRowIcon,
+            );
+          }
+        },
+      ),
+    );
   }
 }

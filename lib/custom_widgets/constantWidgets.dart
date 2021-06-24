@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,6 +38,11 @@ Future<void> showUpdateDialog(BuildContext context) async {
   );
 }
 
+Icon clearIcon = Icon(
+  Icons.close,
+  size: 20,
+);
+
 Color signatureColors(int value) {
   if (value == 0) {
     return Colors.amber;
@@ -72,6 +78,18 @@ void showToast(
     textColor: Colors.white,
     backgroundColor: toastColor,
   );
+}
+
+void showSimpleToast(BuildContext context, String message, {int duration: 4}) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.hideCurrentSnackBar();
+  final snackBar = SnackBar(
+    content: Text(message),
+    duration: Duration(seconds: duration),
+    action:
+        SnackBarAction(label: 'HIDE', onPressed: scaffold.hideCurrentSnackBar),
+  );
+  scaffold.showSnackBar(snackBar);
 }
 
 Widget formFieldTitle(String title) {
@@ -120,11 +138,11 @@ Widget textBold20(String text) {
 
 Widget mainAppTitle() {
   return Text(
-    'Jain Songs',
-    style: TextStyle(
-      fontFamily: 'Pacifico',
-      color: Color(0xFF212323),
-      fontSize: 20,
+    'Stavan',
+    style: GoogleFonts.itim(
+      color: Colors.indigo,
+      fontSize: 30,
+      // fontWeight: FontWeight.bold,
     ),
   );
 }

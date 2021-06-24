@@ -25,9 +25,11 @@ class FireStoreHelper {
       FirebaseFirestore.instance.collection('suggestions');
 
   static Future<String> fetchRemoteConfigs() async {
-    RemoteConfig remoteConfig = await RemoteConfig.instance;
-    await remoteConfig.fetch(expiration: Duration(seconds: 1));
-    await remoteConfig.activateFetched();
+    RemoteConfig remoteConfig = RemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        minimumFetchInterval: Duration(seconds: 1),
+        fetchTimeout: Duration(seconds: 4)));
+    await remoteConfig.fetchAndActivate();
     String message = remoteConfig.getString('welcome_message');
     fromCache = remoteConfig.getBool('from_cache');
     return message;
@@ -124,7 +126,7 @@ class FireStoreHelper {
     bool isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
     if (fromCache == false || isFirstOpen == null) {
-      if(isFirstOpen == null){
+      if (isFirstOpen == null) {
         SharedPrefs.setIsFirstOpen(false);
       }
       songs = await _firestore.collection('songs').get();
@@ -181,7 +183,7 @@ class FireStoreHelper {
             totalClicks: currentSong['totalClicks'],
             trendPoints: currentSong['trendPoints'],
             likes: currentSong['likes'],
-            share: currentSong['share'], 
+            share: currentSong['share'],
             youTubeLink: currentSong['youTubeLink']);
         bool valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
         if (valueIsliked == null) {
@@ -249,7 +251,8 @@ class FireStoreHelper {
     });
   }
 
-  Future<void> changeLikes(SongDetails currentSong, int toAdd) async {
+  Future<void> changeLikes(
+      BuildContext context, SongDetails currentSong, int toAdd) async {
     await songs.doc(currentSong.code).update({
       'likes': FieldValue.increment(toAdd),
       'popularity': FieldValue.increment(toAdd)
@@ -259,8 +262,10 @@ class FireStoreHelper {
       SharedPrefs.setIsLiked(currentSong.code, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
-      showToast('Something went wrong! Please try Later.',
-          toastLength: Toast.LENGTH_SHORT, toastColor: Colors.red);
+      showSimpleToast(
+        context,
+        'Something went wrong! Please try Later.',
+      );
     });
   }
 }

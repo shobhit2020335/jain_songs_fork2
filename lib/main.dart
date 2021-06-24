@@ -1,24 +1,22 @@
-//TODO: See realtime db for categories.
 //TODO: Change firestore caching way.
+//TODO: Change UI acc to manu.
+//TODO: Bhakti Special contains popular songs.
 //TODO: New tirthankar, categories.
 //TODO: Jain Dict
 //TODO: set Rigtone option.
 //TODO: Stavan for web
 //TODO: Whatsapp Status
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
-//TODO: Disable latest songs for unsbcribed users.
 //TODO: Subscripition
 //TODO: In App rating
 //TODO: starting playback time.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
-//TODO: Add google search.
 //TODO: youTube miniplayer- Make beautiful
 //TODO: different ads than banner ads (native ads).
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
-//TODO: Mic search
 //TODO: zoom/size
 //TODO: Dark mode
 //TODO: Karaoke
@@ -32,6 +30,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/uisettings.dart';
@@ -103,9 +102,9 @@ class MainTheme extends StatelessWidget {
         ),
         primaryTextTheme: TextTheme(
           //changes color of AppBar title
-          headline6: TextStyle(
-            fontFamily: 'Pacifico',
+          headline6: GoogleFonts.raleway(
             color: Color(0xFF212323),
+            fontWeight: FontWeight.bold,
           ),
         ),
         accentColor: Colors.white,

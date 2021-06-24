@@ -31,7 +31,7 @@ class LikesPage extends StatelessWidget {
                       'Liked Songs',
                       style: TextStyle(
                         fontSize: 20,
-                        fontFamily: 'Pacifico',
+                        
                         color: Colors.white,
                       ),
                     ),

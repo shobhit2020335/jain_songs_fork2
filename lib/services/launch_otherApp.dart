@@ -8,11 +8,16 @@ import 'package:device_info/device_info.dart';
 
 void launchURL(BuildContext context, String url) async {
   if (await canLaunch(url)) {
-    showToast('Starting YouTube!',
-        toastLength: Toast.LENGTH_SHORT, toastColor: Colors.green);
+    showSimpleToast(
+      context,
+      'Starting YouTube!',
+    );
     await launch(url);
   } else {
-    showToast('Could not launch the song!', toastColor: Colors.red);
+    showSimpleToast(
+      context,
+      'Could not launch the song!',
+    );
   }
 }
 
