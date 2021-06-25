@@ -1,5 +1,8 @@
 //TODO: Change firestore caching way.
 //TODO: Change UI acc to manu.
+//TODO: speaking jai jinendra
+//TODO: Streaming audio.
+//TODO: Paryushan related images.
 //TODO: Bhakti Special contains popular songs.
 //TODO: New tirthankar, categories.
 //TODO: Jain Dict

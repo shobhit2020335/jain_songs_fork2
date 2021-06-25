@@ -19,10 +19,10 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('ASDIJK',
-      englishName: 'भगवन तुम्हारे चरणों में',
-      hindiName: 'Nemnath Bhagwan Tumhare Charno Me',
-      originalSong: 'नेमनाथ भगवन तुम्हारे चरणों में',
+  currentSong.extraSearchKeywords('KKHH',
+      englishName: 'alka yagnik filmy',
+      hindiName: 'शत्रुंजय shatrunjay पालीताना पालीताणा',
+      originalSong: '',
       album: '',
       tirthankar: '',
       extra1: '',
@@ -35,30 +35,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'ASDIJK',
-    'album': '',
+    'code': 'KKHH',
+    'album': 'Kuch Kuch Hota Hai',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': '',
+    'genre': 'Palitana | Bollywood',
     'gujaratiLyrics': '',
     'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'अब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में…\nनेमनाथ तुम्हारे चरणों में…\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nमेरा निश्चय प्रभु बस एक वही\nमैं तुम चरणों का पुजारी बनु\nअर्पण कर दू दुनिया भर का (2)\nसब प्यार तुम्हारे चरणों में\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nजहा तक संसार में भ्रमण करू\nतुज चरणों में जीवन को धरु (२)\nतुम स्वामी , मैं सेवक तेरा (२)\nधरु ध्यान तुम्हारे चरणों में…\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\nमेरी इच्छा प्रभु बस एक वही\nएक बार तुझे मैं मिल जाऊ\nइस सेवक की हर रग रग का\nहो तार तुम्हारे हाथो में\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\nनेमनाथ तुम्हारे चरणों में…\nनेमनाथ तुम्हारे चरणों में…\n',
+        'तेरे बिना मेरी ज़िन्दगी\nपतझर सी थी मेरी हर घडी (2)\nतूने ओ दादा जी इनको\nसींच दिया\nसींच दिया\nप्यार का तू सागर\nरेहमत का बादल\nतू ही मेरी नाव का मांझी\nतू ही सहारा (२)\n\nतेरे दार पे आया\nतुमको ही ध्याया\nतुमसे ही दादा मैंने प्रीत लगाया\nअब तोह मेरा दिल\nतुमको ही ध्याता है\nक्या करू दादा\nकुछ कुछ होता है\nक्या करू दादा कुछ कुछ होता है\n\nअंधियारी राहो पे दीपक जला\nरोशन किया मेरा ये जहाँ (२)\nतुमसे ही साँझ होती दादा\nतुमसे सुबह.. तुमसे सुबह\n\nसांसो की सरगम\nतुझसे ही चलती है\nएक तू ही दादा\nअंकित का साथी है\nएक तू ही दादा\nअंकित का साथी है\n\nतेरे दार पे आया\nतुमको ही ध्याया\nतुमसे ही दादा मैंने प्रीत लगाया\n\nअब तोह मेरा दिल\nतुमको ही ध्याता है\nक्या करू दादा\nकुछ कुछ होता है\nक्या करू दादा कुछ कुछ होता है....\n',
     'englishLyrics':
-        'Ab Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me…\nNemnath Tumhare Charno Me…\nMain Hu Sharanagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nMera Nischay Prabhu Bus Ek Wahi\nMain Tum Charno Ka Pujari Banu\nArpan Kar Du Duniya Bhar Ka (2)\nSab Pyaar Tumhare Charno Me\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nJaha Tak Sansaar Me Bhraman Karu..\nTuj Charno Me Jeevan Ko Dharu..\nTum Swami, Main Sevak Tera…(2)\nDharu Dhyaan Tumhare Charno Me…\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nMeri Icha Prabhu Bus Ek Wahi\nEk Baar Tujhe Main Mil Jaau\nIs Sevak Ki Har Rag Rag Ka\nHo Taar Tumhaare Haatho Me\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhaare Charno Me\n\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\nNemnath Tumhare Charno Me..\nNemnath Tumhare Charno Me…\n',
+        'Tere Bina Meri Zindagi\nPaatjhar Se Thi Meri Har Ghadi (2)\nTune Oh Dada Ji Inko\nSinch Diya\nSinch Diya\nPyar Ka Tu Sagar\nRehmat Ka Badal\nTu Hi Meri Naav Ka Manjhi\nTu Hi Sahara (2)\n\nTere Dar Pe Aya\nTujhko Hi Dhyaya\nTumse Hi Dada Maine Preet Lagaya\n\nAb Toh Mera Dil\nTujhko Hi Dhyata Hai\nKya Karu Dada\nKuch Kuch Hota Hai\nKya Karu Dada\nKuch Kuch Hota Hai\n\nAndhiyari Raho Pe Deepak Jala\nRoshan Kiya Mera Ye Jahan (2)\nTumse Hi Saanjh Hoti Dada\nTumse Subha Tumse Subha\n\nSanso Ki Sargam\nTujhse Hi Chalti Hai\n Ek Tu Hi Dada\nAnkit Ka Sathi Hai\nEk Tu Hi Dada\nAnkit Ka Sathi Hai\n\nTere Dar Pe Aya\nTujhko Hi Dhiyaya\nTumse Hi Dada Maine Preet Lagaya\n\nAb Toh Mera Dil\nTujhko Hi Dhyata Hai\nKya Karu Dada\nKuch Kuch Hota Hai\nKya Karu Dada\nKuch Kuch Hota Hai….\n',
     'originalSong': '',
     'popularity': 0,
-    'production': '',
+    'production': 'Singer Ankit Lodha',
     'share': 0,
-    'singer': 'Paras Gada',
-    'songNameEnglish': 'Ab Saup Diya Is Jeevan Ko',
-    'songNameHindi': 'अब सौप दिया इस जीवन को',
-    'tirthankar': 'Neminath Swami',
+    'singer': 'Ankit Lodha',
+    'songNameEnglish': 'Kuch Kuch Hota Hai',
+    'songNameHindi': 'कुछ कुछ होता है',
+    'tirthankar': 'Aadinath Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/PcegrJIhLAM',
+    'youTubeLink': 'https://youtu.be/GgC5MaJBBrA',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
