@@ -1,4 +1,8 @@
 //TODO: Change firestore caching way.
+//TODO: RSJ and vicky D parekh playlist
+//TODO: CHeck searchify.
+//TODO: popular famous sorting.
+//TODO: People can report song if its incorrect.
 //TODO: Change UI acc to manu.
 //TODO: speaking jai jinendra
 //TODO: Streaming audio.

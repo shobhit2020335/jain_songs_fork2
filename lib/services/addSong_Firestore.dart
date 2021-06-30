@@ -19,9 +19,9 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('KKHH',
-      englishName: 'alka yagnik filmy',
-      hindiName: 'शत्रुंजय shatrunjay पालीताना पालीताणा',
+  currentSong.extraSearchKeywords('MGMB',
+      englishName: 'gujrati',
+      hindiName: 'birjata birajata',
       originalSong: '',
       album: '',
       tirthankar: '',
@@ -35,30 +35,29 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'KKHH',
-    'album': 'Kuch Kuch Hota Hai',
+    'code': 'MGMB',
+    'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Palitana | Bollywood',
+    'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'तेरे बिना मेरी ज़िन्दगी\nपतझर सी थी मेरी हर घडी (2)\nतूने ओ दादा जी इनको\nसींच दिया\nसींच दिया\nप्यार का तू सागर\nरेहमत का बादल\nतू ही मेरी नाव का मांझी\nतू ही सहारा (२)\n\nतेरे दार पे आया\nतुमको ही ध्याया\nतुमसे ही दादा मैंने प्रीत लगाया\nअब तोह मेरा दिल\nतुमको ही ध्याता है\nक्या करू दादा\nकुछ कुछ होता है\nक्या करू दादा कुछ कुछ होता है\n\nअंधियारी राहो पे दीपक जला\nरोशन किया मेरा ये जहाँ (२)\nतुमसे ही साँझ होती दादा\nतुमसे सुबह.. तुमसे सुबह\n\nसांसो की सरगम\nतुझसे ही चलती है\nएक तू ही दादा\nअंकित का साथी है\nएक तू ही दादा\nअंकित का साथी है\n\nतेरे दार पे आया\nतुमको ही ध्याया\nतुमसे ही दादा मैंने प्रीत लगाया\n\nअब तोह मेरा दिल\nतुमको ही ध्याता है\nक्या करू दादा\nकुछ कुछ होता है\nक्या करू दादा कुछ कुछ होता है....\n',
-    'englishLyrics':
-        'Tere Bina Meri Zindagi\nPaatjhar Se Thi Meri Har Ghadi (2)\nTune Oh Dada Ji Inko\nSinch Diya\nSinch Diya\nPyar Ka Tu Sagar\nRehmat Ka Badal\nTu Hi Meri Naav Ka Manjhi\nTu Hi Sahara (2)\n\nTere Dar Pe Aya\nTujhko Hi Dhyaya\nTumse Hi Dada Maine Preet Lagaya\n\nAb Toh Mera Dil\nTujhko Hi Dhyata Hai\nKya Karu Dada\nKuch Kuch Hota Hai\nKya Karu Dada\nKuch Kuch Hota Hai\n\nAndhiyari Raho Pe Deepak Jala\nRoshan Kiya Mera Ye Jahan (2)\nTumse Hi Saanjh Hoti Dada\nTumse Subha Tumse Subha\n\nSanso Ki Sargam\nTujhse Hi Chalti Hai\n Ek Tu Hi Dada\nAnkit Ka Sathi Hai\nEk Tu Hi Dada\nAnkit Ka Sathi Hai\n\nTere Dar Pe Aya\nTujhko Hi Dhiyaya\nTumse Hi Dada Maine Preet Lagaya\n\nAb Toh Mera Dil\nTujhko Hi Dhyata Hai\nKya Karu Dada\nKuch Kuch Hota Hai\nKya Karu Dada\nKuch Kuch Hota Hai….\n',
+        'He Mara Ghatama Birajata, Arihantaji,\nJinavaraji, Mahaviraji\n\nTara Darshan Karine Thayu Pavan a Man,\nTara Mukhadane Joi Thayu Jivan Dhanya,\nMara Mahavir Prabhu, He Mara Ghatama...\n\nHun to Vir Prabhuni Bhakti Re Karu (2)\nMaru Jivan Prabhu Tara Charane Dharu,\nTari Murtine Joi Dada Karu Re Naman,\nMaru Mohi Lidhu Man, He Mara Ghatama...\n\nHun to Nam Rata¸ Karu Ghadi Re Ghadi,\nHave Sambhalajo Dada Mare Bhid Re Padi,\nTari Ankhyuma Joi Chhe Premani Jhadi,\nMara Taranakaran, He Mara Ghatama...\n\nMaro Atam Banyo Chhe Aj Balabhagi\nMara Haiya Melya Chhe Sha¸agari\nTame Vahela Padharo Urana Aganiye,\nBhakto Kare Chhe Naman, He Mara Ghatama...\n',
+    'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Singer Ankit Lodha',
+    'production': 'Rajmudra Production',
     'share': 0,
-    'singer': 'Ankit Lodha',
-    'songNameEnglish': 'Kuch Kuch Hota Hai',
-    'songNameHindi': 'कुछ कुछ होता है',
-    'tirthankar': 'Aadinath Swami',
+    'singer': 'Inka Gosar & Prakash Upadhyay',
+    'songNameEnglish': 'Mara Ghat Ma Birajta',
+    'songNameHindi': 'मारा घट मा बिराजता',
+    'tirthankar': 'Mahavir Swami & Adinath Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/GgC5MaJBBrA',
+    'youTubeLink': 'https://youtu.be/SFiJg-zP4D0',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
 
