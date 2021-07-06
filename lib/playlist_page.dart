@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
+import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
@@ -159,6 +160,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   return BuildRow(
                     currentSong: listToShow[index],
                     color: currentPlaylist.color,
+                    playlist: currentPlaylist,
                   );
                 }
               },

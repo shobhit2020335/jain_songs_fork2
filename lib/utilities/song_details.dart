@@ -22,30 +22,41 @@ class SongDetails {
   int totalClicks;
   double trendPoints;
   String youTubeLink;
+  int level1;
+  int level2;
+  int level3;
+  int level4;
 
-  SongDetails(
-      {this.album,
-      this.category: "Stavan",
-      this.code,
-      this.genre,
-      this.gujaratiLyrics,
-      this.language,
-      this.likes: 0,
-      this.lyrics,
-      this.englishLyrics,
-      this.originalSong: 'Unknown',
-      this.popularity: 0,
-      this.production,
-      this.searchKeywords,
-      this.share,
-      this.singer,
-      this.songNameEnglish,
-      this.songNameHindi,
-      this.tirthankar,
-      this.todayClicks: 0,
-      this.totalClicks: 0,
-      this.trendPoints: 0,
-      this.youTubeLink}) {
+  SongDetails({
+    this.album,
+    //TODO: Check this.
+    this.category: "",
+    this.code,
+    this.genre,
+    this.gujaratiLyrics,
+    this.language,
+    this.isLiked: false,
+    this.likes: 0,
+    this.lyrics,
+    this.englishLyrics,
+    this.originalSong: 'Unknown',
+    this.popularity: 0,
+    this.production,
+    this.searchKeywords,
+    this.share,
+    this.singer,
+    this.songNameEnglish,
+    this.songNameHindi,
+    this.tirthankar,
+    this.todayClicks: 0,
+    this.totalClicks: 0,
+    this.trendPoints: 0,
+    this.youTubeLink,
+    this.level1: 0,
+    this.level2: 0,
+    this.level3: 0,
+    this.level4: 0,
+  }) {
     if (searchKeywords == null) {
       this.searchKeywords = '';
     }

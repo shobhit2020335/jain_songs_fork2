@@ -143,6 +143,7 @@ class FireStoreHelper {
     _trace2.stop();
   }
 
+  //TODO: Reduce reads here
   Future<void> getPopularSongs() async {
     listToShow.clear();
     QuerySnapshot songs;

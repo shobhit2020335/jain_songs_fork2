@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import '../song_page.dart';
 
 class BuildRow extends StatefulWidget {
   final SongDetails currentSong;
   final Color color;
+  final PlaylistDetails playlist;
 
   BuildRow({
     @required this.currentSong,
     this.color: Colors.grey,
+    this.playlist,
   });
 
   @override
@@ -88,6 +91,7 @@ class _BuildRowState extends State<BuildRow> {
             MaterialPageRoute(
               builder: (context) => SongPage(
                 currentSong: currentSong,
+                playlist: widget.playlist,
                 // interstitialAd: interstitialAd,
               ),
             ),

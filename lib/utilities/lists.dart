@@ -23,6 +23,7 @@ double fetchedVersion;
 //Anonymous user's variable.
 UserCredential userCredential;
 
+//Contains all the songs in alphabetical order.
 List<SongDetails> songList = [];
 List<SongDetails> sortedSongList = [];
 List<SongDetails> listToShow = [];
@@ -280,11 +281,13 @@ List<SettingsDetails> settingsList = [
 
 //List for different playlist.
 List<PlaylistDetails> playlistList = [
+  //DO not change sequence of favourite playlist from 0, it is connected to likes page.
   PlaylistDetails(
     active: true,
     title: 'Favourites',
     subtitle: 'Liked Songs',
     playlistTag: 'favourites',
+    playlistTagType: '',
     leadIcon: FontAwesomeIcons.gratipay,
     color: Colors.pink[300],
   ),
@@ -293,6 +296,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Latest Releases',
     subtitle: 'New song lyrics',
     playlistTag: 'latest',
+    playlistTagType: 'genre',
     leadIcon: FontAwesomeIcons.calendarPlus,
     color: Colors.green,
   ),
@@ -301,6 +305,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Popular',
     subtitle: 'Most Popular Bhajan Special.',
     playlistTag: 'popular',
+    playlistTagType: '',
     leadIcon: FontAwesomeIcons.fire,
     color: Colors.amber,
   ),
@@ -309,6 +314,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Bhakti Special',
     subtitle: 'All time Favourite Bhakti.',
     playlistTag: 'bhakti',
+    playlistTagType: 'category',
     leadIcon: Icons.ac_unit,
     color: Colors.redAccent,
   ),
@@ -317,6 +323,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Stotra',
     subtitle: 'Famous Stotra',
     playlistTag: 'stotra',
+    playlistTagType: 'category',
     leadIcon: Icons.menu_book_rounded,
     color: Colors.brown,
   ),
@@ -325,6 +332,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Tapasya Geet',
     subtitle: 'Varitap parna, Navtap & others',
     playlistTag: 'tapasya',
+    playlistTagType: 'genre',
     leadIcon: Icons.self_improvement_rounded,
     iconSize: 40,
     color: Colors.teal,
@@ -334,6 +342,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Paryushan Stavans',
     subtitle: 'Paryushan Mahaparv Playlist',
     playlistTag: 'paryushan',
+    playlistTagType: 'genre',
     leadIcon: FontAwesomeIcons.pray,
     iconSize: 32,
     color: Colors.lime,
@@ -343,6 +352,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Diksha Stavans',
     subtitle: 'Diksha playlist',
     playlistTag: 'diksha',
+    playlistTagType: 'genre',
     leadIcon: Icons.cleaning_services_rounded,
     iconSize: 32,
     color: Colors.blueGrey,
@@ -352,6 +362,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Parshwanath',
     subtitle: 'Parasnath Bhajans',
     playlistTag: 'parshwanath',
+    playlistTagType: 'tirthankar',
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Colors.blue[300],
   ),
@@ -360,6 +371,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Mahaveer Swami',
     subtitle: 'Mahaveer Swami Bhajans',
     playlistTag: 'mahavir',
+    playlistTagType: 'tirthankar',
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Colors.blue,
   ),
@@ -368,6 +380,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Adinath Swami',
     subtitle: 'Rishabh dev Bhajans',
     playlistTag: 'adinath',
+    playlistTagType: 'tirthankar',
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Colors.blue[700],
   ),
@@ -376,6 +389,7 @@ List<PlaylistDetails> playlistList = [
     title: 'Nakoda Bheruji',
     subtitle: 'Nakoda Bhairav Bhajans',
     playlistTag: 'nakoda',
+    playlistTagType: 'tirthankar',
     leadIcon: FontAwesomeIcons.prayingHands,
     color: Colors.blue[900],
   ),

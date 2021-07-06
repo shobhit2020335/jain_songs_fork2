@@ -7,9 +7,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/custom_widgets/song_card.dart';
+import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 // import 'package:mopub_flutter/mopub.dart';
 // import 'package:mopub_flutter/mopub_interstitial.dart';
@@ -20,9 +22,10 @@ import 'services/firestore_helper.dart';
 class SongPage extends StatefulWidget {
   final String codeFromDynamicLink;
   final SongDetails currentSong;
+  final PlaylistDetails playlist;
   // final MoPubInterstitialAd interstitialAd;
 
-  SongPage({this.currentSong, this.codeFromDynamicLink});
+  SongPage({this.currentSong, this.codeFromDynamicLink, this.playlist});
 
   @override
   _SongPageState createState() => _SongPageState();
@@ -33,6 +36,9 @@ class _SongPageState extends State<SongPage> {
   SongDetails currentSong;
   bool showProgress = true;
   Timer _timerLink;
+
+  //Variable for suggestion, it initializes only when a song is opened from out.
+  Suggester suggester;
 
   //Variable to determine which language is displayed now.
   int langNo = 1;
@@ -65,7 +71,7 @@ class _SongPageState extends State<SongPage> {
   //   }
   // }
 
-  void setUpSongDetails() {
+  void setUpSongDetails() async {
     if (songsVisited.contains(currentSong.code) == false) {
       //TODO: Comment while debugging.
       // FireStoreHelper().changeClicks(currentSong);
@@ -107,14 +113,14 @@ class _SongPageState extends State<SongPage> {
     setState(() {
       showProgress = false;
     });
+    suggester.fetchSuggestions(currentSong);
   }
 
-  @override
-  void initState() {
+  void loadScreen() async {
     setState(() {
       showProgress = true;
     });
-    super.initState();
+
     //Below code is for admob ads.
     _interstitialAd = InterstitialAd(
       adUnitId: AdManager().songPageinterstitialId,
@@ -148,11 +154,24 @@ class _SongPageState extends State<SongPage> {
             setUpSongDetails();
           }
         } else {
-          print('Song list is empty in song page');
           Navigator.of(context).pop();
         }
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.playlist == null) {
+      suggester = Suggester();
+    } else {
+      suggester = Suggester(level1: {
+        widget.playlist.playlistTag: widget.playlist.playlistTagType
+      });
+    }
+
+    loadScreen();
   }
 
   @override

@@ -4,6 +4,7 @@ class PlaylistDetails {
   String title;
   String subtitle;
   String playlistTag;
+  String playlistTagType;
   IconData leadIcon;
   Color color;
   double iconSize;
@@ -16,6 +17,7 @@ class PlaylistDetails {
     this.title,
     this.subtitle,
     this.playlistTag,
+    this.playlistTagType: '',
     this.leadIcon,
     this.iconSize: 30,
     this.color: Colors.cyan,

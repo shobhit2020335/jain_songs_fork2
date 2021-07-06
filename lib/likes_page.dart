@@ -7,7 +7,7 @@ import 'utilities/lists.dart';
 
 class LikesPage extends StatelessWidget {
   LikesPage() {
-    addElementsToList('Favourites');
+    addElementsToList('favourites');
   }
 
   @override
@@ -31,7 +31,6 @@ class LikesPage extends StatelessWidget {
                       'Liked Songs',
                       style: TextStyle(
                         fontSize: 20,
-                        
                         color: Colors.white,
                       ),
                     ),
@@ -56,6 +55,7 @@ class LikesPage extends StatelessWidget {
                 return BuildRow(
                   currentSong: listToShow[index],
                   color: Colors.pink[400],
+                  playlist: playlistList[0],
                 );
               },
               childCount: listToShow.length,
