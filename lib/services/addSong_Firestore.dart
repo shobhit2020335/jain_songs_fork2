@@ -21,10 +21,10 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('JCB',
-      englishName: 'Rishabh Sambhav Jain RSJ',
-      hindiName: 'रात नामुमकिन है',
-      originalSong: 'chand bena Raat Namumkin rat',
+  currentSong.extraSearchKeywords('MM',
+      englishName: 'mahaveer manglam',
+      hindiName: 'sonu nigam  ',
+      originalSong: '',
       album: '',
       tirthankar: '',
       extra1: '',
@@ -37,30 +37,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'JCB',
-    'album': 'Dhadkan',
+    'code': 'MM',
+    'album': '',
     'aaa': 'valid',
-    'category': '',
-    'genre': 'Latest | Bollywood',
+    'category': 'Stuti',
+    'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Hindi | Sanskrit',
     'likes': 0,
     'lyrics':
-        'जैसे चाँद बिना रात नामुमकिन है\nमेरी हर एक सांस अधूरी तुम बिन है (२)\nमै फकीरों सा तेरे दर आता हूँ\nजिस जगह देखु तुझी को पाता हूँ\nजैसे चाँद बिना रात नामुमकिन है\nमेरी हर एक सांस अधूरी तुम बिन है\n\nतू ही भक्ति है मेरी हर रोज़ मै करलु\nनाम को तेरे प्रभु हर रोज़ में जापलू\nतू मेरी मंज़िल तू ही मंज़िल का है जरिया\nजो बहे आखों से तू वो आँख का दरिया\n\nजैसे बिन आंसू आँख नामुम्कीम है\nमेरी हर एक सांस अधूरी तुम बिन है\nजैसे चाँद बिना रात नामुमकिन है\n.मेरी हर एक सांस अधूरी तुम बिन है\n\nक्यों तेरे दर के सीवा कहीं और जाऊ मै\nतेरे ही आगे प्रभु ये सर झुकाऊं मै\nमै मुसाफिर हूँ भटकता तू ठिकाना है\nमै हूँ छोटा सा शहर तू तो ज़माना है\n\nजैसे भाव बिना दर्श नामुमकिन है\nमेरी हर एक सांस अधूरी तुम बिन है\nजैसे चाँद बिना रात नामुमकिन है\n.मेरी हर एक सांस अधूरी तुम बिन है\n',
+        'जय जय जय महावीर (8)\n\nमहावीर मंगलम धीर गंभीर मंगलम (5)\nपावन भगवन महावीर मंगलम (२)\n\nसत्य अहिंसा परम करम वरदान मंगलम\nजीव दया धन जैन धर्म सुख दान मंगलम\nमहावीर का पूजन अर्चन भी है मंगलम\nमानवता  की सेवा वर्धमान मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\n\nचैत्र शुक्ल की तेरस का दिन मान मंगलम\nसन्नति देने वाली है अति वीर मंगलम\nजैनो की चौबीसवें तीर्थंकर मंगलम\nदेव धरम का काम है जिनेन्द्र मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nपंच अणुव्रत महादान सिद्धांत मंगलम\nत्रिशला माँ सिद्धार्थ पिता के तनय मंगलम\nमहावीर जी देव का प्रगटन है मंगलम\nश्रद्धा भक्ति भगवन का नाम स्मरण मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nराज भोग वैभव विलास परित्याग मंगलम\nसरल सादगी गरिमामय जीवन है मंगलम\nब्रह्मचर्य की श्रेष्ठ तपस्या भी है मंगलम\nनिज अपराधों की क्षमा प्राथना  है मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nमहावीर जी कहते है धर्मात्मा मंगलम\nसदाचार माया ममता करुणा है मंगलम\nशांति अहिंसा आत्म नियंत्रण में है मंगलम\nआत्म सिद्ध कर स्वयं विजय करना है मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nजय जिनेन्द्र जय जय जिनेन्द्र कहना है मंगलम\nजीव जीव से मित्र भाव रखना है मंगलम\nत्रिगुणात्मक  सत्पुरषो का सम्मान मंगलम\nअपनी काया मन वाचा जीतना है मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (5)\n',
     'englishLyrics':
-        'Jaise Chand Bina Raat Namumkin Hai\nMeri Har Ek Saans Adhuri Tum Bin Hai (2)\nMein Fakeroon Sa Tere Dar Aata Hoon\nJis Jagha Dekhu Tujhi Ko Paata Hoon\nJaise Chand Bina Raat Namumkin Hai\nMeri Har Ek Saans Adhuri Tum Bin Hai\n\nTu Hi Bhakti Hai Meri Har Roz Mein Karlu\nNaam Ko Tere Prabhu Har Roz Mein Japlu\nTu Meri Manzil Tu Hi Manzil Ka Hai Zariya\nJo Bahe Aakhon Se Tu Wo Aankh Ka Dariya\n\nJaise Bin Aansoo Aankh Namumkim Hai\nMeri Har Ek Saans Adhuri Tum Bin Hai\nJaise Chand Bina Raat Namumkin Hai\nMeri Har Ek Saans Adhuri Tum Bin Hai\n\nKyun Tere Dar Ke Siva Kahin Aur Jau Mein\nTere Hi Aage Prabhu Ye Sar Jhukau Mein\nMein Musafir Hoon Bhatakta Tu Thikana Hai\nMein Hoon Chota Sa Seher Tu Toh Zamana Hai\n\nJaise Bhav Bina Darsh Namumkin Hai\n Meri Har Ek Saans Adhuri Tum Bin Hai\nJaise Chand Bina Raat Namumkin Hai\nMeri Har Ek Saans Adhuri Tum Bin Hai..\n',
-    'originalSong': 'Dulhe Ka Sehra',
+        'Jai Jai Jai Mahaveer (8)\n\nMahaveer Mangalam Dhir Gambhir Mangalam (5)\nPawan Bhagwan Mahaveer Mangalam (2)\n\nSatya Ahinsa Param Karam Vardan Mangalam\nJeev Daya Dhan Jain Dharm Sukh Daan Mangalam\nMahaveer Ka Poojan Archan Bhi Hai Mangalam\nManavta Ki Sewa Vardhaman Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nChaitra Shukla Ki Teras Ka Din Mann Mangalam\nSannati Dene Wali Hai Ati Veer Mangalam\nJaino Ki Chaubeesve Tirthankar Mangalam\nDev Dharam Ka Kaam Hai Jinendra Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nPanch Anuvrat Mahadaan Siddhant Mangalam\nTrishla Maa Siddharth Pita Ke Tanay Mangalam\nMahaveer Ji Dev Ka Pragatan Hai Mangalam\nShraddha Bhakti Bhagwan Ka Naam Smaran Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nRaj Bhog Vaibhav Vilas Parityaag Mangalam\nSaral Sadagi Garima Mai Jeevan Hai Mangalam\nBrahmacharya Ki Shreshtha Tapasya Bhi Hai Mangalam\nNij Apradho Ki Kshama Prathana Hai Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nMahaveer Ji Kehte Hai Dharmatma Mangalam\nSadachar Maya Mamta Karuna Hai Mangalam\nShanti Ahimsa Aatma Niyantran Mein Hai Mangalam\nAatma Siddh Kar Swayam Vijay Karna Hai Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nJai Jinendra Jai Jai Jinendra Kehna Hai Mangalam\nJeev Jeev Se Mitra Bhaav Rakhna Hai Mangalam\nTrigunatmak Satpursho Ka Samman Mangalam\nApni Kaya Man Wacha Jeetna Hai Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (5)\n',
+    'originalSong': '',
     'popularity': 0,
-    'production': 'Bhakti Bhavna',
+    'production': 'Times Music Spiritual',
     'share': 0,
-    'singer': 'Rishabh Sambhav Jain (RSJ)',
-    'songNameEnglish': 'Jaise Chaand Bina',
-    'songNameHindi': 'जैसे चाँद बिना',
-    'tirthankar': '',
+    'singer': 'Sonu Nigam',
+    'songNameEnglish': 'Mahavir Mangalam',
+    'songNameHindi': 'महावीर मंगलम',
+    'tirthankar': 'Mahavir Swami',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/RxIakjG9ltk',
+    'youTubeLink': 'https://youtu.be/EEKZsQ7iOAs',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

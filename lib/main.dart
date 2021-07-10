@@ -1,5 +1,9 @@
 //TODO: Change firestore caching way.
 //TODO: RSJ and vicky D parekh playlist
+//TODO: Store as much data of user you can.
+//TODO Playlist banner of RSJ, Vicky, Etc
+//TODO: AUtoplay
+//TODO: Increase time of loading in dynamic linking.
 //TODO: CHeck searchify.
 //TODO: popular famous sorting.
 //TODO: People can report song if its incorrect.

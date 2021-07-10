@@ -319,6 +319,9 @@ class _SongPageState extends State<SongPage> {
                           color: Color(0xFF18191A),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                 ),
