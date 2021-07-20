@@ -1,4 +1,7 @@
 //TODO: Change firestore caching way.
+//TODO:
+//TODO Add custom notification sound, Default Icon for noti.
+//TODO: Handle click event with onesignal.
 //TODO: RSJ, neminath and vicky D parekh playlist
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
@@ -41,13 +44,14 @@ import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/playlist_page.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
+// import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
@@ -59,13 +63,23 @@ void main() async {
   FirebaseFirestore.instance.settings = Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
 
-  var initializationSettingsAndroid =
-      new AndroidInitializationSettings('icon_notification');
-  var initializationSettings =
-      new InitializationSettings(android: initializationSettingsAndroid);
-  FirebaseFCMManager.flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
+  //Below is OneSignal notification
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  OneSignal.shared.setAppId("2c654820-9b1d-42a6-8bad-eb0a1e430d6c");
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+    print("Accepted permission: $accepted");
+  });
+
+  //Below is flutter local notification
+  // var initializationSettingsAndroid =
+  //     new AndroidInitializationSettings('icon_notification');
+  // var initializationSettings =
+  //     new InitializationSettings(android: initializationSettingsAndroid);
+  // FirebaseFCMManager.flutterLocalNotificationsPlugin.initialize(
+  //     initializationSettings,
+  //     onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
   runApp(MainTheme());
   secureScreen();

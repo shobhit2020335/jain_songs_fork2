@@ -9,7 +9,7 @@ import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
+// import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
@@ -182,7 +182,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
-    FirebaseFCMManager.handleFCMRecieved(context);
+    // FirebaseFCMManager.handleFCMRecieved(context);
+
     // AdManager.initializeFBAds();
 
     speechToText.initialize(onError: (error) {
