@@ -32,9 +32,9 @@ class SongDetails {
     //TODO: Check this.
     this.category: "",
     this.code,
-    this.genre,
+    this.genre: '',
     this.gujaratiLyrics,
-    this.language,
+    this.language: '',
     this.isLiked: false,
     this.likes: 0,
     this.lyrics,
@@ -47,7 +47,7 @@ class SongDetails {
     this.singer,
     this.songNameEnglish,
     this.songNameHindi,
-    this.tirthankar,
+    this.tirthankar: '',
     this.todayClicks: 0,
     this.totalClicks: 0,
     this.trendPoints: 0,
@@ -58,7 +58,7 @@ class SongDetails {
     this.level4: 0,
   }) {
     if (searchKeywords == null) {
-      this.searchKeywords = '';
+      this.searchKeywords = 'song';
     }
     if (this.trendPoints == null) {
       this.trendPoints = 0.0;

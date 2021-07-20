@@ -8,8 +8,8 @@ class Suggester {
   List<SongDetails> level3Songs = [];
   List<SongDetails> level4Songs = [];
   int streakCount = 0;
-  static int maxStreakCount = 0;
-  static List<SongDetails> suggestedSongs = [];
+  int maxStreakCount = 0;
+  List<SongDetails> suggestedSongs = [];
   Map<String, String> level1 = {};
 
   Map<int, Map<String, String>> _previousStreakLevels = {
@@ -53,7 +53,7 @@ class Suggester {
 
     _resetStreakLevels();
     _createStreakLevels(currentSong);
-    _dropOrIncreaseStreakValues(currentSong);
+    _dropStreakValues(currentSong);
     _mergeStreakValues(currentSong);
     print(_currentStreakLevels);
     _populateLevel1List();
@@ -69,34 +69,26 @@ class Suggester {
   }
 
   void _suggestThirdSong() {
-    int maxLevelPoint = level2Songs[0].level2;
-    int secondSongIndex =
-        level2Songs.indexWhere((element) => element.level2 < maxLevelPoint);
-    if (secondSongIndex == -1) {
-      _removeSuggestedSongFromAllList(1);
-      secondSongIndex = 0;
+    _removeSuggestedSongFromAllList(1);
+    if (level2Songs.length == 0) {
+      int maxLevelPoint = level1Songs[0].level1;
+      _populateLevel2List(maxLevelPoint);
     }
-    int secondMaxLevelPoint = level2Songs[secondSongIndex].level2;
-    print(
-        'Index after level2: maxLevelPoint- ${maxLevelPoint} secondSongIndex- ${secondSongIndex} secondMaxLevelPoint- ${secondMaxLevelPoint}');
+
+    int secondMaxIndex =
+        level2Songs.indexWhere((element) => element.level2 < 100);
+    if (secondMaxIndex == -1) {
+      secondMaxIndex = 0;
+    }
+    int secondMaxLevelPoint = level2Songs[secondMaxIndex].level2;
     _populateLevel3List(secondMaxLevelPoint);
 
-    level4Songs.clear();
-    if (level3Songs[0].level3 == 100) {
-      secondSongIndex =
-          level3Songs.indexWhere((element) => element.level3 < 100);
-      if (secondSongIndex == -1) {
-        secondSongIndex = 0;
-      }
-      secondMaxLevelPoint = level3Songs[secondSongIndex].level3;
-      _populateLevel4List(secondMaxLevelPoint);
-    } else {
-      level4Songs.add(level3Songs[0]);
-      secondMaxLevelPoint = level3Songs[0].level3;
-      _populateLevel4List(secondMaxLevelPoint);
+    secondMaxIndex = level3Songs.indexWhere((element) => element.level3 < 100);
+    if (secondMaxIndex == -1) {
+      secondMaxIndex = 0;
     }
-    print(
-        'Index adter level3: secondSongIndex- ${secondSongIndex} secondMaxLevelPoint- ${secondMaxLevelPoint}');
+    secondMaxLevelPoint = level3Songs[secondMaxIndex].level3;
+    _populateLevel4List(secondMaxLevelPoint);
   }
 
   SongDetails _suggestSecondSong() {
@@ -157,7 +149,6 @@ class Suggester {
   }
 
   void _populateLevel2List(int maxLevelPoint) {
-    print('celaring level 2');
     level2Songs.clear();
     level1Songs.forEach((value) {
       if (value.level1 == maxLevelPoint) {
@@ -238,14 +229,28 @@ class Suggester {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index].category.isNotEmpty) {
-                  isLevel2Absent = false;
+                  List<String> values =
+                      sortedSongList[index].category.toLowerCase().split(' ');
+
+                  values.forEach((value) {
+                    if (defaultStreakLevels[value] == 2) {
+                      isLevel2Absent = false;
+                    }
+                  });
                 }
               } else if (value == 'genre') {
                 if (sortedSongList[index].genre.toLowerCase().contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index].genre.isNotEmpty) {
-                  isLevel2Absent = false;
+                  List<String> values =
+                      sortedSongList[index].genre.toLowerCase().split(' ');
+
+                  values.forEach((value) {
+                    if (defaultStreakLevels[value] == 2) {
+                      isLevel2Absent = false;
+                    }
+                  });
                 }
               } else if (value == 'language') {
                 if (sortedSongList[index]
@@ -255,14 +260,28 @@ class Suggester {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index].language.isNotEmpty) {
-                  isLevel2Absent = false;
+                  List<String> values =
+                      sortedSongList[index].language.toLowerCase().split(' ');
+
+                  values.forEach((value) {
+                    if (defaultStreakLevels[value] == 2) {
+                      isLevel2Absent = false;
+                    }
+                  });
                 }
               } else if (value == 'singer') {
                 if (sortedSongList[index].singer.toLowerCase().contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index].singer.isNotEmpty) {
-                  isLevel2Absent = false;
+                  List<String> values =
+                      sortedSongList[index].singer.toLowerCase().split(' ');
+
+                  values.forEach((value) {
+                    if (defaultStreakLevels[value] == 2) {
+                      isLevel2Absent = false;
+                    }
+                  });
                 }
               } else if (value == 'originalSong') {
                 if (sortedSongList[index]
@@ -272,7 +291,16 @@ class Suggester {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index].originalSong.isNotEmpty) {
-                  isLevel2Absent = false;
+                  List<String> values = sortedSongList[index]
+                      .originalSong
+                      .toLowerCase()
+                      .split(' ');
+
+                  values.forEach((value) {
+                    if (defaultStreakLevels[value] == 2) {
+                      isLevel2Absent = false;
+                    }
+                  });
                 }
               } else if (value == 'tirthankar') {
                 if (sortedSongList[index]
@@ -282,7 +310,14 @@ class Suggester {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index].tirthankar.isNotEmpty) {
-                  isLevel2Absent = false;
+                  List<String> values =
+                      sortedSongList[index].tirthankar.toLowerCase().split(' ');
+
+                  values.forEach((value) {
+                    if (defaultStreakLevels[value] == 2) {
+                      isLevel2Absent = false;
+                    }
+                  });
                 }
               }
             });
@@ -323,10 +358,14 @@ class Suggester {
               }
             });
           }
+
           if (level == 2) {
             totalKeys = totalKeys * 2;
             totalPresent = totalPresent * 2;
-
+            //Check below, this makes keys = 1 which leads to giving 100 points to song having no level2.
+            if (totalKeys == 0) {
+              totalKeys = 1;
+            }
             if (isLevel2Absent) {
               totalPresent++;
             }
@@ -401,10 +440,11 @@ class Suggester {
     values = parameterValue.split(' ');
     fillStreakValues();
 
-    parameter = 'originalSong';
-    parameterValue = currentSong.originalSong.toLowerCase();
-    values = parameterValue.split(' |');
-    _currentStreakLevels[0][values[0]] = parameter;
+    //Level 0 for original song is removed.
+    // parameter = 'originalSong';
+    // parameterValue = currentSong.originalSong.toLowerCase();
+    // values = parameterValue.split(' |');
+    // _currentStreakLevels[0][values[0]] = parameter;
 
     bool isLiked = currentSong.isLiked;
     if (isLiked) {
@@ -423,15 +463,24 @@ class Suggester {
     }
   }
 
-  void _mergeStreakValues(SongDetails currentSong) {
+  //Merges the previous levels with new levels. If increaseStreak value is true
+  //then the streak values are increased if they appear in both.
+  void _mergeStreakValues(SongDetails currentSong,
+      {bool increaseStreakValues: false}) {
     for (int level = 2; level <= 4; level++) {
       List<String> toRemove = [];
       _previousStreakLevels[level].forEach((key, value) {
-        if (_currentStreakLevels[level].containsKey(key) && level > 2) {
-          _currentStreakLevels[level - 1][key] = value;
-          toRemove.add(key);
-        } else if (!_currentStreakLevels[level].containsKey(key)) {
-          _currentStreakLevels[level][key] = value;
+        if (increaseStreakValues) {
+          if (_currentStreakLevels[level].containsKey(key) && level > 2) {
+            _currentStreakLevels[level - 1][key] = value;
+            toRemove.add(key);
+          } else if (!_currentStreakLevels[level].containsKey(key)) {
+            _currentStreakLevels[level][key] = value;
+          }
+        } else {
+          if (!_currentStreakLevels[level].containsKey(key)) {
+            _currentStreakLevels[level][key] = value;
+          }
         }
       });
 
@@ -442,7 +491,7 @@ class Suggester {
   }
 
   //This drops the streak levels which are there in current level map
-  void _dropOrIncreaseStreakValues(SongDetails currentSong) {
+  void _dropStreakValues(SongDetails currentSong) {
     for (int level = 2; level <= 4; level++) {
       List<String> toRemove = [];
       _currentStreakLevels[level].forEach((key, value) {
@@ -482,6 +531,21 @@ class Suggester {
     };
   }
 
+  static Map<String, String> categoryMapping = {
+    'paryushan': 'genre',
+    'diksha': 'genre',
+    'tapasya': 'genre',
+    'palitana': 'genre',
+    'shikharji': 'genre',
+    'girnar': 'genre',
+    'bhikshu': 'tirthankar',
+    'aarti': 'category',
+    'stuti': 'category',
+    'chalisa': 'category',
+    'stotra': 'category',
+    'darshan': 'genre',
+  };
+
   static Map<String, int> defaultStreakLevels = {
     'paryushan': 2,
     'diksha': 2,
@@ -497,14 +561,16 @@ class Suggester {
     'darshan': 2,
     'favourite': 3,
     'bahubali': 3,
+    'adhyatmik': 3,
     'chandraprabhu': 3,
     'kushal': 3,
     'munisuvrat': 3,
     'rajendra': 3,
     'shanti': 3,
     'shashan': 3,
-    '24': 3,
+    // '24': 3,
     'stavan': 3,
+    'navkar': 3,
     'bhakti': 3,
     'garba': 3,
     'bhavna': 3,
@@ -532,6 +598,7 @@ class Suggester {
     'narendra': 4,
     'harshit': 4,
     'jainam': 4,
+    'ravindra': 4,
     'anjali': 4,
     'anuradha': 4,
     'jatin': 4,

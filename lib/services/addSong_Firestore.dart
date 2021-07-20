@@ -21,46 +21,46 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('MM',
-      englishName: 'mahaveer manglam',
-      hindiName: 'sonu nigam  ',
+  currentSong.extraSearchKeywords('NNNNTLL',
+      englishName: 'gujrati',
+      hindiName: '',
       originalSong: '',
       album: '',
       tirthankar: '',
       extra1: '',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र નેમિનાથ नेमिनाथ
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
   //शत्रुंजय shatrunjay पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
   //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'MM',
-    'album': '',
+    'code': 'NNNNTLL',
+    'album': 'Namami Nemi',
     'aaa': 'valid',
-    'category': 'Stuti',
+    'category': 'Song',
     'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Hindi | Sanskrit',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'जय जय जय महावीर (8)\n\nमहावीर मंगलम धीर गंभीर मंगलम (5)\nपावन भगवन महावीर मंगलम (२)\n\nसत्य अहिंसा परम करम वरदान मंगलम\nजीव दया धन जैन धर्म सुख दान मंगलम\nमहावीर का पूजन अर्चन भी है मंगलम\nमानवता  की सेवा वर्धमान मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\n\nचैत्र शुक्ल की तेरस का दिन मान मंगलम\nसन्नति देने वाली है अति वीर मंगलम\nजैनो की चौबीसवें तीर्थंकर मंगलम\nदेव धरम का काम है जिनेन्द्र मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nपंच अणुव्रत महादान सिद्धांत मंगलम\nत्रिशला माँ सिद्धार्थ पिता के तनय मंगलम\nमहावीर जी देव का प्रगटन है मंगलम\nश्रद्धा भक्ति भगवन का नाम स्मरण मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nराज भोग वैभव विलास परित्याग मंगलम\nसरल सादगी गरिमामय जीवन है मंगलम\nब्रह्मचर्य की श्रेष्ठ तपस्या भी है मंगलम\nनिज अपराधों की क्षमा प्राथना  है मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nमहावीर जी कहते है धर्मात्मा मंगलम\nसदाचार माया ममता करुणा है मंगलम\nशांति अहिंसा आत्म नियंत्रण में है मंगलम\nआत्म सिद्ध कर स्वयं विजय करना है मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (२)\n\nजय जिनेन्द्र जय जय जिनेन्द्र कहना है मंगलम\nजीव जीव से मित्र भाव रखना है मंगलम\nत्रिगुणात्मक  सत्पुरषो का सम्मान मंगलम\nअपनी काया मन वाचा जीतना है मंगलम\nमहावीर मंगलम धीर गंभीर मंगलम\nपावन भगवन महावीर मंगलम (5)\n',
+        'नेमजी ना नाम नी तू लूट लुटिले-2,\nनेमि ना चरणें जइ बेड़ो पार करीले -2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करिले\n\nशरणे जाए ऐने प्रभु राह बतावे ,\nजपे नेम ऐने मोह केम सतावे ...(2)\nराजुल ना नाथ नु तू नाम रटीले-2\nनेमि ना चरणें जइ बेड़ो पार करीले -2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करिले\n\nध्यान धरे ऐने प्रभु ज्ञान अपावे,\nजाप जापे एना प्रभु पाप खपावे...(2)\nहितकारी नेमि ने प्रणाम करीले-2\nनेमि ना चरणें जइ बेड़ो पार करीले -2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करीले\n\nकृपा थाय प्रभु नी तो दोष दूर थाय,\nबंधनो जे राग ना ऐ चूर चूर थाय...(2)\nनेमी भजी संसार तमाम तजीले-2\nनेमि ना चरणें जइ बेड़ो पार करीले 2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करीले\n\nनेमी नाम ,नेमी नाम-2\nदिन रात सुबह शाम नेमी नाम नेमी नाम,\nपहुचाता सिद्धि धाम,नेमी नाम नेमी नाम\nतू जपले रे अविराम, नेमी नाम नेमी नाम\n नेमी नाम,नेमी नाम-9\nदिन रात सुबह शाम\nनेमी नाम ,नेमी नाम-2\n',
     'englishLyrics':
-        'Jai Jai Jai Mahaveer (8)\n\nMahaveer Mangalam Dhir Gambhir Mangalam (5)\nPawan Bhagwan Mahaveer Mangalam (2)\n\nSatya Ahinsa Param Karam Vardan Mangalam\nJeev Daya Dhan Jain Dharm Sukh Daan Mangalam\nMahaveer Ka Poojan Archan Bhi Hai Mangalam\nManavta Ki Sewa Vardhaman Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nChaitra Shukla Ki Teras Ka Din Mann Mangalam\nSannati Dene Wali Hai Ati Veer Mangalam\nJaino Ki Chaubeesve Tirthankar Mangalam\nDev Dharam Ka Kaam Hai Jinendra Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nPanch Anuvrat Mahadaan Siddhant Mangalam\nTrishla Maa Siddharth Pita Ke Tanay Mangalam\nMahaveer Ji Dev Ka Pragatan Hai Mangalam\nShraddha Bhakti Bhagwan Ka Naam Smaran Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nRaj Bhog Vaibhav Vilas Parityaag Mangalam\nSaral Sadagi Garima Mai Jeevan Hai Mangalam\nBrahmacharya Ki Shreshtha Tapasya Bhi Hai Mangalam\nNij Apradho Ki Kshama Prathana Hai Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nMahaveer Ji Kehte Hai Dharmatma Mangalam\nSadachar Maya Mamta Karuna Hai Mangalam\nShanti Ahimsa Aatma Niyantran Mein Hai Mangalam\nAatma Siddh Kar Swayam Vijay Karna Hai Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (2)\n\nJai Jinendra Jai Jai Jinendra Kehna Hai Mangalam\nJeev Jeev Se Mitra Bhaav Rakhna Hai Mangalam\nTrigunatmak Satpursho Ka Samman Mangalam\nApni Kaya Man Wacha Jeetna Hai Mangalam\nMahaveer Mangalam Dhir Gambhir Mangalam\nPawan Bhagwan Mahaveer Mangalam (5)\n',
+        'Nemji Na Naam Ni Tu Loot Lootile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le...(2)\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\n\nSharane Jaaye Ene Prabhu Raah Batave ,\nJape Nem Ene Moh Kem Satave...(2)\nRajul Na Naath Nu Tu Naam Ratile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\n\nDhyan Dhare Ene Prabhu Gyaan Apave ,\nJaap Jape Ena Prabhu Paap Khapave...(2)\nHithakaari Nemi Ne Pranaam Karile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\n\nKrupa Thaaye Prabhu Ni to Dosh Door Thaye ,\nBandhano Je Raag Na E Choor-choor Tha...(2)\nNemi Dhwaji Sansaar Tamaam Tjajile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le...(2)\n\nNemi Naam Nemi Naam Nemi Naam Nemi Naam\nDin Raat Subha Shyam Nemi Naam\nPahunchata Siddhi Dhaam Nemi Naam Nemi Naam\nTu Japle Re Aviraam Nemi Naam Nemi Naam\n\nNemi Naam Nemi Naam Nemi Naam Nemi Naam...(9)\nDin Raat Ek Hi Baat\n Neminaath Neminaath\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Times Music Spiritual',
+    'production': 'Tattva Tarang',
     'share': 0,
-    'singer': 'Sonu Nigam',
-    'songNameEnglish': 'Mahavir Mangalam',
-    'songNameHindi': 'महावीर मंगलम',
-    'tirthankar': 'Mahavir Swami',
+    'singer': 'Jainam Varia & Various Artist',
+    'songNameEnglish': 'Nemji Na Naam Ni Tu Loot Lootile',
+    'songNameHindi': 'नेमजी ना नाम नी तू लूट लुटिले',
+    'tirthankar': 'Neminath',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/EEKZsQ7iOAs',
+    'youTubeLink': 'https://youtu.be/0wsf1LCXKk4',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

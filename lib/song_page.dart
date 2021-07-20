@@ -36,6 +36,7 @@ class _SongPageState extends State<SongPage> {
   SongDetails currentSong;
   bool showProgress = true;
   Timer _timerLink;
+  ScrollController scrollController = ScrollController();
 
   //Variable for suggestion, it initializes only when a song is opened from out.
   Suggester suggester;
@@ -72,12 +73,65 @@ class _SongPageState extends State<SongPage> {
   // }
 
   void setUpSongDetails() async {
+    setState(() {
+      showProgress = true;
+    });
+    //Below code is for admob ads.
+    _interstitialAd = InterstitialAd(
+      adUnitId: AdManager().songPageinterstitialId,
+      listener: (MobileAdEvent event) {
+        print("InterstitialAd event is $event");
+      },
+    );
+    _loadAdmobInterstitialAd();
+
+    //Below Code is to call facebook ads.
+    // AdManager.loadAndShowFBInterstitialAd();
+
+    //Below code is for mopub ads.
+    // _showMopubInterstitialAd();
+
+    if (currentSong.youTubeLink.length != null &&
+        currentSong.youTubeLink.length > 2) {
+      await NetworkHelper().checkNetworkConnection().then((value) {
+        isLinkAvail = value;
+        if (isLinkAvail == false) {
+          setState(() {
+            linkInfo = 'Please check your Internet Connection!';
+          });
+        }
+      });
+      _youtubePlayerController
+          .load(YoutubePlayer.convertUrlToId(currentSong.youTubeLink));
+      // _youtubePlayerController.pause();
+    } else {
+      isLinkAvail = false;
+      linkInfo = 'Song not available to listen.';
+    }
+
     if (songsVisited.contains(currentSong.code) == false) {
       //TODO: Comment while debugging.
       // FireStoreHelper().changeClicks(currentSong);
     }
     songsVisited.add(currentSong.code);
 
+    langNo = 1;
+    noOfLang = 1;
+    if (currentSong.englishLyrics.length > 2 &&
+        currentSong.englishLyrics != "NA") {
+      noOfLang++;
+    }
+    if (currentSong.gujaratiLyrics.length > 2 &&
+        currentSong.gujaratiLyrics != "NA") {
+      noOfLang++;
+    }
+    setState(() {
+      showProgress = false;
+    });
+    suggester.fetchSuggestions(currentSong);
+  }
+
+  void loadScreen() async {
     if (currentSong.youTubeLink.length != null &&
         currentSong.youTubeLink.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
@@ -102,44 +156,28 @@ class _SongPageState extends State<SongPage> {
       linkInfo = 'Song not available to listen.';
     }
 
-    if (currentSong.englishLyrics.length > 2 &&
-        currentSong.englishLyrics != "NA") {
-      noOfLang++;
-    }
-    if (currentSong.gujaratiLyrics.length > 2 &&
-        currentSong.gujaratiLyrics != "NA") {
-      noOfLang++;
-    }
-    setState(() {
-      showProgress = false;
-    });
-    suggester.fetchSuggestions(currentSong);
+    setUpSongDetails();
   }
 
-  void loadScreen() async {
+  @override
+  void initState() {
+    super.initState();
     setState(() {
       showProgress = true;
     });
 
-    //Below code is for admob ads.
-    _interstitialAd = InterstitialAd(
-      adUnitId: AdManager().songPageinterstitialId,
-      listener: (MobileAdEvent event) {
-        print("InterstitialAd event is $event");
-      },
-    );
-    _loadAdmobInterstitialAd();
-
-    //Below Code is to call facebook ads.
-    // AdManager.loadAndShowFBInterstitialAd();
-
-    //Below code is for mopub ads.
-    // _showMopubInterstitialAd();
+    if (widget.playlist == null) {
+      suggester = Suggester();
+    } else {
+      suggester = Suggester(level1: {
+        widget.playlist.playlistTag: widget.playlist.playlistTagType
+      });
+    }
 
     if (widget.codeFromDynamicLink == null ||
         widget.codeFromDynamicLink == '') {
       currentSong = widget.currentSong;
-      setUpSongDetails();
+      loadScreen();
     } else {
       _timerLink = Timer(Duration(milliseconds: 3000), () {
         if (songList.isNotEmpty) {
@@ -151,27 +189,13 @@ class _SongPageState extends State<SongPage> {
           if (currentSong == null) {
             Navigator.of(context).pop();
           } else {
-            setUpSongDetails();
+            loadScreen();
           }
         } else {
           Navigator.of(context).pop();
         }
       });
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.playlist == null) {
-      suggester = Suggester();
-    } else {
-      suggester = Suggester(level1: {
-        widget.playlist.playlistTag: widget.playlist.playlistTagType
-      });
-    }
-
-    loadScreen();
   }
 
   @override
@@ -206,6 +230,7 @@ class _SongPageState extends State<SongPage> {
           : Builder(
               builder: (context) => SafeArea(
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   padding: EdgeInsets.only(bottom: 15),
                   child: Column(
                     children: [
@@ -280,7 +305,9 @@ class _SongPageState extends State<SongPage> {
                           ? YoutubePlayer(
                               controller: _youtubePlayerController,
                               showVideoProgressIndicator: true,
-                              onReady: () {},
+                              onReady: () {
+                                _youtubePlayerController.pause();
+                              },
                             )
                           : Text(
                               linkInfo,
@@ -319,8 +346,56 @@ class _SongPageState extends State<SongPage> {
                           color: Color(0xFF18191A),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
+                      SizedBox(height: 10),
+                      Visibility(
+                        visible: suggester.suggestedSongs.length > 0,
+                        child: TextButton(
+                          onPressed: () {
+                            currentSong = suggester.suggestedSongs[0];
+                            setUpSongDetails();
+                            scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
+                              duration: Duration(milliseconds: 400),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                          },
+                          child: Text(
+                              '${suggester.suggestedSongs[0].songNameEnglish}'),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Visibility(
+                        visible: suggester.suggestedSongs.length > 1,
+                        child: TextButton(
+                          onPressed: () {
+                            currentSong = suggester.suggestedSongs[1];
+                            setUpSongDetails();
+                            scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
+                              duration: Duration(milliseconds: 400),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                          },
+                          child: Text(
+                              '${suggester.suggestedSongs[1].songNameEnglish}'),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Visibility(
+                        visible: suggester.suggestedSongs.length > 2,
+                        child: TextButton(
+                          onPressed: () {
+                            currentSong = suggester.suggestedSongs[2];
+                            setUpSongDetails();
+                            scrollController.animateTo(
+                              scrollController.position.minScrollExtent,
+                              duration: Duration(milliseconds: 400),
+                              curve: Curves.fastOutSlowIn,
+                            );
+                          },
+                          child: Text(
+                              '${suggester.suggestedSongs[2].songNameEnglish}'),
+                        ),
                       ),
                     ],
                   ),
