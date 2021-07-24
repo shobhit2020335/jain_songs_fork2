@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/oneSignal_notification.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 
 void main() async {
@@ -21,8 +22,8 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('NNNNTLL',
-      englishName: 'gujrati',
+  currentSong.extraSearchKeywords('AACHA',
+      englishName: 'chaturymas chaturyamas',
       hindiName: '',
       originalSong: '',
       album: '',
@@ -37,30 +38,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'NNNNTLL',
-    'album': 'Namami Nemi',
+    'code': 'AACHA',
+    'album': 'Chaturmas Pravesh',
     'aaa': 'valid',
-    'category': 'Song',
-    'genre': '',
+    'category': 'Stavan',
+    'genre': 'Chaturmas',
     'gujaratiLyrics': '',
-    'language': 'Gujarati',
+    'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'नेमजी ना नाम नी तू लूट लुटिले-2,\nनेमि ना चरणें जइ बेड़ो पार करीले -2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करिले\n\nशरणे जाए ऐने प्रभु राह बतावे ,\nजपे नेम ऐने मोह केम सतावे ...(2)\nराजुल ना नाथ नु तू नाम रटीले-2\nनेमि ना चरणें जइ बेड़ो पार करीले -2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करिले\n\nध्यान धरे ऐने प्रभु ज्ञान अपावे,\nजाप जापे एना प्रभु पाप खपावे...(2)\nहितकारी नेमि ने प्रणाम करीले-2\nनेमि ना चरणें जइ बेड़ो पार करीले -2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करीले\n\nकृपा थाय प्रभु नी तो दोष दूर थाय,\nबंधनो जे राग ना ऐ चूर चूर थाय...(2)\nनेमी भजी संसार तमाम तजीले-2\nनेमि ना चरणें जइ बेड़ो पार करीले 2\nनेमजी ना नाम नी तू लूट लुटिले\nनेमि ना चरणें जइ बेड़ो पार करीले\n\nनेमी नाम ,नेमी नाम-2\nदिन रात सुबह शाम नेमी नाम नेमी नाम,\nपहुचाता सिद्धि धाम,नेमी नाम नेमी नाम\nतू जपले रे अविराम, नेमी नाम नेमी नाम\n नेमी नाम,नेमी नाम-9\nदिन रात सुबह शाम\nनेमी नाम ,नेमी नाम-2\n',
+        'आओजी आओ, गुरु आओजी आq      0P;ZZZZZओ, मेरे आंगन आओ\nगाओरे गाओ, सब मिलकर गाओ,गुरु गुण आज गाओना\nआयो आयो चातुर्मास है आयो\nगुरुवर के आने से मन हरख्यो-2\nमेरे भाग्य खिले है , गुरु तुम सम मिले है\nआज खुशिया है छाई , ज्ञान की गंगा आयी\nमोर पपीहा कोयल सांझ सुनायो\n\nजैसे बारिश की रिमझिम बरसने लगी\nऐसे गुरुवर की वाणी भी झरने लगी\nपतझड़ में बसंत , गुरु का आगमन ,\nहर आंगन घर आंगन सजायेंगे हम\nपुण्य प्रबल से अक्सर द्वार पे आयो,\nगुरुवर के आने से मन हरखायो\n\nजबसे आयी खबर , गुरु आएंगे घर,\nहम खड़े बेकरार , कर रहे इंतज़ार\nबादलो से भी संगीत बजाया गया,\nजब तप का नाद सजाया गया,\nढोल नगाड़े शहनाई बजाओ\n\nआयो आयो चातुर्मास है आयो\nगुरुवर के आने से मन हरख्यो-2\nमेरे भाग्य खिले है , गुरु तुम सम मिले है\nआज खुशिया है छाई , ज्ञान की गंगा आयी\nमोर पपीहा कोयल सांझ सुनाय\n',
     'englishLyrics':
-        'Nemji Na Naam Ni Tu Loot Lootile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le...(2)\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\n\nSharane Jaaye Ene Prabhu Raah Batave ,\nJape Nem Ene Moh Kem Satave...(2)\nRajul Na Naath Nu Tu Naam Ratile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\n\nDhyan Dhare Ene Prabhu Gyaan Apave ,\nJaap Jape Ena Prabhu Paap Khapave...(2)\nHithakaari Nemi Ne Pranaam Karile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\n\nKrupa Thaaye Prabhu Ni to Dosh Door Thaye ,\nBandhano Je Raag Na E Choor-choor Tha...(2)\nNemi Dhwaji Sansaar Tamaam Tjajile...(2)\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le\nNemji Na Naam Ni Tu Loot Lootile\nNemi Na Charane Jayi Bedo Paar Kari Le...(2)\n\nNemi Naam Nemi Naam Nemi Naam Nemi Naam\nDin Raat Subha Shyam Nemi Naam\nPahunchata Siddhi Dhaam Nemi Naam Nemi Naam\nTu Japle Re Aviraam Nemi Naam Nemi Naam\n\nNemi Naam Nemi Naam Nemi Naam Nemi Naam...(9)\nDin Raat Ek Hi Baat\n Neminaath Neminaath\n',
+        'Aojee Ao , Guru Aojee Ao, Mere Angana Ao\nGaaore Gaao, Saba Milakara Gaao,guru Guna Aja Gaaonaa\nAyo Ayo Chaturmas Hai Ayo\nGuruvar Ke Ane Se Mana Harakhyo-2\nMere Bhaagya Khile Hai , Guru Tuma Sama Mile Hai\nAja Khushiyaa Hai Chhaai , Gnaana Kee Gangaa Ayee\nMora Papeehaa Koyala Saanza Sunaayo\n\nJaise Baarisha Kee Rimazima Barasane Lagee\nAise Guruvara Kee Vaanee Bhee Zarane Lagee\nPatazad Men Basanta , Guru Kaa Agamana ,\nHara Angana Ghara Angana Sajaayenge Hama\nPunya Prabala Se Aksara Dvaara Pe Ayo ,\nGuruvar Ke Ane Se Mana Harakhaayo\n\nHama Khade Bekaraara , Kara Rahe Intadaara\nBaadalo Se Bhee Sangeeta Bajaayaa Gayaa ,\nJaba Tapa Kaa Naada Sajaayaa Gayaa,\nDhola Nagaade Shahanaai Bajaao\n\nAyo Ayo Chaturmas Hai Ayo\nGuruvar Ke Ane Se Mana Harakhyo-2\nMere Bhaagya Khile Hai , Guru Tuma Sama Mile Hai\nAja Khushiyaa Hai Chhaai , Gnaana Kee Gangaa Ayee\nMora Papeehaa Koyala Saanza Sunaayo\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Tattva Tarang',
+    'production': 'Viya Music India',
     'share': 0,
-    'singer': 'Jainam Varia & Various Artist',
-    'songNameEnglish': 'Nemji Na Naam Ni Tu Loot Lootile',
-    'songNameHindi': 'नेमजी ना नाम नी तू लूट लुटिले',
-    'tirthankar': 'Neminath',
+    'singer': 'Anish Rathod',
+    'songNameEnglish': 'Aayo Aayo Chaturmas Hai Aayo',
+    'songNameHindi': 'आयो आयो चातुर्मास है आयो',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/0wsf1LCXKk4',
+    'youTubeLink': 'https://youtu.be/QxJAFMpYucE',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

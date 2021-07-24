@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
-// import 'package:jain_songs/services/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
@@ -207,10 +206,15 @@ class FireStoreHelper {
 
   Future<void> addSuggestions(
       BuildContext context, SongSuggestions songSuggestion) async {
-    String suggestionUID =
-        removeWhiteSpaces(songSuggestion.songName) + randomAlphaNumeric(6);
-    // String fcmToken = await FirebaseFCMManager.getFCMToken();
-    // songSuggestion.setFCMToken(fcmToken);
+    String suggestionUID = removeWhiteSpaces(songSuggestion.songName).trim() +
+        randomAlphaNumeric(6).trim();
+
+    String fcmToken = await FirebaseFCMManager.getFCMToken();
+    songSuggestion.setFCMToken(fcmToken);
+
+    String playerId = await SharedPrefs.getOneSignalPlayerId();
+    songSuggestion.setOneSignalPlayerId(playerId);
+
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
