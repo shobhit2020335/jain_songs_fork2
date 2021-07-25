@@ -1,7 +1,8 @@
 //TODO: Change firestore caching way.
+//TODO: Admob has changed its dependency. Change it.
 //TODO: Suggestion writing bug.
-//TODO Add custom notification sound, Default Icon for noti.
-//TODO: Handle click event with onesignal.
+//TODO: Suggester IMp=Portant. Give less ponits in suggestion to songs which have level 2.
+//TODO Add custom notification sound
 //TODO: RSJ, neminath and vicky D parekh playlist
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
@@ -40,7 +41,6 @@
 //TODO: IOS
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -77,14 +77,14 @@ void main() async {
   runApp(MainTheme());
   secureScreen();
   //Initialising AdMob.
-  _initAdMob();
+  // _initAdMob();
   songsVisited.clear();
 }
 
-Future<void> _initAdMob() {
-  //Initialize AdMob SDK
-  return FirebaseAdMob.instance.initialize(appId: AdManager().appId);
-}
+// Future<void> _initAdMob() {
+//   //Initialize AdMob SDK
+//   return FirebaseAdMob.instance.initialize(appId: AdManager().appId);
+// }
 
 class MainTheme extends StatelessWidget {
   @override

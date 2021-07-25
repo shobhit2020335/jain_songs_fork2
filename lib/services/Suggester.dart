@@ -32,6 +32,7 @@ class Suggester {
       level1 = {};
     } else {
       _currentStreakLevels[1] = level1;
+      print('In cosnrutor' + '${_currentStreakLevels[1]}');
       _previousStreakLevels[1] = level1;
     }
   }
@@ -403,6 +404,7 @@ class Suggester {
     String parameterValue = currentSong.category.toLowerCase();
     parameterValue = removeSpecialChars(parameterValue);
     List<String> values = parameterValue.split(' ');
+    print('In create streak values' + '${_currentStreakLevels[1]}');
 
     void fillStreakValues() {
       values.forEach((value) {
