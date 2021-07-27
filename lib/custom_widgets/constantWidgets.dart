@@ -43,7 +43,7 @@ Icon clearIcon = Icon(
   size: 20,
 );
 
-Color signatureColors(int value) {
+Color? signatureColors(int value) {
   if (value == 0) {
     return Colors.amber;
   } else if (value == 1) {
@@ -103,8 +103,9 @@ Widget formFieldTitle(String title) {
   );
 }
 
-Widget formTextField(int lines,
-    {String hint, TextEditingController editingController}) {
+Widget formTextField(int? lines,
+    {String? hint,
+    /*required*/ required TextEditingController editingController}) {
   return Theme(
     data: ThemeData(
       primaryColor: Colors.black,
@@ -147,13 +148,12 @@ Widget mainAppTitle() {
   );
 }
 
-Widget songFunctionIcon(
-    {@required IconData icon, String text, Function onPress}) {
+Widget songFunctionIcon(IconData icon, String text, Function onPress) {
   return Column(
     children: [
       GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: onPress,
+        onTap: onPress as void Function()?,
         child: Column(
           children: [
             Icon(

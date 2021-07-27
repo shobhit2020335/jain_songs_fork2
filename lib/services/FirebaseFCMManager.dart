@@ -4,16 +4,16 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 //These two variables are got when local notification is created.
-String routeFromNotification;
-String codeFromNotification;
-BuildContext contextForNotiTap;
+String? routeFromNotification;
+String? codeFromNotification;
+late BuildContext contextForNotiTap;
 
 class FirebaseFCMManager {
   //Called when FCM local is tapped.
-  static Future onLocalNotificationTap(String payload) async {
+  static Future onLocalNotificationTap(String? payload) async {
     if (routeFromNotification != null) {
       if (routeFromNotification == 'deeplink') {
-        launch(codeFromNotification);
+        launch(codeFromNotification!);
       } else {
         print('Before push named code recieved = $codeFromNotification');
         Navigator.pushNamed(contextForNotiTap, '/$routeFromNotification',
@@ -35,13 +35,13 @@ class FirebaseFCMManager {
       FlutterLocalNotificationsPlugin();
 
   static Future<void> saveFCMToken() async {
-    String fcmToken = await FirebaseMessaging.instance.getToken();
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
 
     print('FCM token: $fcmToken');
   }
 
-  static Future<String> getFCMToken() async {
-    String fcmToken = await FirebaseMessaging.instance.getToken();
+  static Future<String?> getFCMToken() async {
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
 
     return fcmToken;
   }
@@ -50,7 +50,7 @@ class FirebaseFCMManager {
     //FCM code for opening Notification when app is terminated.
     FirebaseMessaging.instance
         .getInitialMessage()
-        .then((RemoteMessage message) {
+        .then((RemoteMessage? message) {
       if (message != null) {
         print('Opening FCM, App was terminated.');
 
@@ -64,7 +64,7 @@ class FirebaseFCMManager {
           });
         }
       }
-    }).onError((error, stackTrace) {
+    }).onError((dynamic error, stackTrace) {
       print('Error in terminated FCM. error: ' +
           error +
           'stackTrace: ' +
@@ -72,10 +72,10 @@ class FirebaseFCMManager {
     });
 
     //FCM code for opening Notification when app is in foreground.
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
       print('Opening FCM, App was in foreground.');
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
+      RemoteNotification? notification = message!.notification;
+      AndroidNotification? android = message.notification?.android;
 
       if (notification != null && android != null) {
         print('Making local notification');
@@ -121,7 +121,7 @@ class FirebaseFCMManager {
     });
 
     //FCM code for opening Notification when app is in background.
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
       print('Opening FCM, App was in background.');
 
       if (message != null) {

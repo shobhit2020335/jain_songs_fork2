@@ -6,9 +6,9 @@ class SharedPrefs {
     prefs.setBool('isFirstOpen', value);
   }
 
-  static Future<bool> getIsFirstOpen() async {
+  static Future<bool?> getIsFirstOpen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool value = prefs.getBool('isFirstOpen');
+    bool? value = prefs.getBool('isFirstOpen');
     return value;
   }
 
@@ -17,9 +17,9 @@ class SharedPrefs {
     prefs.setString('playerId', playerId);
   }
 
-  static Future<String> getOneSignalPlayerId() async {
+  static Future<String?> getOneSignalPlayerId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String playerId = prefs.getString('playerId');
+    String? playerId = prefs.getString('playerId');
     return playerId;
   }
 
@@ -28,9 +28,9 @@ class SharedPrefs {
     prefs.setBool(code, value);
   }
 
-  static Future<bool> getIsLiked(String code) async {
+  static Future<bool?> getIsLiked(String code) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool value = prefs.getBool(code);
+    bool? value = prefs.getBool(code);
     return value;
   }
 }

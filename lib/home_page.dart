@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
   int _currentIndex = 0;
-  Timer _timerLink;
+  Timer? _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
   KeyboardVisibilityController _keyboardVisibilityController =
@@ -88,17 +88,31 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       isBasicSearchEmpty = Searchify().basicSearch(query);
     } else {
       await NetworkHelper().changeDateAndVersion();
-      if (fetchedVersion > appVersion) {
+      if (fetchedVersion! > appVersion) {
         setState(() {
           showUpdateDialog(context);
         });
       }
       bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-      if (totalDays > fetchedDays && isInternetConnected) {
+      if (totalDays > fetchedDays! && isInternetConnected) {
         fetchedDays = totalDays;
-        await FireStoreHelper().dailyUpdate();
+        try {
+          await FireStoreHelper().dailyUpdate();
+        } catch (e) {
+          print(e);
+          setState(() {
+            showProgress = false;
+          });
+        }
       } else {
-        await FireStoreHelper().getSongs();
+        try {
+          await FireStoreHelper().getSongs();
+        } catch (e) {
+          print(e);
+          setState(() {
+            showProgress = false;
+          });
+        }
       }
       addElementsToList('home');
     }
@@ -185,7 +199,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     FirebaseDynamicLinkService.retrieveDynamicLink(context);
     OneSignalNotification().initOneSignal();
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     FirebaseFCMManager.handleFCMRecieved(context);
 
@@ -200,7 +214,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       });
     }).then((value) {
       setState(() {});
-    }).onError((error, stackTrace) {
+    }).onError((dynamic error, stackTrace) {
       print('Error loading. $error & $stackTrace');
     });
 
@@ -224,9 +238,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     searchController.clear();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     if (_timerLink != null) {
-      _timerLink.cancel();
+      _timerLink!.cancel();
     }
     // _keyboardVisibilityNotification.dispose();
     super.dispose();
@@ -297,7 +311,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             getSongs(searchController.text, false);
                             isListening = false;
                           });
-                        }).onError((error, stackTrace) {
+                        }).onError((dynamic error, stackTrace) {
                           setState(() {
                             isListening = false;
                           });
@@ -404,11 +418,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         },
       ),
       body: <Widget>[
-        BuildList(
-          showProgress: showProgress,
-          scrollController: listScrollController,
-          searchController: searchController,
-        ),
+        //TODO: Test this along with searching and mic.
+        showProgress
+            ? Container(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    backgroundColor: Colors.indigo,
+                  ),
+                ),
+              )
+            : listToShow.isEmpty
+                ? Center(
+                    child: Text(
+                        'Stavan is under maintenance. Try again after sometime!'),
+                  )
+                : BuildList(
+                    scrollController: listScrollController,
+                    searchController: searchController,
+                  ),
         FormPage(),
         BuildPlaylistList(),
         SettingsPage(),

@@ -6,12 +6,12 @@ import 'package:jain_songs/utilities/song_details.dart';
 import '../song_page.dart';
 
 class BuildRow extends StatefulWidget {
-  final SongDetails currentSong;
-  final Color color;
-  final PlaylistDetails playlist;
+  final SongDetails? currentSong;
+  final Color? color;
+  final PlaylistDetails? playlist;
 
-  BuildRow({
-    @required this.currentSong,
+  BuildRow(
+    this.currentSong, {
     this.color: Colors.grey,
     this.playlist,
   });
@@ -53,16 +53,16 @@ class _BuildRowState extends State<BuildRow> {
 
   @override
   Widget build(BuildContext context) {
-    SongDetails currentSong = widget.currentSong;
+    SongDetails currentSong = widget.currentSong!;
     return ListTileTheme(
       selectedColor: Colors.blue[300],
       style: ListTileStyle.drawer,
       child: ListTile(
         title: Text(
-          currentSong.songNameEnglish,
+          currentSong.songNameEnglish!,
           style: TextStyle(color: Color(0xFF212323)),
         ),
-        subtitle: Text(currentSong.originalSong),
+        subtitle: Text(currentSong.originalSong!),
         trailing: IconButton(
           icon: Icon(
             currentSong.isLiked == true

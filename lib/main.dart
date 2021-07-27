@@ -93,19 +93,21 @@ class MainTheme extends StatelessWidget {
       navigatorKey: navigatorKey,
       onGenerateRoute: (settings) {
         if (settings.name == '/song') {
-          final Map<String, dynamic> args = settings.arguments;
+          final Map<String, dynamic>? args =
+              settings.arguments as Map<String, dynamic>?;
 
           return MaterialPageRoute(builder: (context) {
             return SongPage(
-              codeFromDynamicLink: args['code'],
+              codeFromDynamicLink: args! ['code'],
             );
           });
         } else if (settings.name == '/playlist') {
-          final Map<String, dynamic> args = settings.arguments;
+          final Map<String, dynamic>? args =
+              settings.arguments as Map<String, dynamic>?;
 
           return MaterialPageRoute(builder: (context) {
             return PlaylistPage(
-              playlistCode: args['code'],
+              playlistCode: args! ['code'],
             );
           });
         }

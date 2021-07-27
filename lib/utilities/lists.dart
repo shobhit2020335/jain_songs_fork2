@@ -11,23 +11,23 @@ import 'package:jain_songs/utilities/song_details.dart';
 final DateTime startDate = DateTime(2020, 12, 23);
 String appURL =
     'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
-DateTime todayDate;
+late DateTime todayDate;
 int totalDays = 1;
-int fetchedDays = 0;
+int? fetchedDays = 0;
 String welcomeMessage = 'Jai Jinendra';
 bool fromCache = false;
 
 //TODO: update app version for new app.
 double appVersion = 1.22;
-double fetchedVersion;
+double? fetchedVersion;
 //Anonymous user's variable.
-UserCredential userCredential;
+UserCredential? userCredential;
 
 //Contains all the songs in alphabetical order.
-List<SongDetails> songList = [];
-List<SongDetails> sortedSongList = [];
-List<SongDetails> listToShow = [];
-Set<String> songsVisited = Set();
+List<SongDetails?> songList = [];
+List<SongDetails?> sortedSongList = [];
+List<SongDetails?> listToShow = [];
+Set<String?> songsVisited = Set();
 
 //Lists for applying filters.
 List<Filters> filtersAll = [
@@ -99,7 +99,7 @@ Future<void> applyFilter() async {
     for (int i = 0; i < n; i++) {
       bool toAdd = true;
       for (int j = 0; j < genreSelected.length; j++) {
-        if (sortedSongList[i].genre.toLowerCase().contains(genreSelected[j]) ==
+        if (sortedSongList[i]!.genre!.toLowerCase().contains(genreSelected[j]) ==
             true) {
           toAdd = true;
           break;
@@ -112,8 +112,8 @@ Future<void> applyFilter() async {
       }
 
       for (int j = 0; j < tirthankarSelected.length; j++) {
-        if (sortedSongList[i]
-                .tirthankar
+        if (sortedSongList[i]!
+                .tirthankar!
                 .toLowerCase()
                 .contains(tirthankarSelected[j]) ==
             true) {
@@ -128,8 +128,8 @@ Future<void> applyFilter() async {
       }
 
       for (int j = 0; j < categorySelected.length; j++) {
-        if (sortedSongList[i]
-                .category
+        if (sortedSongList[i]!
+                .category!
                 .toLowerCase()
                 .contains(categorySelected[j]) ==
             true) {
@@ -144,8 +144,8 @@ Future<void> applyFilter() async {
       }
 
       for (int j = 0; j < languageSelected.length; j++) {
-        if (sortedSongList[i]
-                .language
+        if (sortedSongList[i]!
+                .language!
                 .toLowerCase()
                 .contains(languageSelected[j]) ==
             true) {
@@ -167,9 +167,9 @@ Future<void> applyFilter() async {
 }
 
 //This is used in bhakti playlist.
-int popularityComparison(SongDetails a, SongDetails b) {
-  final propertyA = a.popularity;
-  final propertyB = b.popularity;
+int popularityComparison(SongDetails? a, SongDetails? b) {
+  final propertyA = a!.popularity!;
+  final propertyB = b!.popularity!;
   if (propertyA < propertyB) {
     return 1;
   } else if (propertyA > propertyB) {
@@ -179,9 +179,9 @@ int popularityComparison(SongDetails a, SongDetails b) {
   }
 }
 
-int trendComparison(SongDetails a, SongDetails b) {
-  final propertyA = a.trendPoints;
-  final propertyB = b.trendPoints;
+int trendComparison(SongDetails? a, SongDetails? b) {
+  final propertyA = a!.trendPoints!;
+  final propertyB = b!.trendPoints!;
   if (propertyA < propertyB) {
     return 1;
   } else if (propertyA > propertyB) {
@@ -205,7 +205,7 @@ void addElementsToList(String playlistTag) {
   //This is for likes page.
   else if (playlistTag.contains('favourites')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].isLiked == true) {
+      if (songList[i]!.isLiked == true) {
         listToShow.add(songList[i]);
       }
     }
@@ -213,7 +213,7 @@ void addElementsToList(String playlistTag) {
   //This is for latest playlist.
   else if (playlistTag.contains('latest')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].genre.toLowerCase().contains('latest')) {
+      if (songList[i]!.genre!.toLowerCase().contains('latest')) {
         listToShow.add(songList[i]);
       }
     }
@@ -222,7 +222,7 @@ void addElementsToList(String playlistTag) {
   //This code below is disabled. Popular songs are directly queried now.
   else if (playlistTag.contains('popular')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].popularity > 24 && songList[i].likes > 2) {
+      if (songList[i]!.popularity! > 24 && songList[i]!.likes! > 2) {
         listToShow.add(songList[i]);
       }
     }
@@ -231,7 +231,7 @@ void addElementsToList(String playlistTag) {
   //This is for bhakti special playlist.
   else if (playlistTag.contains('bhakti')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].category.toLowerCase().contains('bhakti')) {
+      if (songList[i]!.category!.toLowerCase().contains('bhakti')) {
         listToShow.add(songList[i]);
       }
     }
@@ -241,7 +241,7 @@ void addElementsToList(String playlistTag) {
   //This is for stotra playlist
   else if (playlistTag.contains('stotra')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].category.toLowerCase().contains('stotra')) {
+      if (songList[i]!.category!.toLowerCase().contains('stotra')) {
         listToShow.add(songList[i]);
       }
     }
@@ -249,9 +249,9 @@ void addElementsToList(String playlistTag) {
   //This is Tirthankar, diksha and paryushan playlist
   else {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i].tirthankar.toLowerCase().contains(playlistTag)) {
+      if (songList[i]!.tirthankar!.toLowerCase().contains(playlistTag)) {
         listToShow.add(songList[i]);
-      } else if (songList[i].genre.toLowerCase().contains(playlistTag)) {
+      } else if (songList[i]!.genre!.toLowerCase().contains(playlistTag)) {
         listToShow.add(songList[i]);
       }
     }
@@ -280,7 +280,7 @@ List<SettingsDetails> settingsList = [
 ];
 
 //List for different playlist.
-List<PlaylistDetails> playlistList = [
+List<PlaylistDetails?> playlistList = [
   //DO not change sequence of favourite playlist from 0, it is connected to likes page.
   PlaylistDetails(
     active: true,

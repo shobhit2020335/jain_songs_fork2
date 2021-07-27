@@ -6,7 +6,7 @@ import 'choice_chip_widget.dart';
 
 class FilterListWidget extends StatefulWidget {
   FilterListWidget(
-      {Key key,
+      {Key? key,
       this.height,
       this.width,
       this.borderRadius = 20,
@@ -29,11 +29,11 @@ class FilterListWidget extends StatefulWidget {
       this.selectedTextBackgroundColor = Colors.blue,
       this.unselectedTextbackGroundColor = const Color(0xfff8f8f8),
       this.onApplyButtonClick,
-      @required this.onResetButtonClick,
+      /*required*/ required this.onResetButtonClick,
       this.onAllButtonClick})
       : super(key: key);
-  final double height;
-  final double width;
+  final double? height;
+  final double? width;
   final double borderRadius;
   final Color closeIconColor;
   final Color headerTextColor;
@@ -53,17 +53,17 @@ class FilterListWidget extends StatefulWidget {
   final bool hidecloseIcon;
   final bool hideHeader;
   final bool hideheaderText;
-  final Function(List<Filters>) onApplyButtonClick;
-  final Function(List<Filters>) onResetButtonClick;
-  final Function(List<Filters>) onAllButtonClick;
+  final Function(List<Filters>)? onApplyButtonClick;
+  final Function(List<Filters>)? onResetButtonClick;
+  final Function(List<Filters>)? onAllButtonClick;
 
   @override
   _FilterListWidgetState createState() => _FilterListWidgetState();
 }
 
 class _FilterListWidgetState extends State<FilterListWidget> {
-  List<Filters> _selectedTextList = List();
-  List<Filters> _allTextList;
+  List<Filters> _selectedTextList = [];
+  late List<Filters> _allTextList;
 
   @override
   void initState() {
@@ -244,7 +244,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
   }
 
   List<Widget> _buildChoiceList(List<Filters> list, String category) {
-    List<Widget> choices = List();
+    List<Widget> choices = [];
     list.forEach(
       (item) {
         if (item.category == category) {
@@ -321,7 +321,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'All',
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                             fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,
                       ),
@@ -335,7 +335,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                         _selectedTextList.clear();
                       });
                       if (widget.onResetButtonClick != null) {
-                        widget.onResetButtonClick(_selectedTextList);
+                        widget.onResetButtonClick!(_selectedTextList);
                       } else {
                         Navigator.pop(context, _selectedTextList);
                       }
@@ -345,7 +345,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'Reset',
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                             fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,
                       ),
@@ -359,14 +359,14 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                     child: Center(
                       child: Text(
                         'Apply',
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                             fontSize: 20, color: widget.applyButonTextColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     onPressed: () {
                       if (widget.onApplyButtonClick != null) {
-                        widget.onApplyButtonClick(_selectedTextList);
+                        widget.onApplyButtonClick!(_selectedTextList);
                       } else {
                         Navigator.pop(context, _selectedTextList);
                       }

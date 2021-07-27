@@ -7,24 +7,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
-import 'package:jain_songs/custom_widgets/song_card.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.dart';
+import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
+import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
 // import 'package:mopub_flutter/mopub.dart';
 // import 'package:mopub_flutter/mopub_interstitial.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
-  final String codeFromDynamicLink;
-  final SongDetails currentSong;
-  final PlaylistDetails playlist;
-  final Suggester suggester;
+  final String? codeFromDynamicLink;
+  final SongDetails? currentSong;
+  final PlaylistDetails? playlist;
+  final Suggester? suggester;
   // final MoPubInterstitialAd interstitialAd;
 
   SongPage(
@@ -39,12 +40,12 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage> {
   // InterstitialAd _interstitialAd;
-  SongDetails currentSong;
+  SongDetails? currentSong;
   bool showProgress = true;
-  Timer _timerLink;
+  Timer? _timerLink;
 
   //Variable for suggestion, it initializes only when a song is opened from out.
-  Suggester suggester;
+  Suggester? suggester;
 
   //Variable to determine which language is displayed now.
   int langNo = 1;
@@ -55,7 +56,7 @@ class _SongPageState extends State<SongPage> {
 
   //Info to be displayed if net is not on/link is not available.
   String linkInfo = '';
-  YoutubePlayerController _youtubePlayerController;
+  YoutubePlayerController? _youtubePlayerController;
 
   // void _loadAdmobInterstitialAd() {
   //   _interstitialAd = _interstitialAd
@@ -81,8 +82,8 @@ class _SongPageState extends State<SongPage> {
     // );
     // _loadAdmobInterstitialAd();
 
-    if (currentSong.youTubeLink.length != null &&
-        currentSong.youTubeLink.length > 2) {
+    if (currentSong!.youTubeLink!.length != null &&
+        currentSong!.youTubeLink!.length > 2) {
       await NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
         if (isLinkAvail == false) {
@@ -91,38 +92,38 @@ class _SongPageState extends State<SongPage> {
           });
         }
       });
-      _youtubePlayerController
-          .load(YoutubePlayer.convertUrlToId(currentSong.youTubeLink));
+      _youtubePlayerController!
+          .load(YoutubePlayer.convertUrlToId(currentSong!.youTubeLink!)!);
     } else {
       isLinkAvail = false;
       linkInfo = 'Song not available to listen.';
     }
 
-    if (songsVisited.contains(currentSong.code) == false) {
+    if (songsVisited.contains(currentSong!.code) == false) {
       //TODO: Comment while debugging.
       // FireStoreHelper().changeClicks(currentSong);
     }
-    songsVisited.add(currentSong.code);
+    songsVisited.add(currentSong!.code);
 
     langNo = 1;
     noOfLang = 1;
-    if (currentSong.englishLyrics.length > 2 &&
-        currentSong.englishLyrics != "NA") {
+    if (currentSong!.englishLyrics!.length > 2 &&
+        currentSong!.englishLyrics != "NA") {
       noOfLang++;
     }
-    if (currentSong.gujaratiLyrics.length > 2 &&
-        currentSong.gujaratiLyrics != "NA") {
+    if (currentSong!.gujaratiLyrics!.length > 2 &&
+        currentSong!.gujaratiLyrics != "NA") {
       noOfLang++;
     }
     setState(() {
       showProgress = false;
     });
-    suggester.fetchSuggestions(currentSong);
+    suggester!.fetchSuggestions(currentSong!);
   }
 
   void loadScreen() async {
-    if (currentSong.youTubeLink.length != null &&
-        currentSong.youTubeLink.length > 2) {
+    if (currentSong!.youTubeLink!.length != null &&
+        currentSong!.youTubeLink!.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
         if (isLinkAvail == false) {
@@ -132,7 +133,8 @@ class _SongPageState extends State<SongPage> {
         }
       });
       _youtubePlayerController = YoutubePlayerController(
-        initialVideoId: YoutubePlayer.convertUrlToId(currentSong.youTubeLink),
+        initialVideoId:
+            YoutubePlayer.convertUrlToId(currentSong!.youTubeLink!)!,
         flags: YoutubePlayerFlags(
           autoPlay: false,
           mute: false,
@@ -156,7 +158,7 @@ class _SongPageState extends State<SongPage> {
     });
     if (widget.suggester == null && widget.playlist != null) {
       suggester = Suggester(level1: {
-        widget.playlist.playlistTag: widget.playlist.playlistTagType
+        widget.playlist!.playlistTag: widget.playlist!.playlistTagType
       });
     } else if (widget.suggester == null) {
       suggester = Suggester();
@@ -172,7 +174,7 @@ class _SongPageState extends State<SongPage> {
       _timerLink = Timer(Duration(milliseconds: 3000), () {
         if (songList.isNotEmpty) {
           currentSong = songList.firstWhere((song) {
-            return song.code == widget.codeFromDynamicLink;
+            return song!.code == widget.codeFromDynamicLink;
           }, orElse: () {
             return null;
           });
@@ -184,11 +186,11 @@ class _SongPageState extends State<SongPage> {
             loadScreen();
           }
         } else {
-          _timerLink.cancel();
+          _timerLink!.cancel();
           _timerLink = Timer(Duration(milliseconds: 3000), () {
             if (songList.isNotEmpty) {
               currentSong = songList.firstWhere((song) {
-                return song.code == widget.codeFromDynamicLink;
+                return song!.code == widget.codeFromDynamicLink;
               }, orElse: () {
                 return null;
               });
@@ -212,13 +214,13 @@ class _SongPageState extends State<SongPage> {
   @override
   void dispose() {
     if (_youtubePlayerController != null) {
-      _youtubePlayerController.dispose();
+      _youtubePlayerController!.dispose();
     }
     // if (_interstitialAd != null) {
     //   _interstitialAd.dispose();
     // }
     if (_timerLink != null) {
-      _timerLink.cancel();
+      _timerLink!.cancel();
     }
     super.dispose();
   }
@@ -250,42 +252,42 @@ class _SongPageState extends State<SongPage> {
                           ),
                         ),
                         title: Text(
-                          '${currentSong.songNameEnglish}',
+                          '${currentSong!.songNameEnglish}',
                           style: GoogleFonts.lato(
                             color: Colors.black,
                             fontSize: 20,
                           ),
                         ),
                         subtitle: Text(
-                          '${currentSong.singer.length > 0 ? currentSong.singer : currentSong.originalSong}',
+                          '${currentSong!.singer!.length > 0 ? currentSong!.singer : currentSong!.originalSong}',
                           style: GoogleFonts.lato(),
                         ),
                         trailing: InkWell(
                           onTap: () {
-                            if (currentSong.isLiked == true) {
-                              currentSong.isLiked = false;
+                            if (currentSong!.isLiked == true) {
+                              currentSong!.isLiked = false;
                               setState(() {});
                               FireStoreHelper fireStoreHelper =
                                   FireStoreHelper();
                               fireStoreHelper
-                                  .changeLikes(context, currentSong, -1)
+                                  .changeLikes(context, currentSong!, -1)
                                   .then((value) {
                                 setState(() {});
                               });
                             } else {
-                              currentSong.isLiked = true;
+                              currentSong!.isLiked = true;
                               setState(() {});
                               FireStoreHelper fireStoreHelper =
                                   FireStoreHelper();
                               fireStoreHelper
-                                  .changeLikes(context, currentSong, 1)
+                                  .changeLikes(context, currentSong!, 1)
                                   .then((value) {
                                 setState(() {});
                               });
                             }
                           },
                           child: Icon(
-                            currentSong.isLiked == true
+                            currentSong!.isLiked == true
                                 ? FontAwesomeIcons.solidHeart
                                 : FontAwesomeIcons.heart,
                             color: Colors.pink,
@@ -296,7 +298,7 @@ class _SongPageState extends State<SongPage> {
                       isLinkAvail
                           ? YoutubePlayer(
                               width: MediaQuery.of(context).size.width / 1.07,
-                              controller: _youtubePlayerController,
+                              controller: _youtubePlayerController!,
                               showVideoProgressIndicator: true,
                               progressIndicatorColor: Colors.indigo,
                               liveUIColor: Colors.indigo,
@@ -324,10 +326,10 @@ class _SongPageState extends State<SongPage> {
                       ),
                       LyricsWidget(
                         lyrics: langNo == 1
-                            ? currentSong.lyrics
+                            ? currentSong!.lyrics
                             : (langNo == 2
-                                ? currentSong.englishLyrics
-                                : currentSong.gujaratiLyrics),
+                                ? currentSong!.englishLyrics
+                                : currentSong!.gujaratiLyrics),
                       ),
                       Text(
                         '-----XXXXX-----',
@@ -340,59 +342,59 @@ class _SongPageState extends State<SongPage> {
                       ),
                       SizedBox(height: 10),
                       Visibility(
-                        visible: suggester.suggestedSongs.length > 0,
+                        visible: suggester!.suggestedSongs.length > 0,
                         child: TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SongPage(
-                                  currentSong: suggester.suggestedSongs[0],
+                                  currentSong: suggester!.suggestedSongs[0],
                                   suggester: suggester,
                                 ),
                               ),
                             );
                           },
                           child: Text(
-                              '${suggester.suggestedSongs[0].songNameEnglish}'),
+                              '${suggester!.suggestedSongs[0]!.songNameEnglish}'),
                         ),
                       ),
                       SizedBox(height: 10),
                       Visibility(
-                        visible: suggester.suggestedSongs.length > 1,
+                        visible: suggester!.suggestedSongs.length > 1,
                         child: TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SongPage(
-                                  currentSong: suggester.suggestedSongs[1],
+                                  currentSong: suggester!.suggestedSongs[1],
                                   suggester: suggester,
                                 ),
                               ),
                             );
                           },
                           child: Text(
-                              '${suggester.suggestedSongs[1].songNameEnglish}'),
+                              '${suggester!.suggestedSongs[1]!.songNameEnglish}'),
                         ),
                       ),
                       SizedBox(height: 10),
                       Visibility(
-                        visible: suggester.suggestedSongs.length > 2,
+                        visible: suggester!.suggestedSongs.length > 2,
                         child: TextButton(
                           onPressed: () {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SongPage(
-                                  currentSong: suggester.suggestedSongs[2],
+                                  currentSong: suggester!.suggestedSongs[2],
                                   suggester: suggester,
                                 ),
                               ),
                             );
                           },
                           child: Text(
-                              '${suggester.suggestedSongs[2].songNameEnglish}'),
+                              '${suggester!.suggestedSongs[2]!.songNameEnglish}'),
                         ),
                       ),
                     ],

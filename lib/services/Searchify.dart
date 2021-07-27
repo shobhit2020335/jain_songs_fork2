@@ -18,9 +18,9 @@ class Searchify {
       List<String> words = query.split(' ');
 
       for (int i = 0; i < sortedSongList.length; i++) {
-        int songScore = 0;
+        int? songScore = 0;
         String searchKeywords =
-            removeWhiteSpaces(sortedSongList[i].searchKeywords);
+            removeWhiteSpaces(sortedSongList[i]!.searchKeywords!);
 
         if (_map.containsKey(i)) {
           songScore = _map[i];
@@ -29,11 +29,11 @@ class Searchify {
         for (int j = 0; j < words.length; j++) {
           String word = words[j].trim();
           if (word.length > 0 && searchKeywords.contains(word)) {
-            songScore++;
+            songScore = songScore! + 1;
           }
         }
 
-        if (songScore > 0) {
+        if (songScore! > 0) {
           _map[i] = songScore;
         }
       }
@@ -62,7 +62,7 @@ class Searchify {
       for (int i = 0; i < sortedSongList.length; i++) {
         // sortedSongList[i].searchKeywords =
         //     removeWhiteSpaces(sortedSongList[i].searchKeywords);
-        if (sortedSongList[i].searchKeywords.contains(query)) {
+        if (sortedSongList[i]!.searchKeywords!.contains(query)) {
           isBasicSearchEmpty = false;
           _map[i] = noOfWords * 2;
         }

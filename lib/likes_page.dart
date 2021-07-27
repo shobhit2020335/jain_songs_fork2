@@ -43,7 +43,7 @@ class LikesPage extends StatelessWidget {
                   end: Alignment.topCenter,
                   colors: [
                     Colors.black,
-                    Colors.pink[400],
+                    Colors.pink[400]!,
                   ],
                 ),
               ),
@@ -53,7 +53,7 @@ class LikesPage extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return BuildRow(
-                  currentSong: listToShow[index],
+                  listToShow[index],
                   color: Colors.pink[400],
                   playlist: playlistList[0],
                 );

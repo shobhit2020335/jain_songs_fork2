@@ -26,11 +26,11 @@ class OneSignalNotification {
         (OSNotificationOpenedResult result) async {
       // Will be called whenever a notification is opened/button pressed.
       print('One signal notification clicked now');
-      Map<String, dynamic> dataReceived = result.notification.additionalData;
+      Map<String, dynamic> dataReceived = result.notification.additionalData!;
 
       if (dataReceived.containsKey('route') &&
           dataReceived.containsKey('code')) {
-        navigatorKey.currentState
+        navigatorKey.currentState!
             .pushNamed('/${dataReceived['route']}', arguments: {
           'code': dataReceived['code'],
         });
@@ -40,7 +40,7 @@ class OneSignalNotification {
     });
 
     OneSignal.shared.setSubscriptionObserver((changes) async {
-      String playerId = changes.to.userId;
+      String playerId = changes.to.userId!;
       print('Player Id: $playerId');
       SharedPrefs.setOneSignalPlayerId(playerId);
     });

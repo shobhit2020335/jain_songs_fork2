@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SongSuggestions {
-  String fcmToken;
-  String oneSignalPlayerId;
+  String? fcmToken;
+  String? oneSignalPlayerId;
   String name;
   String email;
   String songName;
   String lyrics;
   String otherDetails;
-  Timestamp submissionTime;
-  Map<String, dynamic> songSuggestionMap = Map<String, String>();
+  Timestamp? submissionTime;
+  Map<String, dynamic> songSuggestionMap = Map<String, String?>();
 
   SongSuggestions(
       this.name, this.email, this.songName, this.lyrics, this.otherDetails,
@@ -29,12 +29,12 @@ class SongSuggestions {
     };
   }
 
-  void setFCMToken(String fcmToken) {
+  void setFCMToken(String? fcmToken) {
     this.fcmToken = fcmToken;
     this.songSuggestionMap['fcmToken'] = fcmToken;
   }
 
-  void setOneSignalPlayerId(String playerId) {
+  void setOneSignalPlayerId(String? playerId) {
     this.oneSignalPlayerId = playerId;
     this.songSuggestionMap['oneSignalPlayerId'] = playerId;
   }

@@ -8,9 +8,9 @@ import 'utilities/lists.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistPage extends StatefulWidget {
-  final PlaylistDetails currentPlaylist;
+  final PlaylistDetails? currentPlaylist;
   //Below Variable is recieved when page is opened from Dynamic link or FCM.
-  final String playlistCode;
+  final String? playlistCode;
 
   PlaylistPage({this.currentPlaylist, this.playlistCode});
 
@@ -20,8 +20,8 @@ class PlaylistPage extends StatefulWidget {
 
 class _PlaylistPageState extends State<PlaylistPage> {
   bool showProgress = true;
-  Timer _timerLink;
-  PlaylistDetails currentPlaylist;
+  Timer? _timerLink;
+  PlaylistDetails? currentPlaylist;
 
   void getSongs() async {
     setState(() {
@@ -35,10 +35,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
   }
 
   void setUpPlaylistDetails() {
-    if (currentPlaylist.playlistTag.contains('popular')) {
+    if (currentPlaylist!.playlistTag.contains('popular')) {
       getSongs();
     } else {
-      addElementsToList(currentPlaylist.playlistTag);
+      addElementsToList(currentPlaylist!.playlistTag);
       setState(() {
         showProgress = false;
       });
@@ -53,12 +53,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
       showProgress = true;
     });
 
-    if (widget.playlistCode == null || widget.playlistCode.length == 0) {
+    if (widget.playlistCode == null || widget.playlistCode!.length == 0) {
       currentPlaylist = widget.currentPlaylist;
       setUpPlaylistDetails();
     } else {
       currentPlaylist = playlistList.firstWhere((playlist) {
-        return playlist.playlistTag.contains(widget.playlistCode);
+        return playlist!.playlistTag.contains(widget.playlistCode!);
       }, orElse: () {
         return null;
       });
@@ -75,7 +75,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   void dispose() {
     if (_timerLink != null) {
-      _timerLink.cancel();
+      _timerLink!.cancel();
     }
     super.dispose();
   }
@@ -97,7 +97,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   children: [
                     SizedBox(height: 15),
                     Text(
-                      currentPlaylist != null ? currentPlaylist.title : '',
+                      currentPlaylist != null ? currentPlaylist!.title : '',
                       style: GoogleFonts.raleway(
                         fontSize: 20,
                         color: Colors.white,
@@ -114,7 +114,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   colors: [
                     Colors.black,
                     currentPlaylist != null
-                        ? currentPlaylist.color
+                        ? currentPlaylist!.color!
                         : Colors.white,
                   ],
                 ),
@@ -135,7 +135,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         CircularProgressIndicator(
                           color: Colors.white,
                           backgroundColor: currentPlaylist != null
-                              ? currentPlaylist.color
+                              ? currentPlaylist!.color
                               : Colors.indigo,
                         ),
                       ],
@@ -158,8 +158,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   );
                 } else if (index < listToShow.length) {
                   return BuildRow(
-                    currentSong: listToShow[index],
-                    color: currentPlaylist.color,
+                    listToShow[index],
+                    color: currentPlaylist!.color,
                     playlist: currentPlaylist,
                   );
                 }

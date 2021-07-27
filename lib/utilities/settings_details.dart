@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
+
 class SettingsDetails {
   String title;
   String subtitle;
   String information;
 
   SettingsDetails({
-    this.title,
-    this.subtitle,
-    this.information,
+    /*required*/ required this.title,
+    /*required*/ required this.subtitle,
+    /*required*/ required this.information,
   });
 }

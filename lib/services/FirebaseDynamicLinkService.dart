@@ -26,9 +26,9 @@ class FirebaseDynamicLinkService {
   }
 
   static Future<void> retrieveInitialDynamicLink(BuildContext context) async {
-    final PendingDynamicLinkData data =
+    final PendingDynamicLinkData? data =
         await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri deepLink = data?.link;
+    final Uri? deepLink = data?.link;
     print(deepLink);
 
     if (deepLink != null) {
@@ -43,8 +43,8 @@ class FirebaseDynamicLinkService {
 
   static Future<void> retrieveDynamicLink(BuildContext context) async {
     FirebaseDynamicLinks.instance.onLink(
-      onSuccess: (PendingDynamicLinkData data) {
-        final Uri deepLink = data?.link;
+      onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+        final Uri? deepLink = dynamicLink?.link;
         if (deepLink != null) {
           print('route from DL: ${deepLink.queryParameters['route']}');
           print('code from DL: ${deepLink.queryParameters['code']}');
@@ -52,15 +52,10 @@ class FirebaseDynamicLinkService {
               arguments: {
                 'code': deepLink.queryParameters['code'],
               });
-        } else {
-          print('Does not has key id');
         }
-
-        return;
       },
-      onError: (error) {
+      onError: (error) async {
         print('ghusa in on link errors');
-        return;
       },
     );
   }
