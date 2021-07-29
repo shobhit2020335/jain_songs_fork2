@@ -26,6 +26,7 @@ class SongDetails {
   int level2;
   int level3;
   int level4;
+  String songInfo;
 
   SongDetails({
     this.album,
@@ -56,6 +57,7 @@ class SongDetails {
     this.level2: 0,
     this.level3: 0,
     this.level4: 0,
+    this.songInfo: '',
   }) {
     if (searchKeywords == null) {
       this.searchKeywords = 'song';

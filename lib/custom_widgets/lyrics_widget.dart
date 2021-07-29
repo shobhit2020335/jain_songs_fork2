@@ -21,11 +21,11 @@ class LyricsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      escapeCharacterIncluded(),
+      '\n' + escapeCharacterIncluded(),
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 20,
-        color: Color(0xFF18191A),
+        color: Colors.white,
       ),
     );
   }

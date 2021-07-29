@@ -233,9 +233,9 @@ class _YoutubePlayerState extends State<YoutubePlayer> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 0,
-      color: Colors.white,
+      color: Colors.transparent,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(30),
         child: InheritedYoutubePlayer(
           controller: controller,
           child: Container(

@@ -13,7 +13,10 @@ class PlaybackSpeedButton extends StatefulWidget {
   final YoutubePlayerController? controller;
 
   /// Defines icon for the button.
-  final Widget icon = Icon(Icons.ac_unit);
+  final Widget icon = Icon(
+    Icons.ac_unit,
+    color: Colors.transparent,
+  );
 
   /// Creates [PlaybackSpeedButton] widget.
   PlaybackSpeedButton({

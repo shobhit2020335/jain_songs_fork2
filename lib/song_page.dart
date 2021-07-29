@@ -50,6 +50,8 @@ class _SongPageState extends State<SongPage> {
   //Variable to determine which language is displayed now.
   int langNo = 1;
   int noOfLang = 1;
+  bool isSharedNow = false;
+  TextOverflow showTextDetails = TextOverflow.ellipsis;
 
   //Variable to determine whether link is available/net is connected.
   bool isLinkAvail = true;
@@ -122,8 +124,7 @@ class _SongPageState extends State<SongPage> {
   }
 
   void loadScreen() async {
-    if (currentSong!.youTubeLink!.length != null &&
-        currentSong!.youTubeLink!.length > 2) {
+    if (currentSong!.youTubeLink!.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
         if (isLinkAvail == false) {
@@ -238,7 +239,6 @@ class _SongPageState extends State<SongPage> {
           : Builder(
               builder: (context) => SafeArea(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.only(bottom: 15),
                   child: Column(
                     children: [
                       ListTile(
@@ -251,16 +251,39 @@ class _SongPageState extends State<SongPage> {
                             color: Colors.black54,
                           ),
                         ),
-                        title: Text(
-                          '${currentSong!.songNameEnglish}',
-                          style: GoogleFonts.lato(
-                            color: Colors.black,
-                            fontSize: 20,
+                        title: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (showTextDetails == TextOverflow.ellipsis) {
+                                showTextDetails = TextOverflow.clip;
+                              } else {
+                                showTextDetails = TextOverflow.ellipsis;
+                              }
+                            });
+                          },
+                          child: Text(
+                            '${currentSong!.songNameEnglish}',
+                            style: GoogleFonts.lato(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                        subtitle: Text(
-                          '${currentSong!.singer!.length > 0 ? currentSong!.singer : currentSong!.originalSong}',
-                          style: GoogleFonts.lato(),
+                        subtitle: InkWell(
+                          onTap: () {
+                            setState(() {
+                              if (showTextDetails == TextOverflow.ellipsis) {
+                                showTextDetails = TextOverflow.clip;
+                              } else {
+                                showTextDetails = TextOverflow.ellipsis;
+                              }
+                            });
+                          },
+                          child: Text(
+                            '${currentSong!.songInfo}',
+                            overflow: showTextDetails,
+                            style: GoogleFonts.lato(),
+                          ),
                         ),
                         trailing: InkWell(
                           onTap: () {
@@ -294,107 +317,244 @@ class _SongPageState extends State<SongPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      isLinkAvail
-                          ? YoutubePlayer(
-                              width: MediaQuery.of(context).size.width / 1.07,
-                              controller: _youtubePlayerController!,
-                              showVideoProgressIndicator: true,
-                              progressIndicatorColor: Colors.indigo,
-                              liveUIColor: Colors.indigo,
-                            )
-                          : Text(
-                              linkInfo,
-                              style: TextStyle(
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(height: 10),
+                            isLinkAvail
+                                ? YoutubePlayer(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1,
+                                    controller: _youtubePlayerController!,
+                                    showVideoProgressIndicator: true,
+                                    progressIndicatorColor: Colors.indigo,
+                                    liveUIColor: Colors.indigo,
+                                  )
+                                : Text(
+                                    linkInfo,
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () {
+                                    if (currentSong!.isLiked == true) {
+                                      currentSong!.isLiked = false;
+                                      setState(() {});
+                                      FireStoreHelper fireStoreHelper =
+                                          FireStoreHelper();
+                                      fireStoreHelper
+                                          .changeLikes(
+                                              context, currentSong!, -1)
+                                          .then((value) {
+                                        setState(() {});
+                                      });
+                                    } else {
+                                      currentSong!.isLiked = true;
+                                      setState(() {});
+                                      FireStoreHelper fireStoreHelper =
+                                          FireStoreHelper();
+                                      fireStoreHelper
+                                          .changeLikes(context, currentSong!, 1)
+                                          .then((value) {
+                                        setState(() {});
+                                      });
+                                    }
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.favorite_rounded,
+                                        color: currentSong!.isLiked == true
+                                            ? Colors.pink
+                                            : Colors.grey,
+                                        size: 19,
+                                      ),
+                                      Text(
+                                        '  ${currentSong!.likes} likes',
+                                        style: GoogleFonts.raleway(
+                                          color: currentSong!.isLiked == true
+                                              ? Colors.pink
+                                              : Colors.grey,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 50),
+                                InkWell(
+                                  onTap: () {
+                                    //Opens other app to share song.
+                                    shareApp(currentSong?.songNameHindi,
+                                        currentSong?.code);
+
+                                    FireStoreHelper fireStoreHelper =
+                                        FireStoreHelper();
+                                    fireStoreHelper
+                                        .changeShare(currentSong!)
+                                        .then((value) {
+                                      setState(() {});
+                                    });
+                                    setState(() {
+                                      isSharedNow = true;
+                                    });
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.share,
+                                        color: isSharedNow
+                                            ? Colors.pink
+                                            : Colors.grey,
+                                        size: 19,
+                                      ),
+                                      Text(
+                                        '  ${currentSong!.share} shares',
+                                        style: GoogleFonts.raleway(
+                                          color: isSharedNow
+                                              ? Colors.pink
+                                              : Colors.grey,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(),
+                              ],
+                            ),
+                            Divider(thickness: 1),
+                            Visibility(
+                              visible: suggester!.suggestedSongs.length > 0,
+                              child: suggestionBuilder(0),
+                            ),
+                            Visibility(
+                              visible: suggester!.suggestedSongs.length > 1,
+                              child: suggestionBuilder(1),
+                            ),
+                            Visibility(
+                              visible: suggester!.suggestedSongs.length > 2,
+                              child: suggestionBuilder(2),
+                            ),
+                            // Divider(thickness: 1),
+                            SizedBox(height: 10),
+                            Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(25),
+                                ),
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Colors.blue,
+                                    Colors.indigo,
+                                  ],
+                                ),
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          if (noOfLang == 1) {
+                                            showSimpleToast(
+                                              context,
+                                              'No more languages for this song is available now!',
+                                            );
+                                          } else if (langNo >= noOfLang) {
+                                            langNo = 1;
+                                          } else if (langNo < noOfLang) {
+                                            langNo++;
+                                          }
+                                          setState(() {});
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.language,
+                                              color: Colors.white,
+                                              size: 20,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Language',
+                                              style: GoogleFonts.lato(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          //Opens other app to share song.
+                                          shareApp(currentSong?.songNameHindi,
+                                              currentSong?.code);
+
+                                          FireStoreHelper fireStoreHelper =
+                                              FireStoreHelper();
+                                          fireStoreHelper
+                                              .changeShare(currentSong!)
+                                              .then((value) {
+                                            setState(() {});
+                                          });
+                                          setState(() {
+                                            isSharedNow = true;
+                                          });
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              FontAwesomeIcons.share,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                              'Share',
+                                              style: GoogleFonts.lato(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  LyricsWidget(
+                                    lyrics: langNo == 1
+                                        ? currentSong!.lyrics
+                                        : (langNo == 2
+                                            ? currentSong!.englishLyrics
+                                            : currentSong!.gujaratiLyrics),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              '© ${currentSong!.production!.trim().length > 0 ? currentSong?.production : 'Stavan Co.'}',
+                              style: GoogleFonts.lato(
                                 color: Colors.grey,
                               ),
                             ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Lyrics',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF18191A),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      LyricsWidget(
-                        lyrics: langNo == 1
-                            ? currentSong!.lyrics
-                            : (langNo == 2
-                                ? currentSong!.englishLyrics
-                                : currentSong!.gujaratiLyrics),
-                      ),
-                      Text(
-                        '-----XXXXX-----',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF18191A),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Visibility(
-                        visible: suggester!.suggestedSongs.length > 0,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SongPage(
-                                  currentSong: suggester!.suggestedSongs[0],
-                                  suggester: suggester,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                              '${suggester!.suggestedSongs[0]!.songNameEnglish}'),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Visibility(
-                        visible: suggester!.suggestedSongs.length > 1,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SongPage(
-                                  currentSong: suggester!.suggestedSongs[1],
-                                  suggester: suggester,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                              '${suggester!.suggestedSongs[1]!.songNameEnglish}'),
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Visibility(
-                        visible: suggester!.suggestedSongs.length > 2,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SongPage(
-                                  currentSong: suggester!.suggestedSongs[2],
-                                  suggester: suggester,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                              '${suggester!.suggestedSongs[2]!.songNameEnglish}'),
+                            SizedBox(height: 10),
+                          ],
                         ),
                       ),
                     ],
@@ -404,70 +564,75 @@ class _SongPageState extends State<SongPage> {
             ),
     );
   }
+
+  Widget suggestionBuilder(int index) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SongPage(
+              currentSong: suggester!.suggestedSongs[index],
+              suggester: suggester,
+            ),
+          ),
+        );
+      },
+      child: ListTile(
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.network(
+            YoutubePlayer.getThumbnail(
+              videoId: suggester!.suggestedSongs[index]!.youTubeLink!.isNotEmpty
+                  ? YoutubePlayer.convertUrlToId(
+                      suggester!.suggestedSongs[index]!.youTubeLink!)!
+                  : _youtubePlayerController!.initialVideoId,
+            ),
+            alignment: Alignment.centerLeft,
+            width: 60,
+            loadingBuilder: (_, child, progress) => progress == null
+                ? child
+                : Container(
+                    color: Colors.white,
+                    width: 60,
+                    height: 45,
+                  ),
+            errorBuilder: (context, _, __) => Image.network(
+              YoutubePlayer.getThumbnail(
+                videoId:
+                    suggester!.suggestedSongs[index]!.youTubeLink!.isNotEmpty
+                        ? YoutubePlayer.convertUrlToId(
+                            suggester!.suggestedSongs[index]!.youTubeLink!)!
+                        : _youtubePlayerController!.initialVideoId,
+              ),
+              width: 60,
+              alignment: Alignment.centerLeft,
+              loadingBuilder: (_, child, progress) => progress == null
+                  ? child
+                  : Container(
+                      color: Colors.white,
+                      width: 60,
+                      height: 45,
+                    ),
+              errorBuilder: (context, _, __) => Image.asset(
+                'images/main.jpg',
+                width: 60,
+              ),
+            ),
+          ),
+        ),
+        title: Text(
+          '${suggester!.suggestedSongs[index]!.songNameEnglish}',
+          style: GoogleFonts.lato(
+            color: Colors.black,
+          ),
+        ),
+        subtitle: Text(
+          '${suggester!.suggestedSongs[index]!.songInfo}',
+          overflow: showTextDetails,
+          style: GoogleFonts.lato(),
+        ),
+      ),
+    );
+  }
 }
-
-
-// SongCard(
-                      //   currentSong: currentSong,
-                      //   likesIcon: currentSong.isLiked == true
-                      //       ? FontAwesomeIcons.solidHeart
-                      //       : FontAwesomeIcons.heart,
-                      //   likesTap: () {
-                      //     if (currentSong.isLiked == true) {
-                      //       currentSong.isLiked = false;
-                      //       setState(() {});
-                      //       FireStoreHelper fireStoreHelper = FireStoreHelper();
-                      //       fireStoreHelper
-                      //           .changeLikes(context, currentSong, -1)
-                      //           .then((value) {
-                      //         setState(() {});
-                      //       });
-                      //     } else {
-                      //       currentSong.isLiked = true;
-                      //       setState(() {});
-                      //       FireStoreHelper fireStoreHelper = FireStoreHelper();
-                      //       fireStoreHelper
-                      //           .changeLikes(context, currentSong, 1)
-                      //           .then((value) {
-                      //         setState(() {});
-                      //       });
-                      //     }
-                      //   },
-                      //   shareTap: () {
-                      //     //Opens other app to share song.
-                      //     shareApp(currentSong.songNameHindi, currentSong.code);
-
-                      //     FireStoreHelper fireStoreHelper = FireStoreHelper();
-                      //     fireStoreHelper
-                      //         .changeShare(currentSong)
-                      //         .then((value) {
-                      //       setState(() {});
-                      //     });
-                      //     setState(() {});
-                      //   },
-                      //   youtubeTap: () {
-                      //     String link = currentSong.youTubeLink;
-                      //     if (link == null || link == '') {
-                      //       showSimpleToast(
-                      //         context,
-                      //         'Video URL is not available at this moment!',
-                      //       );
-                      //     } else {
-                      //       launchURL(context, link);
-                      //       print('Launching');
-                      //     }
-                      //   },
-                      //   languageTap: () {
-                      //     if (noOfLang == 1) {
-                      //       showSimpleToast(
-                      //         context,
-                      //         'No more languages for this song is available now!',
-                      //       );
-                      //     } else if (langNo >= noOfLang) {
-                      //       langNo = 1;
-                      //     } else if (langNo < noOfLang) {
-                      //       langNo++;
-                      //     }
-                      //     setState(() {});
-                      //   },
-                      // ),

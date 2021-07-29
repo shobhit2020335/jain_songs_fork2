@@ -191,11 +191,11 @@ class FireStoreHelper {
           valueIsliked = false;
         }
         currentSongDetails.isLiked = valueIsliked;
-        String? originalSong = currentSongDetails.originalSong;
-        if (originalSong == null ||
-            originalSong.length < 3 ||
-            originalSong.toLowerCase() == 'unknown') {
-          currentSongDetails.originalSong = currentSongDetails.songNameHindi;
+        String songInfo =
+            '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+        currentSongDetails.songInfo = trimSpecialChars(songInfo);
+        if (currentSongDetails.songInfo.length == 0) {
+          currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
         }
         listToAdd.add(
           currentSongDetails,

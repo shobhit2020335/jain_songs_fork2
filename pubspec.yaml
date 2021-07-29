@@ -40,7 +40,6 @@ dependencies:
   onesignal_flutter: ^3.0.0
   flutter_keyboard_visibility: ^5.0.3
   flutter_inappwebview: ^5.3.2
-  
 
 dev_dependencies:
   flutter_test:

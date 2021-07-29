@@ -34,12 +34,14 @@ String urlBeforeCode =
 String urlAfterCode =
     '&apn=com.JainDevelopers.jain_songs&amv=4&st=Stavan+-+Jain+Bhajan+with+Lyrics&sd=Listen+to+Jain+stavan+along+with+lyrics.&si=https://pbs.twimg.com/media/EfXqpDHUwAAVQHa.jpg';
 
-void shareApp(String name, String code) async {
-  await FlutterShare.share(
-    title: 'Google Play link',
-    text: 'Find lyrics and listen to *$name* and other *Jain bhajans* on:',
-    linkUrl: '$urlBeforeCode$code$urlAfterCode',
-  );
+void shareApp(String? name, String? code) async {
+  if (name != null && code != null) {
+    await FlutterShare.share(
+      title: 'Google Play link',
+      text: 'Find lyrics and listen to *$name* and other *Jain bhajans* on:',
+      linkUrl: '$urlBeforeCode$code$urlAfterCode',
+    );
+  }
 }
 
 void sendEmail() async {

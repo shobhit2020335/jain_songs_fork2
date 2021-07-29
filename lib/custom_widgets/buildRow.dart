@@ -62,7 +62,10 @@ class _BuildRowState extends State<BuildRow> {
           currentSong.songNameEnglish!,
           style: TextStyle(color: Color(0xFF212323)),
         ),
-        subtitle: Text(currentSong.originalSong!),
+        subtitle: Text(
+          currentSong.songInfo,
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: IconButton(
           icon: Icon(
             currentSong.isLiked == true
