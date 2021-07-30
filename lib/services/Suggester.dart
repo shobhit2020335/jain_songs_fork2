@@ -271,7 +271,10 @@ class Suggester {
                   });
                 }
               } else if (value == 'singer') {
-                if (sortedSongList[index]!.singer!.toLowerCase().contains(key)) {
+                if (sortedSongList[index]!
+                    .singer!
+                    .toLowerCase()
+                    .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index]!.singer!.isNotEmpty) {
@@ -311,8 +314,10 @@ class Suggester {
                   totalPresent++;
                   isLevel2Absent = false;
                 } else if (sortedSongList[index]!.tirthankar!.isNotEmpty) {
-                  List<String> values =
-                      sortedSongList[index]!.tirthankar!.toLowerCase().split(' ');
+                  List<String> values = sortedSongList[index]!
+                      .tirthankar!
+                      .toLowerCase()
+                      .split(' ');
 
                   values.forEach((value) {
                     if (defaultStreakLevels[value] == 2) {
@@ -322,19 +327,73 @@ class Suggester {
                 }
               }
             });
+            if (map.isEmpty) {
+              defaultStreakLevels.forEach((key, value) {
+                if (value == 2 && !_currentStreakLevels[1]!.containsKey(key)) {
+                  if (sortedSongList[index]!
+                      .category!
+                      .toLowerCase()
+                      .contains(key)) {
+                    isLevel2Absent = false;
+                  }
+                  if (sortedSongList[index]!
+                      .genre!
+                      .toLowerCase()
+                      .contains(key)) {
+                    isLevel2Absent = false;
+                  }
+                  if (sortedSongList[index]!
+                      .language!
+                      .toLowerCase()
+                      .contains(key)) {
+                    isLevel2Absent = false;
+                  }
+                  if (sortedSongList[index]!
+                      .singer!
+                      .toLowerCase()
+                      .contains(key)) {
+                    totalPresent++;
+                    isLevel2Absent = false;
+                  }
+
+                  if (sortedSongList[index]!
+                      .originalSong!
+                      .toLowerCase()
+                      .contains(key)) {
+                    totalPresent++;
+                    isLevel2Absent = false;
+                  }
+
+                  if (sortedSongList[index]!
+                      .tirthankar!
+                      .toLowerCase()
+                      .contains(key)) {
+                    totalPresent++;
+                    isLevel2Absent = false;
+                  }
+                }
+              });
+            }
           } else {
             map!.forEach((key, value) {
               totalKeys++;
               if (value == 'category' &&
-                  sortedSongList[index]!.category!.toLowerCase().contains(key)) {
+                  sortedSongList[index]!
+                      .category!
+                      .toLowerCase()
+                      .contains(key)) {
                 totalPresent++;
-              } else if (value == 'code' && sortedSongList[index]!.code == key) {
+              } else if (value == 'code' &&
+                  sortedSongList[index]!.code == key) {
                 totalPresent++;
               } else if (value == 'genre' &&
                   sortedSongList[index]!.genre!.toLowerCase().contains(key)) {
                 totalPresent++;
               } else if (value == 'language' &&
-                  sortedSongList[index]!.language!.toLowerCase().contains(key)) {
+                  sortedSongList[index]!
+                      .language!
+                      .toLowerCase()
+                      .contains(key)) {
                 totalPresent++;
               } else if (value == 'singer' &&
                   sortedSongList[index]!.singer!.toLowerCase().contains(key)) {
