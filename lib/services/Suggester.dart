@@ -49,8 +49,6 @@ class Suggester {
     level2Songs.clear();
     level3Songs.clear();
     level4Songs.clear();
-    //Clears the streak level 0 which contains what to exclude for previous song.
-    _currentStreakLevels[0]!.clear();
 
     _resetStreakLevels();
     _createStreakLevels(currentSong);
@@ -67,6 +65,15 @@ class Suggester {
     _suggestThirdSong();
     suggestedSongs.add(level4Songs[0]);
     print('Thrid Suggstion: ${suggestedSongs[2]!.songNameEnglish}');
+
+    //Clears the streak level 0 which contains what to exclude for previous song.
+    //It does not show the suggestions which are previously shown for one time.
+    _currentStreakLevels[0]!.clear();
+    _currentStreakLevels[0] = {
+      suggestedSongs[0]!.code!: 'code',
+      suggestedSongs[1]!.code!: 'code',
+      suggestedSongs[2]!.code!: 'code',
+    };
   }
 
   void _suggestThirdSong() {
@@ -78,6 +85,15 @@ class Suggester {
 
     int secondMaxIndex =
         level2Songs.indexWhere((element) => element!.level2 < 100);
+    if (_currentStreakLevels[2]!.isEmpty &&
+        (_currentStreakLevels[4]!.containsKey('neminath') ||
+            _currentStreakLevels[4]!.containsKey('adinath') ||
+            _currentStreakLevels[4]!.containsKey('parshwanath'))) {
+      secondMaxIndex =
+          level2Songs.indexWhere((element) => element!.level2 < 100);
+    } else if (_currentStreakLevels[2]!.isEmpty) {
+      secondMaxIndex = 0;
+    }
     if (secondMaxIndex == -1) {
       secondMaxIndex = 0;
     }
@@ -352,7 +368,6 @@ class Suggester {
                       .singer!
                       .toLowerCase()
                       .contains(key)) {
-                    totalPresent++;
                     isLevel2Absent = false;
                   }
 
@@ -360,7 +375,6 @@ class Suggester {
                       .originalSong!
                       .toLowerCase()
                       .contains(key)) {
-                    totalPresent++;
                     isLevel2Absent = false;
                   }
 
@@ -368,7 +382,6 @@ class Suggester {
                       .tirthankar!
                       .toLowerCase()
                       .contains(key)) {
-                    totalPresent++;
                     isLevel2Absent = false;
                   }
                 }
@@ -608,18 +621,19 @@ class Suggester {
   };
 
   static Map<String, int> defaultStreakLevels = {
-    'paryushan': 2,
-    'diksha': 2,
-    'tapasya': 2,
     'palitana': 2,
     'shikharji': 2,
     'girnar': 2,
-    'bhikshu': 2,
     'aarti': 2,
     'stuti': 2,
     'chalisa': 2,
     'stotra': 2,
     'darshan': 2,
+    'chaturmas': 2,
+    'paryushan': 2,
+    'diksha': 2,
+    'tapasya': 2,
+    'bhikshu': 2,
     'favourite': 3,
     'bahubali': 3,
     'adhyatmik': 3,
@@ -629,28 +643,28 @@ class Suggester {
     'rajendra': 3,
     'shanti': 3,
     'shashan': 3,
-    // '24': 3,
     'stavan': 3,
     'navkar': 3,
     'bhakti': 3,
     'garba': 3,
     'bhavna': 3,
-    'janam': 3,
+    // 'janam': 3,
     'latest': 3,
-    // 'popular': 3,
     'trending': 3,
     'gujarati': 3,
-    'simandhar': 4,
-    'vasupujya': 4,
+    'simandhar': 3,
+    'sumtinath': 3,
+    'vasupujya': 2,
+    'mahavir': 3,
+    'mahaveer': 3,
+    'nakoda': 3,
+    'sambhavnath': 3,
+    'shantinath': 3,
+    //Before changing values see code where it is used.
     'parshwanath': 4,
-    'mahavir': 4,
-    'mahaveer': 4,
+    'neminath': 4,
     'adinath': 4,
     'adeshwar': 4,
-    'neminath': 4,
-    'nakoda': 4,
-    'sambhavnath': 4,
-    'shantinath': 4,
     'bollywood': 4,
     'hindi': 4,
     'marwadi': 4,

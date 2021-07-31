@@ -21,9 +21,9 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('CM4S',
-      englishName: 'mangalik mantar',
-      hindiName: 'chatari char sharana 4 chhartari',
+  currentSong.extraSearchKeywords('CAR',
+      englishName: 'chaturyamas chaturymas',
+      hindiName: '',
       originalSong: '',
       album: '',
       tirthankar: '',
@@ -37,31 +37,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'CM4S',
-    'album': 'Manglik Mantra',
+    'code': 'CAR',
+    'album': '',
     'aaa': 'valid',
-    'category': 'Stotra',
-    'genre': '',
-    'gujaratiLyrics':
-        'ચત્તારિ મંગલં\nઅરિહંતા  મંગલં\nસિદ્ધા મંગલં\nસાહૂ મંગલં\nકેવલિ પન્નત્તો\nધમ્મો મંગલં\nચત્તારિ  લોગુત્તમા\nઅરિહંતા લોગુત્તમા\nસિદ્ધા લોગુત્તમા\nસાહૂ લોગુત્તમા\nકેવલિ પન્નત્તો\nધમ્મો લોગુત્તમો\nચત્તારિ  સરણં  પવજજામિ\nઅરિહંતે  સરણં  પવજજામિ\nસિદ્ધે સરણં  પવજજામિ\nસાહૂ સરણં  પવજજામિ\nકેવલિ પન્નત્તં\nધમમં સરણં  પવજજામિ\n',
-    'language': 'Sankrit',
+    'category': 'Stavan',
+    'genre': 'Chaturmas',
+    'gujaratiLyrics': '',
+    'language': 'Marwadi',
     'likes': 0,
     'lyrics':
-        'चत्तारिमंगलम\nअरिहंत मंगल़,\nसिद्ध मंगलं,\nसाहु मंगलं,\nकेवलीपण्णत्तो धम्मो मंगलं।\nचत्तारि लोगुत्तमा\nअरिहंत लोगुत्तमा,\nसिद्ध लोगुत्तमा,\nसाहु लोगुत्तमा,\nकेवलीपण्णत्तो धम्मो लोगुत्तमा।\nचत्तारि सरणं पव्वज्जामि\nअरिहंत सरणं पव्वज्जामि,\nसिद्ध सरणं पव्वज्जामि,\nसाहु सरणं पव्वज्जामि,\nकेवलीपण्णत्तो धम्मो सरणं पव्वज्जामि।\n',
+        'आयो रे , आयो रे , चातुर्मास आयो रे\nआयो रे आयो चातुर्मास है आयो,छायो रे छायो मंगल अवसर -2\nमन गायो छायो , रंग अनोखा धरती गगन पर छायो\nमन ये हरखायो , गुरु गुण गायो\nआयो रे आयो...\n\nगुरु भक्ति के सारे मोती , मनका सिप जमायो,\nपूण्य प्रभा ये पूण्य ये बेला , पावन चरणें आयो,\nदेखो , आये गुरु द्वार मारे\nआये आये सुख बरसाए , आये रे\nआये आये सुख बरसाए आंगन आये रे,\nमेरा जीवन एक सागर , गुरु मेरी पतवार होवे,\nपूज्य गुरुवर कृपा करदो , मन ये मेरा पावन होवे\nआयो चातुर्मास....\n\nमंगल चरणें पावन चरणें , चातुर्मास ये आया,\nगुरु शरण मे आये प्राणी , मन है ये हर्षाया,\nगुरु का सहारा जीवन का किनारा\nगुरु वाणी अमृत ऐसो पायो पायो पायो\n\nगुरुवर मेरे पारब्रह्म है , वो ही मेरे भगवान\nजीवन पथ पे देते सहारा, वो मेरा विमान,\nगुरु गुण गाऊ, भाव मै जगाऊ\nचातुर्मास आया आया भक्ति सरगम लाया\nआयो रे....\n',
     'englishLyrics':
-        'Chattari Mangalam\nArihanta Mangalam\nSiddha Mangalam\nSahu Mangalam\nKevali Pannato Dhammo Mangalam\nChattari Log utamma\nArihanta Log uttamma\nSiddha Log uttamma\nSahu Log uttamma\nKevali Pannato Dhammo Log uttama\nChattari Saranam Pavvajjami\nArihanta Saranam Pavvajjami\nSiddha Saranam Pavvajjami\nSahu Saranam Pavvajjami\nKevali Pannato Dhammo Saranam Pavvajjami\n',
+        'Aayo Re , Aayo Re , Chaturmas Aayo Re\nAayo Re Aayo Chaturmas Hai Aayo,chaayo Re Chaayo Mangala\nAvasara -2\nMann Gaayo Chaayo , Ranga Anokhaa Dharatee Gagana Para Chaayo\nMann Ye Harakhaayo , Guru Gun Gaayo\nAayo Re Aayo...\n\nGuru Bhakti Ke Saare Motee , Mannkaa Sipa Jamaayo,\nPunya Prabhaa Ye Punya Ye Belaa , Paavana Charanen Aayo,\nDekho , Aaye Guru Dvaara Maare\nAaye Aaye Sukha Barasaae , Aaye Re\nAaye Aaye Sukha Barasaae Aangana Aaye Re,\nMeraa Jeevana Eka Saagara , Guru Meree Patavaara Hove,\nPujya Guruvara Krupaa Karado , Mann Ye Meraa Paavana Hove\nAayo Chaaturmaasa....\n\nMangala Charanen Paavana Charanen , Chaturmas Ye Aayaa,\nGuru Sharana Me Aaye Praanee , Mann Hai Ye Harshaayaa,\nGuru Kaa Sahaaraa Jeevana Kaa Kinaaraa\nGuru Vaanee Amruta Aiso Paayo Paayo Paayo\n\nGuruvara Mere paarabrahma hai, vo hee mere bhagavaana,\nJeevana patha pe dete sahaara, vo meraa vimaana,\nGuru Guna Gaau, Bhaava Mai Jagaau\nChaturmas Aayaa Aayaa Bhakti Saragama Laayaa\nAayo Re....\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Jain Media',
+    'production': 'Jainguruganesh',
     'share': 0,
-    'singer': 'Foram Prasham Shah',
-    'songNameEnglish': 'Chattari Mangalam (Chaar Sharna)',
-    'songNameHindi': 'चत्तारि मंगलं (चार शरणा)',
+    'singer': 'Darshit A Gadiya',
+    'songNameEnglish': 'Chaturmas Hai Aaya',
+    'songNameHindi': 'चातुर्मास आयो रे',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/JbuYJp5ONpg',
+    'youTubeLink': 'https://youtu.be/b768DT2qklQ',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

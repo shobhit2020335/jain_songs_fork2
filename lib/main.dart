@@ -1,13 +1,12 @@
 //TODO: Change firestore caching way.
 //TODO: Admob has changed its dependency. Change it.
-//TODO: Suggestion writing bug.
-//TODO: Suggester IMp=Portant. Give less ponits in suggestion to songs which have level 2.
+//TODO: Store suggestions data.
 //TODO Add custom notification sound
 //TODO: RSJ, neminath and vicky D parekh playlist
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
 //TODO: AUtoplay
-//TODO: Adhyatmik category, Song category not in filter but suggestion.
+//TODO: Adhyatmik category, Song category not in filter but suggestion. chaturmas, see Relatime DB.
 //TODO: Increase time of loading in dynamic linking.
 //TODO: CHeck searchify.
 //TODO: popular famous sorting.
@@ -98,7 +97,7 @@ class MainTheme extends StatelessWidget {
 
           return MaterialPageRoute(builder: (context) {
             return SongPage(
-              codeFromDynamicLink: args! ['code'],
+              codeFromDynamicLink: args!['code'],
             );
           });
         } else if (settings.name == '/playlist') {
@@ -107,7 +106,7 @@ class MainTheme extends StatelessWidget {
 
           return MaterialPageRoute(builder: (context) {
             return PlaylistPage(
-              playlistCode: args! ['code'],
+              playlistCode: args!['code'],
             );
           });
         }
