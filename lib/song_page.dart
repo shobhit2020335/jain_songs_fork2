@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 // import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
@@ -14,10 +13,9 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.dart';
+import 'package:jain_songs/youtube_player_configured/src/utils/youtube_meta_data.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
-// import 'package:mopub_flutter/mopub.dart';
-// import 'package:mopub_flutter/mopub_interstitial.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
 
@@ -84,23 +82,6 @@ class _SongPageState extends State<SongPage> {
     // );
     // _loadAdmobInterstitialAd();
 
-    if (currentSong!.youTubeLink!.length != null &&
-        currentSong!.youTubeLink!.length > 2) {
-      await NetworkHelper().checkNetworkConnection().then((value) {
-        isLinkAvail = value;
-        if (isLinkAvail == false) {
-          setState(() {
-            linkInfo = 'Please check your Internet Connection!';
-          });
-        }
-      });
-      _youtubePlayerController!
-          .load(YoutubePlayer.convertUrlToId(currentSong!.youTubeLink!)!);
-    } else {
-      isLinkAvail = false;
-      linkInfo = 'Song not available to listen.';
-    }
-
     if (songsVisited.contains(currentSong!.code) == false) {
       //TODO: Comment while debugging.
       // FireStoreHelper().changeClicks(currentSong);
@@ -137,7 +118,7 @@ class _SongPageState extends State<SongPage> {
         initialVideoId:
             YoutubePlayer.convertUrlToId(currentSong!.youTubeLink!)!,
         flags: YoutubePlayerFlags(
-          autoPlay: false,
+          autoPlay: true,
           mute: false,
           enableCaption: false,
           useHybridComposition: false,
@@ -187,7 +168,7 @@ class _SongPageState extends State<SongPage> {
             loadScreen();
           }
         } else {
-          _timerLink!.cancel();
+          _timerLink?.cancel();
           _timerLink = Timer(Duration(milliseconds: 3000), () {
             if (songList.isNotEmpty) {
               currentSong = songList.firstWhere((song) {
@@ -221,7 +202,7 @@ class _SongPageState extends State<SongPage> {
     //   _interstitialAd.dispose();
     // }
     if (_timerLink != null) {
-      _timerLink!.cancel();
+      _timerLink?.cancel();
     }
     super.dispose();
   }
@@ -331,6 +312,25 @@ class _SongPageState extends State<SongPage> {
                                     showVideoProgressIndicator: true,
                                     progressIndicatorColor: Colors.indigo,
                                     liveUIColor: Colors.indigo,
+                                    onEnded: (youtubeMetaData) {
+                                      showSimpleToast(
+                                          context, 'Playing next in 7 seconds',
+                                          duration: 7);
+                                      _timerLink?.cancel();
+                                      _timerLink = Timer(
+                                          Duration(milliseconds: 8000), () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SongPage(
+                                              currentSong:
+                                                  suggester!.suggestedSongs[0],
+                                              suggester: suggester,
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    },
                                   )
                                 : Text(
                                     linkInfo,

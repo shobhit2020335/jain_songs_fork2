@@ -428,15 +428,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   ),
                 ),
               )
-            : listToShow.isEmpty
-                ? Center(
-                    child: Text(
-                        'Stavan is under maintenance. Try again after sometime!'),
-                  )
-                : BuildList(
-                    scrollController: listScrollController,
-                    searchController: searchController,
-                  ),
+            : BuildList(
+                scrollController: listScrollController,
+                searchController: searchController,
+              ),
         FormPage(),
         BuildPlaylistList(),
         SettingsPage(),

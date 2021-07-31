@@ -5,7 +5,6 @@
 //TODO: RSJ, neminath and vicky D parekh playlist
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
-//TODO: AUtoplay
 //TODO: Adhyatmik category, Song category not in filter but suggestion. chaturmas, see Relatime DB.
 //TODO: Increase time of loading in dynamic linking.
 //TODO: CHeck searchify.
