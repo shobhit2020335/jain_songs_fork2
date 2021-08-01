@@ -23,12 +23,14 @@ class SongPage extends StatefulWidget {
   final SongDetails? currentSong;
   final PlaylistDetails? playlist;
   final Suggester? suggester;
+  final String suggestionStreak;
 
   SongPage(
       {this.currentSong,
       this.codeFromDynamicLink,
       this.playlist,
-      this.suggester});
+      this.suggester,
+      required this.suggestionStreak});
 
   @override
   _SongPageState createState() => _SongPageState();
@@ -65,7 +67,7 @@ class _SongPageState extends State<SongPage> {
   Future<void> _createInterstitialAd() async {
     await InterstitialAd.load(
       //TODO: Change this to test when debugging and vice versa.
-      adUnitId: AdManager().testInterstitialId,
+      adUnitId: AdManager().songPageinterstitialId,
       request: adRequest,
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -228,7 +230,7 @@ class _SongPageState extends State<SongPage> {
   @override
   void dispose() {
     if (_youtubePlayerController != null) {
-      _youtubePlayerController!.dispose();
+      _youtubePlayerController?.dispose();
     }
     if (_interstitialAd != null) {
       _interstitialAd?.dispose();
@@ -257,6 +259,11 @@ class _SongPageState extends State<SongPage> {
                       ListTile(
                         leading: InkWell(
                           onTap: () {
+                            print(
+                                'Press upper back onwillpop: ${widget.suggestionStreak}');
+                            FireStoreHelper().storeSuggesterStreak(
+                                '${currentSong?.code}',
+                                '${widget.suggestionStreak}');
                             Navigator.pop(context);
                           },
                           child: Icon(
@@ -353,13 +360,27 @@ class _SongPageState extends State<SongPage> {
                                           Duration(milliseconds: 8000), () {
                                         Navigator.pushReplacement(
                                           context,
-                                          MaterialPageRoute(
-                                            builder: (context) => SongPage(
-                                              currentSong:
-                                                  suggester!.suggestedSongs[0],
-                                              suggester: suggester,
-                                            ),
-                                          ),
+                                          MaterialPageRoute(builder: (context) {
+                                            return WillPopScope(
+                                              onWillPop: () async {
+                                                print(
+                                                    'Automatically changed onwillpop: ${widget.suggestionStreak}0');
+                                                FireStoreHelper()
+                                                    .storeSuggesterStreak(
+                                                        '${currentSong?.code}',
+                                                        '${widget.suggestionStreak}0');
+                                                return true;
+                                              },
+                                              child: SongPage(
+                                                currentSong: suggester!
+                                                    .suggestedSongs[0],
+                                                suggester: suggester,
+                                                suggestionStreak:
+                                                    widget.suggestionStreak +
+                                                        '0',
+                                              ),
+                                            );
+                                          }),
                                         );
                                       });
                                     },
@@ -602,12 +623,22 @@ class _SongPageState extends State<SongPage> {
       onTap: () {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => SongPage(
-              currentSong: suggester!.suggestedSongs[index],
-              suggester: suggester,
-            ),
-          ),
+          MaterialPageRoute(builder: (context) {
+            return WillPopScope(
+              onWillPop: () async {
+                print(
+                    'selected another suggestion onwillpop: ${widget.suggestionStreak}$index');
+                FireStoreHelper().storeSuggesterStreak(
+                    '${currentSong?.code}', '${widget.suggestionStreak}$index');
+                return true;
+              },
+              child: SongPage(
+                currentSong: suggester!.suggestedSongs[index],
+                suggester: suggester,
+                suggestionStreak: widget.suggestionStreak + '$index',
+              ),
+            );
+          }),
         );
       },
       child: ListTile(

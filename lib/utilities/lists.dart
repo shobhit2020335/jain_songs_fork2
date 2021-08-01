@@ -94,12 +94,16 @@ Future<void> applyFilter() async {
       }
     }
 
-    FireStoreHelper().userSelectedFilters(userFilters);
+    //Disabled storing of user filters for now.
+    // FireStoreHelper().userSelectedFilters(userFilters);
 
     for (int i = 0; i < n; i++) {
       bool toAdd = true;
       for (int j = 0; j < genreSelected.length; j++) {
-        if (sortedSongList[i]!.genre!.toLowerCase().contains(genreSelected[j]) ==
+        if (sortedSongList[i]!
+                .genre!
+                .toLowerCase()
+                .contains(genreSelected[j]) ==
             true) {
           toAdd = true;
           break;

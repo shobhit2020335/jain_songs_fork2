@@ -21,39 +21,12 @@ class BuildRow extends StatefulWidget {
 }
 
 class _BuildRowState extends State<BuildRow> {
-  //Below full code is for Mopub.
-  // MoPubInterstitialAd interstitialAd;
-
-  // void _loadMopubInterstitialAd() async {
-  //   interstitialAd = MoPubInterstitialAd(
-  //     '7e9b62190a1f4a6ab748342e6dd012a6',
-  //     (result, args) {
-  //       print('Interstitial $result');
-  //     },
-  //     reloadOnClosed: true,
-  //   );
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   try {
-  //     MoPub.init('7e9b62190a1f4a6ab748342e6dd012a6', testMode: false).then((_) {
-  //       _loadMopubInterstitialAd();
-  //     });
-  //   } on PlatformException {}
-  // }
-
-  // @override
-  // void dispose() {
-  //   interstitialAd.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
+    //This is for storing suggester streak data in firestore.
+    String isFromPlaylist = widget.playlist != null ? '1' : '0';
     SongDetails currentSong = widget.currentSong!;
+
     return ListTileTheme(
       selectedColor: Colors.blue[300],
       style: ListTileStyle.drawer,
@@ -91,13 +64,22 @@ class _BuildRowState extends State<BuildRow> {
         onTap: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => SongPage(
-                currentSong: currentSong,
-                playlist: widget.playlist,
-                // interstitialAd: interstitialAd,
-              ),
-            ),
+            MaterialPageRoute(builder: (context) {
+              return WillPopScope(
+                onWillPop: () async {
+                  print(
+                      'BuildRow onwillpop: $isFromPlaylist${currentSong.code}');
+                  FireStoreHelper().storeSuggesterStreak('${currentSong.code}',
+                      '$isFromPlaylist${currentSong.code}');
+                  return true;
+                },
+                child: SongPage(
+                  currentSong: currentSong,
+                  playlist: widget.playlist,
+                  suggestionStreak: '$isFromPlaylist' + currentSong.code!,
+                ),
+              );
+            }),
           );
           setState(() {});
         },

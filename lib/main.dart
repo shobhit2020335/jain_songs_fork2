@@ -45,6 +45,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -91,8 +92,17 @@ class MainTheme extends StatelessWidget {
               settings.arguments as Map<String, dynamic>?;
 
           return MaterialPageRoute(builder: (context) {
-            return SongPage(
-              codeFromDynamicLink: args!['code'],
+            return WillPopScope(
+              onWillPop: () async {
+                print('dynamic link onwillpop: -1${args!['code']}');
+                FireStoreHelper()
+                    .storeSuggesterStreak(args['code'], '-1${args['code']}');
+                return true;
+              },
+              child: SongPage(
+                codeFromDynamicLink: args!['code'],
+                suggestionStreak: '-1' + args['code'],
+              ),
             );
           });
         } else if (settings.name == '/playlist') {

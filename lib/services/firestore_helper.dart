@@ -12,6 +12,7 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:jain_songs/youtube_player_configured/src/enums/player_state.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -42,14 +43,42 @@ class FireStoreHelper {
     }
 
     //TODO: Comment while debugging.
-    // final DatabaseReference databaseReference =
-    //     FirebaseDatabase.instance.reference();
-    // databaseReference
-    //     .child("userBehaviour")
-    //     .child("filters")
-    //     .push()
-    //     .set(userFilters.toMap());
+    final DatabaseReference databaseReference =
+        FirebaseDatabase.instance.reference();
+    databaseReference
+        .child("userBehaviour")
+        .child("filters")
+        .push()
+        .set(userFilters.toMap());
   }
+
+  //Stores the suggestion streak of the user in realtime DB not working so commented.
+  // Future<void> storeUserSuggestionStreak(String streak) async {
+  //   if (streak == null || streak.trim().length == 0) {
+  //     return;
+  //   }
+  //   bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+  //   if (isInternetConnected == false) {
+  //     return;
+  //   }
+
+  //   final DatabaseReference databaseReference =
+  //       FirebaseDatabase.instance.reference();
+  //   String? playerId = await SharedPrefs.getOneSignalPlayerId();
+  //   if (playerId == null) {
+  //     playerId = await FirebaseFCMManager.getFCMToken();
+  //   }
+  //   print('Passed this');
+  //   databaseReference
+  //       .child("userBehaviour")
+  //       .child("suggester")
+  //       .push()
+  //       .set({
+  //         '$playerId': '$streak',
+  //       })
+  //       .then((value) => print('Nikla'))
+  //       .onError((error, stackTrace) => print('Error: $error & $stackTrace'));
+  // }
 
   Future<void> fetchDaysAndVersion() async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
@@ -204,10 +233,9 @@ class FireStoreHelper {
     }
   }
 
-  Future<void> addSuggestions(
-      BuildContext context, SongSuggestions songSuggestion) async {
+  Future<void> addSuggestions(SongSuggestions songSuggestion) async {
     String suggestionUID = removeWhiteSpaces(songSuggestion.songName).trim() +
-        randomAlphaNumeric(6).trim();
+        randomAlphaNumeric(8).trim();
 
     String? fcmToken = await FirebaseFCMManager.getFCMToken();
     songSuggestion.setFCMToken(fcmToken);
@@ -215,6 +243,28 @@ class FireStoreHelper {
     String? playerId = await SharedPrefs.getOneSignalPlayerId();
     songSuggestion.setOneSignalPlayerId(playerId);
 
+    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+  }
+
+  Future<void> storeSuggesterStreak(
+      String songCode, String suggestionStreak) async {
+    String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
+        randomAlphaNumeric(6).trim();
+
+    SongSuggestions songSuggestion = SongSuggestions(
+        'Suggestion Streak',
+        '${suggestionStreak[0]}',
+        '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
+        '${songsVisited.toList()}',
+        '$suggestionStreak');
+
+    String? fcmToken = await FirebaseFCMManager.getFCMToken();
+    songSuggestion.setFCMToken(fcmToken);
+
+    String? playerId = await SharedPrefs.getOneSignalPlayerId();
+    songSuggestion.setOneSignalPlayerId(playerId);
+
+    //TODO: Uncomment this before launching.
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 

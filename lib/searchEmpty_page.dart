@@ -59,8 +59,7 @@ class SearchEmpty extends StatelessWidget {
                           "What user tried to search is given in otherDetails.",
                           searchController.text,
                         );
-                        FireStoreHelper()
-                            .addSuggestions(context, currentSongSuggestion);
+                        FireStoreHelper().addSuggestions(currentSongSuggestion);
 
                         nameController.clear();
                       } else {

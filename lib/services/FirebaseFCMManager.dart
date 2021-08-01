@@ -41,8 +41,13 @@ class FirebaseFCMManager {
   }
 
   static Future<String?> getFCMToken() async {
-    String? fcmToken = await FirebaseMessaging.instance.getToken();
-
+    String? fcmToken = 'null';
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } catch (e) {
+      print('Error fetching FCM token: $e');
+      fcmToken = 'null';
+    }
     return fcmToken;
   }
 

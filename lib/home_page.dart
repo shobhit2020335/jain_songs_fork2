@@ -9,7 +9,6 @@ import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
-// import 'package:jain_songs/keyboard_visibility_configured/keyboard_visibility.dart';
 import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
@@ -230,7 +229,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           "What user tried to search is given in otherDetails.",
           '',
         );
-        FireStoreHelper().addSuggestions(context, currentSongSuggestion);
+        FireStoreHelper().addSuggestions(currentSongSuggestion);
       }
     });
   }
