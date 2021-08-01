@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
-import 'package:jain_songs/services/Suggester.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,26 +21,22 @@ class _PlaylistPageState extends State<PlaylistPage> {
   Timer? _timerLink;
   PlaylistDetails? currentPlaylist;
 
-  void getSongs() async {
-    setState(() {
-      showProgress = true;
-    });
-    await FireStoreHelper().getPopularSongs();
+  // void getSongs() async {
+  //   setState(() {
+  //     showProgress = true;
+  //   });
+  //   await FireStoreHelper().getPopularSongs();
 
+  //   setState(() {
+  //     showProgress = false;
+  //   });
+  // }
+
+  void setUpPlaylistDetails() {
+    addElementsToList(currentPlaylist!.playlistTag);
     setState(() {
       showProgress = false;
     });
-  }
-
-  void setUpPlaylistDetails() {
-    if (currentPlaylist!.playlistTag.contains('popular')) {
-      getSongs();
-    } else {
-      addElementsToList(currentPlaylist!.playlistTag);
-      setState(() {
-        showProgress = false;
-      });
-    }
   }
 
   @override

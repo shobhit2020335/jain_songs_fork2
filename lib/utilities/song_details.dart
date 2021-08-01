@@ -30,7 +30,6 @@ class SongDetails {
 
   SongDetails({
     this.album,
-    //TODO: Check this.
     this.category: "",
     this.code,
     this.genre: '',

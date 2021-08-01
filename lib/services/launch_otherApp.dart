@@ -1,7 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_info/device_info.dart';

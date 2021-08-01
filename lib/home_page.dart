@@ -417,7 +417,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         },
       ),
       body: <Widget>[
-        //TODO: Test this along with searching and mic.
         showProgress
             ? Container(
                 child: Center(

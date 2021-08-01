@@ -1,10 +1,8 @@
 //TODO: Change firestore caching way.
-//TODO: Store suggestions data.
 //TODO Add custom notification sound
-//TODO: RSJ, neminath and vicky D parekh playlist
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
-//TODO: Adhyatmik category, Song category not in filter but suggestion. chaturmas, see Relatime DB.
+//TODO: see Relatime DB.
 //TODO: CHeck searchify.
 //TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
@@ -12,7 +10,6 @@
 //TODO: speaking jai jinendra
 //TODO: Streaming audio.
 //TODO: Paryushan related images.
-//TODO: Bhakti Special contains popular songs.
 //TODO: New tirthankar, categories.
 //TODO: Jain Dict
 //TODO: set Rigtone option.
@@ -21,11 +18,10 @@
 //TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
 //TODO: Subscripition
 //TODO: In App rating
-//TODO: starting playback time.
+//TODO: starting playback time in YT player.
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
-//TODO: youTube miniplayer- Make beautiful
-//TODO: different ads than banner ads (native ads).
+//TODO: different ads than interstitial ads (native ads).
 //TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
@@ -49,7 +45,6 @@ import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
 //This is used by OneSignal to open page.

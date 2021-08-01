@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -18,7 +17,7 @@ String welcomeMessage = 'Jai Jinendra';
 bool fromCache = false;
 
 //TODO: update app version for new app.
-double appVersion = 1.22;
+double appVersion = 1.23;
 double? fetchedVersion;
 //Anonymous user's variable.
 UserCredential? userCredential;
@@ -34,9 +33,12 @@ List<Filters> filtersAll = [
   Filters('genre', 'Paryushan', color: Colors.green),
   Filters('genre', 'Diksha', color: Colors.green),
   Filters('genre', 'Tapasya', color: Colors.green),
-  Filters('genre', 'Navkar Mantra', color: Colors.green),
-  Filters('genre', 'Bollywood', color: Colors.green),
+  Filters('genre', 'Chaturmas', color: Colors.green),
   Filters('genre', 'Palitana', color: Colors.green),
+  Filters('genre', 'Girnar', color: Colors.green),
+  Filters('genre', 'Jin Shashan', color: Colors.green),
+  Filters('genre', 'Navkar Mantra', color: Colors.green),
+  // Filters('genre', 'Bollywood', color: Colors.green),
   Filters('genre', 'Latest', color: Colors.green),
   Filters('genre', 'Janam Kalyanak', color: Colors.green),
   Filters('tirthankar', '24', color: Colors.redAccent),
@@ -45,6 +47,7 @@ List<Filters> filtersAll = [
   Filters('tirthankar', 'Adinath', color: Colors.redAccent),
   Filters('tirthankar', 'Adeshwar', color: Colors.redAccent),
   Filters('tirthankar', 'Neminath', color: Colors.redAccent),
+  // Filters('tirthankar', 'Sumtinath', color: Colors.redAccent),
   Filters('tirthankar', 'Bhikshu', color: Colors.redAccent),
   Filters('tirthankar', 'Nakoda', color: Colors.redAccent),
   Filters('tirthankar', 'Shanti Gurudev', color: Colors.redAccent),
@@ -52,7 +55,8 @@ List<Filters> filtersAll = [
   Filters('tirthankar', 'Shantinath', color: Colors.redAccent),
   Filters('category', 'Bhakti', color: Colors.amber),
   Filters('category', 'Stavan', color: Colors.amber),
-  Filters('category', 'Stuti', color: Colors.amber),
+  Filters('category', 'Adhyatmik', color: Colors.amber),
+  // Filters('category', 'Stuti', color: Colors.amber),
   Filters('category', 'Garba', color: Colors.amber),
   Filters('category', 'Aarti', color: Colors.amber),
   Filters('category', 'Stotra', color: Colors.amber),
@@ -223,14 +227,14 @@ void addElementsToList(String playlistTag) {
     }
   }
   //This is for popular playlist.
-  //This code below is disabled. Popular songs are directly queried now.
   else if (playlistTag.contains('popular')) {
     for (int i = 0; i < songList.length; i++) {
-      if (songList[i]!.popularity! > 24 && songList[i]!.likes! > 2) {
+      if (songList[i]!.popularity! > 80 && songList[i]!.likes! > 5) {
         listToShow.add(songList[i]);
       }
     }
     listToShow.sort(popularityComparison);
+    listToShow = listToShow.take(30).toList();
   }
   //This is for bhakti special playlist.
   else if (playlistTag.contains('bhakti')) {
@@ -250,12 +254,14 @@ void addElementsToList(String playlistTag) {
       }
     }
   }
-  //This is Tirthankar, diksha and paryushan playlist
+  //This is Tirthankar, diksha, singer and paryushan playlist
   else {
     for (int i = 0; i < songList.length; i++) {
       if (songList[i]!.tirthankar!.toLowerCase().contains(playlistTag)) {
         listToShow.add(songList[i]);
       } else if (songList[i]!.genre!.toLowerCase().contains(playlistTag)) {
+        listToShow.add(songList[i]);
+      } else if (songList[i]!.singer!.toLowerCase().contains(playlistTag)) {
         listToShow.add(songList[i]);
       }
     }
@@ -316,11 +322,39 @@ List<PlaylistDetails?> playlistList = [
   PlaylistDetails(
     active: true,
     title: 'Bhakti Special',
-    subtitle: 'All time Favourite Bhakti.',
+    subtitle: 'All time Favourite Bhakti',
     playlistTag: 'bhakti',
     playlistTagType: 'category',
     leadIcon: Icons.ac_unit,
     color: Colors.redAccent,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Paryushan Stavans',
+    subtitle: 'Paryushan Mahaparv Playlist',
+    playlistTag: 'paryushan',
+    playlistTagType: 'genre',
+    leadIcon: FontAwesomeIcons.pray,
+    iconSize: 32,
+    color: Colors.lime,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Vicky Parekh Hits',
+    subtitle: "Vicky Parekh's best songs",
+    playlistTag: 'vicky',
+    playlistTagType: 'singer',
+    leadIcon: Icons.music_note_rounded,
+    color: Colors.indigo,
+  ),
+  PlaylistDetails(
+    active: true,
+    title: 'Rishabh Sambhav Jain Hits',
+    subtitle: "RSJ's best songs",
+    playlistTag: 'rsj',
+    playlistTagType: 'singer',
+    leadIcon: Icons.music_note_rounded,
+    color: Colors.indigo,
   ),
   PlaylistDetails(
     active: true,
@@ -341,16 +375,7 @@ List<PlaylistDetails?> playlistList = [
     iconSize: 40,
     color: Colors.teal,
   ),
-  PlaylistDetails(
-    active: true,
-    title: 'Paryushan Stavans',
-    subtitle: 'Paryushan Mahaparv Playlist',
-    playlistTag: 'paryushan',
-    playlistTagType: 'genre',
-    leadIcon: FontAwesomeIcons.pray,
-    iconSize: 32,
-    color: Colors.lime,
-  ),
+
   PlaylistDetails(
     active: true,
     title: 'Diksha Stavans',

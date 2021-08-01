@@ -12,7 +12,6 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:jain_songs/youtube_player_configured/src/enums/player_state.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -171,18 +170,17 @@ class FireStoreHelper {
     _trace2.stop();
   }
 
-  //TODO: Reduce reads here
-  Future<void> getPopularSongs() async {
-    listToShow.clear();
-    QuerySnapshot songs;
-    songs = await _firestore
-        .collection('songs')
-        .orderBy('popularity', descending: true)
-        .limit(30)
-        .get();
+  // Future<void> getPopularSongs() async {
+  //   listToShow.clear();
+  //   QuerySnapshot songs;
+  //   songs = await _firestore
+  //       .collection('songs')
+  //       .orderBy('popularity', descending: true)
+  //       .limit(30)
+  //       .get();
 
-    await _readFetchedSongs(songs, listToShow);
-  }
+  //   await _readFetchedSongs(songs, listToShow);
+  // }
 
   Future<void> _readFetchedSongs(
       QuerySnapshot songs, List<SongDetails?> listToAdd) async {
