@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:ui';
-// import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
@@ -13,7 +13,6 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.dart';
-import 'package:jain_songs/youtube_player_configured/src/utils/youtube_meta_data.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
 import 'custom_widgets/constantWidgets.dart';
@@ -24,7 +23,6 @@ class SongPage extends StatefulWidget {
   final SongDetails? currentSong;
   final PlaylistDetails? playlist;
   final Suggester? suggester;
-  // final MoPubInterstitialAd interstitialAd;
 
   SongPage(
       {this.currentSong,
@@ -37,10 +35,10 @@ class SongPage extends StatefulWidget {
 }
 
 class _SongPageState extends State<SongPage> {
-  // InterstitialAd _interstitialAd;
   SongDetails? currentSong;
   bool showProgress = true;
   Timer? _timerLink;
+  InterstitialAd? _interstitialAd;
 
   //Variable for suggestion, it initializes only when a song is opened from out.
   Suggester? suggester;
@@ -58,29 +56,60 @@ class _SongPageState extends State<SongPage> {
   String linkInfo = '';
   YoutubePlayerController? _youtubePlayerController;
 
-  // void _loadAdmobInterstitialAd() {
-  //   _interstitialAd = _interstitialAd
-  //     ..load()
-  //     ..show(
-  //       anchorType: AnchorType.bottom,
-  //       anchorOffset: 0.0,
-  //       horizontalCenterOffset: 0.0,
-  //     );
-  // }
+  //This is for admob to understand the content in the app. Two more arguements
+  //are there but i have not updated them.
+  AdRequest adRequest = AdRequest(
+    keywords: ['song', 'interstitial'],
+  );
+
+  Future<void> _createInterstitialAd() async {
+    await InterstitialAd.load(
+      //TODO: Change this to test when debugging and vice versa.
+      adUnitId: AdManager().testInterstitialId,
+      request: adRequest,
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          print('$ad Ad Loaded');
+          _interstitialAd = ad;
+          //show ad is called just after the ad is loaded.
+          _showInterstitialAd();
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          print('Interstitial ad load failed: $error');
+          _interstitialAd = null;
+          //TODO: Can add recursive function to load ad again when failed,
+          //see admob flutter pub dev for this.
+        },
+      ),
+    );
+  }
+
+  void _showInterstitialAd() {
+    if (_interstitialAd == null) {
+      print('Null interstital Ad while showing');
+      return;
+    }
+    //TODO: Can again load ad after it is dismissed or failed.
+    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('Ad onShowedFullScreenContent'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad Ad onDismissedFullScreenContent');
+        ad.dispose();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError e) {
+        print('$ad Ad onAdFailedFullScreenContent: $e');
+        ad.dispose();
+      },
+    );
+    _interstitialAd!.show();
+    _interstitialAd = null;
+  }
 
   void setUpSongDetails() async {
     setState(() {
       showProgress = true;
     });
-
-    //Below code is for admob ads.
-    // _interstitialAd = InterstitialAd(
-    //   adUnitId: AdManager().songPageinterstitialId,
-    //   listener: (MobileAdEvent event) {
-    //     print("InterstitialAd event is $event");
-    //   },
-    // );
-    // _loadAdmobInterstitialAd();
 
     if (songsVisited.contains(currentSong!.code) == false) {
       //TODO: Comment while debugging.
@@ -105,6 +134,9 @@ class _SongPageState extends State<SongPage> {
   }
 
   void loadScreen() async {
+    //Below code is for admob interstitial ads.
+    _createInterstitialAd();
+
     if (currentSong!.youTubeLink!.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
@@ -198,9 +230,9 @@ class _SongPageState extends State<SongPage> {
     if (_youtubePlayerController != null) {
       _youtubePlayerController!.dispose();
     }
-    // if (_interstitialAd != null) {
-    //   _interstitialAd.dispose();
-    // }
+    if (_interstitialAd != null) {
+      _interstitialAd?.dispose();
+    }
     if (_timerLink != null) {
       _timerLink?.cancel();
     }

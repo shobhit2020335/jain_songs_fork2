@@ -44,6 +44,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/uisettings.dart';
@@ -52,6 +53,7 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'ads/ad_manager.dart';
 import 'home_page.dart';
 
+//This is used by OneSignal to open page.
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() async {
@@ -72,17 +74,13 @@ void main() async {
       initializationSettings,
       onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
+  MobileAds.instance.initialize();
   runApp(MainTheme());
   secureScreen();
   //Initialising AdMob.
-  // _initAdMob();
+
   songsVisited.clear();
 }
-
-// Future<void> _initAdMob() {
-//   //Initialize AdMob SDK
-//   return FirebaseAdMob.instance.initialize(appId: AdManager().appId);
-// }
 
 class MainTheme extends StatelessWidget {
   @override
