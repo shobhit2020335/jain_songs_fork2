@@ -1,16 +1,14 @@
 //TODO: Change firestore caching way.
-//TODO: Admob has changed its dependency. Change it.
 //TODO: Store suggestions data.
 //TODO Add custom notification sound
 //TODO: RSJ, neminath and vicky D parekh playlist
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
 //TODO: Adhyatmik category, Song category not in filter but suggestion. chaturmas, see Relatime DB.
-//TODO: Increase time of loading in dynamic linking.
 //TODO: CHeck searchify.
-//TODO: popular famous sorting.
+//TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
-//TODO: Change UI acc to manu.
+//TODO: Change UI acc to manu, add stories on first page.
 //TODO: speaking jai jinendra
 //TODO: Streaming audio.
 //TODO: Paryushan related images.
