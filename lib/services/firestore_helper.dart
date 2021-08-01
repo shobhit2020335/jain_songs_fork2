@@ -262,8 +262,8 @@ class FireStoreHelper {
     String? playerId = await SharedPrefs.getOneSignalPlayerId();
     songSuggestion.setOneSignalPlayerId(playerId);
 
-    //TODO: Uncomment this before launching.
-    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+    //TODO: Comment while debugging.
+    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<void> changeClicks(SongDetails currentSong) async {
