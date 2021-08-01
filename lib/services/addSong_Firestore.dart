@@ -9,6 +9,8 @@ void main() async {
 
   AddSong currentSong = AddSong();
 
+  // currentSong.deleteSuggestion('chalomanagangs C0ww80');
+
   //This automatically creates searchKeywords from song details.
   currentSong.mainSearchKeywords();
 
@@ -19,50 +21,58 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('ASDIJK',
-      englishName: 'भगवन तुम्हारे चरणों में',
-      hindiName: 'Nemnath Bhagwan Tumhare Charno Me',
-      originalSong: 'नेमनाथ भगवन तुम्हारे चरणों में',
+  currentSong.extraSearchKeywords('CAR',
+      englishName: 'chaturyamas chaturymas',
+      hindiName: '',
+      originalSong: '',
       album: '',
       tirthankar: '',
       extra1: '',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् mahavir jayanti स्तोत्र નેમિનાથ नेमिनाथ
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
   //शत्रुंजय shatrunjay पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
   //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 }
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'ASDIJK',
+    'code': 'CAR',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': '',
+    'genre': 'Chaturmas',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Marwadi',
     'likes': 0,
     'lyrics':
-        'अब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में…\nनेमनाथ तुम्हारे चरणों में…\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nमेरा निश्चय प्रभु बस एक वही\nमैं तुम चरणों का पुजारी बनु\nअर्पण कर दू दुनिया भर का (2)\nसब प्यार तुम्हारे चरणों में\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nजहा तक संसार में भ्रमण करू\nतुज चरणों में जीवन को धरु (२)\nतुम स्वामी , मैं सेवक तेरा (२)\nधरु ध्यान तुम्हारे चरणों में…\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\nमेरी इच्छा प्रभु बस एक वही\nएक बार तुझे मैं मिल जाऊ\nइस सेवक की हर रग रग का\nहो तार तुम्हारे हाथो में\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\n\nमैं हु शरणागत प्रभु तेरा\nरहे ध्यान तुम्हारे चरणों में\nअब सौप दिया इस जीवन को\nभगवन तुम्हारे चरणों में\nनेमनाथ तुम्हारे चरणों में…\nनेमनाथ तुम्हारे चरणों में…\n',
+        'आयो रे , आयो रे , चातुर्मास आयो रे\nआयो रे आयो चातुर्मास है आयो,छायो रे छायो मंगल अवसर -2\nमन गायो छायो , रंग अनोखा धरती गगन पर छायो\nमन ये हरखायो , गुरु गुण गायो\nआयो रे आयो...\n\nगुरु भक्ति के सारे मोती , मनका सिप जमायो,\nपूण्य प्रभा ये पूण्य ये बेला , पावन चरणें आयो,\nदेखो , आये गुरु द्वार मारे\nआये आये सुख बरसाए , आये रे\nआये आये सुख बरसाए आंगन आये रे,\nमेरा जीवन एक सागर , गुरु मेरी पतवार होवे,\nपूज्य गुरुवर कृपा करदो , मन ये मेरा पावन होवे\nआयो चातुर्मास....\n\nमंगल चरणें पावन चरणें , चातुर्मास ये आया,\nगुरु शरण मे आये प्राणी , मन है ये हर्षाया,\nगुरु का सहारा जीवन का किनारा\nगुरु वाणी अमृत ऐसो पायो पायो पायो\n\nगुरुवर मेरे पारब्रह्म है , वो ही मेरे भगवान\nजीवन पथ पे देते सहारा, वो मेरा विमान,\nगुरु गुण गाऊ, भाव मै जगाऊ\nचातुर्मास आया आया भक्ति सरगम लाया\nआयो रे....\n',
     'englishLyrics':
-        'Ab Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me…\nNemnath Tumhare Charno Me…\nMain Hu Sharanagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nMera Nischay Prabhu Bus Ek Wahi\nMain Tum Charno Ka Pujari Banu\nArpan Kar Du Duniya Bhar Ka (2)\nSab Pyaar Tumhare Charno Me\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nJaha Tak Sansaar Me Bhraman Karu..\nTuj Charno Me Jeevan Ko Dharu..\nTum Swami, Main Sevak Tera…(2)\nDharu Dhyaan Tumhare Charno Me…\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\n\nMeri Icha Prabhu Bus Ek Wahi\nEk Baar Tujhe Main Mil Jaau\nIs Sevak Ki Har Rag Rag Ka\nHo Taar Tumhaare Haatho Me\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhaare Charno Me\n\nMain Hu Sharnagat Prabhu Tera\nRahe Dhyaan Tumhare Charno Me\nAb Saup Diya Is Jeevan Ko\nBhagwan Tumhare Charno Me\nNemnath Tumhare Charno Me..\nNemnath Tumhare Charno Me…\n',
+        'Aayo Re , Aayo Re , Chaturmas Aayo Re\nAayo Re Aayo Chaturmas Hai Aayo,chaayo Re Chaayo Mangala\nAvasara -2\nMann Gaayo Chaayo , Ranga Anokhaa Dharatee Gagana Para Chaayo\nMann Ye Harakhaayo , Guru Gun Gaayo\nAayo Re Aayo...\n\nGuru Bhakti Ke Saare Motee , Mannkaa Sipa Jamaayo,\nPunya Prabhaa Ye Punya Ye Belaa , Paavana Charanen Aayo,\nDekho , Aaye Guru Dvaara Maare\nAaye Aaye Sukha Barasaae , Aaye Re\nAaye Aaye Sukha Barasaae Aangana Aaye Re,\nMeraa Jeevana Eka Saagara , Guru Meree Patavaara Hove,\nPujya Guruvara Krupaa Karado , Mann Ye Meraa Paavana Hove\nAayo Chaaturmaasa....\n\nMangala Charanen Paavana Charanen , Chaturmas Ye Aayaa,\nGuru Sharana Me Aaye Praanee , Mann Hai Ye Harshaayaa,\nGuru Kaa Sahaaraa Jeevana Kaa Kinaaraa\nGuru Vaanee Amruta Aiso Paayo Paayo Paayo\n\nGuruvara Mere paarabrahma hai, vo hee mere bhagavaana,\nJeevana patha pe dete sahaara, vo meraa vimaana,\nGuru Guna Gaau, Bhaava Mai Jagaau\nChaturmas Aayaa Aayaa Bhakti Saragama Laayaa\nAayo Re....\n',
     'originalSong': '',
     'popularity': 0,
-    'production': '',
+    'production': 'Jainguruganesh',
     'share': 0,
-    'singer': 'Paras Gada',
-    'songNameEnglish': 'Ab Saup Diya Is Jeevan Ko',
-    'songNameHindi': 'अब सौप दिया इस जीवन को',
-    'tirthankar': 'Neminath Swami',
+    'singer': 'Darshit A Gadiya',
+    'songNameEnglish': 'Chaturmas Hai Aaya',
+    'songNameHindi': 'चातुर्मास आयो रे',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/PcegrJIhLAM',
+    'youTubeLink': 'https://youtu.be/b768DT2qklQ',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
+  CollectionReference suggestion =
+      FirebaseFirestore.instance.collection('suggestions');
 
   String searchKeywords = '';
+
+  Future<void> deleteSuggestion(String uid) async {
+    return suggestion.doc(uid).delete().then((value) {
+      print('Deleted Successfully');
+    });
+  }
 
   Future<void> addToFirestore() async {
     return songs.doc(currentSongMap['code']).set(currentSongMap);
@@ -94,8 +104,10 @@ class AddSong {
     String extra2: '',
     String extra3: '',
   }) {
-    searchKeywords = searchKeywords.toLowerCase() + englishName + hindiName;
+    searchKeywords =
+        searchKeywords.toLowerCase() + ' ' + englishName + ' ' + hindiName;
     searchKeywords = searchKeywords +
+        ' ' +
         currentSongMap['songNameHindi'] +
         ' ' +
         currentSongMap['originalSong'] +

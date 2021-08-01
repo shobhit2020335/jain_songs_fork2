@@ -4,19 +4,21 @@ class PlaylistDetails {
   String title;
   String subtitle;
   String playlistTag;
+  String playlistTagType;
   IconData leadIcon;
-  Color color;
+  Color? color;
   double iconSize;
   //Active determines that whether the playlist is currently active or not.
   //Eg. Paryushan playlist is active only in paryushan.
   bool active;
 
   PlaylistDetails({
-    this.active,
-    this.title,
-    this.subtitle,
-    this.playlistTag,
-    this.leadIcon,
+    this.active: true,
+    /*required*/ required this.title,
+    /*required*/ required this.subtitle,
+    this.playlistTag: '',
+    this.playlistTagType: '',
+    /*required*/ required this.leadIcon,
     this.iconSize: 30,
     this.color: Colors.cyan,
   });

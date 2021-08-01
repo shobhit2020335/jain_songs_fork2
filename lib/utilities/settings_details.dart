@@ -4,8 +4,8 @@ class SettingsDetails {
   String information;
 
   SettingsDetails({
-    this.title,
-    this.subtitle,
-    this.information,
+    required this.title,
+    required this.subtitle,
+    required this.information,
   });
 }

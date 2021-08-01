@@ -197,7 +197,7 @@ class _FormPageState extends State<FormPage> {
                       );
                     } else {
                       await FireStoreHelper()
-                          .addSuggestions(context, currentSongSuggestion);
+                          .addSuggestions(currentSongSuggestion);
                       nameController.clear();
                       emailController.clear();
                       songController.clear();

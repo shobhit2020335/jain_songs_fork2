@@ -3,6 +3,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
@@ -12,13 +13,13 @@ import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/oneSignal_notification.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,11 +30,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
   int _currentIndex = 0;
-  Timer _timerLink;
+  Timer? _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
-  KeyboardVisibilityNotification _keyboardVisibilityNotification =
-      KeyboardVisibilityNotification();
+  KeyboardVisibilityController _keyboardVisibilityController =
+      KeyboardVisibilityController();
+  // KeyboardVisibilityNotification _keyboardVisibilityNotification =
+  //     KeyboardVisibilityNotification();
   bool isBasicSearchEmpty = false;
   bool showProgress = false;
   Widget appBarTitle = mainAppTitle();
@@ -84,17 +87,31 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       isBasicSearchEmpty = Searchify().basicSearch(query);
     } else {
       await NetworkHelper().changeDateAndVersion();
-      if (fetchedVersion > appVersion) {
+      if (fetchedVersion! > appVersion) {
         setState(() {
           showUpdateDialog(context);
         });
       }
       bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-      if (totalDays > fetchedDays && isInternetConnected) {
+      if (totalDays > fetchedDays! && isInternetConnected) {
         fetchedDays = totalDays;
-        await FireStoreHelper().dailyUpdate();
+        try {
+          await FireStoreHelper().dailyUpdate();
+        } catch (e) {
+          print(e);
+          setState(() {
+            showProgress = false;
+          });
+        }
       } else {
-        await FireStoreHelper().getSongs();
+        try {
+          await FireStoreHelper().getSongs();
+        } catch (e) {
+          print(e);
+          setState(() {
+            showProgress = false;
+          });
+        }
       }
       addElementsToList('home');
     }
@@ -179,10 +196,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
     FirebaseDynamicLinkService.retrieveDynamicLink(context);
+    OneSignalNotification().initOneSignal();
 
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
 
     FirebaseFCMManager.handleFCMRecieved(context);
+
     // AdManager.initializeFBAds();
 
     speechToText.initialize(onError: (error) {
@@ -194,12 +213,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       });
     }).then((value) {
       setState(() {});
-    }).onError((error, stackTrace) {
+    }).onError((dynamic error, stackTrace) {
       print('Error loading. $error & $stackTrace');
     });
 
-    _keyboardVisibilityNotification.addNewListener(onHide: () {
-      if (isBasicSearchEmpty && searchController.text.length > 4) {
+    _keyboardVisibilityController.onChange.listen((isVisible) {
+      if (!isVisible &&
+          isBasicSearchEmpty &&
+          searchController.text.length > 3) {
         isBasicSearchEmpty = false;
         SongSuggestions currentSongSuggestion = SongSuggestions(
           "Got from search",
@@ -208,7 +229,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           "What user tried to search is given in otherDetails.",
           '',
         );
-        FireStoreHelper().addSuggestions(context, currentSongSuggestion);
+        FireStoreHelper().addSuggestions(currentSongSuggestion);
       }
     });
   }
@@ -216,11 +237,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     searchController.clear();
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     if (_timerLink != null) {
-      _timerLink.cancel();
+      _timerLink!.cancel();
     }
-    _keyboardVisibilityNotification.dispose();
+    // _keyboardVisibilityNotification.dispose();
     super.dispose();
   }
 
@@ -289,7 +310,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             getSongs(searchController.text, false);
                             isListening = false;
                           });
-                        }).onError((error, stackTrace) {
+                        }).onError((dynamic error, stackTrace) {
                           setState(() {
                             isListening = false;
                           });
@@ -396,11 +417,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         },
       ),
       body: <Widget>[
-        BuildList(
-          showProgress: showProgress,
-          scrollController: listScrollController,
-          searchController: searchController,
-        ),
+        showProgress
+            ? Container(
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    backgroundColor: Colors.indigo,
+                  ),
+                ),
+              )
+            : BuildList(
+                scrollController: listScrollController,
+                searchController: searchController,
+              ),
         FormPage(),
         BuildPlaylistList(),
         SettingsPage(),

@@ -1,7 +1,6 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_info/device_info.dart';
@@ -34,12 +33,14 @@ String urlBeforeCode =
 String urlAfterCode =
     '&apn=com.JainDevelopers.jain_songs&amv=4&st=Stavan+-+Jain+Bhajan+with+Lyrics&sd=Listen+to+Jain+stavan+along+with+lyrics.&si=https://pbs.twimg.com/media/EfXqpDHUwAAVQHa.jpg';
 
-void shareApp(String name, String code) async {
-  await FlutterShare.share(
-    title: 'Google Play link',
-    text: 'Find lyrics and listen to *$name* and other *Jain bhajans* on:',
-    linkUrl: '$urlBeforeCode$code$urlAfterCode',
-  );
+void shareApp(String? name, String? code) async {
+  if (name != null && code != null) {
+    await FlutterShare.share(
+      title: 'Google Play link',
+      text: 'Find lyrics and listen to *$name* and other *Jain bhajans* on:',
+      linkUrl: '$urlBeforeCode$code$urlAfterCode',
+    );
+  }
 }
 
 void sendEmail() async {

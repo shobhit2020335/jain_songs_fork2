@@ -3,9 +3,9 @@ import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 
 class BuildPlaylistRow extends StatelessWidget {
-  final PlaylistDetails playlistDetails;
+  final PlaylistDetails? playlistDetails;
 
-  BuildPlaylistRow({this.playlistDetails});
+  BuildPlaylistRow(this.playlistDetails);
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +13,16 @@ class BuildPlaylistRow extends StatelessWidget {
       style: ListTileStyle.drawer,
       child: ListTile(
         leading: Icon(
-          playlistDetails.leadIcon,
-          color: playlistDetails.color,
-          size: playlistDetails.iconSize,
+          playlistDetails!.leadIcon,
+          color: playlistDetails!.color,
+          size: playlistDetails!.iconSize,
         ),
         title: Text(
-          playlistDetails.title,
+          playlistDetails!.title,
           style: TextStyle(color: Color(0xFF212323)),
         ),
         subtitle: Text(
-          playlistDetails.subtitle,
+          playlistDetails!.subtitle,
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,

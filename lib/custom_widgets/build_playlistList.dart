@@ -12,7 +12,7 @@ class BuildPlaylistList extends StatelessWidget {
           return Divider();
         } else {
           return BuildPlaylistRow(
-            playlistDetails: playlistList[i ~/ 2],
+            playlistList[i ~/ 2],
           );
         }
       },

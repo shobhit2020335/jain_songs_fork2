@@ -1,3 +1,17 @@
+buildscript {
+    repositories {
+        // ...
+        maven { url 'https://plugins.gradle.org/m2/' } // Gradle Plugin Portal
+    }
+    dependencies {
+        // ...
+        // OneSignal-Gradle-Plugin
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.10, 0.99.99]'
+    }
+}
+
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -13,12 +27,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '6'
+    flutterVersionCode = '7'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.2.2'
+    flutterVersionName = '1.2.3'
 }
 
 apply plugin: 'com.android.application'
@@ -97,12 +111,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf:19.0.10'
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
     implementation 'com.google.android.gms:play-services-ads:19.6.0'
-    implementation 'com.mopub.mediation:admob:19.8.0.0'
+    // implementation 'com.mopub.mediation:admob:19.8.0.0'
     implementation 'androidx.annotation:annotation:1.0.0'
 //    implementation 'com.facebook.android:audience-network-sdk:6.4.0'
-    implementation 'com.mopub.mediation:facebookaudiencenetwork:6.3.0.0'
+    // implementation 'com.mopub.mediation:facebookaudiencenetwork:6.3.0.0'
     implementation 'com.google.ads.mediation:facebook:6.3.0.1'
-    implementation('com.mopub:mopub-sdk:5.16.0@aar') {
-        transitive = true
-    }
+    // implementation('com.mopub:mopub-sdk:5.16.0@aar') {
+    //     transitive = true
+    // }
 }

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
@@ -52,6 +51,34 @@ class FireStoreHelper {
         .set(userFilters.toMap());
   }
 
+  //Stores the suggestion streak of the user in realtime DB not working so commented.
+  // Future<void> storeUserSuggestionStreak(String streak) async {
+  //   if (streak == null || streak.trim().length == 0) {
+  //     return;
+  //   }
+  //   bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+  //   if (isInternetConnected == false) {
+  //     return;
+  //   }
+
+  //   final DatabaseReference databaseReference =
+  //       FirebaseDatabase.instance.reference();
+  //   String? playerId = await SharedPrefs.getOneSignalPlayerId();
+  //   if (playerId == null) {
+  //     playerId = await FirebaseFCMManager.getFCMToken();
+  //   }
+  //   print('Passed this');
+  //   databaseReference
+  //       .child("userBehaviour")
+  //       .child("suggester")
+  //       .push()
+  //       .set({
+  //         '$playerId': '$streak',
+  //       })
+  //       .then((value) => print('Nikla'))
+  //       .onError((error, stackTrace) => print('Error: $error & $stackTrace'));
+  // }
+
   Future<void> fetchDaysAndVersion() async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
@@ -62,11 +89,11 @@ class FireStoreHelper {
     }
     CollectionReference others = _firestore.collection('others');
     var docSnap = await others.doc('JAINSONGS').get();
-    Map<String, dynamic> othersMap = docSnap.data();
+    Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
 
     await fetchRemoteConfigs().then((value) {
       welcomeMessage = value;
-    }).onError((error, stackTrace) {
+    }).onError((dynamic error, stackTrace) {
       welcomeMessage = 'Jai Jinendra';
     });
 
@@ -84,7 +111,7 @@ class FireStoreHelper {
     songs = await _firestore.collection('songs').get();
 
     for (var song in songs.docs) {
-      Map<String, dynamic> songMap = song.data();
+      Map<String, dynamic> songMap = song.data() as Map<String, dynamic>;
       String state = songMap['aaa'];
       state = state.toLowerCase();
       if (state.contains('invalid') != true) {
@@ -123,7 +150,7 @@ class FireStoreHelper {
     songList.clear();
     QuerySnapshot songs;
 
-    bool isFirstOpen = await SharedPrefs.getIsFirstOpen();
+    bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
     if (fromCache == false || isFirstOpen == null) {
       if (isFirstOpen == null) {
@@ -143,22 +170,22 @@ class FireStoreHelper {
     _trace2.stop();
   }
 
-  Future<void> getPopularSongs() async {
-    listToShow.clear();
-    QuerySnapshot songs;
-    songs = await _firestore
-        .collection('songs')
-        .orderBy('popularity', descending: true)
-        .limit(30)
-        .get();
+  // Future<void> getPopularSongs() async {
+  //   listToShow.clear();
+  //   QuerySnapshot songs;
+  //   songs = await _firestore
+  //       .collection('songs')
+  //       .orderBy('popularity', descending: true)
+  //       .limit(30)
+  //       .get();
 
-    await _readFetchedSongs(songs, listToShow);
-  }
+  //   await _readFetchedSongs(songs, listToShow);
+  // }
 
   Future<void> _readFetchedSongs(
-      QuerySnapshot songs, List<SongDetails> listToAdd) async {
+      QuerySnapshot songs, List<SongDetails?> listToAdd) async {
     for (var song in songs.docs) {
-      Map<String, dynamic> currentSong = song.data();
+      Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
       String state = currentSong['aaa'];
       state = state.toLowerCase();
       if (state.contains('invalid') != true) {
@@ -185,17 +212,17 @@ class FireStoreHelper {
             likes: currentSong['likes'],
             share: currentSong['share'],
             youTubeLink: currentSong['youTubeLink']);
-        bool valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
+        bool? valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
         if (valueIsliked == null) {
           SharedPrefs.setIsLiked(currentSong['code'], false);
           valueIsliked = false;
         }
         currentSongDetails.isLiked = valueIsliked;
-        String originalSong = currentSongDetails.originalSong;
-        if (originalSong == null ||
-            originalSong.length < 3 ||
-            originalSong.toLowerCase() == 'unknown') {
-          currentSongDetails.originalSong = currentSongDetails.songNameHindi;
+        String songInfo =
+            '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+        currentSongDetails.songInfo = trimSpecialChars(songInfo);
+        if (currentSongDetails.songInfo.length == 0) {
+          currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
         }
         listToAdd.add(
           currentSongDetails,
@@ -204,25 +231,51 @@ class FireStoreHelper {
     }
   }
 
-  Future<void> addSuggestions(
-      BuildContext context, SongSuggestions songSuggestion) async {
-    String suggestionUID =
-        removeWhiteSpaces(songSuggestion.songName) + randomAlphaNumeric(6);
-    String fcmToken = await FirebaseFCMManager.getFCMToken();
+  Future<void> addSuggestions(SongSuggestions songSuggestion) async {
+    String suggestionUID = removeWhiteSpaces(songSuggestion.songName).trim() +
+        randomAlphaNumeric(8).trim();
+
+    String? fcmToken = await FirebaseFCMManager.getFCMToken();
     songSuggestion.setFCMToken(fcmToken);
+
+    String? playerId = await SharedPrefs.getOneSignalPlayerId();
+    songSuggestion.setOneSignalPlayerId(playerId);
+
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
+  Future<void> storeSuggesterStreak(
+      String songCode, String suggestionStreak) async {
+    String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
+        randomAlphaNumeric(6).trim();
+
+    SongSuggestions songSuggestion = SongSuggestions(
+        'Suggestion Streak',
+        '${suggestionStreak[0]}',
+        '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
+        '${songsVisited.toList()}',
+        '$suggestionStreak');
+
+    String? fcmToken = await FirebaseFCMManager.getFCMToken();
+    songSuggestion.setFCMToken(fcmToken);
+
+    String? playerId = await SharedPrefs.getOneSignalPlayerId();
+    songSuggestion.setOneSignalPlayerId(playerId);
+
+    //TODO: Comment while debugging.
+    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+  }
+
   Future<void> changeClicks(SongDetails currentSong) async {
-    int todayClicks = currentSong.todayClicks + 1;
-    int totalClicks = currentSong.totalClicks + 1;
+    int todayClicks = currentSong.todayClicks! + 1;
+    int totalClicks = currentSong.totalClicks! + 1;
 
     //Algo for trendPoints
     double avgClicks = totalClicks / totalDays;
     double nowTrendPoints = todayClicks - avgClicks;
-    double trendPointInc = nowTrendPoints - currentSong.trendPoints;
+    double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
 
-    if (nowTrendPoints < currentSong.trendPoints) {
+    if (nowTrendPoints < currentSong.trendPoints!) {
       trendPointInc = 0;
     }
 
@@ -232,10 +285,10 @@ class FireStoreHelper {
       'todayClicks': FieldValue.increment(1),
       'trendPoints': FieldValue.increment(trendPointInc),
     }).then((value) {
-      currentSong.todayClicks++;
-      currentSong.totalClicks++;
-      currentSong.popularity++;
-      currentSong.trendPoints = currentSong.trendPoints + trendPointInc;
+      currentSong.todayClicks = currentSong.todayClicks! + 1;
+      currentSong.totalClicks = currentSong.totalClicks! + 1;
+      currentSong.popularity = currentSong.popularity! + 1;
+      currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
     }).catchError((error) {
       print('Error Updating popularity or trendPoints!');
     });
@@ -245,7 +298,7 @@ class FireStoreHelper {
     await songs
         .doc(currentSong.code)
         .update({'share': FieldValue.increment(1)}).then((value) {
-      currentSong.share++;
+      currentSong.share = currentSong.share! + 1;
     }).catchError((error) {
       print('Error Updating share count in firebase');
     });
@@ -257,9 +310,9 @@ class FireStoreHelper {
       'likes': FieldValue.increment(toAdd),
       'popularity': FieldValue.increment(toAdd)
     }).then((value) {
-      currentSong.likes = currentSong.likes + toAdd;
-      currentSong.popularity = currentSong.popularity + toAdd;
-      SharedPrefs.setIsLiked(currentSong.code, currentSong.isLiked);
+      currentSong.likes = currentSong.likes! + toAdd;
+      currentSong.popularity = currentSong.popularity! + toAdd;
+      SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
     }).catchError((error) {
       currentSong.isLiked = !currentSong.isLiked;
       showSimpleToast(

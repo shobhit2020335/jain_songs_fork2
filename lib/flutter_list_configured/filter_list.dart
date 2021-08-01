@@ -6,8 +6,8 @@ import 'filters.dart';
 class FilterListDialog {
   static Future<List<Filters>> display(
     context, {
-    double height,
-    double width,
+    double? height,
+    double? width,
     double borderRadius = 20,
     String headlineText = "Select here",
     String searchFieldHintText = "Search here",
@@ -27,8 +27,8 @@ class FilterListDialog {
     Color searchFieldBackgroundColor = const Color(0xfff5f5f5),
     Color selectedTextBackgroundColor = Colors.indigo,
     Color unselectedTextbackGroundColor = const Color(0xfff8f8f8),
-    Function(List<Filters>) onApplyButtonClick,
-    Function(List<Filters>) onResetButtonClick,
+    Function(List<Filters>)? onApplyButtonClick,
+    Function(List<Filters>)? onResetButtonClick,
   }) async {
     if (height == null) {
       height = MediaQuery.of(context).size.height * .8;
