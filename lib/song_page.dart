@@ -678,7 +678,7 @@ class _SongPageState extends State<SongPage> {
                       height: 45,
                     ),
               errorBuilder: (context, _, __) => Image.asset(
-                'images/main.jpg',
+                'images/suggestion${index + 1}.jpg',
                 width: 60,
               ),
             ),
