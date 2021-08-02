@@ -70,6 +70,7 @@ void main() async {
 
   MobileAds.instance.initialize();
   runApp(MainTheme());
+  //Comment while debugging.
   secureScreen();
   //Initialising AdMob.
 

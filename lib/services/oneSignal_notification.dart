@@ -10,6 +10,12 @@ class OneSignalNotification {
 
     OneSignal.shared.setAppId("2c654820-9b1d-42a6-8bad-eb0a1e430d6c");
 
+    //Sets the playerId used for sending notification.
+    final status = await OneSignal.shared.getDeviceState();
+    final String? playerId = status?.userId;
+    print('Player Id: $playerId');
+    SharedPrefs.setOneSignalPlayerId(playerId);
+
     // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
       print("Accepted permission: $accepted");
@@ -40,8 +46,8 @@ class OneSignalNotification {
     });
 
     OneSignal.shared.setSubscriptionObserver((changes) async {
-      String playerId = changes.to.userId!;
-      print('Player Id: $playerId');
+      String? playerId = changes.to.userId;
+      print('Player Id got for first time: $playerId');
       SharedPrefs.setOneSignalPlayerId(playerId);
     });
   }
