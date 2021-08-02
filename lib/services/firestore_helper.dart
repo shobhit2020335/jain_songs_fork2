@@ -263,7 +263,7 @@ class FireStoreHelper {
     songSuggestion.setOneSignalPlayerId(playerId);
 
     //TODO: Comment while debugging.
-    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<void> changeClicks(SongDetails currentSong) async {
