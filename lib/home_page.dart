@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       _timerLink = Timer(
         Duration(milliseconds: 1000),
         () {
-          print('Lifecycle state resumed');
+          // print('Lifecycle state resumed');
           FirebaseDynamicLinkService.retrieveDynamicLink(context);
         },
       );

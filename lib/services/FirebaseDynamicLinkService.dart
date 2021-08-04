@@ -32,8 +32,8 @@ class FirebaseDynamicLinkService {
     print(deepLink);
 
     if (deepLink != null) {
-      print('route from DL: ${deepLink.queryParameters['route']}');
-      print('code from DL: ${deepLink.queryParameters['code']}');
+      // print('route from DL: ${deepLink.queryParameters['route']}');
+      // print('code from DL: ${deepLink.queryParameters['code']}');
       Navigator.pushNamed(context, '/${deepLink.queryParameters['route']}',
           arguments: {
             'code': deepLink.queryParameters['code'],
@@ -46,8 +46,8 @@ class FirebaseDynamicLinkService {
       onSuccess: (PendingDynamicLinkData? dynamicLink) async {
         final Uri? deepLink = dynamicLink?.link;
         if (deepLink != null) {
-          print('route from DL: ${deepLink.queryParameters['route']}');
-          print('code from DL: ${deepLink.queryParameters['code']}');
+          // print('route from DL: ${deepLink.queryParameters['route']}');
+          // print('code from DL: ${deepLink.queryParameters['code']}');
           Navigator.pushNamed(context, '/${deepLink.queryParameters['route']}',
               arguments: {
                 'code': deepLink.queryParameters['code'],
