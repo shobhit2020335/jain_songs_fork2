@@ -3,6 +3,7 @@
 //TODO: Store as much data of user you can.
 //TODO Playlist banner of RSJ, Vicky, Etc
 //TODO: see Relatime DB.
+//TODO: remove special characters in search
 //TODO: CHeck searchify.
 //TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
@@ -70,7 +71,7 @@ void main() async {
 
   MobileAds.instance.initialize();
   runApp(MainTheme());
-  //Comment while debugging.
+  //TODO: Comment while debugging.
   secureScreen();
   //Initialising AdMob.
 
@@ -90,9 +91,9 @@ class MainTheme extends StatelessWidget {
           return MaterialPageRoute(builder: (context) {
             return WillPopScope(
               onWillPop: () async {
-                print('dynamic link onwillpop: -1${args!['code']}');
+                // print('dynamic link onwillpop: -1${args!['code']}');
                 FireStoreHelper()
-                    .storeSuggesterStreak(args['code'], '-1${args['code']}');
+                    .storeSuggesterStreak(args!['code'], '-1${args['code']}');
                 return true;
               },
               child: SongPage(

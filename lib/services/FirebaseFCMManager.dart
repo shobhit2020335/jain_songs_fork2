@@ -15,7 +15,7 @@ class FirebaseFCMManager {
       if (routeFromNotification == 'deeplink') {
         launch(codeFromNotification!);
       } else {
-        print('Before push named code recieved = $codeFromNotification');
+        // print('Before push named code recieved = $codeFromNotification');
         Navigator.pushNamed(contextForNotiTap, '/$routeFromNotification',
             arguments: {
               'code': codeFromNotification,

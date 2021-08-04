@@ -77,7 +77,7 @@ class _SongPageState extends State<SongPage> {
           _showInterstitialAd();
         },
         onAdFailedToLoad: (LoadAdError error) {
-          print('Interstitial ad load failed: $error');
+          // print('Interstitial ad load failed: $error');
           _interstitialAd = null;
           //TODO: Can add recursive function to load ad again when failed,
           //see admob flutter pub dev for this.
@@ -88,7 +88,7 @@ class _SongPageState extends State<SongPage> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      print('Null interstital Ad while showing');
+      // print('Null interstital Ad while showing');
       return;
     }
     //TODO: Can again load ad after it is dismissed or failed.
@@ -259,11 +259,14 @@ class _SongPageState extends State<SongPage> {
                       ListTile(
                         leading: InkWell(
                           onTap: () {
-                            print(
-                                'Press upper back onwillpop: ${widget.suggestionStreak}');
-                            FireStoreHelper().storeSuggesterStreak(
-                                '${currentSong?.code}',
-                                '${widget.suggestionStreak}');
+                            if (widget.suggestionStreak.characters.last
+                                .contains(RegExp(r'[0-9]'))) {
+                              // print(
+                              //     'Press upper back onwillpop: ${widget.suggestionStreak}');
+                              FireStoreHelper().storeSuggesterStreak(
+                                  '${currentSong?.code}',
+                                  '${widget.suggestionStreak}');
+                            }
                             Navigator.pop(context);
                           },
                           child: Icon(
@@ -363,12 +366,12 @@ class _SongPageState extends State<SongPage> {
                                           MaterialPageRoute(builder: (context) {
                                             return WillPopScope(
                                               onWillPop: () async {
-                                                print(
-                                                    'Automatically changed onwillpop: ${widget.suggestionStreak}0');
+                                                // print(
+                                                //     'Automatically changed onwillpop: ${widget.suggestionStreak}0');
                                                 FireStoreHelper()
                                                     .storeSuggesterStreak(
                                                         '${currentSong?.code}',
-                                                        '${widget.suggestionStreak}0');
+                                                        '${widget.suggestionStreak}1');
                                                 return true;
                                               },
                                               child: SongPage(
@@ -626,10 +629,10 @@ class _SongPageState extends State<SongPage> {
           MaterialPageRoute(builder: (context) {
             return WillPopScope(
               onWillPop: () async {
-                print(
-                    'selected another suggestion onwillpop: ${widget.suggestionStreak}$index');
-                FireStoreHelper().storeSuggesterStreak(
-                    '${currentSong?.code}', '${widget.suggestionStreak}$index');
+                // print(
+                //     'selected another suggestion onwillpop: ${widget.suggestionStreak}$index');
+                FireStoreHelper().storeSuggesterStreak('${currentSong?.code}',
+                    '${widget.suggestionStreak}${index + 1}');
                 return true;
               },
               child: SongPage(

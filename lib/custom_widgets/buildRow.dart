@@ -65,19 +65,10 @@ class _BuildRowState extends State<BuildRow> {
           await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) {
-              return WillPopScope(
-                onWillPop: () async {
-                  print(
-                      'BuildRow onwillpop: $isFromPlaylist${currentSong.code}');
-                  FireStoreHelper().storeSuggesterStreak('${currentSong.code}',
-                      '$isFromPlaylist${currentSong.code}');
-                  return true;
-                },
-                child: SongPage(
-                  currentSong: currentSong,
-                  playlist: widget.playlist,
-                  suggestionStreak: '$isFromPlaylist' + currentSong.code!,
-                ),
+              return SongPage(
+                currentSong: currentSong,
+                playlist: widget.playlist,
+                suggestionStreak: '$isFromPlaylist' + currentSong.code!,
               );
             }),
           );
