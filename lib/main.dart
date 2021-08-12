@@ -1,13 +1,17 @@
 //TODO: Change firestore caching way.
 //TODO Add custom notification sound
 //TODO: Store as much data of user you can.
+//TODO: User can chat with me.
+//TODO: Request lyrics
+//TODO: image suggestion
 //TODO Playlist banner of RSJ, Vicky, Etc
+//TODO: piyush shah and other singers, antardhwani, kunthunath in suggestion.
+//TODO: Reduce read and write
 //TODO: see Relatime DB.
 //TODO: remove special characters in search
-//TODO: CHeck searchify.
+//TODO: Check searchify.
 //TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
-//TODO: Change UI acc to manu, add stories on first page.
 //TODO: speaking jai jinendra
 //TODO: Streaming audio.
 //TODO: Paryushan related images.

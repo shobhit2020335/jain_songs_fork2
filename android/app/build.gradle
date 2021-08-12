@@ -27,12 +27,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '9'
+    flutterVersionCode = '10'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.2.5'
+    flutterVersionName = '1.3.0'
 }
 
 apply plugin: 'com.android.application'
@@ -77,9 +77,9 @@ android {
     }
 
      buildTypes {
-        //    debug {
-        //        applicationIdSuffix ".debug"
-        //    }
+           debug {
+               applicationIdSuffix ".debug"
+           }
          release {
              signingConfig signingConfigs.release
              minifyEnabled true

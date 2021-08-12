@@ -158,6 +158,7 @@ class FireStoreHelper {
       }
       songs = await _firestore.collection('songs').get();
     } else {
+      print('From cache');
       songs = await _firestore
           .collection('songs')
           .get(GetOptions(source: Source.cache));

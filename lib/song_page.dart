@@ -380,7 +380,7 @@ class _SongPageState extends State<SongPage> {
                                                 suggester: suggester,
                                                 suggestionStreak:
                                                     widget.suggestionStreak +
-                                                        '0',
+                                                        '1',
                                               ),
                                             );
                                           }),
@@ -638,7 +638,7 @@ class _SongPageState extends State<SongPage> {
               child: SongPage(
                 currentSong: suggester!.suggestedSongs[index],
                 suggester: suggester,
-                suggestionStreak: widget.suggestionStreak + '$index',
+                suggestionStreak: widget.suggestionStreak + '$index+1',
               ),
             );
           }),
