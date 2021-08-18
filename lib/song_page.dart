@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,12 +10,14 @@ import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
+import 'package:provider/provider.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/firestore_helper.dart';
 
@@ -115,7 +118,7 @@ class _SongPageState extends State<SongPage> {
 
     if (songsVisited.contains(currentSong!.code) == false) {
       //TODO: Comment while debugging.
-      FireStoreHelper().changeClicks(currentSong!);
+      // FireStoreHelper().changeClicks(currentSong!);
     }
     songsVisited.add(currentSong!.code);
 
@@ -133,9 +136,12 @@ class _SongPageState extends State<SongPage> {
       showProgress = false;
     });
     suggester!.fetchSuggestions(currentSong!);
+
+    // RealtimeDbHelper(Provider.of<FirebaseApp>(context, listen: false))
+    //     .fetchSongsDynamicData();
   }
 
-  void loadScreen() async {
+  Future<void> loadScreen() async {
     //Below code is for admob interstitial ads.
     _createInterstitialAd();
 
@@ -169,6 +175,7 @@ class _SongPageState extends State<SongPage> {
   @override
   void initState() {
     super.initState();
+
     setState(() {
       showProgress = true;
     });

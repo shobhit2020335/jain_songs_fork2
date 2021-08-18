@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -14,9 +15,11 @@ import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/services/oneSignal_notification.dart';
+import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -105,7 +108,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         }
       } else {
         try {
-          await FireStoreHelper().getSongs();
+          // await FireStoreHelper().getSongs();
+          print('Before going in fetch songs');
+          await RealtimeDbHelper(
+                  Provider.of<FirebaseApp>(context, listen: false))
+              .fetchSongs();
         } catch (e) {
           print(e);
           setState(() {

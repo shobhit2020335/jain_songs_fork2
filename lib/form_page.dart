@@ -1,7 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
+import 'package:provider/provider.dart';
 
 import 'services/network_helper.dart';
 
@@ -198,6 +201,9 @@ class _FormPageState extends State<FormPage> {
                     } else {
                       await FireStoreHelper()
                           .addSuggestions(currentSongSuggestion);
+                      // await RealtimeDbHelper(
+                      //         Provider.of<FirebaseApp>(context, listen: false))
+                      //     .overwriteRealtimeDbWithFirestore();
                       nameController.clear();
                       emailController.clear();
                       songController.clear();

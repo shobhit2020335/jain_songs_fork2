@@ -14,7 +14,6 @@ late DateTime todayDate;
 int totalDays = 1;
 int? fetchedDays = 0;
 String welcomeMessage = 'Jai Jinendra';
-bool fromCache = false;
 
 //TODO: update app version for new app.
 double appVersion = 1.30;

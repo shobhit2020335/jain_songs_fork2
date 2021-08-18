@@ -6,8 +6,10 @@ import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
@@ -30,55 +32,12 @@ class FireStoreHelper {
         fetchTimeout: Duration(seconds: 4)));
     await remoteConfig.fetchAndActivate();
     String message = remoteConfig.getString('welcome_message');
-    fromCache = remoteConfig.getBool('from_cache');
+    Globals.fromCache = remoteConfig.getBool('from_cache');
+    Globals.dbName = remoteConfig.getString('db_name');
     return message;
   }
 
-  //Storing the user's selected filters in realtime database.
-  Future<void> userSelectedFilters(UserFilters userFilters) async {
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-    if (isInternetConnected == false) {
-      return;
-    }
-
-    //TODO: Comment while debugging.
-    final DatabaseReference databaseReference =
-        FirebaseDatabase.instance.reference();
-    databaseReference
-        .child("userBehaviour")
-        .child("filters")
-        .push()
-        .set(userFilters.toMap());
-  }
-
-  //Stores the suggestion streak of the user in realtime DB not working so commented.
-  // Future<void> storeUserSuggestionStreak(String streak) async {
-  //   if (streak == null || streak.trim().length == 0) {
-  //     return;
-  //   }
-  //   bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-  //   if (isInternetConnected == false) {
-  //     return;
-  //   }
-
-  //   final DatabaseReference databaseReference =
-  //       FirebaseDatabase.instance.reference();
-  //   String? playerId = await SharedPrefs.getOneSignalPlayerId();
-  //   if (playerId == null) {
-  //     playerId = await FirebaseFCMManager.getFCMToken();
-  //   }
-  //   print('Passed this');
-  //   databaseReference
-  //       .child("userBehaviour")
-  //       .child("suggester")
-  //       .push()
-  //       .set({
-  //         '$playerId': '$streak',
-  //       })
-  //       .then((value) => print('Nikla'))
-  //       .onError((error, stackTrace) => print('Error: $error & $stackTrace'));
-  // }
-
+  //Fetches Days of app passed, min version required by user and remote configs.
   Future<void> fetchDaysAndVersion() async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
@@ -152,7 +111,7 @@ class FireStoreHelper {
 
     bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
-    if (fromCache == false || isFirstOpen == null) {
+    if (Globals.fromCache == false || isFirstOpen == null) {
       if (isFirstOpen == null) {
         SharedPrefs.setIsFirstOpen(false);
       }
@@ -162,7 +121,7 @@ class FireStoreHelper {
       songs = await _firestore
           .collection('songs')
           .get(GetOptions(source: Source.cache));
-      if (songs == null || songs.size == 0) {
+      if (songs.size == 0) {
         songs = await _firestore.collection('songs').get();
       }
     }
@@ -170,18 +129,6 @@ class FireStoreHelper {
     await _readFetchedSongs(songs, songList);
     _trace2.stop();
   }
-
-  // Future<void> getPopularSongs() async {
-  //   listToShow.clear();
-  //   QuerySnapshot songs;
-  //   songs = await _firestore
-  //       .collection('songs')
-  //       .orderBy('popularity', descending: true)
-  //       .limit(30)
-  //       .get();
-
-  //   await _readFetchedSongs(songs, listToShow);
-  // }
 
   Future<void> _readFetchedSongs(
       QuerySnapshot songs, List<SongDetails?> listToAdd) async {
@@ -264,7 +211,7 @@ class FireStoreHelper {
     songSuggestion.setOneSignalPlayerId(playerId);
 
     //TODO: Comment while debugging.
-    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<void> changeClicks(SongDetails currentSong) async {
