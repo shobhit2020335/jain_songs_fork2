@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
@@ -11,14 +13,16 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
 class RealtimeDbHelper {
-  final FirebaseApp app;
+  final FirebaseApp? app;
   late FirebaseDatabase database;
   final Trace _traceSync = FirebasePerformance.instance.newTrace('syncDatbase');
   final Trace _traceRealtime =
       FirebasePerformance.instance.newTrace('getSongRealtime');
 
-  RealtimeDbHelper(this.app) {
-    database = FirebaseDatabase(app: this.app);
+  RealtimeDbHelper({this.app}) {
+    if (app != null) {
+      database = FirebaseDatabase(app: this.app);
+    }
   }
 
   //Updates the trend points and resets other data in both firestore and realtime
@@ -114,6 +118,87 @@ class RealtimeDbHelper {
     });
   }
 
+  Future<bool> changeClicks(SongDetails currentSong) async {
+    int todayClicks = currentSong.todayClicks! + 1;
+    int totalClicks = currentSong.totalClicks! + 1;
+
+    //Algo for trendPoints
+    double avgClicks = totalClicks / totalDays;
+    double nowTrendPoints = todayClicks - avgClicks;
+    double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
+
+    if (nowTrendPoints < currentSong.trendPoints!) {
+      trendPointInc = 0;
+    }
+    print('Change clicks');
+    try {
+      await database
+          .reference()
+          .child('songs')
+          .child(currentSong.code!)
+          .update({
+        'popularity': ServerValue.increment(1),
+        'totalClicks': ServerValue.increment(1),
+        'todayClicks': ServerValue.increment(1),
+      });
+      currentSong.todayClicks = currentSong.todayClicks! + 1;
+      currentSong.totalClicks = currentSong.totalClicks! + 1;
+      currentSong.popularity = currentSong.popularity! + 1;
+      print('Change trendpoints');
+      if (trendPointInc > 0) {
+        database.reference().child('songs').child(currentSong.code!).update({
+          'trendPoints': nowTrendPoints,
+        }).then((value) {
+          currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
+        });
+      }
+    } catch (e) {
+      print('Error updating clicks or popularity in realtime: $e');
+      return false;
+    }
+    return true;
+  }
+
+  Future<bool> changeShare(SongDetails currentSong) async {
+    try {
+      await database
+          .reference()
+          .child('songs')
+          .child(currentSong.code!)
+          .update({
+        'share': ServerValue.increment(1),
+      });
+      currentSong.share = currentSong.share! + 1;
+      return true;
+    } catch (e) {
+      print('Error updating shares in realtime: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeLikes(
+      BuildContext context, SongDetails currentSong, int toAdd) async {
+    try {
+      await database
+          .reference()
+          .child('songs')
+          .child(currentSong.code!)
+          .update({
+        'likes': ServerValue.increment(toAdd),
+        'popularity': ServerValue.increment(toAdd),
+      });
+      currentSong.likes = currentSong.likes! + toAdd;
+      currentSong.popularity = currentSong.popularity! + toAdd;
+      SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
+      return true;
+    } catch (e) {
+      currentSong.isLiked = !currentSong.isLiked;
+      print('Error updating likes in realtime: $e');
+      showSimpleToast(context, 'Something went wrong! Please try later.');
+      return false;
+    }
+  }
+
   Future<void> overwriteRealtimeDbWithFirestore() async {
     print('Ghusa in overwrite');
     songList.forEach((songDetails) {
@@ -122,20 +207,6 @@ class RealtimeDbHelper {
           .child('songs')
           .child(songDetails!.code!)
           .set(songDetails.toMap());
-    });
-  }
-
-  Future<void> fetchSongsDynamicData() async {
-    print('Ghusa in fetch dynamic');
-    // bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-
-    database
-        .reference()
-        .child('userBehaviour')
-        .child('filters')
-        .get()
-        .then((snapshot) {
-      print('GOt values of filters: ${snapshot!.key} : ${snapshot.value}');
     });
   }
 
@@ -154,32 +225,4 @@ class RealtimeDbHelper {
         .push()
         .set(userFilters.toMap());
   }
-
-  //Stores the suggestion streak of the user in realtime DB not working so commented.
-  // Future<void> storeUserSuggestionStreak(String streak) async {
-  //   if (streak == null || streak.trim().length == 0) {
-  //     return;
-  //   }
-  //   bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-  //   if (isInternetConnected == false) {
-  //     return;
-  //   }
-
-  //   final DatabaseReference databaseReference =
-  //       FirebaseDatabase.instance.reference();
-  //   String? playerId = await SharedPrefs.getOneSignalPlayerId();
-  //   if (playerId == null) {
-  //     playerId = await FirebaseFCMManager.getFCMToken();
-  //   }
-  //   print('Passed this');
-  //   databaseReference
-  //       .child("userBehaviour")
-  //       .child("suggester")
-  //       .push()
-  //       .set({
-  //         '$playerId': '$streak',
-  //       })
-  //       .then((value) => print('Nikla'))
-  //       .onError((error, stackTrace) => print('Error: $error & $stackTrace'));
-  // }
 }

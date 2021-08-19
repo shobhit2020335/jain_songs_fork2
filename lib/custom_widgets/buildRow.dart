@@ -1,8 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
+import 'package:provider/provider.dart';
 import '../song_page.dart';
 
 class BuildRow extends StatefulWidget {
@@ -50,13 +53,17 @@ class _BuildRowState extends State<BuildRow> {
             if (currentSong.isLiked == true) {
               currentSong.isLiked = false;
               setState(() {});
-              FireStoreHelper fireStoreHelper = FireStoreHelper();
-              await fireStoreHelper.changeLikes(context, currentSong, -1);
+              //TODO: Change this.
+              await RealtimeDbHelper(
+                app: Provider.of<FirebaseApp>(context, listen: false),
+              ).changeLikes(context, currentSong, -1);
             } else {
               currentSong.isLiked = true;
               setState(() {});
-              FireStoreHelper fireStoreHelper = FireStoreHelper();
-              await fireStoreHelper.changeLikes(context, currentSong, 1);
+              //TODO: Change this.
+              await RealtimeDbHelper(
+                app: Provider.of<FirebaseApp>(context, listen: false),
+              ).changeLikes(context, currentSong, 1);
             }
             setState(() {});
           },

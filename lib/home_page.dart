@@ -111,8 +111,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           // await FireStoreHelper().getSongs();
           print('Before going in fetch songs');
           await RealtimeDbHelper(
-                  Provider.of<FirebaseApp>(context, listen: false))
-              .fetchSongs();
+            app: Provider.of<FirebaseApp>(context, listen: false),
+          ).fetchSongs();
         } catch (e) {
           print(e);
           setState(() {
