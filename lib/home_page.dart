@@ -13,10 +13,12 @@ import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
+import 'package:jain_songs/services/database/database_controlller.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/services/oneSignal_notification.dart';
 import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/settings_page.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:provider/provider.dart';
@@ -77,125 +79,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
-  //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
-  //Searching has flag = false.
-  void getSongs(String query, bool flag) async {
-    setState(() {
-      showProgress = true;
-    });
-
-    filtersSelected.clear();
-
-    if (query != null && flag == false) {
-      isBasicSearchEmpty = Searchify().basicSearch(query);
-    } else {
-      await NetworkHelper().changeDateAndVersion();
-      if (fetchedVersion! > appVersion) {
-        setState(() {
-          showUpdateDialog(context);
-        });
-      }
-      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-      if (totalDays > fetchedDays! && isInternetConnected) {
-        fetchedDays = totalDays;
-        try {
-          await FireStoreHelper().dailyUpdate();
-        } catch (e) {
-          print(e);
-          setState(() {
-            showProgress = false;
-          });
-        }
-      } else {
-        try {
-          // await FireStoreHelper().getSongs();
-          print('Before going in fetch songs');
-          await RealtimeDbHelper(
-            app: Provider.of<FirebaseApp>(context, listen: false),
-          ).fetchSongs();
-        } catch (e) {
-          print(e);
-          setState(() {
-            showProgress = false;
-          });
-        }
-      }
-      addElementsToList('home');
-    }
-
-    setState(() {
-      showProgress = false;
-    });
-  }
-
-  void _filterDialog() async {
-    await FilterListDialog.display(context,
-        height: 480,
-        borderRadius: 20,
-        searchFieldHintText: "Search Here", onApplyButtonClick: (list) {
-      filtersSelected = List.from(list);
-      setState(() {
-        showProgress = true;
-      });
-      applyFilter().then((value) {
-        setState(() {
-          showProgress = false;
-        });
-      }).catchError((onError) {
-        FirebaseCrashlytics.instance
-            .log('home_page/_filterDialog(): ' + onError.toString());
-
-        listToShow = List.from(sortedSongList);
-        showSimpleToast(
-          context,
-          'Error applying Filter',
-        );
-        setState(() {
-          showProgress = false;
-        });
-      });
-      Navigator.pop(context);
-    },
-        //To implement onAllButtonCLick see how onResetButtonClick is made.
-        onResetButtonClick: (list) {
-      filtersSelected = List.from(list);
-      setState(() {
-        showProgress = true;
-      });
-      applyFilter().then((value) {
-        setState(() {
-          showProgress = false;
-        });
-      }).catchError((onError) {
-        FirebaseCrashlytics.instance
-            .log('home_page/_filterDialog(): ' + onError.toString());
-        listToShow = List.from(sortedSongList);
-        showSimpleToast(
-          context,
-          'Error applying Filter',
-        );
-        setState(() {
-          showProgress = false;
-        });
-      });
-      Navigator.pop(context);
-    });
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      _timerLink = Timer(
-        Duration(milliseconds: 1000),
-        () {
-          // print('Lifecycle state resumed');
-          FirebaseDynamicLinkService.retrieveDynamicLink(context);
-        },
-      );
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -241,6 +124,123 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
   }
 
+  //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
+  //Searching has flag = false.
+  void getSongs(String? query, bool flag) async {
+    setState(() {
+      showProgress = true;
+    });
+
+    ListFunctions.filtersSelected.clear();
+
+    if (query != null && flag == false) {
+      isBasicSearchEmpty = Searchify().basicSearch(query);
+    } else {
+      await NetworkHelper().changeDateAndVersion();
+      if (Globals.fetchedVersion! > Globals.appVersion) {
+        setState(() {
+          showUpdateDialog(context);
+        });
+      }
+      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+      if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
+        Globals.fetchedDays = Globals.totalDays;
+        try {
+          //TODO: Change it to sync.
+          await FireStoreHelper().dailyUpdate();
+        } catch (e) {
+          print(e);
+          setState(() {
+            showProgress = false;
+          });
+        }
+      } else {
+        print('Before going in fetch songs');
+        bool isSuccess = await DatabaseController().fetchSongs(context);
+        if (isSuccess == false) {
+          showSimpleToast(context,
+              'Please check your Internet Connection and restart Stavan');
+          setState(() {
+            showProgress = false;
+          });
+        }
+      }
+      ListFunctions().addElementsToList('home');
+    }
+
+    setState(() {
+      showProgress = false;
+    });
+  }
+
+  void _filterDialog() async {
+    await FilterListDialog.display(context,
+        height: 480,
+        borderRadius: 20,
+        searchFieldHintText: "Search Here", onApplyButtonClick: (list) {
+      ListFunctions.filtersSelected = List.from(list);
+      setState(() {
+        showProgress = true;
+      });
+      ListFunctions().applyFilter().then((value) {
+        setState(() {
+          showProgress = false;
+        });
+      }).catchError((onError) {
+        FirebaseCrashlytics.instance
+            .log('home_page/_filterDialog(): ' + onError.toString());
+
+        ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
+        showSimpleToast(
+          context,
+          'Error applying Filter',
+        );
+        setState(() {
+          showProgress = false;
+        });
+      });
+      Navigator.pop(context);
+    },
+        //To implement onAllButtonCLick see how onResetButtonClick is made.
+        onResetButtonClick: (list) {
+      ListFunctions.filtersSelected = List.from(list);
+      setState(() {
+        showProgress = true;
+      });
+      ListFunctions().applyFilter().then((value) {
+        setState(() {
+          showProgress = false;
+        });
+      }).catchError((onError) {
+        FirebaseCrashlytics.instance
+            .log('home_page/_filterDialog(): ' + onError.toString());
+        ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
+        showSimpleToast(
+          context,
+          'Error applying Filter',
+        );
+        setState(() {
+          showProgress = false;
+        });
+      });
+      Navigator.pop(context);
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _timerLink = Timer(
+        Duration(milliseconds: 1000),
+        () {
+          // print('Lifecycle state resumed');
+          FirebaseDynamicLinkService.retrieveDynamicLink(context);
+        },
+      );
+    }
+  }
+
   @override
   void dispose() {
     searchController.clear();
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastOutSlowIn,
                 );
-                showToast(welcomeMessage);
+                showToast(Globals.welcomeMessage);
               },
               child: Image.asset(
                 'images/Logo.png',

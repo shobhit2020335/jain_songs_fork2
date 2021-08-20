@@ -55,14 +55,14 @@ class _BuildRowState extends State<BuildRow> {
               setState(() {});
               //TODO: Change this.
               await RealtimeDbHelper(
-                app: Provider.of<FirebaseApp>(context, listen: false),
+                Provider.of<FirebaseApp>(context, listen: false),
               ).changeLikes(context, currentSong, -1);
             } else {
               currentSong.isLiked = true;
               setState(() {});
               //TODO: Change this.
               await RealtimeDbHelper(
-                app: Provider.of<FirebaseApp>(context, listen: false),
+                Provider.of<FirebaseApp>(context, listen: false),
               ).changeLikes(context, currentSong, 1);
             }
             setState(() {});

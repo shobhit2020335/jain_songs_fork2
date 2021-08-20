@@ -18,13 +18,13 @@ class BuildList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       controller: scrollController,
-      itemCount: listToShow.length + 1,
+      itemCount: ListFunctions.listToShow.length + 1,
       itemBuilder: (context, i) {
-        if (i == listToShow.length) {
+        if (i == ListFunctions.listToShow.length) {
           return SearchEmpty(searchController);
         } else {
           return BuildRow(
-            listToShow[i],
+            ListFunctions.listToShow[i],
             color: colorRowIcon,
           );
         }

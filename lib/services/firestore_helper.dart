@@ -9,6 +9,7 @@ import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
+import 'package:jain_songs/services/database/database_controlller.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -21,20 +22,20 @@ class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
   final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
   final Trace _trace2 = FirebasePerformance.instance.newTrace('getSongs');
-  CollectionReference songs = FirebaseFirestore.instance.collection('songs');
-  CollectionReference suggestions =
+  final CollectionReference songs =
+      FirebaseFirestore.instance.collection('songs');
+  final CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
-  static Future<String> fetchRemoteConfigs() async {
+  Future<void> fetchRemoteConfigs() async {
     RemoteConfig remoteConfig = RemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
         minimumFetchInterval: Duration(seconds: 1),
         fetchTimeout: Duration(seconds: 4)));
     await remoteConfig.fetchAndActivate();
-    String message = remoteConfig.getString('welcome_message');
-    Globals.fromCache = remoteConfig.getBool('from_cache');
-    Globals.dbName = remoteConfig.getString('db_name');
-    return message;
+    Globals.welcomeMessage = remoteConfig.getString('welcome_message');
+    DatabaseController.fromCache = remoteConfig.getBool('from_cache');
+    DatabaseController.dbName = remoteConfig.getString('db_name');
   }
 
   //Fetches Days of app passed, min version required by user and remote configs.
@@ -42,29 +43,32 @@ class FireStoreHelper {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (isInternetConnected == false) {
-      fetchedDays = totalDays;
-      fetchedVersion = appVersion;
+      Globals.fetchedDays = Globals.totalDays;
+      Globals.fetchedVersion = Globals.appVersion;
       return;
     }
     CollectionReference others = _firestore.collection('others');
     var docSnap = await others.doc('JAINSONGS').get();
     Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
+    Globals.fetchedDays = othersMap['totalDays'];
+    Globals.fetchedVersion = othersMap['appVersion'];
 
-    await fetchRemoteConfigs().then((value) {
-      welcomeMessage = value;
-    }).onError((dynamic error, stackTrace) {
-      welcomeMessage = 'Jai Jinendra';
-    });
+    try {
+      await fetchRemoteConfigs();
+    } catch (e) {
+      print('error fetching remote config: $e');
+      Globals.welcomeMessage = 'Jai Jinendra';
+      DatabaseController.dbName = 'firestore';
+      DatabaseController.fromCache = false;
+    }
 
-    fetchedDays = othersMap['totalDays'];
-    fetchedVersion = othersMap['appVersion'];
-    print(fetchedVersion);
+    print(Globals.fetchedVersion);
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
   Future<void> dailyUpdate() async {
     _trace.start();
-    songList.clear();
+    ListFunctions.songList.clear();
 
     QuerySnapshot songs;
     songs = await _firestore.collection('songs').get();
@@ -78,7 +82,7 @@ class FireStoreHelper {
         int totalClicks = songMap['totalClicks'];
 
         //Algo for trendPoints
-        double avgClicks = totalClicks / totalDays;
+        double avgClicks = totalClicks / Globals.totalDays;
         songMap['trendPoints'] = (todayClicks - avgClicks) / 2;
         songMap['todayClicks'] = 0;
 
@@ -94,40 +98,50 @@ class FireStoreHelper {
     Timestamp lastUpdated = Timestamp.now();
     CollectionReference others = _firestore.collection('others');
     others.doc('JAINSONGS').update({
-      'totalDays': totalDays,
+      'totalDays': Globals.totalDays,
       'lastUpdated': lastUpdated,
     }).catchError((error) {
       print('Error updating days.' + error);
     });
     _trace.stop();
 
-    await _readFetchedSongs(songs, songList);
+    await _readFetchedSongs(songs, ListFunctions.songList);
   }
 
-  Future<void> getSongs() async {
+  Future<bool> fetchSongs() async {
     _trace2.start();
-    songList.clear();
+    ListFunctions.songList.clear();
     QuerySnapshot songs;
 
-    bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
-    if (Globals.fromCache == false || isFirstOpen == null) {
-      if (isFirstOpen == null) {
-        SharedPrefs.setIsFirstOpen(false);
-      }
-      songs = await _firestore.collection('songs').get();
-    } else {
-      print('From cache');
-      songs = await _firestore
-          .collection('songs')
-          .get(GetOptions(source: Source.cache));
-      if (songs.size == 0) {
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
         songs = await _firestore.collection('songs').get();
+      } else {
+        songs = await _firestore
+            .collection('songs')
+            .get(GetOptions(source: Source.cache));
+        if (songs.size == 0) {
+          songs = await _firestore.collection('songs').get();
+        }
       }
-    }
+      if (songs.size == 0) {
+        _trace2.stop();
+        return false;
+      }
 
-    await _readFetchedSongs(songs, songList);
+      await _readFetchedSongs(songs, ListFunctions.songList);
+    } catch (e) {
+      _trace2.stop();
+      print(e);
+      return false;
+    }
     _trace2.stop();
+    return true;
   }
 
   Future<void> _readFetchedSongs(
@@ -201,7 +215,7 @@ class FireStoreHelper {
         'Suggestion Streak',
         '${suggestionStreak[0]}',
         '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
-        '${songsVisited.toList()}',
+        '${ListFunctions.songsVisited.toList()}',
         '$suggestionStreak');
 
     String? fcmToken = await FirebaseFCMManager.getFCMToken();
@@ -219,7 +233,7 @@ class FireStoreHelper {
     int totalClicks = currentSong.totalClicks! + 1;
 
     //Algo for trendPoints
-    double avgClicks = totalClicks / totalDays;
+    double avgClicks = totalClicks / Globals.totalDays;
     double nowTrendPoints = todayClicks - avgClicks;
     double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
 

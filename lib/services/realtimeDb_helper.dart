@@ -8,6 +8,7 @@ import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
+import 'package:jain_songs/services/database/database_controlller.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -19,7 +20,7 @@ class RealtimeDbHelper {
   final Trace _traceRealtime =
       FirebasePerformance.instance.newTrace('getSongRealtime');
 
-  RealtimeDbHelper({this.app}) {
+  RealtimeDbHelper(this.app) {
     if (app != null) {
       database = FirebaseDatabase(app: this.app);
     }
@@ -33,37 +34,39 @@ class RealtimeDbHelper {
   }
 
   Future<bool> fetchSongs() async {
-    print('fetching songs from realtime');
     _traceRealtime.start();
-    songList.clear();
+    ListFunctions.songList.clear();
     DataSnapshot? songSnapshot;
 
-    bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
-    if (Globals.fromCache == false || isFirstOpen == null) {
-      if (isFirstOpen == null) {
-        print('First opne null');
-        SharedPrefs.setIsFirstOpen(false);
-      }
-      try {
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
+
         songSnapshot = await database.reference().child('songs').get();
-      } catch (e) {
-        print('Error in fetching');
-        print(e);
+      } else {
+        print('From cache');
+        songSnapshot = await database.reference().child('songs').once();
+      }
+
+      _readFetchedSongs(songSnapshot!, ListFunctions.songList);
+      if (ListFunctions.songList.length == 0) {
         return false;
       }
-    } else {
-      print('From cache');
-      songSnapshot = await database.reference().child('songs').once();
+    } catch (e) {
+      _traceRealtime.stop();
+      print('Error in realtime: $e');
+      return false;
     }
-
-    await _readFetchedSongs(songSnapshot!, songList);
     _traceRealtime.stop();
     return true;
   }
 
-  Future<void> _readFetchedSongs(
-      DataSnapshot songSnapshot, List<SongDetails?> listToAdd) async {
+  void _readFetchedSongs(
+      DataSnapshot songSnapshot, List<SongDetails?> listToAdd) {
     Map<String?, dynamic> allSongs =
         Map<String, dynamic>.from(songSnapshot.value);
 
@@ -123,14 +126,13 @@ class RealtimeDbHelper {
     int totalClicks = currentSong.totalClicks! + 1;
 
     //Algo for trendPoints
-    double avgClicks = totalClicks / totalDays;
+    double avgClicks = totalClicks / Globals.totalDays;
     double nowTrendPoints = todayClicks - avgClicks;
     double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
 
     if (nowTrendPoints < currentSong.trendPoints!) {
       trendPointInc = 0;
     }
-    print('Change clicks');
     try {
       await database
           .reference()
@@ -200,8 +202,7 @@ class RealtimeDbHelper {
   }
 
   Future<void> overwriteRealtimeDbWithFirestore() async {
-    print('Ghusa in overwrite');
-    songList.forEach((songDetails) {
+    ListFunctions.songList.forEach((songDetails) {
       database
           .reference()
           .child('songs')
@@ -217,9 +218,8 @@ class RealtimeDbHelper {
     }
 
     //TODO: Comment while debugging.
-    final DatabaseReference databaseReference =
-        FirebaseDatabase.instance.reference();
-    databaseReference
+    database
+        .reference()
         .child("userBehaviour")
         .child("filters")
         .push()

@@ -52,6 +52,7 @@ import 'package:jain_songs/services/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/firestore_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:provider/provider.dart';
 import 'home_page.dart';
@@ -64,7 +65,7 @@ void main() async {
   final FirebaseApp app = await Firebase.initializeApp();
 
   //Firebase Anonymous signIn.
-  userCredential = await FirebaseAuth.instance.signInAnonymously();
+  Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
 
   //Persistenace for Firestore
   FirebaseFirestore.instance.settings = Settings(
@@ -92,7 +93,7 @@ void main() async {
   // secureScreen();
   //Initialising AdMob.
 
-  songsVisited.clear();
+  ListFunctions.songsVisited.clear();
 }
 
 class MainTheme extends StatelessWidget {

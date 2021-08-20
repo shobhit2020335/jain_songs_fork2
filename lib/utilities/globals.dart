@@ -1,7 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Globals {
-  //These are fetched from remote config of firebase.
-  //Variable to decide which database to use from Realtime and firestore.
-  static String dbName = "realtime";
-  //Variable to decide whether to recieve data from cache or not.
-  static bool fromCache = false;
+  static final DateTime startDate = DateTime(2020, 12, 23);
+  static const String appURL =
+      'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
+  static late DateTime todayDate;
+  static int totalDays = 1;
+  static int? fetchedDays = 1;
+  static String welcomeMessage = 'Jai Jinendra';
+
+  //TODO: update app version for new app.
+  static const double appVersion = 1.30;
+  static double? fetchedVersion;
+  //Anonymous user's variable.
+  static UserCredential? userCredential;
 }
