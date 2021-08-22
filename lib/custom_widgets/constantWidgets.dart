@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
-import 'package:jain_songs/utilities/lists.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 Future<void> showUpdateDialog(BuildContext context) async {
@@ -29,7 +29,7 @@ Future<void> showUpdateDialog(BuildContext context) async {
           TextButton(
             child: Text('Update'),
             onPressed: () {
-              launchPlayStore(appURL);
+              launchPlayStore(Globals.appURL);
             },
           ),
         ],

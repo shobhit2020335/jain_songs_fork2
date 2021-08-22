@@ -67,8 +67,8 @@ class _FilterListWidgetState extends State<FilterListWidget> {
 
   @override
   void initState() {
-    _allTextList = List.from(filtersAll);
-    _selectedTextList = List.from(filtersSelected);
+    _allTextList = List.from(ListFunctions.filtersAll);
+    _selectedTextList = List.from(ListFunctions.filtersSelected);
     super.initState();
   }
 
@@ -205,7 +205,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                           onChanged: (value) {
                             setState(() {
                               if (value.isEmpty) {}
-                              _allTextList = filtersAll
+                              _allTextList = ListFunctions.filtersAll
                                   .where((filter) =>
                                       filter.name.toLowerCase().contains(
                                             value.toLowerCase(),

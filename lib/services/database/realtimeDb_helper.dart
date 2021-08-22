@@ -1,15 +1,13 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
-import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
@@ -20,7 +18,7 @@ class RealtimeDbHelper {
   final Trace _traceRealtime =
       FirebasePerformance.instance.newTrace('getSongRealtime');
 
-  RealtimeDbHelper({this.app}) {
+  RealtimeDbHelper(this.app) {
     if (app != null) {
       database = FirebaseDatabase(app: this.app);
     }
@@ -28,43 +26,68 @@ class RealtimeDbHelper {
 
   //Updates the trend points and resets other data in both firestore and realtime
   //syncs realtime db and firestore
-  Future<bool> syncDatabaseWithDailyUpdate() async {
-    //Add traces of daily update and sync.
-    return false;
+  Future<bool> syncDatabase() async {
+    _traceSync.start();
+
+    try {
+      for (int i = 0; i < ListFunctions.songList.length; i++) {
+        database
+            .reference()
+            .child('songs')
+            .child(ListFunctions.songList[i]!.code!)
+            .set(ListFunctions.songList[i]!.toMap());
+      }
+
+      Timestamp lastUpdated = Timestamp.now();
+      CollectionReference others =
+          FirebaseFirestore.instance.collection('others');
+      others.doc('JAINSONGS').update({
+        'lastDatabaseSynced': lastUpdated,
+      });
+
+      _traceSync.stop();
+      return true;
+    } catch (e) {
+      _traceSync.stop();
+      print('Error syncing realtime database.');
+      return false;
+    }
   }
 
   Future<bool> fetchSongs() async {
-    print('fetching songs from realtime');
     _traceRealtime.start();
-    songList.clear();
+    ListFunctions.songList.clear();
     DataSnapshot? songSnapshot;
 
-    bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
-    if (DataBaseController.fromCache == false || isFirstOpen == null) {
-      if (isFirstOpen == null) {
-        print('First opne null');
-        SharedPrefs.setIsFirstOpen(false);
-      }
-      try {
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
+
         songSnapshot = await database.reference().child('songs').get();
-      } catch (e) {
-        print('Error in fetching');
-        print(e);
+      } else {
+        print('From cache');
+        songSnapshot = await database.reference().child('songs').once();
+      }
+
+      _readFetchedSongs(songSnapshot!, ListFunctions.songList);
+      if (ListFunctions.songList.length == 0) {
         return false;
       }
-    } else {
-      print('From cache');
-      songSnapshot = await database.reference().child('songs').once();
+    } catch (e) {
+      _traceRealtime.stop();
+      print('Error in realtime: $e');
+      return false;
     }
-
-    await _readFetchedSongs(songSnapshot!, songList);
     _traceRealtime.stop();
     return true;
   }
 
-  Future<void> _readFetchedSongs(
-      DataSnapshot songSnapshot, List<SongDetails?> listToAdd) async {
+  void _readFetchedSongs(
+      DataSnapshot songSnapshot, List<SongDetails?> listToAdd) {
     Map<String?, dynamic> allSongs =
         Map<String, dynamic>.from(songSnapshot.value);
 
@@ -120,18 +143,9 @@ class RealtimeDbHelper {
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {
-    int todayClicks = currentSong.todayClicks! + 1;
-    int totalClicks = currentSong.totalClicks! + 1;
+    //Algorithm is not used here, it is used in firestore side because firestore
+    //is updated first.
 
-    //Algo for trendPoints
-    double avgClicks = totalClicks / Globals.totalDays;
-    double nowTrendPoints = todayClicks - avgClicks;
-    double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
-
-    if (nowTrendPoints < currentSong.trendPoints!) {
-      trendPointInc = 0;
-    }
-    print('Change clicks');
     try {
       await database
           .reference()
@@ -142,17 +156,9 @@ class RealtimeDbHelper {
         'totalClicks': ServerValue.increment(1),
         'todayClicks': ServerValue.increment(1),
       });
-      currentSong.todayClicks = currentSong.todayClicks! + 1;
-      currentSong.totalClicks = currentSong.totalClicks! + 1;
-      currentSong.popularity = currentSong.popularity! + 1;
-      print('Change trendpoints');
-      if (trendPointInc > 0) {
-        database.reference().child('songs').child(currentSong.code!).update({
-          'trendPoints': nowTrendPoints,
-        }).then((value) {
-          currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
-        });
-      }
+      database.reference().child('songs').child(currentSong.code!).update({
+        'trendPoints': currentSong.trendPoints,
+      });
     } catch (e) {
       print('Error updating clicks or popularity in realtime: $e');
       return false;
@@ -195,14 +201,12 @@ class RealtimeDbHelper {
     } catch (e) {
       currentSong.isLiked = !currentSong.isLiked;
       print('Error updating likes in realtime: $e');
-      showSimpleToast(context, 'Something went wrong! Please try later.');
       return false;
     }
   }
 
   Future<void> overwriteRealtimeDbWithFirestore() async {
-    print('Ghusa in overwrite');
-    songList.forEach((songDetails) {
+    ListFunctions.songList.forEach((songDetails) {
       database
           .reference()
           .child('songs')
@@ -218,9 +222,8 @@ class RealtimeDbHelper {
     }
 
     //TODO: Comment while debugging.
-    final DatabaseReference databaseReference =
-        FirebaseDatabase.instance.reference();
-    databaseReference
+    database
+        .reference()
         .child("userBehaviour")
         .child("filters")
         .push()

@@ -21,9 +21,9 @@ void main() async {
   print('Added song successfully');
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('JJDSAH',
-      englishName: 'gujrati',
-      hindiName: 'jay dharm sang avical',
+  currentSong.extraSearchKeywords('PPL',
+      englishName: 'पारसनाथ पार्श्वनाथ',
+      hindiName: 'chavleshwar chaleshvar chaleshwar ',
       originalSong: '',
       album: '',
       tirthankar: '',
@@ -37,28 +37,30 @@ void main() async {
 
 class AddSong {
   Map<String, dynamic> currentSongMap = {
-    'code': 'JJDSAH',
+    'code': 'PPL',
     'album': '',
+    //TODO: realtime me add krne ka
     'aaa': 'valid',
-    'category': '',
+    'category': 'Stavan',
     'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Gujarati',
+    'language': 'Marwadi',
     'likes': 0,
-    'lyrics': 'Lyrics not available at the moment\n',
-    'englishLyrics': '',
+    'lyrics':
+        'पारस प्यारा लागो, चँवलेश्वर प्यारा लागो ।\nथांकी बांकडली झाड्यां में, गैलो भूल्यो जी म्हारा पारसजी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nअब डर लागे छै म्हाने, हर बार पुकारां थांने ।\nथांका पर्वत रा जंगल में, सिंह धडूके हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nथे राग द्वेष न त्यागा, म्है आया भाग्या भाग्या ।\nथांका पर्वत री भाटा की, ठोकर लागी हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nम्हे अजमेर शहर से चाल्या, थांका ऊंचा देख्या माला ।\nम्हाने पेड्या पेड्या चढवो, प्यारो लागे हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nExtra\nथांका विशाल दर्शन पाया, जद तन मन से हरषाया ।\nथांकी छतरी की तो शोभा, न्यारी लागे हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nथे झूंठ बोलबो छोडो, और धर्म सूं नातो जोडो ।\nम्हारी बांकडली झाड्यां में, गैलो पावो जी म्हारा सेवक जी,\nथे सीधो रस्तो पावोला॥ पारस प्यारा … ॥\n',
+    'englishLyrics': 'Sandeep Bohra',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Nice Cassettes Industries',
+    'production': '',
     'share': 0,
-    'singer': 'Vinod Shah',
-    'songNameEnglish': 'Jai Jai Dharam Sangh Avichal Ho',
-    'songNameHindi': 'जय जय धरम संघ अविचल हो',
-    'tirthankar': '',
+    'singer': 'Sandeep Bohra',
+    'songNameEnglish': 'Paras Pyara Lago',
+    'songNameHindi': 'पारस प्यारा लागो',
+    'tirthankar': 'Parshwanath',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/GDa_J46whEo',
+    'youTubeLink': 'https://youtu.be/wp9z9wujNlk',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

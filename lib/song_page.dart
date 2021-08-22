@@ -7,6 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
+import 'package:jain_songs/services/database/database_controlller.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -16,7 +17,7 @@ import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.d
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
 import 'custom_widgets/constantWidgets.dart';
-import 'services/firestore_helper.dart';
+import 'services/database/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
   final String? codeFromDynamicLink;
@@ -113,11 +114,11 @@ class _SongPageState extends State<SongPage> {
       showProgress = true;
     });
 
-    if (songsVisited.contains(currentSong!.code) == false) {
+    if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
+      ListFunctions.songsVisited.add(currentSong!.code);
       //TODO: Comment while debugging.
-      FireStoreHelper().changeClicks(currentSong!);
+      DatabaseController().changeClicks(context, currentSong!);
     }
-    songsVisited.add(currentSong!.code);
 
     langNo = 1;
     noOfLang = 1;
@@ -135,7 +136,7 @@ class _SongPageState extends State<SongPage> {
     suggester!.fetchSuggestions(currentSong!);
   }
 
-  void loadScreen() async {
+  Future<void> loadScreen() async {
     //Below code is for admob interstitial ads.
     _createInterstitialAd();
 
@@ -169,6 +170,7 @@ class _SongPageState extends State<SongPage> {
   @override
   void initState() {
     super.initState();
+
     setState(() {
       showProgress = true;
     });
@@ -188,8 +190,8 @@ class _SongPageState extends State<SongPage> {
       loadScreen();
     } else {
       _timerLink = Timer(Duration(milliseconds: 3000), () {
-        if (songList.isNotEmpty) {
-          currentSong = songList.firstWhere((song) {
+        if (ListFunctions.songList.isNotEmpty) {
+          currentSong = ListFunctions.songList.firstWhere((song) {
             return song!.code == widget.codeFromDynamicLink;
           }, orElse: () {
             return null;
@@ -204,8 +206,8 @@ class _SongPageState extends State<SongPage> {
         } else {
           _timerLink?.cancel();
           _timerLink = Timer(Duration(milliseconds: 3000), () {
-            if (songList.isNotEmpty) {
-              currentSong = songList.firstWhere((song) {
+            if (ListFunctions.songList.isNotEmpty) {
+              currentSong = ListFunctions.songList.firstWhere((song) {
                 return song!.code == widget.codeFromDynamicLink;
               }, orElse: () {
                 return null;
@@ -261,8 +263,6 @@ class _SongPageState extends State<SongPage> {
                           onTap: () {
                             if (widget.suggestionStreak.characters.last
                                 .contains(RegExp(r'[0-9]'))) {
-                              // print(
-                              //     'Press upper back onwillpop: ${widget.suggestionStreak}');
                               FireStoreHelper().storeSuggesterStreak(
                                   '${currentSong?.code}',
                                   '${widget.suggestionStreak}');
@@ -313,9 +313,7 @@ class _SongPageState extends State<SongPage> {
                             if (currentSong!.isLiked == true) {
                               currentSong!.isLiked = false;
                               setState(() {});
-                              FireStoreHelper fireStoreHelper =
-                                  FireStoreHelper();
-                              fireStoreHelper
+                              DatabaseController()
                                   .changeLikes(context, currentSong!, -1)
                                   .then((value) {
                                 setState(() {});
@@ -323,9 +321,7 @@ class _SongPageState extends State<SongPage> {
                             } else {
                               currentSong!.isLiked = true;
                               setState(() {});
-                              FireStoreHelper fireStoreHelper =
-                                  FireStoreHelper();
-                              fireStoreHelper
+                              DatabaseController()
                                   .changeLikes(context, currentSong!, 1)
                                   .then((value) {
                                 setState(() {});
@@ -403,9 +399,7 @@ class _SongPageState extends State<SongPage> {
                                     if (currentSong!.isLiked == true) {
                                       currentSong!.isLiked = false;
                                       setState(() {});
-                                      FireStoreHelper fireStoreHelper =
-                                          FireStoreHelper();
-                                      fireStoreHelper
+                                      DatabaseController()
                                           .changeLikes(
                                               context, currentSong!, -1)
                                           .then((value) {
@@ -414,9 +408,7 @@ class _SongPageState extends State<SongPage> {
                                     } else {
                                       currentSong!.isLiked = true;
                                       setState(() {});
-                                      FireStoreHelper fireStoreHelper =
-                                          FireStoreHelper();
-                                      fireStoreHelper
+                                      DatabaseController()
                                           .changeLikes(context, currentSong!, 1)
                                           .then((value) {
                                         setState(() {});
@@ -452,10 +444,8 @@ class _SongPageState extends State<SongPage> {
                                     shareApp(currentSong?.songNameHindi,
                                         currentSong?.code);
 
-                                    FireStoreHelper fireStoreHelper =
-                                        FireStoreHelper();
-                                    fireStoreHelper
-                                        .changeShare(currentSong!)
+                                    DatabaseController()
+                                        .changeShare(context, currentSong!)
                                         .then((value) {
                                       setState(() {});
                                     });
@@ -562,10 +552,9 @@ class _SongPageState extends State<SongPage> {
                                           shareApp(currentSong?.songNameHindi,
                                               currentSong?.code);
 
-                                          FireStoreHelper fireStoreHelper =
-                                              FireStoreHelper();
-                                          fireStoreHelper
-                                              .changeShare(currentSong!)
+                                          DatabaseController()
+                                              .changeShare(
+                                                  context, currentSong!)
                                               .then((value) {
                                             setState(() {});
                                           });

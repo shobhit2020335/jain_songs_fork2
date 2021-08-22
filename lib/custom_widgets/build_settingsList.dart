@@ -6,10 +6,10 @@ class BuildSettingsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: settingsList.length,
+      itemCount: ListFunctions.settingsList.length,
       itemBuilder: (context, i) {
         return BuildSettingsRow(
-          settingsList[i],
+          ListFunctions.settingsList[i],
         );
       },
     );

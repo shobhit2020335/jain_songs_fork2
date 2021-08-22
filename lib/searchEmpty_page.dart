@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'custom_widgets/constantWidgets.dart';
 

@@ -21,19 +21,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
   Timer? _timerLink;
   PlaylistDetails? currentPlaylist;
 
-  // void getSongs() async {
-  //   setState(() {
-  //     showProgress = true;
-  //   });
-  //   await FireStoreHelper().getPopularSongs();
-
-  //   setState(() {
-  //     showProgress = false;
-  //   });
-  // }
-
   void setUpPlaylistDetails() {
-    addElementsToList(currentPlaylist!.playlistTag);
+    ListFunctions().addElementsToList(currentPlaylist!.playlistTag);
     setState(() {
       showProgress = false;
     });
@@ -42,7 +31,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   void initState() {
     super.initState();
-    listToShow.clear();
+    ListFunctions.listToShow.clear();
     setState(() {
       showProgress = true;
     });
@@ -51,7 +40,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
       currentPlaylist = widget.currentPlaylist;
       setUpPlaylistDetails();
     } else {
-      currentPlaylist = playlistList.firstWhere((playlist) {
+      currentPlaylist = ListFunctions.playlistList.firstWhere((playlist) {
         return playlist!.playlistTag.contains(widget.playlistCode!);
       }, orElse: () {
         return null;
@@ -135,7 +124,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ],
                     ),
                   );
-                } else if (listToShow.length == 0) {
+                } else if (ListFunctions.listToShow.length == 0) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -150,9 +139,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ),
                     ],
                   );
-                } else if (index < listToShow.length) {
+                } else if (index < ListFunctions.listToShow.length) {
                   return BuildRow(
-                    listToShow[index],
+                    ListFunctions.listToShow[index],
                     color: currentPlaylist!.color,
                     playlist: currentPlaylist,
                   );
@@ -160,7 +149,9 @@ class _PlaylistPageState extends State<PlaylistPage> {
               },
               childCount: showProgress
                   ? 1
-                  : (listToShow.length == 0 ? 1 : listToShow.length),
+                  : (ListFunctions.listToShow.length == 0
+                      ? 1
+                      : ListFunctions.listToShow.length),
             ),
           ),
         ],
