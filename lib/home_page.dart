@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -10,18 +8,16 @@ import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
-import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/FirebaseDynamicLinkService.dart';
+import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/Searchify.dart';
 import 'package:jain_songs/services/database/database_controlller.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/oneSignal_notification.dart';
-import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
-import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -57,25 +53,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   void _searchAppBarUi() {
     if (showProgress == false) {
-      setState(() {
-        this.searchOrCrossIcon = clearIcon;
-        this.appBarTitle = TextField(
-          textInputAction: TextInputAction.search,
-          controller: searchController,
-          autofocus: true,
-          onChanged: (value) {
-            getSongs(value, false);
-          },
-          style: TextStyle(color: Colors.black),
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.search_rounded,
-              color: Colors.black,
+      setState(
+        () {
+          this.searchOrCrossIcon = clearIcon;
+          this.appBarTitle = TextField(
+            textInputAction: TextInputAction.search,
+            controller: searchController,
+            autofocus: true,
+            onChanged: (value) {
+              getSongs(value, false);
+            },
+            style: TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: Colors.black,
+              ),
+              hintText: 'Search anything...',
             ),
-            hintText: 'Search anything...',
-          ),
-        );
-      });
+          );
+        },
+      );
     }
   }
 
@@ -146,8 +144,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
         Globals.fetchedDays = Globals.totalDays;
         try {
-          //TODO: Change it to sync.
-          await FireStoreHelper().dailyUpdate();
+          await FireStoreHelper().dailyUpdate(context);
         } catch (e) {
           print(e);
           setState(() {

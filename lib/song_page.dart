@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,18 +7,17 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
+import 'package:jain_songs/services/database/database_controlller.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
-import 'package:jain_songs/services/realtimeDb_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
-import 'package:provider/provider.dart';
 import 'custom_widgets/constantWidgets.dart';
-import 'services/firestore_helper.dart';
+import 'services/database/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
   final String? codeFromDynamicLink;
@@ -119,10 +117,7 @@ class _SongPageState extends State<SongPage> {
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
       //TODO: Comment while debugging.
-      // FireStoreHelper().changeClicks(currentSong!);
-      RealtimeDbHelper(
-        Provider.of<FirebaseApp>(context, listen: false),
-      ).changeClicks(currentSong!);
+      DatabaseController().changeClicks(context, currentSong!);
     }
 
     langNo = 1;
@@ -139,9 +134,6 @@ class _SongPageState extends State<SongPage> {
       showProgress = false;
     });
     suggester!.fetchSuggestions(currentSong!);
-
-    // RealtimeDbHelper(Provider.of<FirebaseApp>(context, listen: false))
-    //     .fetchSongsDynamicData();
   }
 
   Future<void> loadScreen() async {
@@ -271,8 +263,6 @@ class _SongPageState extends State<SongPage> {
                           onTap: () {
                             if (widget.suggestionStreak.characters.last
                                 .contains(RegExp(r'[0-9]'))) {
-                              // print(
-                              //     'Press upper back onwillpop: ${widget.suggestionStreak}');
                               FireStoreHelper().storeSuggesterStreak(
                                   '${currentSong?.code}',
                                   '${widget.suggestionStreak}');
@@ -323,11 +313,7 @@ class _SongPageState extends State<SongPage> {
                             if (currentSong!.isLiked == true) {
                               currentSong!.isLiked = false;
                               setState(() {});
-                              //TODO: Change this.
-                              RealtimeDbHelper(
-                                Provider.of<FirebaseApp>(context,
-                                    listen: false),
-                              )
+                              DatabaseController()
                                   .changeLikes(context, currentSong!, -1)
                                   .then((value) {
                                 setState(() {});
@@ -335,11 +321,7 @@ class _SongPageState extends State<SongPage> {
                             } else {
                               currentSong!.isLiked = true;
                               setState(() {});
-                              //TODO: Change this.
-                              RealtimeDbHelper(
-                                Provider.of<FirebaseApp>(context,
-                                    listen: false),
-                              )
+                              DatabaseController()
                                   .changeLikes(context, currentSong!, 1)
                                   .then((value) {
                                 setState(() {});
@@ -417,11 +399,7 @@ class _SongPageState extends State<SongPage> {
                                     if (currentSong!.isLiked == true) {
                                       currentSong!.isLiked = false;
                                       setState(() {});
-                                      //TODO: Change this.
-                                      RealtimeDbHelper(
-                                        Provider.of<FirebaseApp>(context,
-                                            listen: false),
-                                      )
+                                      DatabaseController()
                                           .changeLikes(
                                               context, currentSong!, -1)
                                           .then((value) {
@@ -430,11 +408,7 @@ class _SongPageState extends State<SongPage> {
                                     } else {
                                       currentSong!.isLiked = true;
                                       setState(() {});
-                                      //TODO: Change this.
-                                      RealtimeDbHelper(
-                                        Provider.of<FirebaseApp>(context,
-                                            listen: false),
-                                      )
+                                      DatabaseController()
                                           .changeLikes(context, currentSong!, 1)
                                           .then((value) {
                                         setState(() {});
@@ -470,11 +444,9 @@ class _SongPageState extends State<SongPage> {
                                     shareApp(currentSong?.songNameHindi,
                                         currentSong?.code);
 
-                                    //TODO: Change this.
-                                    RealtimeDbHelper(
-                                      Provider.of<FirebaseApp>(context,
-                                          listen: false),
-                                    ).changeShare(currentSong!).then((value) {
+                                    DatabaseController()
+                                        .changeShare(context, currentSong!)
+                                        .then((value) {
                                       setState(() {});
                                     });
                                     setState(() {
@@ -580,12 +552,9 @@ class _SongPageState extends State<SongPage> {
                                           shareApp(currentSong?.songNameHindi,
                                               currentSong?.code);
 
-                                          //TODO: Change this.
-                                          RealtimeDbHelper(
-                                            Provider.of<FirebaseApp>(context,
-                                                listen: false),
-                                          )
-                                              .changeShare(currentSong!)
+                                          DatabaseController()
+                                              .changeShare(
+                                                  context, currentSong!)
                                               .then((value) {
                                             setState(() {});
                                           });

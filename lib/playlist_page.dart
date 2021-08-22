@@ -21,17 +21,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
   Timer? _timerLink;
   PlaylistDetails? currentPlaylist;
 
-  // void getSongs() async {
-  //   setState(() {
-  //     showProgress = true;
-  //   });
-  //   await FireStoreHelper().getPopularSongs();
-
-  //   setState(() {
-  //     showProgress = false;
-  //   });
-  // }
-
   void setUpPlaylistDetails() {
     ListFunctions().addElementsToList(currentPlaylist!.playlistTag);
     setState(() {

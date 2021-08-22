@@ -1,8 +1,7 @@
 import 'dart:io';
 import 'package:connectivity/connectivity.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
-import 'package:jain_songs/utilities/lists.dart';
 import 'package:package_info/package_info.dart';
 
 class NetworkHelper {

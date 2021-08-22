@@ -1,15 +1,13 @@
-import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/services/database/database_controlller.dart';
-import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
@@ -28,9 +26,32 @@ class RealtimeDbHelper {
 
   //Updates the trend points and resets other data in both firestore and realtime
   //syncs realtime db and firestore
-  Future<bool> syncDatabaseWithDailyUpdate() async {
-    //Add traces of daily update and sync.
-    return false;
+  Future<bool> syncDatabase() async {
+    _traceSync.start();
+
+    try {
+      for (int i = 0; i < ListFunctions.songList.length; i++) {
+        database
+            .reference()
+            .child('songs')
+            .child(ListFunctions.songList[i]!.code!)
+            .set(ListFunctions.songList[i]!.toMap());
+      }
+
+      Timestamp lastUpdated = Timestamp.now();
+      CollectionReference others =
+          FirebaseFirestore.instance.collection('others');
+      others.doc('JAINSONGS').update({
+        'lastDatabaseSynced': lastUpdated,
+      });
+
+      _traceSync.stop();
+      return true;
+    } catch (e) {
+      _traceSync.stop();
+      print('Error syncing realtime database.');
+      return false;
+    }
   }
 
   Future<bool> fetchSongs() async {
@@ -122,17 +143,9 @@ class RealtimeDbHelper {
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {
-    int todayClicks = currentSong.todayClicks! + 1;
-    int totalClicks = currentSong.totalClicks! + 1;
+    //Algorithm is not used here, it is used in firestore side because firestore
+    //is updated first.
 
-    //Algo for trendPoints
-    double avgClicks = totalClicks / Globals.totalDays;
-    double nowTrendPoints = todayClicks - avgClicks;
-    double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
-
-    if (nowTrendPoints < currentSong.trendPoints!) {
-      trendPointInc = 0;
-    }
     try {
       await database
           .reference()
@@ -143,17 +156,9 @@ class RealtimeDbHelper {
         'totalClicks': ServerValue.increment(1),
         'todayClicks': ServerValue.increment(1),
       });
-      currentSong.todayClicks = currentSong.todayClicks! + 1;
-      currentSong.totalClicks = currentSong.totalClicks! + 1;
-      currentSong.popularity = currentSong.popularity! + 1;
-      print('Change trendpoints');
-      if (trendPointInc > 0) {
-        database.reference().child('songs').child(currentSong.code!).update({
-          'trendPoints': nowTrendPoints,
-        }).then((value) {
-          currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
-        });
-      }
+      database.reference().child('songs').child(currentSong.code!).update({
+        'trendPoints': currentSong.trendPoints,
+      });
     } catch (e) {
       print('Error updating clicks or popularity in realtime: $e');
       return false;
@@ -196,7 +201,6 @@ class RealtimeDbHelper {
     } catch (e) {
       currentSong.isLiked = !currentSong.isLiked;
       print('Error updating likes in realtime: $e');
-      showSimpleToast(context, 'Something went wrong! Please try later.');
       return false;
     }
   }

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
-import 'package:jain_songs/flutter_list_configured/filters.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
-import 'package:jain_songs/services/realtimeDb_helper.dart';
+import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/services/database/database_controlller.dart';
@@ -15,6 +14,7 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -66,7 +66,7 @@ class FireStoreHelper {
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
-  Future<void> dailyUpdate() async {
+  Future<void> dailyUpdate(BuildContext context) async {
     _trace.start();
     ListFunctions.songList.clear();
 
@@ -106,6 +106,25 @@ class FireStoreHelper {
     _trace.stop();
 
     await _readFetchedSongs(songs, ListFunctions.songList);
+
+    //TODO: Debug Remove then while launching the App.
+    RealtimeDbHelper(
+      Provider.of<FirebaseApp>(context, listen: false),
+    ).syncDatabase().then((value) {
+      if (value) {
+        showSimpleToast(
+          context,
+          'Database Synced!',
+          duration: 10,
+        );
+      } else {
+        showSimpleToast(
+          context,
+          'Error syncing database!',
+          duration: 10,
+        );
+      }
+    });
   }
 
   Future<bool> fetchSongs() async {
@@ -228,7 +247,7 @@ class FireStoreHelper {
     // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
-  Future<void> changeClicks(SongDetails currentSong) async {
+  Future<bool> changeClicks(SongDetails currentSong) async {
     int todayClicks = currentSong.todayClicks! + 1;
     int totalClicks = currentSong.totalClicks! + 1;
 
@@ -241,46 +260,54 @@ class FireStoreHelper {
       trendPointInc = 0;
     }
 
-    await songs.doc(currentSong.code).update({
-      'popularity': FieldValue.increment(1),
-      'totalClicks': FieldValue.increment(1),
-      'todayClicks': FieldValue.increment(1),
-      'trendPoints': FieldValue.increment(trendPointInc),
-    }).then((value) {
-      currentSong.todayClicks = currentSong.todayClicks! + 1;
-      currentSong.totalClicks = currentSong.totalClicks! + 1;
-      currentSong.popularity = currentSong.popularity! + 1;
-      currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
-    }).catchError((error) {
-      print('Error Updating popularity or trendPoints!');
-    });
+    try {
+      await songs.doc(currentSong.code).update({
+        'popularity': FieldValue.increment(1),
+        'totalClicks': FieldValue.increment(1),
+        'todayClicks': FieldValue.increment(1),
+        'trendPoints': FieldValue.increment(trendPointInc),
+      }).then((value) {
+        currentSong.todayClicks = currentSong.todayClicks! + 1;
+        currentSong.totalClicks = currentSong.totalClicks! + 1;
+        currentSong.popularity = currentSong.popularity! + 1;
+        currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
-  Future<void> changeShare(SongDetails currentSong) async {
-    await songs
-        .doc(currentSong.code)
-        .update({'share': FieldValue.increment(1)}).then((value) {
-      currentSong.share = currentSong.share! + 1;
-    }).catchError((error) {
-      print('Error Updating share count in firebase');
-    });
+  Future<bool> changeShare(SongDetails currentSong) async {
+    try {
+      await songs
+          .doc(currentSong.code)
+          .update({'share': FieldValue.increment(1)}).then((value) {
+        currentSong.share = currentSong.share! + 1;
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
-  Future<void> changeLikes(
+  Future<bool> changeLikes(
       BuildContext context, SongDetails currentSong, int toAdd) async {
-    await songs.doc(currentSong.code).update({
-      'likes': FieldValue.increment(toAdd),
-      'popularity': FieldValue.increment(toAdd)
-    }).then((value) {
-      currentSong.likes = currentSong.likes! + toAdd;
-      currentSong.popularity = currentSong.popularity! + toAdd;
-      SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
-    }).catchError((error) {
-      currentSong.isLiked = !currentSong.isLiked;
-      showSimpleToast(
-        context,
-        'Something went wrong! Please try Later.',
-      );
-    });
+    try {
+      await songs.doc(currentSong.code).update({
+        'likes': FieldValue.increment(toAdd),
+        'popularity': FieldValue.increment(toAdd)
+      }).then((value) {
+        currentSong.likes = currentSong.likes! + toAdd;
+        currentSong.popularity = currentSong.popularity! + toAdd;
+        SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }
