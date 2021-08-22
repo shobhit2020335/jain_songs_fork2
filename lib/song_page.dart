@@ -7,7 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
-import 'package:jain_songs/services/database/database_controlller.dart';
+import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
