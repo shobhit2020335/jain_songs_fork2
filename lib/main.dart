@@ -1,4 +1,3 @@
-//TODO: Change firestore caching way.
 //TODO Add custom notification sound
 //TODO: Store as much data of user you can.
 //TODO: User can chat with me.
