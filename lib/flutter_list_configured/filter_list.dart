@@ -76,6 +76,6 @@ class FilterListDialog {
         );
       },
     );
-    return filtersSelected;
+    return ListFunctions.filtersSelected;
   }
 }

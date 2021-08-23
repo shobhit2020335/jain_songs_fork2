@@ -83,4 +83,32 @@ class SongDetails {
       this.gujaratiLyrics = "NA";
     }
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'aaa': 'valid',
+      'album': album,
+      'category': category,
+      'code': code,
+      'englishLyrics': englishLyrics,
+      'genre': genre,
+      'gujaratiLyrics': gujaratiLyrics,
+      'language': language,
+      'likes': likes,
+      'lyrics': lyrics,
+      'originalSong': originalSong,
+      'popularity': popularity,
+      'production': production,
+      'searchKeywords': searchKeywords,
+      'share': share,
+      'singer': singer,
+      'songNameEnglish': songNameEnglish,
+      'songNameHindi': songNameHindi,
+      'tirthankar': tirthankar,
+      'todayClicks': todayClicks,
+      'totalClicks': totalClicks,
+      'trendPoints': trendPoints,
+      'youTubeLink': youTubeLink,
+    };
+  }
 }

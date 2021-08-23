@@ -1,17 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
-import 'package:jain_songs/flutter_list_configured/filters.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
+import 'package:jain_songs/services/database/database_controller.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -19,93 +22,59 @@ class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
   final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
   final Trace _trace2 = FirebasePerformance.instance.newTrace('getSongs');
-  CollectionReference songs = FirebaseFirestore.instance.collection('songs');
-  CollectionReference suggestions =
+  final CollectionReference songs =
+      FirebaseFirestore.instance.collection('songs');
+  final CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
-  static Future<String> fetchRemoteConfigs() async {
+  Future<void> fetchRemoteConfigs() async {
     RemoteConfig remoteConfig = RemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
         minimumFetchInterval: Duration(seconds: 1),
         fetchTimeout: Duration(seconds: 4)));
     await remoteConfig.fetchAndActivate();
-    String message = remoteConfig.getString('welcome_message');
-    fromCache = remoteConfig.getBool('from_cache');
-    return message;
+    Globals.welcomeMessage = remoteConfig.getString('welcome_message');
+    DatabaseController.fromCache = remoteConfig.getBool('from_cache');
+    DatabaseController.dbName = remoteConfig.getString('db_name');
   }
 
-  //Storing the user's selected filters in realtime database.
-  Future<void> userSelectedFilters(UserFilters userFilters) async {
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-    if (isInternetConnected == false) {
-      return;
-    }
-
-    //TODO: Comment while debugging.
-    final DatabaseReference databaseReference =
-        FirebaseDatabase.instance.reference();
-    databaseReference
-        .child("userBehaviour")
-        .child("filters")
-        .push()
-        .set(userFilters.toMap());
-  }
-
-  //Stores the suggestion streak of the user in realtime DB not working so commented.
-  // Future<void> storeUserSuggestionStreak(String streak) async {
-  //   if (streak == null || streak.trim().length == 0) {
-  //     return;
-  //   }
-  //   bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-  //   if (isInternetConnected == false) {
-  //     return;
-  //   }
-
-  //   final DatabaseReference databaseReference =
-  //       FirebaseDatabase.instance.reference();
-  //   String? playerId = await SharedPrefs.getOneSignalPlayerId();
-  //   if (playerId == null) {
-  //     playerId = await FirebaseFCMManager.getFCMToken();
-  //   }
-  //   print('Passed this');
-  //   databaseReference
-  //       .child("userBehaviour")
-  //       .child("suggester")
-  //       .push()
-  //       .set({
-  //         '$playerId': '$streak',
-  //       })
-  //       .then((value) => print('Nikla'))
-  //       .onError((error, stackTrace) => print('Error: $error & $stackTrace'));
-  // }
-
+  //Fetches Days of app passed, min version required by user and remote configs.
   Future<void> fetchDaysAndVersion() async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
 
     if (isInternetConnected == false) {
-      fetchedDays = totalDays;
-      fetchedVersion = appVersion;
+      Globals.fetchedDays = Globals.totalDays;
+      Globals.fetchedVersion = Globals.appVersion;
       return;
     }
-    CollectionReference others = _firestore.collection('others');
-    var docSnap = await others.doc('JAINSONGS').get();
-    Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
+    try {
+      await fetchRemoteConfigs();
+    } catch (e) {
+      print('error fetching remote config: $e');
+      Globals.welcomeMessage = 'Jai Jinendra';
+      DatabaseController.dbName = 'firestore';
+      DatabaseController.fromCache = false;
+    }
 
-    await fetchRemoteConfigs().then((value) {
-      welcomeMessage = value;
-    }).onError((dynamic error, stackTrace) {
-      welcomeMessage = 'Jai Jinendra';
-    });
+    try {
+      CollectionReference others = _firestore.collection('others');
+      var docSnap = await others.doc('JAINSONGS').get();
+      Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
+      Globals.fetchedDays = othersMap['totalDays'];
+      Globals.fetchedVersion = othersMap['appVersion'];
+    } catch (e) {
+      print(e);
+      Globals.fetchedDays = Globals.totalDays;
+      Globals.fetchedVersion = Globals.appVersion;
+    }
 
-    fetchedDays = othersMap['totalDays'];
-    fetchedVersion = othersMap['appVersion'];
-    print(fetchedVersion);
+    print(Globals.fetchedVersion);
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
-  Future<void> dailyUpdate() async {
+  Future<void> dailyUpdate(BuildContext context) async {
     _trace.start();
-    songList.clear();
+    ListFunctions.songList.clear();
 
     QuerySnapshot songs;
     songs = await _firestore.collection('songs').get();
@@ -119,7 +88,7 @@ class FireStoreHelper {
         int totalClicks = songMap['totalClicks'];
 
         //Algo for trendPoints
-        double avgClicks = totalClicks / totalDays;
+        double avgClicks = totalClicks / Globals.totalDays;
         songMap['trendPoints'] = (todayClicks - avgClicks) / 2;
         songMap['todayClicks'] = 0;
 
@@ -135,52 +104,70 @@ class FireStoreHelper {
     Timestamp lastUpdated = Timestamp.now();
     CollectionReference others = _firestore.collection('others');
     others.doc('JAINSONGS').update({
-      'totalDays': totalDays,
+      'totalDays': Globals.totalDays,
       'lastUpdated': lastUpdated,
     }).catchError((error) {
       print('Error updating days.' + error);
     });
     _trace.stop();
 
-    await _readFetchedSongs(songs, songList);
+    await _readFetchedSongs(songs, ListFunctions.songList);
+
+    //TODO: Debug Remove then while launching the App.
+    RealtimeDbHelper(
+      Provider.of<FirebaseApp>(context, listen: false),
+    ).syncDatabase().then((value) {
+      if (value) {
+        showSimpleToast(
+          context,
+          'Database Synced!',
+          duration: 10,
+        );
+      } else {
+        showSimpleToast(
+          context,
+          'Error syncing database!',
+          duration: 10,
+        );
+      }
+    });
   }
 
-  Future<void> getSongs() async {
+  Future<bool> fetchSongs() async {
     _trace2.start();
-    songList.clear();
+    ListFunctions.songList.clear();
     QuerySnapshot songs;
 
-    bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
-    if (fromCache == false || isFirstOpen == null) {
-      if (isFirstOpen == null) {
-        SharedPrefs.setIsFirstOpen(false);
-      }
-      songs = await _firestore.collection('songs').get();
-    } else {
-      songs = await _firestore
-          .collection('songs')
-          .get(GetOptions(source: Source.cache));
-      if (songs == null || songs.size == 0) {
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
         songs = await _firestore.collection('songs').get();
+      } else {
+        songs = await _firestore
+            .collection('songs')
+            .get(GetOptions(source: Source.cache));
+        if (songs.size == 0) {
+          songs = await _firestore.collection('songs').get();
+        }
       }
+      if (songs.size == 0) {
+        _trace2.stop();
+        return false;
+      }
+
+      await _readFetchedSongs(songs, ListFunctions.songList);
+    } catch (e) {
+      _trace2.stop();
+      print(e);
+      return false;
     }
-
-    await _readFetchedSongs(songs, songList);
     _trace2.stop();
+    return true;
   }
-
-  // Future<void> getPopularSongs() async {
-  //   listToShow.clear();
-  //   QuerySnapshot songs;
-  //   songs = await _firestore
-  //       .collection('songs')
-  //       .orderBy('popularity', descending: true)
-  //       .limit(30)
-  //       .get();
-
-  //   await _readFetchedSongs(songs, listToShow);
-  // }
 
   Future<void> _readFetchedSongs(
       QuerySnapshot songs, List<SongDetails?> listToAdd) async {
@@ -253,7 +240,7 @@ class FireStoreHelper {
         'Suggestion Streak',
         '${suggestionStreak[0]}',
         '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
-        '${songsVisited.toList()}',
+        '${ListFunctions.songsVisited.toList()}',
         '$suggestionStreak');
 
     String? fcmToken = await FirebaseFCMManager.getFCMToken();
@@ -266,12 +253,12 @@ class FireStoreHelper {
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
-  Future<void> changeClicks(SongDetails currentSong) async {
+  Future<bool> changeClicks(SongDetails currentSong) async {
     int todayClicks = currentSong.todayClicks! + 1;
     int totalClicks = currentSong.totalClicks! + 1;
 
     //Algo for trendPoints
-    double avgClicks = totalClicks / totalDays;
+    double avgClicks = totalClicks / Globals.totalDays;
     double nowTrendPoints = todayClicks - avgClicks;
     double trendPointInc = nowTrendPoints - currentSong.trendPoints!;
 
@@ -279,46 +266,54 @@ class FireStoreHelper {
       trendPointInc = 0;
     }
 
-    await songs.doc(currentSong.code).update({
-      'popularity': FieldValue.increment(1),
-      'totalClicks': FieldValue.increment(1),
-      'todayClicks': FieldValue.increment(1),
-      'trendPoints': FieldValue.increment(trendPointInc),
-    }).then((value) {
-      currentSong.todayClicks = currentSong.todayClicks! + 1;
-      currentSong.totalClicks = currentSong.totalClicks! + 1;
-      currentSong.popularity = currentSong.popularity! + 1;
-      currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
-    }).catchError((error) {
-      print('Error Updating popularity or trendPoints!');
-    });
+    try {
+      await songs.doc(currentSong.code).update({
+        'popularity': FieldValue.increment(1),
+        'totalClicks': FieldValue.increment(1),
+        'todayClicks': FieldValue.increment(1),
+        'trendPoints': FieldValue.increment(trendPointInc),
+      }).then((value) {
+        currentSong.todayClicks = currentSong.todayClicks! + 1;
+        currentSong.totalClicks = currentSong.totalClicks! + 1;
+        currentSong.popularity = currentSong.popularity! + 1;
+        currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
-  Future<void> changeShare(SongDetails currentSong) async {
-    await songs
-        .doc(currentSong.code)
-        .update({'share': FieldValue.increment(1)}).then((value) {
-      currentSong.share = currentSong.share! + 1;
-    }).catchError((error) {
-      print('Error Updating share count in firebase');
-    });
+  Future<bool> changeShare(SongDetails currentSong) async {
+    try {
+      await songs
+          .doc(currentSong.code)
+          .update({'share': FieldValue.increment(1)}).then((value) {
+        currentSong.share = currentSong.share! + 1;
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 
-  Future<void> changeLikes(
+  Future<bool> changeLikes(
       BuildContext context, SongDetails currentSong, int toAdd) async {
-    await songs.doc(currentSong.code).update({
-      'likes': FieldValue.increment(toAdd),
-      'popularity': FieldValue.increment(toAdd)
-    }).then((value) {
-      currentSong.likes = currentSong.likes! + toAdd;
-      currentSong.popularity = currentSong.popularity! + toAdd;
-      SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
-    }).catchError((error) {
-      currentSong.isLiked = !currentSong.isLiked;
-      showSimpleToast(
-        context,
-        'Something went wrong! Please try Later.',
-      );
-    });
+    try {
+      await songs.doc(currentSong.code).update({
+        'likes': FieldValue.increment(toAdd),
+        'popularity': FieldValue.increment(toAdd)
+      }).then((value) {
+        currentSong.likes = currentSong.likes! + toAdd;
+        currentSong.popularity = currentSong.popularity! + toAdd;
+        SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }

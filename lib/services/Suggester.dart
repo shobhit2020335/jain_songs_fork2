@@ -228,8 +228,9 @@ class Suggester {
 
   void _populateLevel1List() {
     level1Songs.clear();
-    for (int index = 0; index < sortedSongList.length; index++) {
-      if ((!songsVisited.contains(sortedSongList[index]!.code))) {
+    for (int index = 0; index < ListFunctions.sortedSongList.length; index++) {
+      if ((!ListFunctions.songsVisited
+          .contains(ListFunctions.sortedSongList[index]!.code))) {
         bool toExclude = false;
         _currentStreakLevels.forEach((level, map) {
           int totalKeys = 0;
@@ -239,15 +240,17 @@ class Suggester {
             map!.forEach((key, value) {
               totalKeys++;
               if (value == 'category') {
-                if (sortedSongList[index]!
-                    .category!
+                if (ListFunctions.sortedSongList[index]!.category!
                     .toLowerCase()
                     .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
-                } else if (sortedSongList[index]!.category!.isNotEmpty) {
-                  List<String> values =
-                      sortedSongList[index]!.category!.toLowerCase().split(' ');
+                } else if (ListFunctions
+                    .sortedSongList[index]!.category!.isNotEmpty) {
+                  List<String> values = ListFunctions
+                      .sortedSongList[index]!.category!
+                      .toLowerCase()
+                      .split(' ');
 
                   values.forEach((value) {
                     if (defaultStreakLevels[value] == 2) {
@@ -256,12 +259,17 @@ class Suggester {
                   });
                 }
               } else if (value == 'genre') {
-                if (sortedSongList[index]!.genre!.toLowerCase().contains(key)) {
+                if (ListFunctions.sortedSongList[index]!.genre!
+                    .toLowerCase()
+                    .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
-                } else if (sortedSongList[index]!.genre!.isNotEmpty) {
-                  List<String> values =
-                      sortedSongList[index]!.genre!.toLowerCase().split(' ');
+                } else if (ListFunctions
+                    .sortedSongList[index]!.genre!.isNotEmpty) {
+                  List<String> values = ListFunctions
+                      .sortedSongList[index]!.genre!
+                      .toLowerCase()
+                      .split(' ');
 
                   values.forEach((value) {
                     if (defaultStreakLevels[value] == 2) {
@@ -270,15 +278,17 @@ class Suggester {
                   });
                 }
               } else if (value == 'language') {
-                if (sortedSongList[index]!
-                    .language!
+                if (ListFunctions.sortedSongList[index]!.language!
                     .toLowerCase()
                     .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
-                } else if (sortedSongList[index]!.language!.isNotEmpty) {
-                  List<String> values =
-                      sortedSongList[index]!.language!.toLowerCase().split(' ');
+                } else if (ListFunctions
+                    .sortedSongList[index]!.language!.isNotEmpty) {
+                  List<String> values = ListFunctions
+                      .sortedSongList[index]!.language!
+                      .toLowerCase()
+                      .split(' ');
 
                   values.forEach((value) {
                     if (defaultStreakLevels[value] == 2) {
@@ -287,15 +297,17 @@ class Suggester {
                   });
                 }
               } else if (value == 'singer') {
-                if (sortedSongList[index]!
-                    .singer!
+                if (ListFunctions.sortedSongList[index]!.singer!
                     .toLowerCase()
                     .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
-                } else if (sortedSongList[index]!.singer!.isNotEmpty) {
-                  List<String> values =
-                      sortedSongList[index]!.singer!.toLowerCase().split(' ');
+                } else if (ListFunctions
+                    .sortedSongList[index]!.singer!.isNotEmpty) {
+                  List<String> values = ListFunctions
+                      .sortedSongList[index]!.singer!
+                      .toLowerCase()
+                      .split(' ');
 
                   values.forEach((value) {
                     if (defaultStreakLevels[value] == 2) {
@@ -304,15 +316,15 @@ class Suggester {
                   });
                 }
               } else if (value == 'originalSong') {
-                if (sortedSongList[index]!
-                    .originalSong!
+                if (ListFunctions.sortedSongList[index]!.originalSong!
                     .toLowerCase()
                     .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
-                } else if (sortedSongList[index]!.originalSong!.isNotEmpty) {
-                  List<String> values = sortedSongList[index]!
-                      .originalSong!
+                } else if (ListFunctions
+                    .sortedSongList[index]!.originalSong!.isNotEmpty) {
+                  List<String> values = ListFunctions
+                      .sortedSongList[index]!.originalSong!
                       .toLowerCase()
                       .split(' ');
 
@@ -323,15 +335,15 @@ class Suggester {
                   });
                 }
               } else if (value == 'tirthankar') {
-                if (sortedSongList[index]!
-                    .tirthankar!
+                if (ListFunctions.sortedSongList[index]!.tirthankar!
                     .toLowerCase()
                     .contains(key)) {
                   totalPresent++;
                   isLevel2Absent = false;
-                } else if (sortedSongList[index]!.tirthankar!.isNotEmpty) {
-                  List<String> values = sortedSongList[index]!
-                      .tirthankar!
+                } else if (ListFunctions
+                    .sortedSongList[index]!.tirthankar!.isNotEmpty) {
+                  List<String> values = ListFunctions
+                      .sortedSongList[index]!.tirthankar!
                       .toLowerCase()
                       .split(' ');
 
@@ -346,40 +358,34 @@ class Suggester {
             if (map.isEmpty) {
               defaultStreakLevels.forEach((key, value) {
                 if (value == 2 && !_currentStreakLevels[1]!.containsKey(key)) {
-                  if (sortedSongList[index]!
-                      .category!
+                  if (ListFunctions.sortedSongList[index]!.category!
                       .toLowerCase()
                       .contains(key)) {
                     isLevel2Absent = false;
                   }
-                  if (sortedSongList[index]!
-                      .genre!
+                  if (ListFunctions.sortedSongList[index]!.genre!
                       .toLowerCase()
                       .contains(key)) {
                     isLevel2Absent = false;
                   }
-                  if (sortedSongList[index]!
-                      .language!
+                  if (ListFunctions.sortedSongList[index]!.language!
                       .toLowerCase()
                       .contains(key)) {
                     isLevel2Absent = false;
                   }
-                  if (sortedSongList[index]!
-                      .singer!
-                      .toLowerCase()
-                      .contains(key)) {
-                    isLevel2Absent = false;
-                  }
-
-                  if (sortedSongList[index]!
-                      .originalSong!
+                  if (ListFunctions.sortedSongList[index]!.singer!
                       .toLowerCase()
                       .contains(key)) {
                     isLevel2Absent = false;
                   }
 
-                  if (sortedSongList[index]!
-                      .tirthankar!
+                  if (ListFunctions.sortedSongList[index]!.originalSong!
+                      .toLowerCase()
+                      .contains(key)) {
+                    isLevel2Absent = false;
+                  }
+
+                  if (ListFunctions.sortedSongList[index]!.tirthankar!
                       .toLowerCase()
                       .contains(key)) {
                     isLevel2Absent = false;
@@ -391,42 +397,43 @@ class Suggester {
             map!.forEach((key, value) {
               totalKeys++;
               if (value == 'category' &&
-                  sortedSongList[index]!
-                      .category!
+                  ListFunctions.sortedSongList[index]!.category!
                       .toLowerCase()
                       .contains(key)) {
                 totalPresent++;
               } else if (value == 'code' &&
-                  sortedSongList[index]!.code == key) {
+                  ListFunctions.sortedSongList[index]!.code == key) {
                 totalPresent++;
               } else if (value == 'genre' &&
-                  sortedSongList[index]!.genre!.toLowerCase().contains(key)) {
+                  ListFunctions.sortedSongList[index]!.genre!
+                      .toLowerCase()
+                      .contains(key)) {
                 totalPresent++;
               } else if (value == 'language' &&
-                  sortedSongList[index]!
-                      .language!
+                  ListFunctions.sortedSongList[index]!.language!
                       .toLowerCase()
                       .contains(key)) {
                 totalPresent++;
               } else if (value == 'singer' &&
-                  sortedSongList[index]!.singer!.toLowerCase().contains(key)) {
+                  ListFunctions.sortedSongList[index]!.singer!
+                      .toLowerCase()
+                      .contains(key)) {
                 totalPresent++;
               } else if (value == 'originalSong' &&
-                  sortedSongList[index]!
-                      .originalSong!
+                  ListFunctions.sortedSongList[index]!.originalSong!
                       .toLowerCase()
                       .contains(key)) {
                 totalPresent++;
               } else if (value == 'tirthankar' &&
-                  sortedSongList[index]!
-                      .tirthankar!
+                  ListFunctions.sortedSongList[index]!.tirthankar!
                       .toLowerCase()
                       .contains(key)) {
                 totalPresent++;
-              } else if (key == 'favourite' && sortedSongList[index]!.isLiked) {
+              } else if (key == 'favourite' &&
+                  ListFunctions.sortedSongList[index]!.isLiked) {
                 totalPresent++;
               } else if (key == 'popular' &&
-                  sortedSongList[index]!.popularity! > 110) {
+                  ListFunctions.sortedSongList[index]!.popularity! > 110) {
                 totalPresent++;
               }
             });
@@ -452,17 +459,17 @@ class Suggester {
             toExclude = true;
           }
           if (level == 1) {
-            sortedSongList[index]!.level1 = levelPoint.round();
+            ListFunctions.sortedSongList[index]!.level1 = levelPoint.round();
           } else if (level == 2) {
-            sortedSongList[index]!.level2 = levelPoint.round();
+            ListFunctions.sortedSongList[index]!.level2 = levelPoint.round();
           } else if (level == 3) {
-            sortedSongList[index]!.level3 = levelPoint.round();
+            ListFunctions.sortedSongList[index]!.level3 = levelPoint.round();
           } else if (level == 4) {
-            sortedSongList[index]!.level4 = levelPoint.round();
+            ListFunctions.sortedSongList[index]!.level4 = levelPoint.round();
           }
         });
         if (toExclude == false) {
-          level1Songs.add(sortedSongList[index]);
+          level1Songs.add(ListFunctions.sortedSongList[index]);
         }
       }
     }
@@ -660,6 +667,7 @@ class Suggester {
     'nakoda': 3,
     'sambhavnath': 3,
     'shantinath': 3,
+    'kunthunath': 3,
     //Before changing values see code where it is used.
     'parshwanath': 4,
     'neminath': 4,
@@ -681,6 +689,7 @@ class Suggester {
     'sheela': 4,
     'gandhi': 4,
     'baghmar': 4,
+    'piyush': 4,
   };
 
   int level1Comparison(SongDetails? a, SongDetails? b) {

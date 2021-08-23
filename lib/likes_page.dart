@@ -7,7 +7,7 @@ import 'utilities/lists.dart';
 
 class LikesPage extends StatelessWidget {
   LikesPage() {
-    addElementsToList('favourites');
+    ListFunctions().addElementsToList('favourites');
   }
 
   @override
@@ -53,12 +53,12 @@ class LikesPage extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 return BuildRow(
-                  listToShow[index],
+                  ListFunctions.listToShow[index],
                   color: Colors.pink[400],
-                  playlist: playlistList[0],
+                  playlist: ListFunctions.playlistList[0],
                 );
               },
-              childCount: listToShow.length,
+              childCount: ListFunctions.listToShow.length,
             ),
           ),
         ],

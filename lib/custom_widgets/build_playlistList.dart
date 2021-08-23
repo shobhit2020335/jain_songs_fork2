@@ -6,13 +6,13 @@ class BuildPlaylistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: playlistList.length * 2,
+      itemCount: ListFunctions.playlistList.length * 2,
       itemBuilder: (context, i) {
         if (i % 2 == 1) {
           return Divider();
         } else {
           return BuildPlaylistRow(
-            playlistList[i ~/ 2],
+            ListFunctions.playlistList[i ~/ 2],
           );
         }
       },
