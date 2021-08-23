@@ -667,6 +667,7 @@ class Suggester {
     'nakoda': 3,
     'sambhavnath': 3,
     'shantinath': 3,
+    'kunthunath': 3,
     //Before changing values see code where it is used.
     'parshwanath': 4,
     'neminath': 4,
@@ -688,6 +689,7 @@ class Suggester {
     'sheela': 4,
     'gandhi': 4,
     'baghmar': 4,
+    'piyush': 4,
   };
 
   int level1Comparison(SongDetails? a, SongDetails? b) {

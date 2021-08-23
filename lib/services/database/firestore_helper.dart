@@ -47,12 +47,6 @@ class FireStoreHelper {
       Globals.fetchedVersion = Globals.appVersion;
       return;
     }
-    CollectionReference others = _firestore.collection('others');
-    var docSnap = await others.doc('JAINSONGS').get();
-    Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
-    Globals.fetchedDays = othersMap['totalDays'];
-    Globals.fetchedVersion = othersMap['appVersion'];
-
     try {
       await fetchRemoteConfigs();
     } catch (e) {
@@ -60,6 +54,18 @@ class FireStoreHelper {
       Globals.welcomeMessage = 'Jai Jinendra';
       DatabaseController.dbName = 'firestore';
       DatabaseController.fromCache = false;
+    }
+
+    try {
+      CollectionReference others = _firestore.collection('others');
+      var docSnap = await others.doc('JAINSONGS').get();
+      Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
+      Globals.fetchedDays = othersMap['totalDays'];
+      Globals.fetchedVersion = othersMap['appVersion'];
+    } catch (e) {
+      print(e);
+      Globals.fetchedDays = Globals.totalDays;
+      Globals.fetchedVersion = Globals.appVersion;
     }
 
     print(Globals.fetchedVersion);
@@ -244,7 +250,7 @@ class FireStoreHelper {
     songSuggestion.setOneSignalPlayerId(playerId);
 
     //TODO: Comment while debugging.
-    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {

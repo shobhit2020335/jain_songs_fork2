@@ -6,8 +6,7 @@
 //TODO: Request lyrics
 //TODO: image suggestion
 //TODO Playlist banner of RSJ, Vicky, Etc
-//TODO: piyush shah and other singers, antardhwani, kunthunath in suggestion.
-//TODO: Reduce read and write
+//TODO:  other singers, antardhwani, kunthunath in suggestion.
 //TODO: see Relatime DB.
 //TODO: remove special characters in search
 //TODO: Check searchify.
@@ -49,6 +48,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
+import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -88,7 +88,7 @@ void main() async {
   MobileAds.instance.initialize();
   runApp(MainTheme(app));
   //TODO: Comment while debugging.
-  // secureScreen();
+  secureScreen();
   //Initialising AdMob.
 
   ListFunctions.songsVisited.clear();
