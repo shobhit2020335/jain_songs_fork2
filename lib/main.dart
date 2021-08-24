@@ -1,4 +1,8 @@
 //TODO Add custom notification sound
+//TODO: SUggestion data storing is paused for paryushan timing.
+//TODO: Remove debug and check versions.
+//TODO: singers, in suggester.
+//TODO: Girnar playist
 //TODO: Store as much data of user you can.
 //TODO: User can chat with me.
 //TODO: Song update only before 1AM.
@@ -6,7 +10,6 @@
 //TODO: Request lyrics
 //TODO: image suggestion
 //TODO Playlist banner of RSJ, Vicky, Etc
-//TODO:  other singers, antardhwani, kunthunath in suggestion.
 //TODO: see Relatime DB.
 //TODO: remove special characters in search
 //TODO: Check searchify.
