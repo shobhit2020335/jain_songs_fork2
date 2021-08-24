@@ -116,21 +116,7 @@ class FireStoreHelper {
     //TODO: Debug Remove then while launching the App.
     RealtimeDbHelper(
       Provider.of<FirebaseApp>(context, listen: false),
-    ).syncDatabase().then((value) {
-      if (value) {
-        showSimpleToast(
-          context,
-          'Database Synced!',
-          duration: 10,
-        );
-      } else {
-        showSimpleToast(
-          context,
-          'Error syncing database!',
-          duration: 10,
-        );
-      }
-    });
+    ).syncDatabase();
   }
 
   Future<bool> fetchSongs() async {
@@ -233,24 +219,24 @@ class FireStoreHelper {
 
   Future<void> storeSuggesterStreak(
       String songCode, String suggestionStreak) async {
-    String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
-        randomAlphaNumeric(6).trim();
+    // String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
+    //     randomAlphaNumeric(6).trim();
 
-    SongSuggestions songSuggestion = SongSuggestions(
-        'Suggestion Streak',
-        '${suggestionStreak[0]}',
-        '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
-        '${ListFunctions.songsVisited.toList()}',
-        '$suggestionStreak');
+    // SongSuggestions songSuggestion = SongSuggestions(
+    //     'Suggestion Streak',
+    //     '${suggestionStreak[0]}',
+    //     '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
+    //     '${ListFunctions.songsVisited.toList()}',
+    //     '$suggestionStreak');
 
-    String? fcmToken = await FirebaseFCMManager.getFCMToken();
-    songSuggestion.setFCMToken(fcmToken);
+    // String? fcmToken = await FirebaseFCMManager.getFCMToken();
+    // songSuggestion.setFCMToken(fcmToken);
 
-    String? playerId = await SharedPrefs.getOneSignalPlayerId();
-    songSuggestion.setOneSignalPlayerId(playerId);
+    // String? playerId = await SharedPrefs.getOneSignalPlayerId();
+    // songSuggestion.setOneSignalPlayerId(playerId);
 
-    //TODO: Comment while debugging.
-    return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
+    // //TODO: Comment while debugging.
+    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {

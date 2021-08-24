@@ -117,7 +117,7 @@ class _SongPageState extends State<SongPage> {
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
       //TODO: Comment while debugging.
-      DatabaseController().changeClicks(context, currentSong!);
+      // DatabaseController().changeClicks(context, currentSong!);
     }
 
     langNo = 1;
@@ -627,7 +627,7 @@ class _SongPageState extends State<SongPage> {
               child: SongPage(
                 currentSong: suggester!.suggestedSongs[index],
                 suggester: suggester,
-                suggestionStreak: widget.suggestionStreak + '$index+1',
+                suggestionStreak: widget.suggestionStreak + '${index + 1}',
               ),
             );
           }),
