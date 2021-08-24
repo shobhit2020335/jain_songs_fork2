@@ -217,13 +217,15 @@ class FireStoreHelper {
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
+  //TODO: SUggestion data storing is paused for paryushan timing.
   Future<void> storeSuggesterStreak(
       String songCode, String suggestionStreak) async {
     // String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
     //     randomAlphaNumeric(6).trim();
 
     // SongSuggestions songSuggestion = SongSuggestions(
-    //     'Suggestion Streak',
+
+    //     'v1.3.1',
     //     '${suggestionStreak[0]}',
     //     '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
     //     '${ListFunctions.songsVisited.toList()}',

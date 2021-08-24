@@ -1,4 +1,8 @@
 //TODO Add custom notification sound
+//TODO: SUggestion data storing is paused for paryushan timing.
+//TODO: Remove debug and check versions.
+//TODO: singers, in suggester.
+//TODO: Girnar playist
 //TODO: Store as much data of user you can.
 //TODO: SUggestion data storing is paused for paryushan timing.
 //TODOL Kannada
