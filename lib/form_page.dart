@@ -1,9 +1,7 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
-import 'package:jain_songs/services/database/realtimeDb_helper.dart';
+import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
-import 'package:provider/provider.dart';
 
 import 'services/network_helper.dart';
 
@@ -198,25 +196,8 @@ class _FormPageState extends State<FormPage> {
                         'No Internet Connection!',
                       );
                     } else {
-                      // await FireStoreHelper()
-                      //     .addSuggestions(currentSongSuggestion);
-                      RealtimeDbHelper(
-                        Provider.of<FirebaseApp>(context, listen: false),
-                      ).syncDatabase().then((value) {
-                        if (value) {
-                          showSimpleToast(
-                            context,
-                            'Database Synced!',
-                            duration: 10,
-                          );
-                        } else {
-                          showSimpleToast(
-                            context,
-                            'Error syncing database!',
-                            duration: 10,
-                          );
-                        }
-                      });
+                      await FireStoreHelper()
+                          .addSuggestions(currentSongSuggestion);
 
                       nameController.clear();
                       emailController.clear();

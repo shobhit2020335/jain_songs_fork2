@@ -16,11 +16,11 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('EVNMSJN',
-      englishName: 'એક વાર નેમ મારી સામુ જુઓને',
-      hindiName: 'var mara same juo na',
-      originalSong: 'nemnath',
-      album: 'bar',
+  currentSong.extraSearchKeywords('CSUM',
+      englishName: 'diksa chhoti se umaar ma mari diksha karai di',
+      hindiName: 'gujrati',
+      originalSong: 'chuti si ummar maari karwai de',
+      album: '',
       tirthankar: '',
       extra1: '',
       extra2: '',
@@ -38,8 +38,9 @@ void main() async {
   //Uncomment below to add song in realtimeDB.
   await currentSong.addToRealtimeDB().catchError((error) {
     print('Error: ' + error);
+  }).then((value) {
+    print('Added song to realtimeDB successfully');
   });
-  print('Added song to realtimeDB successfully');
 }
 
 class AddSong {
@@ -48,31 +49,29 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'EVNMSJN',
+    'code': 'CSUM',
     'album': '',
     'aaa': 'valid',
-    'category': 'Stavan',
-    'genre': '',
-    'gujaratiLyrics':
-        'સામુ જુઓ ને મારી સામુ જુઓ ને,\nએક વાર નેમ મારી સામુ જુઓને\nકરુણા દૃષ્ટિ થી મારે સામુ જુઓને,\nઅમિદૃષ્ટિ થી મારી સામુ જુઓને\nસામુ જુઓ…\n\nનિગોદ ના દિવસોં મને યાદજ આવતા,\nહું અને તૂ રહ્યા એકજ ધામ મા\nઅનાદિ કાળ થી દુઃખો ને ખમતા,\nઆ ચૌરાસી લાખ યોનિ મા ભમતા\nભવો ભવ સુધી સાથે રહ્યા,\nઆજે મને કેમ છોડી ગયા\nતારા વિના દાદા મને કૌન પૂછે ના,\nમારી આંખીયો ના આંસૂ કોણ લુછે ના\nસામુ જુઓ…\n\nસંસાર અસાર છે મોક્ષજ સાર છે,\nતારી વાતો મેં તો સુની નલવાર છે\nમોહ માયા ના ઝૂલે હુ ઝુલિયો,\nરાચી માચી ને કર્મો મેં બાંધ્યા\nહસ્તા હસ્તા કર્મો મેં બાંધ્યા,\nઆત્મા મા કર્મો ના ઢગલા ભર્યા\nરોતા રોતા આજ-મારા કર્મો છુટે ના,\nદુઃખો ના ડૂંગર-મારા આજ ટૂટે ના\nસામુ જુઓ…\n\nછેલ્લી વિનંતી મારી દાદા તૂ સુણજે,\nઅંત સમયે મુજને તું મલજે\nપીડા જ્યારે રગ-રગ માંથી વ્યાપે,\nતારા દર્શન ની ઠંડક તું આપજે\nઝંજાલ જગની છોડી ગઈ,\nમને તારા ધ્યાન મા સ્થિર કરી\nસમાધિ મરણ-મલે એવું હુ માંગુ,\nભવ ભવના ફેરા ટલે એવું હુ માંગુ\nસામુ જુઓ…\n',
+    'category': '',
+    'genre': 'Diksha',
+    'gujaratiLyrics': '',
     'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'सामु जुओ ने मारी सामु जुओ ने,\nएक वार नेम मारी सामु जुओने\nकरुणा दृष्टि थी मारे सामु जुओने,\nअमिदृष्टि थी मारी सामु जुओने\nसामु जुओ…\n\nनिगोद ना दिवसों मने यादज आवता,\nहुं अने तू रह्या एकज धाम मा\nअनादि काळ थी दुःखो ने खमता,\nआ चौरासी लाख योनि मा भमता\nभवो भव सुधी साथे रह्या,\nआजे मने केम छोडी गया\nतारा विना दादा मने कौन पूछे ना,\nमारी आंखीयो ना आंसू कोण लुछे ना\nसामु जुओ…\n\nसंसार असार छे मोक्षज सार छे,\nतारी वातो में तो सुनी नलवार छे\nमोह माया ना झूले हु झुलियो,\nराची माची ने कर्मो में बांध्या\nहस्ता हस्ता कर्मो में बांध्या,\nआत्मा मा कर्मो ना ढगला भर्या\nरोता रोता आज-मारा कर्मो छुटे ना,\nदुःखो ना डूंगर-मारा आज टूटे ना\nसामु जुओ…\n\nछेल्ली विनंती मारी दादा तू सुणजे,\nअंत समये मुजने तुं मलजे\nपीडा ज्यारे रग-रग मांथी व्यापे,\nतारा दर्शन नी ठंडक तुं आपजे\nझंजाल जगनी छोडी गई,\nमने तारा ध्यान मा स्थिर करी\nसमाधि मरण-मले एवुं हु मांगु,\nभव भवना फेरा टले एवुं हु मांगु\nसामु जुओ…\n',
-    'englishLyrics':
-        'Samu Juo Ne Mari Samu Juone ,\nEk Var Nema Mari Samu Juone\nKaruna Drushti Thi Mare Samu Juone ,\nAmidrushti Thi Mari Samu Juone\n\nNigoda Na Divason Mane Yaadaj Aavata ,\nHu Ane Tu Rahya Ekaja Dhama Ma\nAnadi Kala Thi Duahkho Ne Khamata,\nAa Chaurasi Lakha Yoni Ma Bhamata\nBhavo Bhava Sudhi Sathe Rahya ,\nAaje Mane Kema Chodi Gaya\nTara Vina Dada Mane Kaun Puche Na ,\nMari Aankhiyo Na Aasu Kaun Luche Na\n\nSansar Asara Che Mokshaj Saar Che ,\nTari Vato Main to Suni Nalavara Che,\nMoha Maya Na Jule Hu Juliyo ,\nRachi Machi Ne Karmo Main Bandhya,\nHasta Hasta Karmo Main Bandhya ,\nAatma Ma Karmo Na Dhagala Bharya\nRota Rota Aaja Mara Karmo Chute Na,\nDuahkho Na Dungara Mara Aaja Tute Na\n\nChelli Vinanti Mari Dada Tu Sun Je ,\nAnta Samaye Mujne Tu Malaje ,\nPida Jyare Raga Raga Mathi Vyape ,\nTara Darshana Ni Thandaka Tu Aapaje,\nJanjala Jagani Chodi Gai ,\nMane Tara Dhyana Ma Sthira Kari,\nSamadhi Marana Male Evu Hu Mangu ,\nBhava Bhavana Fera Tale Evu Hu Mangu\n',
+        'छोटीसी उमरमां मारी दीक्षा कराई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी,\nदीक्षा कराई दी ने साधु संत बनाई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी... [१]\n\nदीक्षा कराई भवसागर तराई दी,\nमुनि बनाई मारी मुक्ति कराई दी,\nसंयम अपाई दी ने मने मोक्ष दिलाई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी...[२]\n\nदीक्षा कराई अणगार बनाई दी,\nजीनशासन शणगार बनाई दी,\nकर्म खपाई दी ने मने सुखी बनाई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी...[३]\n',
+    'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Jin Stavan',
+    'production': 'Dharmadisha',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Ek Vaar Nem Mari Samu Juo Ne',
-    'songNameHindi': 'एक वार नेम मारी सामु जुओने',
-    'tirthankar': 'Neminath',
+    'singer': 'Paras Gada',
+    'songNameEnglish': 'Choti Si Umar Ma',
+    'songNameHindi': 'छोटीसी उमरमां',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/9jravVqNlwI',
+    'youTubeLink': 'https://youtu.be/NRc_AJsOzqg',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

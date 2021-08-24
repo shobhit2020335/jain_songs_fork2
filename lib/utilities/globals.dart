@@ -10,7 +10,7 @@ class Globals {
   static String welcomeMessage = 'Jai Jinendra';
 
   //TODO: update app version for new app.
-  static const double appVersion = 1.31;
+  static const double appVersion = 1.32;
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
