@@ -1,4 +1,4 @@
-//This file contains all the global variables and functions for the app.
+//This file contains all list related function and data.
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
@@ -377,7 +377,7 @@ class ListFunctions {
       playlistTag: 'neminath',
       playlistTagType: 'tirthankar',
       leadIcon: FontAwesomeIcons.prayingHands,
-      color: Colors.blue[900],
+      color: Colors.pink[300],
     ),
     PlaylistDetails(
       active: true,
@@ -386,7 +386,7 @@ class ListFunctions {
       playlistTag: 'parshwanath',
       playlistTagType: 'tirthankar',
       leadIcon: FontAwesomeIcons.prayingHands,
-      color: Colors.blue[700],
+      color: Colors.green,
     ),
     PlaylistDetails(
       active: true,
@@ -395,7 +395,7 @@ class ListFunctions {
       playlistTag: 'mahavir',
       playlistTagType: 'tirthankar',
       leadIcon: FontAwesomeIcons.prayingHands,
-      color: Colors.blue,
+      color: Colors.amber,
     ),
     PlaylistDetails(
       active: true,
@@ -404,7 +404,7 @@ class ListFunctions {
       playlistTag: 'adinath',
       playlistTagType: 'tirthankar',
       leadIcon: FontAwesomeIcons.prayingHands,
-      color: Colors.blue[300],
+      color: Colors.redAccent,
     ),
     PlaylistDetails(
       active: true,
@@ -413,7 +413,7 @@ class ListFunctions {
       playlistTag: 'nakoda',
       playlistTagType: 'tirthankar',
       leadIcon: FontAwesomeIcons.prayingHands,
-      color: Colors.blue[100],
+      color: Colors.blue,
     ),
   ];
 }
