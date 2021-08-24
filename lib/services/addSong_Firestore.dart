@@ -1,31 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  final FirebaseApp app = await Firebase.initializeApp();
 
-  AddSong currentSong = AddSong();
+  AddSong currentSong = AddSong(app);
 
   // currentSong.deleteSuggestion('chalomanagangs C0ww80');
 
   //This automatically creates searchKeywords from song details.
   currentSong.mainSearchKeywords();
 
-  //Uncomment below to add a new song.
-  await currentSong.addToFirestore().catchError((error) {
-    print('Error: ' + error);
-  });
-  print('Added song successfully');
-
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('PPL',
-      englishName: 'पारसनाथ पार्श्वनाथ',
-      hindiName: 'chavleshwar chaleshvar chaleshwar ',
-      originalSong: '',
-      album: '',
+  currentSong.extraSearchKeywords('EVNMSJN',
+      englishName: 'એક વાર નેમ મારી સામુ જુઓને',
+      hindiName: 'var mara same juo na',
+      originalSong: 'nemnath',
+      album: 'bar',
       tirthankar: '',
       extra1: '',
       extra2: '',
@@ -33,34 +28,51 @@ void main() async {
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
   //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
   //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
+
+  //Uncomment below to add a new song.
+  await currentSong.addToFirestore().catchError((error) {
+    print('Error: ' + error);
+  });
+  print('Added song successfully');
+
+  //Uncomment below to add song in realtimeDB.
+  await currentSong.addToRealtimeDB().catchError((error) {
+    print('Error: ' + error);
+  });
+  print('Added song to realtimeDB successfully');
 }
 
 class AddSong {
+  final FirebaseApp app;
+
+  AddSong(this.app);
+
   Map<String, dynamic> currentSongMap = {
-    'code': 'PPL',
+    'code': 'EVNMSJN',
     'album': '',
-    //TODO: realtime me add krne ka
     'aaa': 'valid',
     'category': 'Stavan',
     'genre': '',
-    'gujaratiLyrics': '',
-    'language': 'Marwadi',
+    'gujaratiLyrics':
+        'સામુ જુઓ ને મારી સામુ જુઓ ને,\nએક વાર નેમ મારી સામુ જુઓને\nકરુણા દૃષ્ટિ થી મારે સામુ જુઓને,\nઅમિદૃષ્ટિ થી મારી સામુ જુઓને\nસામુ જુઓ…\n\nનિગોદ ના દિવસોં મને યાદજ આવતા,\nહું અને તૂ રહ્યા એકજ ધામ મા\nઅનાદિ કાળ થી દુઃખો ને ખમતા,\nઆ ચૌરાસી લાખ યોનિ મા ભમતા\nભવો ભવ સુધી સાથે રહ્યા,\nઆજે મને કેમ છોડી ગયા\nતારા વિના દાદા મને કૌન પૂછે ના,\nમારી આંખીયો ના આંસૂ કોણ લુછે ના\nસામુ જુઓ…\n\nસંસાર અસાર છે મોક્ષજ સાર છે,\nતારી વાતો મેં તો સુની નલવાર છે\nમોહ માયા ના ઝૂલે હુ ઝુલિયો,\nરાચી માચી ને કર્મો મેં બાંધ્યા\nહસ્તા હસ્તા કર્મો મેં બાંધ્યા,\nઆત્મા મા કર્મો ના ઢગલા ભર્યા\nરોતા રોતા આજ-મારા કર્મો છુટે ના,\nદુઃખો ના ડૂંગર-મારા આજ ટૂટે ના\nસામુ જુઓ…\n\nછેલ્લી વિનંતી મારી દાદા તૂ સુણજે,\nઅંત સમયે મુજને તું મલજે\nપીડા જ્યારે રગ-રગ માંથી વ્યાપે,\nતારા દર્શન ની ઠંડક તું આપજે\nઝંજાલ જગની છોડી ગઈ,\nમને તારા ધ્યાન મા સ્થિર કરી\nસમાધિ મરણ-મલે એવું હુ માંગુ,\nભવ ભવના ફેરા ટલે એવું હુ માંગુ\nસામુ જુઓ…\n',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'पारस प्यारा लागो, चँवलेश्वर प्यारा लागो ।\nथांकी बांकडली झाड्यां में, गैलो भूल्यो जी म्हारा पारसजी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nअब डर लागे छै म्हाने, हर बार पुकारां थांने ।\nथांका पर्वत रा जंगल में, सिंह धडूके हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nथे राग द्वेष न त्यागा, म्है आया भाग्या भाग्या ।\nथांका पर्वत री भाटा की, ठोकर लागी हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nम्हे अजमेर शहर से चाल्या, थांका ऊंचा देख्या माला ।\nम्हाने पेड्या पेड्या चढवो, प्यारो लागे हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nExtra\nथांका विशाल दर्शन पाया, जद तन मन से हरषाया ।\nथांकी छतरी की तो शोभा, न्यारी लागे हो चँवलेश्वर जी,\nम्हैं रस्तो कियां पावांला॥ पारस प्यारा … ॥\n \nथे झूंठ बोलबो छोडो, और धर्म सूं नातो जोडो ।\nम्हारी बांकडली झाड्यां में, गैलो पावो जी म्हारा सेवक जी,\nथे सीधो रस्तो पावोला॥ पारस प्यारा … ॥\n',
-    'englishLyrics': 'Sandeep Bohra',
+        'सामु जुओ ने मारी सामु जुओ ने,\nएक वार नेम मारी सामु जुओने\nकरुणा दृष्टि थी मारे सामु जुओने,\nअमिदृष्टि थी मारी सामु जुओने\nसामु जुओ…\n\nनिगोद ना दिवसों मने यादज आवता,\nहुं अने तू रह्या एकज धाम मा\nअनादि काळ थी दुःखो ने खमता,\nआ चौरासी लाख योनि मा भमता\nभवो भव सुधी साथे रह्या,\nआजे मने केम छोडी गया\nतारा विना दादा मने कौन पूछे ना,\nमारी आंखीयो ना आंसू कोण लुछे ना\nसामु जुओ…\n\nसंसार असार छे मोक्षज सार छे,\nतारी वातो में तो सुनी नलवार छे\nमोह माया ना झूले हु झुलियो,\nराची माची ने कर्मो में बांध्या\nहस्ता हस्ता कर्मो में बांध्या,\nआत्मा मा कर्मो ना ढगला भर्या\nरोता रोता आज-मारा कर्मो छुटे ना,\nदुःखो ना डूंगर-मारा आज टूटे ना\nसामु जुओ…\n\nछेल्ली विनंती मारी दादा तू सुणजे,\nअंत समये मुजने तुं मलजे\nपीडा ज्यारे रग-रग मांथी व्यापे,\nतारा दर्शन नी ठंडक तुं आपजे\nझंजाल जगनी छोडी गई,\nमने तारा ध्यान मा स्थिर करी\nसमाधि मरण-मले एवुं हु मांगु,\nभव भवना फेरा टले एवुं हु मांगु\nसामु जुओ…\n',
+    'englishLyrics':
+        'Samu Juo Ne Mari Samu Juone ,\nEk Var Nema Mari Samu Juone\nKaruna Drushti Thi Mare Samu Juone ,\nAmidrushti Thi Mari Samu Juone\n\nNigoda Na Divason Mane Yaadaj Aavata ,\nHu Ane Tu Rahya Ekaja Dhama Ma\nAnadi Kala Thi Duahkho Ne Khamata,\nAa Chaurasi Lakha Yoni Ma Bhamata\nBhavo Bhava Sudhi Sathe Rahya ,\nAaje Mane Kema Chodi Gaya\nTara Vina Dada Mane Kaun Puche Na ,\nMari Aankhiyo Na Aasu Kaun Luche Na\n\nSansar Asara Che Mokshaj Saar Che ,\nTari Vato Main to Suni Nalavara Che,\nMoha Maya Na Jule Hu Juliyo ,\nRachi Machi Ne Karmo Main Bandhya,\nHasta Hasta Karmo Main Bandhya ,\nAatma Ma Karmo Na Dhagala Bharya\nRota Rota Aaja Mara Karmo Chute Na,\nDuahkho Na Dungara Mara Aaja Tute Na\n\nChelli Vinanti Mari Dada Tu Sun Je ,\nAnta Samaye Mujne Tu Malaje ,\nPida Jyare Raga Raga Mathi Vyape ,\nTara Darshana Ni Thandaka Tu Aapaje,\nJanjala Jagani Chodi Gai ,\nMane Tara Dhyana Ma Sthira Kari,\nSamadhi Marana Male Evu Hu Mangu ,\nBhava Bhavana Fera Tale Evu Hu Mangu\n',
     'originalSong': '',
     'popularity': 0,
-    'production': '',
+    'production': 'Jin Stavan',
     'share': 0,
-    'singer': 'Sandeep Bohra',
-    'songNameEnglish': 'Paras Pyara Lago',
-    'songNameHindi': 'पारस प्यारा लागो',
-    'tirthankar': 'Parshwanath',
+    'singer': '',
+    'songNameEnglish': 'Ek Vaar Nem Mari Samu Juo Ne',
+    'songNameHindi': 'एक वार नेम मारी सामु जुओने',
+    'tirthankar': 'Neminath',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/wp9z9wujNlk',
+    'youTubeLink': 'https://youtu.be/9jravVqNlwI',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =
@@ -126,12 +138,29 @@ class AddSong {
         ' ' +
         extra3 +
         ' ';
-    _addSearchKeywords(code, searchKeywords.toLowerCase());
+    List<String> searchWordsList = searchKeywords.toLowerCase().split(' ');
+    searchKeywords = "";
+    for (int i = 0; i < searchWordsList.length; i++) {
+      if (searchWordsList[i].length > 0) {
+        searchKeywords += ' ' + searchWordsList[i];
+      }
+    }
+    currentSongMap['searchKeywords'] = searchKeywords;
+    // _addSearchKeywords(code, searchKeywords.toLowerCase());
   }
 
+  //Directly writing search keywords so not required now.
   void _addSearchKeywords(String code, String stringSearchKeyword) async {
     await songs.doc(code).update({'searchKeywords': stringSearchKeyword});
 
     print('Added Search Keywords successfully');
+  }
+
+  Future<void> addToRealtimeDB() async {
+    FirebaseDatabase(app: this.app)
+        .reference()
+        .child('songs')
+        .child(currentSongMap['code'])
+        .set(currentSongMap);
   }
 }
