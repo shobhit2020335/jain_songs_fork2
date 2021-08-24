@@ -117,7 +117,7 @@ class _SongPageState extends State<SongPage> {
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
       //TODO: Comment while debugging.
-      // DatabaseController().changeClicks(context, currentSong!);
+      DatabaseController().changeClicks(context, currentSong!);
     }
 
     langNo = 1;
