@@ -16,16 +16,16 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('CSUM',
-      englishName: 'diksa chhoti se umaar ma mari diksha karai di',
-      hindiName: 'gujrati',
-      originalSong: 'chuti si ummar maari karwai de',
+  currentSong.extraSearchKeywords('TNHJV',
+      englishName: 'trisla hey jug darsh dena',
+      hindiName: 'महावीर जनम कल्याणक',
+      originalSong: 'mahaveer janma kalayanak',
       album: '',
       tirthankar: '',
       extra1: '',
       extra2: '',
       extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ सतव जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
   //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
   //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 
@@ -49,29 +49,28 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'CSUM',
-    'album': '',
+    'code': 'TNHJV',
+    'album': 'Maine Pyar Kiya',
     'aaa': 'valid',
-    'category': '',
-    'genre': 'Diksha',
+    'category': 'Stavan',
+    'genre': 'Janam Kalyanak | Bollywood',
     'gujaratiLyrics': '',
-    'language': 'Gujarati',
+    'language': 'Hindi',
     'likes': 0,
-    'lyrics':
-        'छोटीसी उमरमां मारी दीक्षा कराई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी,\nदीक्षा कराई दी ने साधु संत बनाई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी... [१]\n\nदीक्षा कराई भवसागर तराई दी,\nमुनि बनाई मारी मुक्ति कराई दी,\nसंयम अपाई दी ने मने मोक्ष दिलाई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी...[२]\n\nदीक्षा कराई अणगार बनाई दी,\nजीनशासन शणगार बनाई दी,\nकर्म खपाई दी ने मने सुखी बनाई दी,\nगुरुदेव ना हाथे मने ओघो अपाई दी...[३]\n',
+    'lyrics': 'Lyrics not available at the moment!\n',
     'englishLyrics': '',
-    'originalSong': '',
+    'originalSong': 'Dil Deewana | S P Balasubrahmanyam',
     'popularity': 0,
-    'production': 'Dharmadisha',
+    'production': 'Singer Prachi Jain',
     'share': 0,
-    'singer': 'Paras Gada',
-    'songNameEnglish': 'Choti Si Umar Ma',
-    'songNameHindi': 'छोटीसी उमरमां',
-    'tirthankar': '',
+    'singer': 'Prachi Jain',
+    'songNameEnglish': 'Trishla Nandan He Jag Vandan',
+    'songNameHindi': 'त्रिशला नंदन हे जग वंदन',
+    'tirthankar': 'Mahavir',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/NRc_AJsOzqg',
+    'youTubeLink': 'https://youtu.be/IA_oqQqXgqY',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

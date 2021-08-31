@@ -1,11 +1,16 @@
 //TODO Add custom notification sound
+//TODO: Bug in daily update for syncing song.
+//TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
 //TODO: SUggestion data storing is paused for paryushan timing.
 //TODO: Remove debug and check versions.
+//TODO: SUgester dict for adinth adeshwar, latest new, stavan bhajan
+//TODO: in searching consider keyboard
 //TODO: singers, in suggester.
+//TODO: INcrese loading time for dynamik link or fetch song faster by any means or fetch particular song.
 //TODO: Girnar playist
 //TODO: Store as much data of user you can.
 //TODO: SUggestion data storing is paused for paryushan timing.
-//TODOL Kannada
+//TODO: Kannada
 //TODO: Remove debug and check versions.
 //TODO: singers, in suggester.
 //TODO: Girnar playist
