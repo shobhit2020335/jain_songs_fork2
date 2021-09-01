@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
+import 'package:jain_songs/music_player/avPlayer/video_playout.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/launch_otherApp.dart';
@@ -18,6 +19,7 @@ import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_co
 import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/database/firestore_helper.dart';
+import 'package:flutter_playout/player_state.dart';
 
 class SongPage extends StatefulWidget {
   final String? codeFromDynamicLink;
@@ -58,6 +60,11 @@ class _SongPageState extends State<SongPage> {
   //Info to be displayed if net is not on/link is not available.
   String linkInfo = '';
   YoutubePlayerController? _youtubePlayerController;
+  //AV Player variables
+  PlayerState _currentPlayerState = PlayerState.PLAYING;
+  bool _showPLayerControls = true;
+  bool _loop = true;
+  bool _autoPlay = true;
 
   //This is for admob to understand the content in the app. Two more arguements
   //are there but i have not updated them.
@@ -117,7 +124,7 @@ class _SongPageState extends State<SongPage> {
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
       //TODO: Comment while debugging.
-      DatabaseController().changeClicks(context, currentSong!);
+      // DatabaseController().changeClicks(context, currentSong!);
     }
 
     langNo = 1;
@@ -343,46 +350,12 @@ class _SongPageState extends State<SongPage> {
                           children: [
                             SizedBox(height: 10),
                             isLinkAvail
-                                ? YoutubePlayer(
-                                    width:
-                                        MediaQuery.of(context).size.width / 1,
-                                    controller: _youtubePlayerController!,
-                                    showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.indigo,
-                                    liveUIColor: Colors.indigo,
-                                    onEnded: (youtubeMetaData) {
-                                      showSimpleToast(
-                                          context, 'Playing next in 7 seconds',
-                                          duration: 7);
-                                      _timerLink?.cancel();
-                                      _timerLink = Timer(
-                                          Duration(milliseconds: 8000), () {
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(builder: (context) {
-                                            return WillPopScope(
-                                              onWillPop: () async {
-                                                // print(
-                                                //     'Automatically changed onwillpop: ${widget.suggestionStreak}0');
-                                                FireStoreHelper()
-                                                    .storeSuggesterStreak(
-                                                        '${currentSong?.code}',
-                                                        '${widget.suggestionStreak}1');
-                                                return true;
-                                              },
-                                              child: SongPage(
-                                                currentSong: suggester!
-                                                    .suggestedSongs[0],
-                                                suggester: suggester,
-                                                suggestionStreak:
-                                                    widget.suggestionStreak +
-                                                        '1',
-                                              ),
-                                            );
-                                          }),
-                                        );
-                                      });
-                                    },
+                                ? VideoPlayout(
+                                    song: currentSong!,
+                                    desiredState: _currentPlayerState,
+                                    showPlayerControls: _showPLayerControls,
+                                    autoPlay: _autoPlay,
+                                    loop: _loop,
                                   )
                                 : Text(
                                     linkInfo,

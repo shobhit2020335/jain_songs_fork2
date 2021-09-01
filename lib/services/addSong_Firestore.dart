@@ -16,13 +16,13 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('TNHJV',
-      englishName: 'trisla hey jug darsh dena',
-      hindiName: 'महावीर जनम कल्याणक',
-      originalSong: 'mahaveer janma kalayanak',
+  currentSong.extraSearchKeywords('RMTPJ',
+      englishName: 'vandan tara charan ma to tu',
+      hindiName: 'ragi mate tyaage tyage panthi jaye jaaye',
+      originalSong: 'gujrati',
       album: '',
       tirthankar: '',
-      extra1: '',
+      extra1: 'રાગી મટી ત્યાગી પંથે જાય',
       extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
@@ -49,28 +49,30 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'TNHJV',
-    'album': 'Maine Pyar Kiya',
+    'code': 'RMTPJ',
+    'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Janam Kalyanak | Bollywood',
+    'genre': 'Diksha | Latest',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Gujarati',
     'likes': 0,
-    'lyrics': 'Lyrics not available at the moment!\n',
-    'englishLyrics': '',
-    'originalSong': 'Dil Deewana | S P Balasubrahmanyam',
+    'lyrics':
+        'वंदन तारा चरणमां तुं,\nरागी मटी त्यागी पंथे जाय.. (२)\nश्रमण बनी.. नवकार मंत्रमां समाय..\nसघळा संसारने भीतरथी विसरी.. (२)\nवैरागी रंगे रंगाय.. रागी मटी त्यागी पंथे जाय..\nवंदन तारा चरणमां..\n\nसंग साहेबनो, रंग वैराग्य नो,\nसत्संग सद् गुरुदेवनो.. (२)\nत्याग राग संगनो, राग श्वेत रंग नो,\nभाव मळे श्री वितरागनो… (२)\nभीतरे संयम लहेराय.. रागी मटी त्यागी पंथे जाय..\nवंदन तारा चरणमां..\n\nनेम गमे वीर गमे, राजुलनु गीत गमे,\nगौतम झलके तारी आंखमां.. (२)\nचंदनानी प्रीत गमे, सुलसा नी रीत गमे,\nरेवती धबके धबकारमां.. (२)\nकर्मो कठिन करमाय.. रागी मटी त्यागी पंथे जाय..\nवंदन तारा चरणमां..\n',
+    'englishLyrics':
+        'વંદન તારા ચરણમાં તું,\nરાગી મટી ત્યાગી પંથે જાય.. (૨)\nશ્રમણ બની.. નવકાર મંત્રમાં સમાય..\nસઘળા સંસારને ભીતરથી વિસરી.. (૨)\nવૈરાગી રંગે રંગાય.. રાગી મટી ત્યાગી પંથે જાય..\nવંદન તારા ચરણમાં..\n\nસંગ સાહેબનો, રંગ વૈરાગ્ય નો,\nસત્સંગ સદ્ ગુરુદેવનો.. (૨)\nત્યાગ રાગ સંગનો, રાગ શ્વેત રંગ નો,\nભાવ મળે શ્રી વિતરાગનો… (૨)\nભીતરે સંયમ લહેરાય.. રાગી મટી ત્યાગી પંથે જાય..\nવંદન તારા ચરણમાં..\n\nનેમ ગમે વીર ગમે, રાજુલનુ ગીત ગમે,\nગૌતમ ઝલકે તારી આંખમાં.. (૨)\nચંદનાની પ્રીત ગમે, સુલસા ની રીત ગમે,\nરેવતી ધબકે ધબકારમાં.. (૨)\nકર્મો કઠિન કરમાય.. રાગી મટી ત્યાગી પંથે જાય..\nવંદન તારા ચરણમાં..\n',
+    'originalSong': '',
     'popularity': 0,
-    'production': 'Singer Prachi Jain',
+    'production': 'Param Path',
     'share': 0,
-    'singer': 'Prachi Jain',
-    'songNameEnglish': 'Trishla Nandan He Jag Vandan',
-    'songNameHindi': 'त्रिशला नंदन हे जग वंदन',
-    'tirthankar': 'Mahavir',
+    'singer': 'Shail Shah',
+    'songNameEnglish': 'Raagi Mati Tyagi Panthe Jaay',
+    'songNameHindi': 'रागी मटी त्यागी पंथे जाय',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/IA_oqQqXgqY',
+    'youTubeLink': 'https://youtu.be/2w37ylRl8ZY',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =
