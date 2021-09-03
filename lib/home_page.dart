@@ -144,9 +144,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
         Globals.fetchedDays = Globals.totalDays;
         try {
-          await FireStoreHelper().dailyUpdate(context);
+          DatabaseController.fromCache = false;
+          bool isSuccess = await FireStoreHelper().fetchSongs();
+          if (isSuccess == false) {
+            showSimpleToast(context,
+                'Please check your Internet Connection and restart Stavan');
+            setState(() {
+              showProgress = false;
+            });
+          } else {
+            FireStoreHelper().dailyUpdate(context);
+          }
         } catch (e) {
           print(e);
+          showSimpleToast(
+              context, 'Stavan is under maintenance. Please try again later!');
           setState(() {
             showProgress = false;
           });

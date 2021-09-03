@@ -73,31 +73,22 @@ class FireStoreHelper {
   //It updates the trending points when a new day appears and make todayClicks to 0.
   Future<void> dailyUpdate(BuildContext context) async {
     _trace.start();
-    ListFunctions.songList.clear();
 
-    QuerySnapshot songs;
-    songs = await _firestore.collection('songs').get();
+    for (SongDetails? currentSong in ListFunctions.songList) {
+      int? todayClicks = currentSong?.todayClicks;
+      int? totalClicks = currentSong?.totalClicks;
 
-    for (var song in songs.docs) {
-      Map<String, dynamic> songMap = song.data() as Map<String, dynamic>;
-      String state = songMap['aaa'];
-      state = state.toLowerCase();
-      if (state.contains('invalid') != true) {
-        int todayClicks = songMap['todayClicks'];
-        int totalClicks = songMap['totalClicks'];
+      //Algo for trendPoints
+      double avgClicks = totalClicks! / Globals.totalDays;
+      double trendPoints = (todayClicks! - avgClicks) / 2.0;
+      todayClicks = 0;
 
-        //Algo for trendPoints
-        double avgClicks = totalClicks / Globals.totalDays;
-        songMap['trendPoints'] = (todayClicks - avgClicks) / 2;
-        songMap['todayClicks'] = 0;
-
-        await this.songs.doc(songMap['code']).update({
-          'todayClicks': songMap['todayClicks'],
-          'trendPoints': songMap['trendPoints'],
-        }).catchError((error) {
-          print('Error Updating popularity!');
-        });
-      }
+      await this.songs.doc(currentSong?.code).update({
+        'todayClicks': todayClicks,
+        'trendPoints': trendPoints,
+      }).catchError((error) {
+        print('Error in daily update firestore!');
+      });
     }
 
     Timestamp lastUpdated = Timestamp.now();
@@ -110,9 +101,7 @@ class FireStoreHelper {
     });
     _trace.stop();
 
-    await _readFetchedSongs(songs, ListFunctions.songList);
-
-    RealtimeDbHelper(
+    await RealtimeDbHelper(
       Provider.of<FirebaseApp>(context, listen: false),
     ).syncDatabase();
   }

@@ -4,7 +4,7 @@
 //TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
 //TODO: SUggestion data storing is paused for paryushan timing.
 //TODO: Remove debug and check versions.
-//TODO: SUgester dict for adinth adeshwar, latest new, stavan bhajan
+//TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
 //TODO: in searching consider keyboard
 //TODO: singers, in suggester.
 //TODO: INcrese loading time for dynamik link or fetch song faster by any means or fetch particular song.
@@ -101,7 +101,7 @@ void main() async {
 
   MobileAds.instance.initialize();
   runApp(MainTheme(app));
-  //TODO: Comment while debugging.
+  //XXX: Comment while debugging.
   secureScreen();
   //Initialising AdMob.
 
