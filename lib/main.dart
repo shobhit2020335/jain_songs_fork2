@@ -1,8 +1,6 @@
 //TODO Add custom notification sound
 //TODO: Bug in daily update for syncing song.
 //TODO: Reduce reads by storing time of song insertion.
-//TODO: Remove bug of dynamik link by increasing timing.
-//TODO: Remove bug of daily update in realtime DB.
 //TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
 //TODO: SUggestion data storing is paused for paryushan timing.
 //TODO: Remove debug and check versions.
