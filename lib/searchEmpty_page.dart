@@ -44,9 +44,7 @@ class SearchEmpty extends StatelessWidget {
                   flex: 1,
                   child: TextButton(
                     onPressed: () {
-                      if (nameController != null &&
-                          searchController != null &&
-                          nameController.text.trim().length > 4) {
+                      if (nameController.text.trim().length > 4) {
                         showSimpleToast(
                           context,
                           'ThankYou for submitting! We will update the song soon.',

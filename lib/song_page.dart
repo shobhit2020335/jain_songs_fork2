@@ -117,7 +117,7 @@ class _SongPageState extends State<SongPage> {
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
       //TODO: Comment while debugging.
-      DatabaseController().changeClicks(context, currentSong!);
+      // DatabaseController().changeClicks(context, currentSong!);
     }
 
     langNo = 1;
@@ -189,7 +189,7 @@ class _SongPageState extends State<SongPage> {
       currentSong = widget.currentSong;
       loadScreen();
     } else {
-      _timerLink = Timer(Duration(milliseconds: 3000), () {
+      _timerLink = Timer(Duration(milliseconds: 5000), () {
         if (ListFunctions.songList.isNotEmpty) {
           currentSong = ListFunctions.songList.firstWhere((song) {
             return song!.code == widget.codeFromDynamicLink;
@@ -197,15 +197,19 @@ class _SongPageState extends State<SongPage> {
             return null;
           });
           if (currentSong == null) {
-            showSimpleToast(context,
-                'The link might be incorrect. Try searching for the song.');
+            showSimpleToast(
+              context,
+              'Song not found. Restart the App to load the new song and then try again.',
+              duration: 5,
+            );
             Navigator.of(context).pop();
           } else {
             loadScreen();
           }
         } else {
           _timerLink?.cancel();
-          _timerLink = Timer(Duration(milliseconds: 3000), () {
+          showSimpleToast(context, 'Loading Song. Please Wait!');
+          _timerLink = Timer(Duration(milliseconds: 10000), () {
             if (ListFunctions.songList.isNotEmpty) {
               currentSong = ListFunctions.songList.firstWhere((song) {
                 return song!.code == widget.codeFromDynamicLink;
@@ -213,14 +217,17 @@ class _SongPageState extends State<SongPage> {
                 return null;
               });
               if (currentSong == null) {
-                showSimpleToast(context,
-                    'The link might be incorrect. Try searching for the song.');
+                showSimpleToast(
+                  context,
+                  'Song not found. Restart the App to load the new song and then try again.',
+                  duration: 5,
+                );
                 Navigator.of(context).pop();
               } else {
                 loadScreen();
               }
             } else {
-              showSimpleToast(context, 'Internet Connection is slow!');
+              showSimpleToast(context, 'Internet connection might be slow!');
               Navigator.of(context).pop();
             }
           });

@@ -306,9 +306,16 @@ class _FilterListWidgetState extends State<FilterListWidget> {
               ),
               child: Row(
                 children: <Widget>[
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                  TextButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                    ),
                     onPressed: () {
                       setState(
                         () {
@@ -327,9 +334,16 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
+                  TextButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                    ),
                     onPressed: () {
                       setState(() {
                         _selectedTextList.clear();

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
@@ -113,7 +112,6 @@ class FireStoreHelper {
 
     await _readFetchedSongs(songs, ListFunctions.songList);
 
-    //TODO: Debug Remove then while launching the App.
     RealtimeDbHelper(
       Provider.of<FirebaseApp>(context, listen: false),
     ).syncDatabase();
