@@ -81,11 +81,12 @@ class FireStoreHelper {
       //Algo for trendPoints
       double avgClicks = totalClicks! / Globals.totalDays;
       double trendPoints = (todayClicks! - avgClicks) / 2.0;
-      todayClicks = 0;
+      currentSong!.todayClicks = 0;
+      currentSong.trendPoints = trendPoints;
 
-      await this.songs.doc(currentSong?.code).update({
-        'todayClicks': todayClicks,
-        'trendPoints': trendPoints,
+      await this.songs.doc(currentSong.code).update({
+        'todayClicks': currentSong.todayClicks,
+        'trendPoints': currentSong.trendPoints,
       }).catchError((error) {
         print('Error in daily update firestore!');
       });
@@ -224,7 +225,7 @@ class FireStoreHelper {
     // String? playerId = await SharedPrefs.getOneSignalPlayerId();
     // songSuggestion.setOneSignalPlayerId(playerId);
 
-    // //TODO: Comment while debugging.
+    // //XXX: Comment while debugging.
     // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 

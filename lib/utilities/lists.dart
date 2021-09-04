@@ -57,7 +57,7 @@ class ListFunctions {
     listToShow.clear();
     int l = filtersSelected.length;
     int n = sortedSongList.length;
-    if (filtersSelected != null && l > 0 && l < filtersAll.length) {
+    if (l > 0 && l < filtersAll.length) {
       List<String> genreSelected = [];
       List<String> tirthankarSelected = [];
       List<String> categorySelected = [];
