@@ -8,21 +8,15 @@
 //TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
 //TODO: in searching consider keyboard
 //TODO: singers, in suggester.
-//TODO: INcrese loading time for dynamik link or fetch song faster by any means or fetch particular song.
-//TODO: Girnar playist
+//TODO: fetch song faster by any means or fetch particular song in dynamic link.
 //TODO: Store as much data of user you can.
-//TODO: SUggestion data storing is paused for paryushan timing.
 //TODO: Kannada
-//TODO: Remove debug and check versions.
-//TODO: singers, in suggester.
-//TODO: Girnar playist
 //TODO: User can chat with me.
 //TODO: Song update only before 1AM.
 //TODO: Splash screen
 //TODO: Request lyrics
 //TODO: image suggestion
 //TODO Playlist banner of RSJ, Vicky, Etc
-//TODO: see Relatime DB.
 //TODO: remove special characters in search
 //TODO: Check searchify.
 //TODO: popular, trending sorting.
@@ -30,7 +24,6 @@
 //TODO: speaking jai jinendra
 //TODO: Streaming audio.
 //TODO: Paryushan related images.
-//TODO: New tirthankar, categories.
 //TODO: Jain Dict
 //TODO: set Rigtone option.
 //TODO: Stavan for web
