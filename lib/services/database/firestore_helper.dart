@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
@@ -192,9 +195,14 @@ class FireStoreHelper {
     }
   }
 
-  Future<void> addSuggestions(SongSuggestions songSuggestion) async {
+  Future<void> addSuggestions(
+      SongSuggestions songSuggestion, File? image) async {
     String suggestionUID = removeWhiteSpaces(songSuggestion.songName).trim() +
         randomAlphaNumeric(8).trim();
+
+    String imageURL =
+        await CloudStorage().uploadSuggestionImage(image, suggestionUID);
+    songSuggestion.addImagesLink(imageURL);
 
     String? fcmToken = await FirebaseFCMManager.getFCMToken();
     songSuggestion.setFCMToken(fcmToken);

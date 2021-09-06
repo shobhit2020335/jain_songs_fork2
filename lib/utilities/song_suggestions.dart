@@ -25,6 +25,13 @@ class SongSuggestions {
     };
   }
 
+  void addImagesLink(String link) {
+    if (this.imagesLink == null) {
+      this.imagesLink = [];
+    }
+    this.imagesLink?.add(link);
+  }
+
   void setFCMToken(String? fcmToken) {
     this.fcmToken = fcmToken;
     this.songSuggestionMap['fcmToken'] = fcmToken;

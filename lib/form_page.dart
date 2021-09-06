@@ -205,7 +205,6 @@ class _FormPageState extends State<FormPage> {
 
                     bool isInternetConnected =
                         await NetworkHelper().checkNetworkConnection();
-
                     if ((currentSongSuggestion.songSuggestionMap['songName'] ==
                             null ||
                         currentSongSuggestion.songSuggestionMap['songName'] ==
@@ -223,11 +222,17 @@ class _FormPageState extends State<FormPage> {
                         'No Internet Connection!',
                       );
                     } else {
+                      if (image != null) {
+                        ConstWidget.showSimpleToast(
+                            context, 'Uploading Image....');
+                      }
                       await FireStoreHelper()
-                          .addSuggestions(currentSongSuggestion);
+                          .addSuggestions(currentSongSuggestion, image);
 
                       songController.clear();
                       otherController.clear();
+                      image = null;
+                      setState(() {});
                       ConstWidget.showSimpleToast(
                         context,
                         'ThankYou for suggesting! Song will be updated soon.',

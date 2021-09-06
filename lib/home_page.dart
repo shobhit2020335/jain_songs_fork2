@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           searchController.text,
           "User tried to search this",
         );
-        FireStoreHelper().addSuggestions(currentSongSuggestion);
+        FireStoreHelper().addSuggestions(currentSongSuggestion, null);
       }
     });
   }
