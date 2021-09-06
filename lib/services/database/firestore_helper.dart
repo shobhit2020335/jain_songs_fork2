@@ -196,13 +196,15 @@ class FireStoreHelper {
   }
 
   Future<void> addSuggestions(
-      SongSuggestions songSuggestion, File? image) async {
+      SongSuggestions songSuggestion, List<File> images) async {
     String suggestionUID = removeWhiteSpaces(songSuggestion.songName).trim() +
         randomAlphaNumeric(8).trim();
 
-    String imageURL =
-        await CloudStorage().uploadSuggestionImage(image, suggestionUID);
-    songSuggestion.addImagesLink(imageURL);
+    for (int i = 0; i < images.length; i++) {
+      String imageURL = await CloudStorage()
+          .uploadSuggestionImage(images[0], '${i + 1}' + suggestionUID);
+      songSuggestion.addImagesLink(imageURL);
+    }
 
     String? fcmToken = await FirebaseFCMManager.getFCMToken();
     songSuggestion.setFCMToken(fcmToken);

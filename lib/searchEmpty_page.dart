@@ -55,7 +55,7 @@ class SearchEmpty extends StatelessWidget {
                           "User filled it after not finding the song.",
                         );
                         FireStoreHelper()
-                            .addSuggestions(currentSongSuggestion, null);
+                            .addSuggestions(currentSongSuggestion, []);
 
                         nameController.clear();
                       } else {

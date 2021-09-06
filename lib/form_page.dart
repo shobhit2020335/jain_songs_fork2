@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
+import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'services/network_helper.dart';
 
 class FormPage extends StatefulWidget {
@@ -16,72 +15,13 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   var songController = TextEditingController();
   var otherController = TextEditingController();
-  File? image;
+  List<File> images = [];
 
   @override
   void dispose() {
     songController.dispose();
     otherController.dispose();
     super.dispose();
-  }
-
-  //Important to note code inside.
-  Future<ImageSource?> showImageSourceDialog(BuildContext context) async {
-    return showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Icon(Icons.camera_alt_rounded),
-              title: Text(
-                'Camera',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onTap: () {
-                print('onTap');
-                return Navigator.of(context).pop(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.image_rounded),
-              title: Text(
-                'Gallery',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-              onTap: () {
-                return Navigator.of(context).pop(ImageSource.gallery);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<File> saveImagePermanently(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final image = File('${directory.path}/$name');
-
-    return File(imagePath).copy(image.path);
-  }
-
-  Future<void> pickSingleImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
-
-      final imagePermanent = await saveImagePermanently(image.path);
-      this.image = imagePermanent;
-    } on Exception catch (e) {
-      print('Failed to pick Image: $e');
-    }
   }
 
   @override
@@ -139,19 +79,30 @@ class _FormPageState extends State<FormPage> {
                 SizedBox(height: 25),
                 InkWell(
                   onTap: () async {
-                    final source = await showImageSourceDialog(context);
+                    final source =
+                        await Services.showImageSourceDialog(context);
                     if (source == null) {
                       print('source null');
                       return;
+                    } else if (source == ImageSource.camera) {
+                      Services.pickSingleImage(source).then((value) {
+                        setState(() {
+                          if (value != null) {
+                            images.add(value);
+                          }
+                        });
+                      });
+                    } else {
+                      Services.pickMultipleImages().then((value) {
+                        setState(() {
+                          images = value;
+                        });
+                      });
                     }
-
-                    pickSingleImage(source).then((value) {
-                      setState(() {});
-                    });
                   },
-                  child: image != null
+                  child: images.isNotEmpty
                       ? Image.file(
-                          image!,
+                          images[0],
                           width: 100,
                           height: 100,
                         )
@@ -164,17 +115,33 @@ class _FormPageState extends State<FormPage> {
                 SizedBox(height: 8),
                 InkWell(
                   onTap: () async {
-                    final source = await showImageSourceDialog(context);
+                    final source =
+                        await Services.showImageSourceDialog(context);
                     if (source == null) {
                       print('source null');
                       return;
+                    } else if (source == ImageSource.camera) {
+                      Services.pickSingleImage(source).then((value) {
+                        setState(() {
+                          if (value != null) {
+                            images.clear();
+                            images.add(value);
+                          }
+                        });
+                      });
+                    } else {
+                      Services.pickMultipleImages().then((value) {
+                        setState(() {
+                          images.clear();
+                          images = value;
+                        });
+                      });
                     }
-                    pickSingleImage(source).then((value) {
-                      setState(() {});
-                    });
                   },
                   child: Text(
-                    'Upload Lyrics Image',
+                    images.isEmpty
+                        ? 'Upload Lyrics Image'
+                        : '${images.length} images selected',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
@@ -222,16 +189,16 @@ class _FormPageState extends State<FormPage> {
                         'No Internet Connection!',
                       );
                     } else {
-                      if (image != null) {
+                      if (images.length > 0) {
                         ConstWidget.showSimpleToast(
-                            context, 'Uploading Image....');
+                            context, 'Uploading Images....');
                       }
                       await FireStoreHelper()
-                          .addSuggestions(currentSongSuggestion, image);
+                          .addSuggestions(currentSongSuggestion, images);
 
                       songController.clear();
                       otherController.clear();
-                      image = null;
+                      images = [];
                       setState(() {});
                       ConstWidget.showSimpleToast(
                         context,
