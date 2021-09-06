@@ -34,7 +34,7 @@ class SearchEmpty extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 2,
-                  child: formTextField(
+                  child: ConstWidget.formTextField(
                     null,
                     hint: 'Song you are searching',
                     editingController: nameController,
@@ -45,23 +45,20 @@ class SearchEmpty extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       if (nameController.text.trim().length > 4) {
-                        showSimpleToast(
+                        ConstWidget.showSimpleToast(
                           context,
                           'ThankYou for submitting! We will update the song soon.',
                         );
 
                         SongSuggestions currentSongSuggestion = SongSuggestions(
-                          "Got by search submission",
-                          "Got from search submission",
                           nameController.text,
-                          "What user tried to search is given in otherDetails.",
-                          searchController.text,
+                          "User filled it after not finding the song.",
                         );
                         FireStoreHelper().addSuggestions(currentSongSuggestion);
 
                         nameController.clear();
                       } else {
-                        showSimpleToast(
+                        ConstWidget.showSimpleToast(
                           context,
                           'Please Enter correct song name.',
                         );

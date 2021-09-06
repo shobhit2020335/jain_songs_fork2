@@ -16,10 +16,10 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('JKTA',
-      englishName: 'ab tak kiye jo paap pap vo dhone',
-      hindiName: 'tiyohar tyohaar pajushan parushan paryusan',
-      originalSong: 'pajyushan',
+  currentSong.extraSearchKeywords('HCCJAT',
+      englishName: 'chit chat',
+      hindiName: '',
+      originalSong: '',
       album: '',
       tirthankar: '',
       extra1: '',
@@ -50,30 +50,29 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'JKTA',
+    'code': 'HCCJAT',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': 'Paryushan',
+    'genre': '',
     'gujaratiLyrics': '',
     'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'अब तक किए जो पाप वो, धोने का वक्त आया\nभक्ति , तप और साधना करने का वक्त आया\nआया पर्युषण आया\nजैनो का त्यौहार आया\nजैनो का त्यौहार आया\n\nजैन धर्म के सार को समझने का वक्त आया\nक्षमावीरस्य भूषणम कहने का वक्त आया\nआया पर्युषण आया\nजैनो का त्यौहार आया\nजैनो का त्यौहार आया\n\nबैर हटाओ सबको खमाओ\nकरदो क्षमा और कर्म खपाओ (२)\nगुरुवाणी सुनकर दोष मिटाओ\nकल्प सूत्र सुनकर आनंद पाओ\n\nएकाशना करो, करो व्यासना\nतेला करो और तपसाधना\nसब पर्वों का राजा है आया\nजैनो का त्यौहार आया\nजैनो का त्यौहार आया\n\nअब तक किए जो पाप वो, धोने का वक्त आया\nभक्ति , तप और साधना करने का वक्त आया\nआया पर्युषण आया\nजैनो का त्यौहार आया\nजैनो का त्यौहार आया\n\nमिच्छामि दुक्कडम करलो प्रतिक्रमण\nआत्म हित हो पुलकित हो ये मंन (२)\nमंदिर में स्थानक में समय गुज़ारो\nये आठ दिन तो मोह माया तोड़ो (२)\n\nगर तुम करो ये साधना\nसंवत्सरी क्षमा याचना\nबस जिनवाणी बनजाए साया\nजैनो का त्यौहार आया\nजैनो का त्यौहार आया\n\nअब तक किए जो पाप वो, धोने का वक्त आया\nभक्ति , तप और साधना करने का वक्त आया\nआया पर्युषण आया\nजैनो का त्यौहार आया\nजैनो का त्यौहार आया (6)\n',
-    'englishLyrics':
-        'Aab Tak Kiye Jo Paap Wo, Dhone Ka Wakt Aaya\nBhakti, Tap Aur Sadhna Karne Ka Wakt Aaya\nAaya Paryushan Aaya…\nJaino Ka Tyohar Aaya\nJaino Ka Tyohar Aaya\n\nJain Dharma Ke Saar Ko Samajhne Ka Wakt Aaya\nShamaveerasya Bhushanam Kehna Ka Wakt Aaya\nAaya Paryushan Aaya\nJaino Ka Tyohar Aaya\nJaino Ka Tyohar Aaya\n\nBair Hatao Sabko Khamao\nKardo Shama Aur Karma Khapao (2)\nGuruwani Sunkar Dosh Mitawo\nKalpa Sutra Sunkar Anand Pao\n\nEkashana Karo Karo Vyasana\nTela Karo Aur Tapasadhana\nSab Parvo Ka Raja Hai Aaya\nJaino Ka Tyohar Aaya\nJaino Ka Tyohar Aaya\n\nAab Tak Kiye Jo Paap Wo, Dhone Ka Wakt Aaya\nBhakti, Tap Aur Sadhna Karne Ka Wakt Aaya\nAaya Paryushan Aaya…\nJaino Ka Tyohar Aaya\nJaino Ka Tyohar Aaya\n\nMicchami Dukadam Karlo Pratikraman\nAatam Hit Ho Pulkit Ho Ye Mann (2)\nMandir Mein Sthanak Mein Samai Guzaro\nYe Aath Din Toh Moh Maaya Todo (2)\n\nGar Tum Karo Ye Sadhana\nSamvatsari Din Shama Yachana\nBass Jinvani Banajaye Saaya\nJaino Ka Tyohar Aaya\nJaino Ka Tyohar Aaya\n\nAab Tak Kiye Jo Paap Wo, Dhone Ka Wakt Aaya\nBhakti, Tap Aur Sadhna Karne Ka Wakt Aaya\nAaya Paryushan Aaya…\nJaino Ka Tyohar Aaya\nJaino Ka Tyohar Aaya (6)\n',
+        'हे चेतन चेत जा अब तो\nनापना मान तू परको\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू (2)\nआतम परमातम…. (2)\n\nसुना है मैंने गुरुमुख से\nमुक्ति में परम सुख है (2)\nइन्द्रया सुख विनश्वर है .\nबंध का कारण ये दुःख है\n\nनहीं अब दुःख सेहना है\nपरम सुख में ही रेहना है\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू\nआतम परमातम…. (2)\n\nकर्म से मित्रता करके\nज्ञान धन को लुटाया है (2)\nस्वयं को भूल करके ही\nनिजातम को सताया है\n\nकर्म से मित्रता तजदे\nप्रीत शुद्धातम से करले\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू\nआतम परमातम…. (2)\n\nनहीं परका तू है करता\nतेरा पर कभी ना करता है (२)\nविन्द्रव्यो की परिणीतिया\nभिन्न है आगम कहता है\n\nहै स्वाधीन सुख में तू\nशुद्ध चित्रों को चीन में तू\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू (२)\nआतम परमातम…. (2)\n\nहे चेतन चेत जा अब तो\nनापना मान तू परको\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू (2)\nआतम परमातम…. (8)\n',
+    'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Vicky D Parekh',
+    'production': 'Kevalgyan TV',
     'share': 0,
-    'singer': 'Vicky D Parekh & Devyani Karve Kothari',
-    'songNameEnglish': 'Jaino Ka Tyohar Aaya (Paryushan Aaya)',
-    'songNameHindi': 'जैनो का त्यौहार आया (पर्युषण आया)',
+    'singer': '',
+    'songNameEnglish': 'Hey Chetan Chet Ja Ab To',
+    'songNameHindi': 'हे चेतन चेत जा अब तो',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/DRTHbJeyYkM',
+    'youTubeLink': 'https://youtu.be/YlhEynABnTw',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

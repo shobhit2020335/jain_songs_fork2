@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
-import 'package:jain_songs/services/launch_otherApp.dart';
+import 'package:jain_songs/services/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BuildSettingsRow extends StatelessWidget {
@@ -25,7 +25,7 @@ class BuildSettingsRow extends StatelessWidget {
         ),
         onTap: () {
           if (settingsDetails.title == 'Feedback & Support') {
-            sendEmail();
+            Services.sendEmail();
           } else {
             if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
             Navigator.push(

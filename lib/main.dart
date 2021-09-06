@@ -2,6 +2,7 @@
 //TODO: Bug in daily update for syncing song.
 //TODO: Reduce reads by storing time of song insertion.
 //TODO: Change playlist colors.
+//TODO: On Clicking subtitle open specific playlist of it.
 //TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
 //TODO: SUggestion data storing is paused for paryushan timing.
 //TODO: Remove debug and check versions.

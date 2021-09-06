@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import 'services/network_helper.dart';
 
 class FormPage extends StatefulWidget {
@@ -11,20 +14,74 @@ class FormPage extends StatefulWidget {
 }
 
 class _FormPageState extends State<FormPage> {
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
   var songController = TextEditingController();
-  var lyricsController = TextEditingController();
   var otherController = TextEditingController();
+  File? image;
 
   @override
   void dispose() {
-    nameController.dispose();
-    emailController.dispose();
     songController.dispose();
-    lyricsController.dispose();
     otherController.dispose();
     super.dispose();
+  }
+
+  //Important to note code inside.
+  Future<ImageSource?> showImageSourceDialog(BuildContext context) async {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.camera_alt_rounded),
+              title: Text(
+                'Camera',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              onTap: () {
+                print('onTap');
+                return Navigator.of(context).pop(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.image_rounded),
+              title: Text(
+                'Gallery',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              onTap: () {
+                return Navigator.of(context).pop(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
+
+  Future<void> pickSingleImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      final imagePermanent = await saveImagePermanently(image.path);
+      this.image = imagePermanent;
+    } on Exception catch (e) {
+      print('Failed to pick Image: $e');
+    }
   }
 
   @override
@@ -45,7 +102,7 @@ class _FormPageState extends State<FormPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      child: showLogo(),
+                      child: ConstWidget.showLogo(),
                     ),
                     SizedBox(
                       width: 10,
@@ -71,9 +128,7 @@ class _FormPageState extends State<FormPage> {
                       fontSize: 20,
                       fontWeight: FontWeight.w500),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                SizedBox(height: 10),
                 Text(
                   'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
                   style: TextStyle(
@@ -81,89 +136,70 @@ class _FormPageState extends State<FormPage> {
                     fontSize: 14,
                   ),
                 ),
-                SizedBox(
-                  height: 25,
+                SizedBox(height: 25),
+                InkWell(
+                  onTap: () async {
+                    final source = await showImageSourceDialog(context);
+                    if (source == null) {
+                      print('source null');
+                      return;
+                    }
+
+                    pickSingleImage(source).then((value) {
+                      setState(() {});
+                    });
+                  },
+                  child: image != null
+                      ? Image.file(
+                          image!,
+                          width: 100,
+                          height: 100,
+                        )
+                      : Icon(
+                          Icons.cloud_upload_rounded,
+                          color: Colors.indigo,
+                          size: 50,
+                        ),
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          formFieldTitle('Name (Optional)'),
-                          SizedBox(
-                            height: 7,
-                          ),
-                          formTextField(
-                            1,
-                            hint: 'Name',
-                            editingController: nameController,
-                          ),
-                        ],
-                      ),
+                SizedBox(height: 8),
+                InkWell(
+                  onTap: () async {
+                    final source = await showImageSourceDialog(context);
+                    if (source == null) {
+                      print('source null');
+                      return;
+                    }
+                    pickSingleImage(source).then((value) {
+                      setState(() {});
+                    });
+                  },
+                  child: Text(
+                    'Upload Lyrics Image',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          formFieldTitle('Email (Optional)'),
-                          SizedBox(
-                            height: 7,
-                          ),
-                          formTextField(
-                            1,
-                            hint: 'Email',
-                            editingController: emailController,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                formFieldTitle('Song Name'),
-                SizedBox(
-                  height: 7,
-                ),
-                formTextField(null,
-                    hint: 'Song name', editingController: songController),
-                SizedBox(
-                  height: 20,
-                ),
-                formFieldTitle('Lyrics / Link'),
-                SizedBox(
-                  height: 7,
-                ),
-                formTextField(
+                SizedBox(height: 20),
+                ConstWidget.formFieldTitle('Song Title'),
+                SizedBox(height: 7),
+                ConstWidget.formTextField(null,
+                    hint: 'Song title', editingController: songController),
+                SizedBox(height: 20),
+                ConstWidget.formFieldTitle('Other Details'),
+                SizedBox(height: 7),
+                ConstWidget.formTextField(
                   null,
-                  hint: 'Lyrics or link where lyrics can be found',
-                  editingController: lyricsController,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                formFieldTitle('Other Details'),
-                SizedBox(
-                  height: 7,
-                ),
-                formTextField(
-                  null,
-                  hint: 'Other details of the song.',
+                  hint:
+                      'Link of Lyrics or Youtube video. Other song information',
                   editingController: otherController,
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+                SizedBox(height: 30),
                 TextButton(
                   onPressed: () async {
                     SongSuggestions currentSongSuggestion = SongSuggestions(
-                      nameController.text,
-                      emailController.text,
                       songController.text,
-                      lyricsController.text,
                       otherController.text,
                     );
 
@@ -171,27 +207,18 @@ class _FormPageState extends State<FormPage> {
                         await NetworkHelper().checkNetworkConnection();
 
                     if ((currentSongSuggestion.songSuggestionMap['songName'] ==
-                                '' ||
-                            currentSongSuggestion
-                                    .songSuggestionMap['songName'] ==
-                                null ||
-                            currentSongSuggestion
-                                    .songSuggestionMap['songName'].length <
-                                2) &&
-                        (currentSongSuggestion
-                                    .songSuggestionMap['lyrics'] ==
-                                '' ||
-                            currentSongSuggestion.songSuggestionMap['lyrics'] ==
-                                null ||
-                            currentSongSuggestion
-                                    .songSuggestionMap['lyrics'].length <
-                                2)) {
-                      showSimpleToast(
+                            null ||
+                        currentSongSuggestion.songSuggestionMap['songName'] ==
+                            '' ||
+                        currentSongSuggestion
+                                .songSuggestionMap['songName'].length <
+                            2)) {
+                      ConstWidget.showSimpleToast(
                         context,
-                        'Song Name and Lyrics both cannot be empty',
+                        'Please fill up the Song Title',
                       );
                     } else if (isInternetConnected == false) {
-                      showSimpleToast(
+                      ConstWidget.showSimpleToast(
                         context,
                         'No Internet Connection!',
                       );
@@ -199,12 +226,9 @@ class _FormPageState extends State<FormPage> {
                       await FireStoreHelper()
                           .addSuggestions(currentSongSuggestion);
 
-                      nameController.clear();
-                      emailController.clear();
                       songController.clear();
-                      lyricsController.clear();
                       otherController.clear();
-                      showSimpleToast(
+                      ConstWidget.showSimpleToast(
                         context,
                         'ThankYou for suggesting! Song will be updated soon.',
                       );
@@ -213,7 +237,7 @@ class _FormPageState extends State<FormPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Color(0xFF54BEE6),
+                      color: Colors.indigo,
                     ),
                     width: 250,
                     height: 57,

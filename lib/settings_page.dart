@@ -35,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      child: showLogo(),
+                      child: ConstWidget.showLogo(),
                     ),
                     SizedBox(
                       width: 10,

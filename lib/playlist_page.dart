@@ -58,7 +58,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
               if (ListFunctions.songList.isNotEmpty) {
                 setUpPlaylistDetails();
               } else {
-                showSimpleToast(
+                ConstWidget.showSimpleToast(
                     context, 'Internet connection might be slow! Try again.');
                 Navigator.of(context).pop();
               }

@@ -64,7 +64,7 @@ class DatabaseController {
           Provider.of<FirebaseApp>(context, listen: false),
         ).changeLikes(context, currentSong, toAdd);
     if (isSuccess == false) {
-      showSimpleToast(
+      ConstWidget.showSimpleToast(
         context,
         'Something went wrong! Please try Later.',
       );

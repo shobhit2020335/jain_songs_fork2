@@ -6,9 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
+import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
-import 'package:jain_songs/services/launch_otherApp.dart';
+import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -197,7 +198,7 @@ class _SongPageState extends State<SongPage> {
             return null;
           });
           if (currentSong == null) {
-            showSimpleToast(
+            ConstWidget.showSimpleToast(
               context,
               'Song not found. Restart the App to load the new song and then try again.',
               duration: 5,
@@ -208,7 +209,7 @@ class _SongPageState extends State<SongPage> {
           }
         } else {
           _timerLink?.cancel();
-          showSimpleToast(context, 'Loading Song. Please Wait!');
+          ConstWidget.showSimpleToast(context, 'Loading Song. Please Wait!');
           _timerLink = Timer(Duration(milliseconds: 10000), () {
             if (ListFunctions.songList.isNotEmpty) {
               currentSong = ListFunctions.songList.firstWhere((song) {
@@ -217,7 +218,7 @@ class _SongPageState extends State<SongPage> {
                 return null;
               });
               if (currentSong == null) {
-                showSimpleToast(
+                ConstWidget.showSimpleToast(
                   context,
                   'Song not found. Restart the App to load the new song and then try again.',
                   duration: 5,
@@ -227,7 +228,8 @@ class _SongPageState extends State<SongPage> {
                 loadScreen();
               }
             } else {
-              showSimpleToast(context, 'Internet connection might be slow!');
+              ConstWidget.showSimpleToast(
+                  context, 'Internet connection might be slow!');
               Navigator.of(context).pop();
             }
           });
@@ -358,7 +360,7 @@ class _SongPageState extends State<SongPage> {
                                     progressIndicatorColor: Colors.indigo,
                                     liveUIColor: Colors.indigo,
                                     onEnded: (youtubeMetaData) {
-                                      showSimpleToast(
+                                      ConstWidget.showSimpleToast(
                                           context, 'Playing next in 7 seconds',
                                           duration: 7);
                                       _timerLink?.cancel();
@@ -448,7 +450,8 @@ class _SongPageState extends State<SongPage> {
                                 InkWell(
                                   onTap: () {
                                     //Opens other app to share song.
-                                    shareApp(currentSong?.songNameHindi,
+                                    Services.shareApp(
+                                        currentSong?.songNameHindi,
                                         currentSong?.code);
 
                                     DatabaseController()
@@ -525,7 +528,7 @@ class _SongPageState extends State<SongPage> {
                                       InkWell(
                                         onTap: () {
                                           if (noOfLang == 1) {
-                                            showSimpleToast(
+                                            ConstWidget.showSimpleToast(
                                               context,
                                               'No more languages for this song is available now!',
                                             );
@@ -556,7 +559,8 @@ class _SongPageState extends State<SongPage> {
                                       InkWell(
                                         onTap: () {
                                           //Opens other app to share song.
-                                          shareApp(currentSong?.songNameHindi,
+                                          Services.shareApp(
+                                              currentSong?.songNameHindi,
                                               currentSong?.code);
 
                                           DatabaseController()
@@ -594,6 +598,33 @@ class _SongPageState extends State<SongPage> {
                                         : (langNo == 2
                                             ? currentSong!.englishLyrics
                                             : currentSong!.gujaratiLyrics),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return FormPage();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          FontAwesomeIcons.edit,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                        SizedBox(width: 10),
+                                        Text(
+                                          'Suggest Edit',
+                                          style: GoogleFonts.lato(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

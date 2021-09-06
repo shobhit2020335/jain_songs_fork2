@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   //     KeyboardVisibilityNotification();
   bool isBasicSearchEmpty = false;
   bool showProgress = false;
-  Widget appBarTitle = mainAppTitle();
+  Widget appBarTitle = ConstWidget.mainAppTitle();
 
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     if (showProgress == false) {
       setState(
         () {
-          this.searchOrCrossIcon = clearIcon;
+          this.searchOrCrossIcon = ConstWidget.clearIcon;
           this.appBarTitle = TextField(
             textInputAction: TextInputAction.search,
             controller: searchController,
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     speechToText.initialize(onError: (error) {
       setState(() {
         isListening = false;
-        showSimpleToast(
+        ConstWidget.showSimpleToast(
             context, "Couldn't recognize your words. Please try again!",
             duration: 3);
       });
@@ -111,11 +111,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           searchController.text.length > 3) {
         isBasicSearchEmpty = false;
         SongSuggestions currentSongSuggestion = SongSuggestions(
-          "Got from search",
-          "Got from basic search emptiness",
           searchController.text,
-          "What user tried to search is given in otherDetails.",
-          '',
+          "User tried to search this",
         );
         FireStoreHelper().addSuggestions(currentSongSuggestion);
       }
@@ -137,7 +134,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       await NetworkHelper().changeDateAndVersion();
       if (Globals.fetchedVersion! > Globals.appVersion) {
         setState(() {
-          showUpdateDialog(context);
+          ConstWidget.showUpdateDialog(context);
         });
       }
       bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
@@ -147,7 +144,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           DatabaseController.fromCache = false;
           bool isSuccess = await FireStoreHelper().fetchSongs();
           if (isSuccess == false) {
-            showSimpleToast(context,
+            ConstWidget.showSimpleToast(context,
                 'Please check your Internet Connection and restart Stavan');
             setState(() {
               showProgress = false;
@@ -157,7 +154,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           }
         } catch (e) {
           print(e);
-          showSimpleToast(
+          ConstWidget.showSimpleToast(
               context, 'Stavan is under maintenance. Please try again later!');
           setState(() {
             showProgress = false;
@@ -167,7 +164,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         print('Before going in fetch songs');
         bool isSuccess = await DatabaseController().fetchSongs(context);
         if (isSuccess == false) {
-          showSimpleToast(context,
+          ConstWidget.showSimpleToast(context,
               'Please check your Internet Connection and restart Stavan');
           setState(() {
             showProgress = false;
@@ -200,7 +197,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             .log('home_page/_filterDialog(): ' + onError.toString());
 
         ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
-        showSimpleToast(
+        ConstWidget.showSimpleToast(
           context,
           'Error applying Filter',
         );
@@ -224,7 +221,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         FirebaseCrashlytics.instance
             .log('home_page/_filterDialog(): ' + onError.toString());
         ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
-        showSimpleToast(
+        ConstWidget.showSimpleToast(
           context,
           'Error applying Filter',
         );
@@ -285,7 +282,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   duration: Duration(milliseconds: 1000),
                   curve: Curves.fastOutSlowIn,
                 );
-                showToast(Globals.welcomeMessage);
+                ConstWidget.showToast(Globals.welcomeMessage);
               },
               child: Image.asset(
                 'images/Logo.png',
@@ -309,7 +306,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     ),
                     onTap: () {
                       if (isListening) {
-                        showSimpleToast(context, 'Stopped Listening.',
+                        ConstWidget.showSimpleToast(
+                            context, 'Stopped Listening.',
                             duration: 2);
                         speechToText.stop().then((value) {
                           setState(() {
@@ -333,13 +331,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         });
 
                         isListening = true;
-                        if (searchOrCrossIcon == clearIcon) {
+                        if (searchOrCrossIcon == ConstWidget.clearIcon) {
                           setState(() {
-                            showSimpleToast(context, 'Listening...',
+                            ConstWidget.showSimpleToast(context, 'Listening...',
                                 duration: 3);
                           });
                         } else {
-                          showSimpleToast(context, 'Listening...', duration: 3);
+                          ConstWidget.showSimpleToast(context, 'Listening...',
+                              duration: 3);
                           _searchAppBarUi();
                         }
                       }
@@ -364,12 +363,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                 });
                               });
 
-                              showSimpleToast(context, 'Stopped Listening.',
+                              ConstWidget.showSimpleToast(
+                                  context, 'Stopped Listening.',
                                   duration: 2);
                             }
                             if (searchController.text.trim().length == 0) {
                               searchOrCrossIcon = Icon(Icons.search);
-                              this.appBarTitle = mainAppTitle();
+                              this.appBarTitle = ConstWidget.mainAppTitle();
                               searchController.clear();
                               getSongs('', false);
                             } else {
@@ -412,7 +412,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         activeIndex: _currentIndex,
         gapLocation: GapLocation.none,
         notchSmoothness: NotchSmoothness.smoothEdge,
-        activeColor: signatureColors(5),
+        activeColor: ConstWidget.signatureColors(5),
         backgroundColor: Colors.white,
         onTap: (index) {
           setState(() {
@@ -424,7 +424,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             } else if (index == 3) {
               appBarTitle = Text('Settings and More');
             } else {
-              appBarTitle = mainAppTitle();
+              appBarTitle = ConstWidget.mainAppTitle();
               getSongs('', false);
               searchController.clear();
               this.searchOrCrossIcon = Icon(Icons.search);
