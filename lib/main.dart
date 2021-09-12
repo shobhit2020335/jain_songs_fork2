@@ -1,10 +1,14 @@
-//TODO Add custom notification sound
+//TODO: Add custom notification sound
 //TODO: Bug in daily update for syncing song.
-//TODO: Reduce reads by storing time of song insertion.
+//TODO: edit song in lyrics
+//TODO: Playlist on home page.
+//TODO: suggest edit
+//TODO: Consider less points for words smaller than 3 length in searchify.
+//TODO: Reduce reads by storing time of song insertion or offline lyrics or all songs in one doc.
 //TODO: Change playlist colors.
 //TODO: On Clicking subtitle open specific playlist of it.
 //TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
-//TODO: SUggestion data storing is paused for paryushan timing.
+//TODO: SUggestion data storing is paused
 //TODO: Remove debug and check versions.
 //TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
 //TODO: in searching consider keyboard

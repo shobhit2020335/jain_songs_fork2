@@ -16,8 +16,8 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('HCCJAT',
-      englishName: 'chit chat',
+  currentSong.extraSearchKeywords('EMEC',
+      englishName: 'Gujrati diksa eek manurath eevo chhe',
       hindiName: '',
       originalSong: '',
       album: '',
@@ -26,7 +26,7 @@ void main() async {
       extra2: '',
       extra3: '');
   //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
-  // pajushan parushan paryusan pajyushan
+  // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
   //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
   //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 
@@ -50,29 +50,30 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'HCCJAT',
+    'code': 'EMEC',
     'album': '',
     'aaa': 'valid',
     'category': 'Stavan',
-    'genre': '',
+    'genre': 'Diksha',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'हे चेतन चेत जा अब तो\nनापना मान तू परको\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू (2)\nआतम परमातम…. (2)\n\nसुना है मैंने गुरुमुख से\nमुक्ति में परम सुख है (2)\nइन्द्रया सुख विनश्वर है .\nबंध का कारण ये दुःख है\n\nनहीं अब दुःख सेहना है\nपरम सुख में ही रेहना है\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू\nआतम परमातम…. (2)\n\nकर्म से मित्रता करके\nज्ञान धन को लुटाया है (2)\nस्वयं को भूल करके ही\nनिजातम को सताया है\n\nकर्म से मित्रता तजदे\nप्रीत शुद्धातम से करले\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू\nआतम परमातम…. (2)\n\nनहीं परका तू है करता\nतेरा पर कभी ना करता है (२)\nविन्द्रव्यो की परिणीतिया\nभिन्न है आगम कहता है\n\nहै स्वाधीन सुख में तू\nशुद्ध चित्रों को चीन में तू\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू (२)\nआतम परमातम…. (2)\n\nहे चेतन चेत जा अब तो\nनापना मान तू परको\nनिर्विकल्प हो जा तू\nअंतर में ही खोजा तू (2)\nआतम परमातम…. (8)\n',
-    'englishLyrics': '',
+        'एक मनोरथ एवो छे, वेष श्रमणनो लेवो छे,\nप्रभु चरणोमां रहेतुं छे, संयम मारे लेवू छे,\nअंतरनी एक प्यास छ, संयमनी अभिलाष छे...1\n\nभवभ्रमणा दूर टळजो रे, पंथ प्रभुनो मळजो रे,\nअरजी ए अवधारजो, संयम जीवन आपजो,\nजाग्या छे एवा अरमान, श्रमण धर्मनुं देजो दान...2\n\nभवोभवनो हुं प्यासी छु, संयमनो अभिलाषी छु,\nसाद मारो सांभळजो रे, मारग तारो मळजो रे,\nवीर प्रभुनो अंश मळे, गुरु गौतमनो वंश मळे...3\n\nसंयम मारे लेवु छे, भवथी पार उतरतुं छे,\nरोमरोमथी प्रगटे नाद, संयमना द्यो आशीर्वाद,\nएक झंखना जागी छे, संयम भिक्षा माँगी छे...4\n\nकरुणा करजो ओ किरतार, संयम देजो जगदाधार,\nउरना आसन खाली छे, दीक्षा मुजने व्हाली छे,\nवरसोथी मीट मांडु छु, संयम भिक्षा मांगु छु,\nएक मनोरथ एवो छे, वेष श्रमणनो लेवो छे...5\n',
+    'englishLyrics':
+        'Ek Manorath Evo Che Vesh Shraman No Levo Che..(4)\nPrabhu Charano Ma Revu Che Saiyam Mare Levu Che..(4)\nAntar Ni a Pyaas Vhe Saiyam Ni Abhilaash Che...(4)\n\nBhavbhramana Dur Tadajo Re Panth Prabhuno Madajo Re..(4)\nAraji a Avadhaarjo Saiyam Jeevan Aapjo..(4)\nJaagya Che Eva Aramaan Shraman Dharma Nu Dejo Daan..(4)\n\nBhavbhavno Hu Pyaasi Chu Saiyam No Abhilaashi Chu..(4)\nSaath Maro Sambhadjo Re Marag Taro Madjo Re..(4)\nVeer Prabhu No Ansh Made Guru Gautam No Vansh Made..(4)\n\nSaiyam Mare Levu Che Bhavthi Paar Utarvu Che..(4)\nRom Rom Thi Pragate Naad Saiyam Na Dyo Aashirwad..(4)\nEk Jhankhana Jagi Che Saiyam Bhiksha Magi Che..(4)\n\nKaruna Karjo O Kirtaar Saiyam Dejo Jag Aadhaar..(4)\nUrana Aasan Khali Che Diksha Mujne Vhali Che..(4)\nVaraso Thi Mit Mandu Chu Saiyam Jeevan Maangu Chu..(4)\n\nEk Manorath Evo Che Vesh Shraman No Levo Che\nPrabhu Charano Ma Revu Che Saiyam Mare Levu Che\nBhav Thi Paar Utarvu Che Vesh Shraman No Mal\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Kevalgyan TV',
+    'production': 'Jain Stavan Official',
     'share': 0,
     'singer': '',
-    'songNameEnglish': 'Hey Chetan Chet Ja Ab To',
-    'songNameHindi': 'हे चेतन चेत जा अब तो',
+    'songNameEnglish': 'Ek Manorath Evo Che',
+    'songNameHindi': 'एक मनोरथ एवो छे',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/YlhEynABnTw',
+    'youTubeLink': 'https://youtu.be/Uhkxd6FBQ3Q',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

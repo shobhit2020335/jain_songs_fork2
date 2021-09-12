@@ -18,7 +18,6 @@ class CloudStorage {
           .putFile(imageFile);
 
       String imageURL = await uploadTask.ref.getDownloadURL();
-      print('Image Uploaded: $imageURL');
       return imageURL;
     } on FirebaseException catch (e) {
       print('Error uploading image: $e');

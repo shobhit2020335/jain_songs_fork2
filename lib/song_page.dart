@@ -599,33 +599,33 @@ class _SongPageState extends State<SongPage> {
                                             ? currentSong!.englishLyrics
                                             : currentSong!.gujaratiLyrics),
                                   ),
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return FormPage();
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.edit,
-                                          color: Colors.white,
-                                          size: 20,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Text(
-                                          'Suggest Edit',
-                                          style: GoogleFonts.lato(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     Navigator.of(context).push(
+                                  //       MaterialPageRoute(
+                                  //         builder: (context) {
+                                  //           return FormPage();
+                                  //         },
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Icon(
+                                  //         FontAwesomeIcons.edit,
+                                  //         color: Colors.white,
+                                  //         size: 20,
+                                  //       ),
+                                  //       SizedBox(width: 10),
+                                  //       Text(
+                                  //         'Suggest Edit',
+                                  //         style: GoogleFonts.lato(
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),

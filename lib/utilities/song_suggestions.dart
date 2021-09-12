@@ -29,7 +29,10 @@ class SongSuggestions {
     if (this.imagesLink == null) {
       this.imagesLink = [];
     }
-    this.imagesLink?.add(link);
+    if (imagesLink != null) {
+      this.imagesLink?.add(link);
+    }
+    this.songSuggestionMap['imagesLink'] = this.imagesLink;
   }
 
   void setFCMToken(String? fcmToken) {
