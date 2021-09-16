@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
@@ -18,6 +19,7 @@ import 'package:firebase_performance/firebase_performance.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:sqflite/sqflite.dart';
 
 class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
@@ -192,6 +194,7 @@ class FireStoreHelper {
         );
       }
     }
+    SQfliteHelper.fetchSongs();
   }
 
   Future<void> addSuggestions(

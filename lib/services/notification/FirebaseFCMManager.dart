@@ -105,16 +105,14 @@ class FirebaseFCMManager {
             .then((value) {
           print('Finish making local notification');
 
-          if (message != null) {
-            if (message.data['deeplink'] != null) {
-              routeFromNotification = 'deeplink';
-              codeFromNotification = message.data['deeplink'];
-              contextForNotiTap = context;
-            } else if (message.data['route'] != null) {
-              contextForNotiTap = context;
-              routeFromNotification = message.data['route'];
-              codeFromNotification = message.data['code'];
-            }
+          if (message.data['deeplink'] != null) {
+            routeFromNotification = 'deeplink';
+            codeFromNotification = message.data['deeplink'];
+            contextForNotiTap = context;
+          } else if (message.data['route'] != null) {
+            contextForNotiTap = context;
+            routeFromNotification = message.data['route'];
+            codeFromNotification = message.data['code'];
           }
         });
       }

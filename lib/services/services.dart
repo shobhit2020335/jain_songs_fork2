@@ -6,6 +6,7 @@ import 'package:flutter_share/flutter_share.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:device_info/device_info.dart';
 
@@ -14,6 +15,25 @@ class Services {
       'https://stavan.page.link/?link=https://stavan.com/song?route%3Dsong%26code%3D';
   static String urlAfterCode =
       '&apn=com.JainDevelopers.jain_songs&amv=4&st=Stavan+-+Jain+Bhajan+with+Lyrics&sd=Listen+to+Jain+stavan+along+with+lyrics.&si=https://pbs.twimg.com/media/EfXqpDHUwAAVQHa.jpg';
+
+  //Asks for permission to user.
+  static Future<bool> requestPermission(Permission permission) async {
+    if (await permission.isGranted) {
+      return true;
+    } else {
+      PermissionStatus result = await permission.request();
+
+      if (result == PermissionStatus.granted) {
+        return true;
+      } else {
+        result = await permission.request();
+        if (result == PermissionStatus.granted) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   //Important to note code inside.
   static Future<ImageSource?> showImageSourceDialog(

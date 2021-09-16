@@ -59,6 +59,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/uisettings.dart';
@@ -77,6 +78,9 @@ void main() async {
 
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
+
+  //SQflite initialization
+  SQfliteHelper.initializeSQflite();
 
   //Persistenace for Firestore
   FirebaseFirestore.instance.settings = Settings(
@@ -102,6 +106,7 @@ void main() async {
   runApp(MainTheme(app));
   //XXX: Comment while debugging.
   secureScreen();
+  ListFunctions.songsVisited.clear();
   //Initialising AdMob.
 
   ListFunctions.songsVisited.clear();
@@ -156,6 +161,7 @@ class MainTheme extends StatelessWidget {
             iconTheme: IconThemeData(
               color: Color(0xFF212323),
             ),
+            color: Colors.white,
           ),
           primaryTextTheme: TextTheme(
             //changes color of AppBar title
@@ -164,7 +170,8 @@ class MainTheme extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          accentColor: Colors.white,
+          secondaryHeaderColor: Colors.white,
+          // accentColor: Colors.white,
           textTheme: TextTheme(
             //changes color of expansion tile when closed
             subtitle1: TextStyle(color: Colors.white),

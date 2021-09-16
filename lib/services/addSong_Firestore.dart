@@ -16,8 +16,8 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add searchkeywords in form of string.
-  currentSong.extraSearchKeywords('EMEC',
-      englishName: 'Gujrati diksa eek manurath eevo chhe',
+  currentSong.extraSearchKeywords('CCHG',
+      englishName: 'candi chandhi candhi gyi jabse hain guru darbar',
       hindiName: '',
       originalSong: '',
       album: '',
@@ -50,30 +50,29 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'EMEC',
-    'album': '',
+    'code': 'CCHG',
+    'album': 'Bichoo Or Sonu Ke Titu Ki Sweety',
     'aaa': 'valid',
-    'category': 'Stavan',
-    'genre': 'Diksha',
+    'category': 'Bhakti',
+    'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Gujarati',
+    'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'एक मनोरथ एवो छे, वेष श्रमणनो लेवो छे,\nप्रभु चरणोमां रहेतुं छे, संयम मारे लेवू छे,\nअंतरनी एक प्यास छ, संयमनी अभिलाष छे...1\n\nभवभ्रमणा दूर टळजो रे, पंथ प्रभुनो मळजो रे,\nअरजी ए अवधारजो, संयम जीवन आपजो,\nजाग्या छे एवा अरमान, श्रमण धर्मनुं देजो दान...2\n\nभवोभवनो हुं प्यासी छु, संयमनो अभिलाषी छु,\nसाद मारो सांभळजो रे, मारग तारो मळजो रे,\nवीर प्रभुनो अंश मळे, गुरु गौतमनो वंश मळे...3\n\nसंयम मारे लेवु छे, भवथी पार उतरतुं छे,\nरोमरोमथी प्रगटे नाद, संयमना द्यो आशीर्वाद,\nएक झंखना जागी छे, संयम भिक्षा माँगी छे...4\n\nकरुणा करजो ओ किरतार, संयम देजो जगदाधार,\nउरना आसन खाली छे, दीक्षा मुजने व्हाली छे,\nवरसोथी मीट मांडु छु, संयम भिक्षा मांगु छु,\nएक मनोरथ एवो छे, वेष श्रमणनो लेवो छे...5\n',
-    'englishLyrics':
-        'Ek Manorath Evo Che Vesh Shraman No Levo Che..(4)\nPrabhu Charano Ma Revu Che Saiyam Mare Levu Che..(4)\nAntar Ni a Pyaas Vhe Saiyam Ni Abhilaash Che...(4)\n\nBhavbhramana Dur Tadajo Re Panth Prabhuno Madajo Re..(4)\nAraji a Avadhaarjo Saiyam Jeevan Aapjo..(4)\nJaagya Che Eva Aramaan Shraman Dharma Nu Dejo Daan..(4)\n\nBhavbhavno Hu Pyaasi Chu Saiyam No Abhilaashi Chu..(4)\nSaath Maro Sambhadjo Re Marag Taro Madjo Re..(4)\nVeer Prabhu No Ansh Made Guru Gautam No Vansh Made..(4)\n\nSaiyam Mare Levu Che Bhavthi Paar Utarvu Che..(4)\nRom Rom Thi Pragate Naad Saiyam Na Dyo Aashirwad..(4)\nEk Jhankhana Jagi Che Saiyam Bhiksha Magi Che..(4)\n\nKaruna Karjo O Kirtaar Saiyam Dejo Jag Aadhaar..(4)\nUrana Aasan Khali Che Diksha Mujne Vhali Che..(4)\nVaraso Thi Mit Mandu Chu Saiyam Jeevan Maangu Chu..(4)\n\nEk Manorath Evo Che Vesh Shraman No Levo Che\nPrabhu Charano Ma Revu Che Saiyam Mare Levu Che\nBhav Thi Paar Utarvu Che Vesh Shraman No Mal\n',
-    'originalSong': '',
+        'जबसे मिला है मुझे गुरु दरबार,\nअपनी तो दुनिया बदल गई यार,\nचाँदी चाँदी हो गई मेरी,\nचाँदी चाँदी हो गई।।\n\nसंसार में सारे घूम आया पर,\nचैन कहीं ना पाया मैं,\nरोते रोते बड़ी मुश्किल से,\nफिर तेरे दर पे आया मैं,\nगुरु ने सुनली मेरी पुकार,\nअपनी तो दुनिया बदल गई यार,\nचाँदी चाँदी हो गई मेरी,\nचाँदी चाँदी हो गई।।\n\nदूर हुए हैं दुःख सारे,\nखुशियाँ ही खुशियाँ छाई है,\nमेरे गुरुवार की किरपा से,\nये रात सुहानी आई है,\nअब ना किसी की है दरकार,\nअपनी तो दुनिया बदल गई यार,\nचाँदी चाँदी हो गई मेरी,\nचाँदी चाँदी हो गई।।\n\nसच कहता हूँ प्यारे भक्तो,\nजो दुनिया से हारे हैं,\nहम जैसे दुखियों के आखिर,\nये गुरुवार ही सहाई हैं,\nमतलब का है ये संसार,\nअपनी तो दुनिया बदल गई यार,\nचाँदी चाँदी हो गई मेरी,\nचाँदी चाँदी हो गई।।\n',
+    'englishLyrics': '',
+    'originalSong': 'Dil Tote Tote Or Chote Chote Peg',
     'popularity': 0,
-    'production': 'Jain Stavan Official',
+    'production': '',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Ek Manorath Evo Che',
-    'songNameHindi': 'एक मनोरथ एवो छे',
+    'singer': 'Sharad Jain',
+    'songNameEnglish': 'Chandi Chandi Ho Gayi (Jab Se Mila Hai Mujhe)',
+    'songNameHindi': 'चाँदी चाँदी हो गई (जबसे मिला है मुझे)',
     'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/Uhkxd6FBQ3Q',
+    'youTubeLink': 'https://youtu.be/EcefcRbgbsU',
   };
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =

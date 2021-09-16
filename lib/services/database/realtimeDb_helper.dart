@@ -73,7 +73,7 @@ class RealtimeDbHelper {
         songSnapshot = await database.reference().child('songs').once();
       }
 
-      _readFetchedSongs(songSnapshot!, ListFunctions.songList);
+      _readFetchedSongs(songSnapshot, ListFunctions.songList);
       if (ListFunctions.songList.length == 0) {
         return false;
       }
@@ -203,16 +203,6 @@ class RealtimeDbHelper {
       print('Error updating likes in realtime: $e');
       return false;
     }
-  }
-
-  Future<void> overwriteRealtimeDbWithFirestore() async {
-    ListFunctions.songList.forEach((songDetails) {
-      database
-          .reference()
-          .child('songs')
-          .child(songDetails!.code!)
-          .set(songDetails.toMap());
-    });
   }
 
   Future<void> userSelectedFilters(UserFilters userFilters) async {

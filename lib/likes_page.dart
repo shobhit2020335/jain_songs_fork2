@@ -16,7 +16,6 @@ class LikesPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            // title: Text('Liked Songs'),
             centerTitle: true,
             pinned: true,
             expandedHeight: 200,
