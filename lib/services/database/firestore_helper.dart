@@ -16,10 +16,10 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
+import 'package:jain_songs/utilities/songsData_details.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:sqflite/sqflite.dart';
 
 class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
@@ -194,7 +194,87 @@ class FireStoreHelper {
         );
       }
     }
-    SQfliteHelper.fetchSongs();
+  }
+
+  Future<bool> fetchSongsData() async {
+    try {
+      var docSnapshot =
+          await _firestore.collection('songsData').doc('points').get();
+      Map<String, dynamic>? songDataMap =
+          docSnapshot.data() as Map<String, dynamic>;
+
+      List<SongsDataDetails> songDataList = [];
+      List<String> code = List<String>.from(songDataMap['code']);
+      List<int> likes = List<int>.from(songDataMap['likes']);
+      List<int> popularity = List<int>.from(songDataMap['popularity']);
+      List<int> share = List<int>.from(songDataMap['share']);
+      List<int> todayClicks = List<int>.from(songDataMap['todayClicks']);
+      List<int> totalClicks = List<int>.from(songDataMap['totalClicks']);
+      List<double> trendPoints = List<double>.from(songDataMap['trendPoints']);
+
+      for (int i = 0; i < code.length; i++) {
+        SongsDataDetails songsDataDetails = SongsDataDetails(
+          code: code[i],
+          likes: likes[i],
+          popularity: popularity[i],
+          share: share[i],
+          todayClicks: todayClicks[i],
+          totalClicks: totalClicks[i],
+          trendPoints: trendPoints[i],
+        );
+        songDataList.add(songsDataDetails);
+      }
+
+      songDataList.sort(_codeComparison);
+
+      List<String> songNotFound = [];
+      int i = 0, j = 0;
+
+      while (i < songDataList.length && j < ListFunctions.songList.length) {
+        String codeFromData = songDataList[i].code!;
+        String codeFromSong = ListFunctions.songList[j]!.code!;
+        if (codeFromSong == codeFromData) {
+          ListFunctions.songList[j]?.popularity = songDataList[i].popularity;
+          ListFunctions.songList[j]?.todayClicks = songDataList[i].todayClicks;
+          ListFunctions.songList[j]?.totalClicks = songDataList[i].totalClicks;
+          ListFunctions.songList[j]?.trendPoints = songDataList[i].trendPoints;
+          i++;
+          j++;
+        } else if (codeFromData.compareTo(codeFromSong) < 0) {
+          songNotFound.add(codeFromData);
+          i++;
+        } else if (codeFromData.compareTo(codeFromSong) > 0) {
+          ListFunctions.songList[j]?.aaa = 'invalid';
+          j++;
+        }
+      }
+
+      while (i < songDataList.length) {
+        songNotFound.add(songDataList[i].code!);
+        i++;
+      }
+      while (j < ListFunctions.songList.length) {
+        ListFunctions.songList[j]?.aaa = 'invalid';
+        j++;
+      }
+      return true;
+    } catch (e) {
+      print('Error fetching songs data: $e');
+      return false;
+    }
+  }
+
+  int _codeComparison(SongsDataDetails a, SongsDataDetails b) {
+    final String propertyA = a.code!;
+    final String propertyB = b.code!;
+
+    if (propertyA.compareTo(propertyB) < 0) {
+      return -1;
+    } else if (propertyA.compareTo(propertyB) > 0) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   Future<void> addSuggestions(

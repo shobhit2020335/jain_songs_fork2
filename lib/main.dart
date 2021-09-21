@@ -2,6 +2,7 @@
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.
+//TODO: INcrease time for scrolling up.
 //TODO: suggest edit
 //TODO: Consider less points for words smaller than 3 length in searchify.
 //TODO: Reduce reads by storing time of song insertion or offline lyrics or all songs in one doc.

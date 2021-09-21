@@ -1,9 +1,13 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../useful_functions.dart';
 
 class SQfliteHelper {
   static Future<Database>? database;
@@ -25,6 +29,7 @@ class SQfliteHelper {
             data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
 
         await File(path).writeAsBytes(bytes);
+        print('Database file copied from asset to internal storage');
         isFileFound = true;
       } catch (e) {
         print('Error copying database to internal Storage: $e');
@@ -55,7 +60,7 @@ class SQfliteHelper {
   }
 
   //Inserts song to SQflite.
-  static Future<bool> insertSong(SongDetails song) async {
+  Future<bool> insertSong(SongDetails song) async {
     final db = await database;
 
     try {
@@ -74,22 +79,76 @@ class SQfliteHelper {
     }
   }
 
-  static Future<bool> deleteDatabase() async {
+  Future<bool> deleteDatabase() async {
     final db = await database;
     db!.delete('songs');
     return true;
   }
 
-  static Future<bool> fetchSongs() async {
+  Future<bool> fetchSongs() async {
     final Database? db = await database;
     print('Fetching Songs from sqlite');
 
     try {
-      await db!.query('songs');
+      List<Map<String, dynamic>> songs =
+          await db!.query('songs', orderBy: 'code ASC');
+      if (songs.length == 0) {
+        return false;
+      }
+      ListFunctions.songList.clear();
+      await _readFetchedSongs(songs, ListFunctions.songList);
       return true;
     } catch (e) {
       print('Error fetching songs from SQflite: $e');
       return false;
+    }
+  }
+
+  Future<void> _readFetchedSongs(
+      List<Map<String, dynamic>> songs, List<SongDetails?> listToAdd) async {
+    for (Map<String, dynamic> currentSong in songs) {
+      String state = currentSong['aaa'];
+      state = state.toLowerCase();
+      if (state.contains('invalid') != true) {
+        SongDetails currentSongDetails = SongDetails(
+            album: currentSong['album'],
+            code: currentSong['code'],
+            category: currentSong['category'],
+            genre: currentSong['genre'],
+            gujaratiLyrics: currentSong['gujaratiLyrics'],
+            language: currentSong['language'],
+            lyrics: currentSong['lyrics'],
+            englishLyrics: currentSong['englishLyrics'],
+            songNameEnglish: currentSong['songNameEnglish'],
+            songNameHindi: currentSong['songNameHindi'],
+            originalSong: currentSong['originalSong'],
+            popularity: currentSong['popularity'],
+            production: currentSong['production'],
+            searchKeywords: currentSong['searchKeywords'],
+            singer: currentSong['singer'],
+            tirthankar: currentSong['tirthankar'],
+            todayClicks: currentSong['todayClicks'],
+            totalClicks: currentSong['totalClicks'],
+            trendPoints: currentSong['trendPoints'],
+            likes: currentSong['likes'],
+            share: currentSong['share'],
+            youTubeLink: currentSong['youTubeLink']);
+        bool? valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
+        if (valueIsliked == null) {
+          SharedPrefs.setIsLiked(currentSong['code'], false);
+          valueIsliked = false;
+        }
+        currentSongDetails.isLiked = valueIsliked;
+        String songInfo =
+            '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+        currentSongDetails.songInfo = trimSpecialChars(songInfo);
+        if (currentSongDetails.songInfo.length == 0) {
+          currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+        }
+        listToAdd.add(
+          currentSongDetails,
+        );
+      }
     }
   }
 }

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
@@ -14,19 +16,30 @@ class DatabaseController {
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
 
-  Future<bool> fetchSongs(BuildContext context) async {
+  Future<bool> fetchSongs(BuildContext context,
+      {required onSqlFetchComplete()}) async {
     bool isSuccess = false;
-    if (dbName == 'realtime') {
-      isSuccess = await RealtimeDbHelper(
-        Provider.of<FirebaseApp>(context, listen: false),
-      ).fetchSongs();
-    }
-    if (isSuccess == false) {
-      isSuccess = await FireStoreHelper().fetchSongs();
-      if (isSuccess == false) {
+    isSuccess = await SQfliteHelper().fetchSongs();
+    if (isSuccess) {
+      FireStoreHelper().fetchSongsData().then((value) {
+        onSqlFetchComplete();
+        if (value == false) {
+          print('Error fetching or storing songs data after sql fetch');
+        }
+      });
+    } else {
+      if (dbName == 'realtime') {
         isSuccess = await RealtimeDbHelper(
           Provider.of<FirebaseApp>(context, listen: false),
         ).fetchSongs();
+      }
+      if (isSuccess == false) {
+        isSuccess = await FireStoreHelper().fetchSongs();
+        if (isSuccess == false) {
+          isSuccess = await RealtimeDbHelper(
+            Provider.of<FirebaseApp>(context, listen: false),
+          ).fetchSongs();
+        }
       }
     }
     return isSuccess;

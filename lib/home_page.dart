@@ -162,7 +162,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         }
       } else {
         print('Before going in fetch songs');
-        bool isSuccess = await DatabaseController().fetchSongs(context);
+        bool isSuccess = await DatabaseController().fetchSongs(context,
+            onSqlFetchComplete: () {
+          ListFunctions().addElementsToList('home');
+          setState(() {});
+        });
         if (isSuccess == false) {
           ConstWidget.showSimpleToast(context,
               'Please check your Internet Connection and restart Stavan');

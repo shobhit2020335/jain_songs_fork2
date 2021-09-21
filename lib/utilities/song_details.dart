@@ -1,5 +1,6 @@
 class SongDetails {
   //ADD the new variable in table creation too.
+  String aaa;
   String? album;
   String? category;
   String? code;
@@ -41,6 +42,7 @@ class SongDetails {
   static String deleteSongTable = 'DROP TABLE IF EXISTS songs';
 
   SongDetails({
+    this.aaa: 'valid',
     this.album,
     this.category: "",
     this.code,
