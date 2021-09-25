@@ -71,7 +71,7 @@ class SQfliteHelper {
         print('Couldnt insert song in SQflite, Position: $position');
         return false;
       }
-      print('Song added in SQflite');
+      print('Song added in SQflite: ${song.code}');
       return true;
     } catch (e) {
       print('Error inserting song to SQflite: $e');

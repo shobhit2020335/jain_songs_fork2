@@ -11,8 +11,10 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
-  //Variable to decide which database to use from Realtime and firestore.
-  static String dbName = "firestore";
+  //Variable to decide which database to use from Realtime and firestore for fetching songs.
+  static String dbName = 'firestore';
+  //Variable to decide which database to use for fetching songsData
+  static String dbForSongsData = 'firestore';
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
 
@@ -21,12 +23,7 @@ class DatabaseController {
     bool isSuccess = false;
     isSuccess = await SQfliteHelper().fetchSongs();
     if (isSuccess) {
-      FireStoreHelper().fetchSongsData().then((value) {
-        onSqlFetchComplete();
-        if (value == false) {
-          print('Error fetching or storing songs data after sql fetch');
-        }
-      });
+      onSqlFetchComplete();
     } else {
       if (dbName == 'realtime') {
         isSuccess = await RealtimeDbHelper(
@@ -41,6 +38,18 @@ class DatabaseController {
           ).fetchSongs();
         }
       }
+    }
+    return isSuccess;
+  }
+
+  Future<bool> fetchSongsData(BuildContext context) async {
+    bool isSuccess = false;
+    if (dbForSongsData == 'realtime') {
+      isSuccess = await RealtimeDbHelper(
+        Provider.of<FirebaseApp>(context, listen: false),
+      ).fetchSongsData();
+    } else {
+      isSuccess = await FireStoreHelper().fetchSongsData();
     }
     return isSuccess;
   }

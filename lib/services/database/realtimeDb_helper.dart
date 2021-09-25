@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
@@ -140,6 +141,159 @@ class RealtimeDbHelper {
         );
       }
     });
+  }
+
+  SongDetails _readSingleSong(DataSnapshot song, List<SongDetails?> listToAdd) {
+    Map<String, dynamic> currentSong = Map<String, dynamic>.from(song.value);
+    String state = currentSong['aaa'];
+    state = state.toLowerCase();
+    SongDetails currentSongDetails = SongDetails(
+      album: currentSong['album'].toString(),
+      code: currentSong['code'].toString(),
+      category: currentSong['category'].toString(),
+      genre: currentSong['genre'].toString(),
+      gujaratiLyrics: currentSong['gujaratiLyrics'].toString(),
+      language: currentSong['language'].toString(),
+      lyrics: currentSong['lyrics'].toString(),
+      englishLyrics: currentSong['englishLyrics'].toString(),
+      songNameEnglish: currentSong['songNameEnglish'].toString(),
+      songNameHindi: currentSong['songNameHindi'].toString(),
+      originalSong: currentSong['originalSong'].toString(),
+      popularity: int.parse(currentSong['popularity'].toString()),
+      production: currentSong['production'].toString(),
+      searchKeywords: currentSong['searchKeywords'].toString(),
+      singer: currentSong['singer'].toString(),
+      tirthankar: currentSong['tirthankar'].toString(),
+      todayClicks: int.parse(currentSong['todayClicks'].toString()),
+      totalClicks: int.parse(currentSong['totalClicks'].toString()),
+      trendPoints: double.parse(currentSong['trendPoints'].toString()),
+      likes: int.parse(currentSong['likes'].toString()),
+      share: int.parse(currentSong['share'].toString()),
+      youTubeLink: currentSong['youTubeLink'].toString(),
+    );
+    SharedPrefs.setIsLiked(currentSong['code'], false);
+    currentSongDetails.isLiked = false;
+    String songInfo =
+        '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+    currentSongDetails.songInfo = trimSpecialChars(songInfo);
+    if (currentSongDetails.songInfo.length == 0) {
+      currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+    }
+    listToAdd.add(
+      currentSongDetails,
+    );
+
+    if (state.contains('invalid') == true) {
+      currentSongDetails.aaa = 'invalid';
+    }
+    return currentSongDetails;
+  }
+
+  Future<bool> fetchSongsData() async {
+    try {
+      var docSnapshot =
+          await database.reference().child('songsData').child('likes').get();
+      Map<String, dynamic> likesDataMap =
+          Map<String, dynamic>.from(docSnapshot.value);
+
+      docSnapshot =
+          await database.reference().child('songsData').child('share').get();
+      Map<String, dynamic> shareDataMap =
+          Map<String, dynamic>.from(docSnapshot.value);
+
+      docSnapshot = await database
+          .reference()
+          .child('songsData')
+          .child('todayClicks')
+          .get();
+      Map<String, dynamic> todayClicksDataMap =
+          Map<String, dynamic>.from(docSnapshot.value);
+
+      docSnapshot = await database
+          .reference()
+          .child('songsData')
+          .child('totalClicks')
+          .get();
+      Map<String, dynamic> totalClicksDataMap =
+          Map<String, dynamic>.from(docSnapshot.value);
+
+      docSnapshot = await database
+          .reference()
+          .child('songsData')
+          .child('popularity')
+          .get();
+      Map<String, dynamic> popularityDataMap =
+          Map<String, dynamic>.from(docSnapshot.value);
+
+      docSnapshot = await database
+          .reference()
+          .child('songsData')
+          .child('trendPoints')
+          .get();
+      Map<String, dynamic> trendPointsDataMap =
+          Map<String, dynamic>.from(docSnapshot.value);
+
+      for (SongDetails? song in ListFunctions.songList) {
+        String code = song!.code!;
+        if (likesDataMap.containsKey(code)) {
+          song.likes = int.parse(likesDataMap[code].toString());
+          song.share = int.parse(shareDataMap[code].toString());
+          song.todayClicks = int.parse(todayClicksDataMap[code].toString());
+          song.totalClicks = int.parse(totalClicksDataMap[code].toString());
+          song.popularity = int.parse(popularityDataMap[code].toString());
+          song.trendPoints = double.parse(trendPointsDataMap[code].toString());
+          likesDataMap.remove(code);
+        } else {
+          song.aaa = 'invalid';
+        }
+      }
+
+      bool isSuccess = await addNewSongs(
+        likesDataMap,
+        shareDataMap,
+        todayClicksDataMap,
+        totalClicksDataMap,
+        popularityDataMap,
+        trendPointsDataMap,
+      );
+      return isSuccess;
+    } catch (e) {
+      print('Error fetching songs data: $e');
+      return false;
+    }
+  }
+
+  Future<bool> addNewSongs(
+    Map<String, dynamic> likesMap,
+    Map<String, dynamic> shareMap,
+    Map<String, dynamic> todayClicksMap,
+    Map<String, dynamic> totalClicksMap,
+    Map<String, dynamic> popularityMap,
+    Map<String, dynamic> trendPointsMap,
+  ) async {
+    try {
+      List<String> songNotFound = [];
+      likesMap.forEach((key, value) {
+        songNotFound.add(key);
+      });
+
+      print('Songs which are not found: $songNotFound');
+      for (String code in songNotFound) {
+        var song = await database.reference().child('songs').child(code).get();
+        SongDetails currentSong = _readSingleSong(song, ListFunctions.songList);
+        currentSong.likes = int.parse(likesMap[code].toString());
+        currentSong.share = int.parse(shareMap[code].toString());
+        currentSong.todayClicks = int.parse(todayClicksMap[code].toString());
+        currentSong.totalClicks = int.parse(totalClicksMap[code].toString());
+        currentSong.popularity = int.parse(popularityMap[code].toString());
+        currentSong.trendPoints = double.parse(trendPointsMap[code].toString());
+        SQfliteHelper().insertSong(currentSong);
+      }
+      return true;
+    } catch (e) {
+      print('Error fetching new songs: $e');
+      return false;
+    }
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {

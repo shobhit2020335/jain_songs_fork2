@@ -16,7 +16,6 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:jain_songs/utilities/songsData_details.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -196,84 +195,141 @@ class FireStoreHelper {
     }
   }
 
+  SongDetails _readSingleSong(
+      DocumentSnapshot song, List<SongDetails?> listToAdd) {
+    Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
+    String state = currentSong['aaa'];
+    state = state.toLowerCase();
+    SongDetails currentSongDetails = SongDetails(
+        album: currentSong['album'],
+        code: currentSong['code'],
+        category: currentSong['category'],
+        genre: currentSong['genre'],
+        gujaratiLyrics: currentSong['gujaratiLyrics'],
+        language: currentSong['language'],
+        lyrics: currentSong['lyrics'],
+        englishLyrics: currentSong['englishLyrics'],
+        songNameEnglish: currentSong['songNameEnglish'],
+        songNameHindi: currentSong['songNameHindi'],
+        originalSong: currentSong['originalSong'],
+        popularity: currentSong['popularity'],
+        production: currentSong['production'],
+        searchKeywords: currentSong['searchKeywords'],
+        singer: currentSong['singer'],
+        tirthankar: currentSong['tirthankar'],
+        todayClicks: currentSong['todayClicks'],
+        totalClicks: currentSong['totalClicks'],
+        trendPoints: currentSong['trendPoints'],
+        likes: currentSong['likes'],
+        share: currentSong['share'],
+        youTubeLink: currentSong['youTubeLink']);
+    SharedPrefs.setIsLiked(currentSong['code'], false);
+    currentSongDetails.isLiked = false;
+    String songInfo =
+        '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+    currentSongDetails.songInfo = trimSpecialChars(songInfo);
+    if (currentSongDetails.songInfo.length == 0) {
+      currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+    }
+    listToAdd.add(
+      currentSongDetails,
+    );
+
+    if (state.contains('invalid') == true) {
+      currentSongDetails.aaa = 'invalid';
+    }
+    return currentSongDetails;
+  }
+
   Future<bool> fetchSongsData() async {
     try {
       var docSnapshot =
-          await _firestore.collection('songsData').doc('points').get();
-      Map<String, dynamic>? songDataMap =
-          docSnapshot.data() as Map<String, dynamic>;
+          await _firestore.collection('songsData').doc('likes').get();
+      Map<String, int>? likesDataMap = docSnapshot.data() as Map<String, int>;
 
-      List<SongsDataDetails> songDataList = [];
-      List<String> code = List<String>.from(songDataMap['code']);
-      List<int> likes = List<int>.from(songDataMap['likes']);
-      List<int> popularity = List<int>.from(songDataMap['popularity']);
-      List<int> share = List<int>.from(songDataMap['share']);
-      List<int> todayClicks = List<int>.from(songDataMap['todayClicks']);
-      List<int> totalClicks = List<int>.from(songDataMap['totalClicks']);
-      List<double> trendPoints = List<double>.from(songDataMap['trendPoints']);
+      docSnapshot = await _firestore.collection('songsData').doc('share').get();
+      Map<String, int>? shareDataMap = docSnapshot.data() as Map<String, int>;
 
-      for (int i = 0; i < code.length; i++) {
-        SongsDataDetails songsDataDetails = SongsDataDetails(
-          code: code[i],
-          likes: likes[i],
-          popularity: popularity[i],
-          share: share[i],
-          todayClicks: todayClicks[i],
-          totalClicks: totalClicks[i],
-          trendPoints: trendPoints[i],
-        );
-        songDataList.add(songsDataDetails);
-      }
+      docSnapshot =
+          await _firestore.collection('songsData').doc('todayClicks').get();
+      Map<String, int>? todayClicksDataMap =
+          docSnapshot.data() as Map<String, int>;
 
-      songDataList.sort(_codeComparison);
+      docSnapshot =
+          await _firestore.collection('songsData').doc('totalClicks').get();
+      Map<String, int>? totalClicksDataMap =
+          docSnapshot.data() as Map<String, int>;
 
-      List<String> songNotFound = [];
-      int i = 0, j = 0;
+      docSnapshot =
+          await _firestore.collection('songsData').doc('popularity').get();
+      Map<String, int>? popularityDataMap =
+          docSnapshot.data() as Map<String, int>;
 
-      while (i < songDataList.length && j < ListFunctions.songList.length) {
-        String codeFromData = songDataList[i].code!;
-        String codeFromSong = ListFunctions.songList[j]!.code!;
-        if (codeFromSong == codeFromData) {
-          ListFunctions.songList[j]?.popularity = songDataList[i].popularity;
-          ListFunctions.songList[j]?.todayClicks = songDataList[i].todayClicks;
-          ListFunctions.songList[j]?.totalClicks = songDataList[i].totalClicks;
-          ListFunctions.songList[j]?.trendPoints = songDataList[i].trendPoints;
-          i++;
-          j++;
-        } else if (codeFromData.compareTo(codeFromSong) < 0) {
-          songNotFound.add(codeFromData);
-          i++;
-        } else if (codeFromData.compareTo(codeFromSong) > 0) {
-          ListFunctions.songList[j]?.aaa = 'invalid';
-          j++;
+      docSnapshot =
+          await _firestore.collection('songsData').doc('trendPoints').get();
+      Map<String, double>? trendPointsDataMap =
+          docSnapshot.data() as Map<String, double>;
+
+      for (SongDetails? song in ListFunctions.songList) {
+        String code = song!.code!;
+        if (likesDataMap.containsKey(code)) {
+          song.likes = likesDataMap[code];
+          song.share = shareDataMap[code];
+          song.todayClicks = todayClicksDataMap[code];
+          song.totalClicks = totalClicksDataMap[code];
+          song.popularity = popularityDataMap[code];
+          song.trendPoints = trendPointsDataMap[code];
+          likesDataMap.remove(code);
+        } else {
+          song.aaa = 'invalid';
         }
       }
 
-      while (i < songDataList.length) {
-        songNotFound.add(songDataList[i].code!);
-        i++;
-      }
-      while (j < ListFunctions.songList.length) {
-        ListFunctions.songList[j]?.aaa = 'invalid';
-        j++;
-      }
-      return true;
+      bool isSuccess = await addNewSongs(
+        likesDataMap,
+        shareDataMap,
+        todayClicksDataMap,
+        totalClicksDataMap,
+        popularityDataMap,
+        trendPointsDataMap,
+      );
+      return isSuccess;
     } catch (e) {
       print('Error fetching songs data: $e');
       return false;
     }
   }
 
-  int _codeComparison(SongsDataDetails a, SongsDataDetails b) {
-    final String propertyA = a.code!;
-    final String propertyB = b.code!;
+  Future<bool> addNewSongs(
+    Map<String, int> likesMap,
+    Map<String, int> shareMap,
+    Map<String, int> todayClicksMap,
+    Map<String, int> totalClicksMap,
+    Map<String, int> popularityMap,
+    Map<String, double> trendPointsMap,
+  ) async {
+    try {
+      List<String> songNotFound = [];
+      likesMap.forEach((key, value) {
+        songNotFound.add(key);
+      });
 
-    if (propertyA.compareTo(propertyB) < 0) {
-      return -1;
-    } else if (propertyA.compareTo(propertyB) > 0) {
-      return 1;
-    } else {
-      return 0;
+      print('Songs which are not found: $songNotFound');
+      for (String code in songNotFound) {
+        var song = await songs.doc(code).get();
+        SongDetails currentSong = _readSingleSong(song, ListFunctions.songList);
+        currentSong.likes = likesMap[code];
+        currentSong.share = shareMap[code];
+        currentSong.todayClicks = todayClicksMap[code];
+        currentSong.totalClicks = totalClicksMap[code];
+        currentSong.popularity = popularityMap[code];
+        currentSong.trendPoints = trendPointsMap[code];
+        SQfliteHelper().insertSong(currentSong);
+      }
+      return true;
+    } catch (e) {
+      print('Error fetching new songs: $e');
+      return false;
     }
   }
 

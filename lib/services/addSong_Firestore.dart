@@ -12,10 +12,13 @@ void main() async {
 
   // currentSong.deleteSuggestion('chalomanagangs C0ww80');
 
+  //Uncomment below to sync songData with original song values.
+  // await currentSong.rewriteSongsDataInFirebase();
+
   //This automatically creates searchKeywords from song details.
   currentSong.mainSearchKeywords();
 
-  //Uncomment Below to add searchkeywords in form of string.
+  //Uncomment Below to add EXTRA searchkeywords in form of string.
   currentSong.extraSearchKeywords('BSRJ',
       englishName:
           'baktambar bhaktamber bhaktambar bhakanbar bhkatamar bhaktamar ravindar',
@@ -43,6 +46,9 @@ void main() async {
   }).then((value) {
     print('Added song to realtimeDB successfully');
   });
+
+  //Comment below to stop adding songsData
+  await currentSong.addsongsDataInFirebase();
 }
 
 class AddSong {
@@ -76,6 +82,7 @@ class AddSong {
     'trendPoints': 0.0,
     'youTubeLink': 'https://youtu.be/nm-tQGPx2N8',
   };
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =
       FirebaseFirestore.instance.collection('suggestions');
@@ -164,5 +171,156 @@ class AddSong {
         .child('songs')
         .child(currentSongMap['code'])
         .set(currentSongMap);
+  }
+
+  //This adds data to firestore songsData and realtimeDB songsData.
+  Future<void> addsongsDataInFirebase() async {
+    try {
+      await _firestore.collection('songsData').doc('likes').update({
+        currentSongMap['code']: currentSongMap['likes'],
+      });
+      await _firestore.collection('songsData').doc('share').update({
+        currentSongMap['code']: currentSongMap['share'],
+      });
+      await _firestore.collection('songsData').doc('todayClicks').update({
+        currentSongMap['code']: currentSongMap['todayClicks'],
+      });
+      await _firestore.collection('songsData').doc('totalClicks').update({
+        currentSongMap['code']: currentSongMap['totalClicks'],
+      });
+      await _firestore.collection('songsData').doc('popularity').update({
+        currentSongMap['code']: currentSongMap['popularity'],
+      });
+      await _firestore.collection('songsData').doc('trendPoints').update({
+        currentSongMap['code']: currentSongMap['trendPoints'],
+      });
+
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('likes')
+          .update({
+        currentSongMap['code']: currentSongMap['likes'],
+      });
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('share')
+          .update({
+        currentSongMap['code']: currentSongMap['share'],
+      });
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('todayClicks')
+          .update({
+        currentSongMap['code']: currentSongMap['todayClicks'],
+      });
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('totalClicks')
+          .update({
+        currentSongMap['code']: currentSongMap['totalClicks'],
+      });
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('popularity')
+          .update({
+        currentSongMap['code']: currentSongMap['popularity'],
+      });
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('trendPoints')
+          .update({
+        currentSongMap['code']: currentSongMap['trendPoints'],
+      });
+      print('songData added successfully');
+    } catch (e) {
+      print('Error writing songsData: $e');
+    }
+  }
+
+  //Rewrite songsData
+  Future<void> rewriteSongsDataInFirebase() async {
+    try {
+      Map<String, int> likesMap = {};
+      Map<String, int> shareMap = {};
+      Map<String, int> todayClicksMap = {};
+      Map<String, int> totalClicksMap = {};
+      Map<String, int> popularityMap = {};
+      Map<String, double> trendPointsMap = {};
+      QuerySnapshot querySnapshot =
+          await songs.get(GetOptions(source: Source.cache));
+
+      for (var song in querySnapshot.docs) {
+        Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
+        String state = currentSong['aaa'];
+        state = state.toLowerCase();
+        if (state.contains('invalid') != true) {
+          likesMap[currentSong['code']] = currentSong['likes'];
+          shareMap[currentSong['code']] = currentSong['share'];
+          todayClicksMap[currentSong['code']] = currentSong['todayClicks'];
+          totalClicksMap[currentSong['code']] = currentSong['totalClicks'];
+          popularityMap[currentSong['code']] = currentSong['popularity'];
+          trendPointsMap[currentSong['code']] = currentSong['trendPoints'];
+        }
+      }
+
+      await _firestore.collection('songsData').doc('likes').set(likesMap);
+      await _firestore.collection('songsData').doc('share').set(shareMap);
+      await _firestore
+          .collection('songsData')
+          .doc('todayClicks')
+          .set(todayClicksMap);
+      await _firestore
+          .collection('songsData')
+          .doc('totalClicks')
+          .set(totalClicksMap);
+      await _firestore
+          .collection('songsData')
+          .doc('popularity')
+          .set(popularityMap);
+      await _firestore
+          .collection('songsData')
+          .doc('trendPoints')
+          .set(trendPointsMap);
+
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('likes')
+          .set(likesMap);
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('share')
+          .set(shareMap);
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('todayClicks')
+          .set(todayClicksMap);
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('totalClicks')
+          .set(totalClicksMap);
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('popularity')
+          .set(popularityMap);
+      await FirebaseDatabase(app: this.app)
+          .reference()
+          .child('songsData')
+          .child('trendPoints')
+          .set(trendPointsMap);
+      print('Rewritten songsData successfully');
+    } catch (e) {
+      print('Error rewriting songsData: $e');
+    }
   }
 }
