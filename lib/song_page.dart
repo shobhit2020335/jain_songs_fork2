@@ -252,6 +252,41 @@ class _SongPageState extends State<SongPage> {
     super.dispose();
   }
 
+  Future<void> _likeTheSong() async {
+    if (currentSong!.isLiked == true) {
+      currentSong?.isLiked = false;
+      currentSong?.likes = currentSong!.likes! - 1;
+      currentSong?.popularity = currentSong!.popularity! - 1;
+      setState(() {});
+      DatabaseController().changeLikes(context, currentSong!, -1).then((value) {
+        if (value == false) {
+          print('Error changing likes');
+          currentSong?.isLiked = true;
+          currentSong?.likes = currentSong!.likes! + 1;
+          currentSong?.popularity = currentSong!.popularity! + 1;
+          ConstWidget.showSimpleToast(
+              context, 'Error Disliking song! Try again');
+        }
+        setState(() {});
+      });
+    } else {
+      currentSong!.isLiked = true;
+      currentSong!.likes = currentSong!.likes! + 1;
+      currentSong!.popularity = currentSong!.popularity! + 1;
+      setState(() {});
+      DatabaseController().changeLikes(context, currentSong!, 1).then((value) {
+        if (value == false) {
+          print('Error changing likes');
+          currentSong?.isLiked = false;
+          currentSong?.likes = currentSong!.likes! - 1;
+          currentSong!.popularity = currentSong!.popularity! - 1;
+          ConstWidget.showSimpleToast(context, 'Error Liking song! Try again');
+        }
+        setState(() {});
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -319,23 +354,7 @@ class _SongPageState extends State<SongPage> {
                         ),
                         trailing: InkWell(
                           onTap: () {
-                            if (currentSong!.isLiked == true) {
-                              currentSong!.isLiked = false;
-                              setState(() {});
-                              DatabaseController()
-                                  .changeLikes(context, currentSong!, -1)
-                                  .then((value) {
-                                setState(() {});
-                              });
-                            } else {
-                              currentSong!.isLiked = true;
-                              setState(() {});
-                              DatabaseController()
-                                  .changeLikes(context, currentSong!, 1)
-                                  .then((value) {
-                                setState(() {});
-                              });
-                            }
+                            _likeTheSong();
                           },
                           child: Icon(
                             currentSong!.isLiked == true
@@ -405,24 +424,7 @@ class _SongPageState extends State<SongPage> {
                                 SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
-                                    if (currentSong!.isLiked == true) {
-                                      currentSong!.isLiked = false;
-                                      setState(() {});
-                                      DatabaseController()
-                                          .changeLikes(
-                                              context, currentSong!, -1)
-                                          .then((value) {
-                                        setState(() {});
-                                      });
-                                    } else {
-                                      currentSong!.isLiked = true;
-                                      setState(() {});
-                                      DatabaseController()
-                                          .changeLikes(context, currentSong!, 1)
-                                          .then((value) {
-                                        setState(() {});
-                                      });
-                                    }
+                                    _likeTheSong();
                                   },
                                   child: Row(
                                     children: [

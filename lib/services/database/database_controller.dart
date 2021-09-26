@@ -80,14 +80,17 @@ class DatabaseController {
   }
 
   //Shares are changed in both realtime and firestore.
-  Future<bool> changeShare(
+  Future<void> changeShare(
       BuildContext context, SongDetails currentSong) async {
     bool isSuccess = await FireStoreHelper().changeShare(currentSong);
-    isSuccess = isSuccess &
-        await RealtimeDbHelper(
-          Provider.of<FirebaseApp>(context, listen: false),
-        ).changeShare(currentSong);
-    return isSuccess;
+    if (isSuccess) {
+      RealtimeDbHelper(
+        Provider.of<FirebaseApp>(context, listen: false),
+      ).changeShare(currentSong);
+      SQfliteHelper().changeShare(currentSong);
+    } else {
+      print('Error changing share');
+    }
   }
 
   //Likes are changed in both realtime and firestore.
@@ -99,12 +102,7 @@ class DatabaseController {
         await RealtimeDbHelper(
           Provider.of<FirebaseApp>(context, listen: false),
         ).changeLikes(context, currentSong, toAdd);
-    if (isSuccess == false) {
-      ConstWidget.showSimpleToast(
-        context,
-        'Something went wrong! Please try Later.',
-      );
-    }
+    isSuccess = isSuccess & await SQfliteHelper().changeLikes(currentSong);
     return isSuccess;
   }
 }

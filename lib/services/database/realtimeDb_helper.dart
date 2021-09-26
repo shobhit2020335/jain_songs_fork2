@@ -325,14 +325,9 @@ class RealtimeDbHelper {
 
   Future<bool> changeShare(SongDetails currentSong) async {
     try {
-      await database
-          .reference()
-          .child('songs')
-          .child(currentSong.code!)
-          .update({
-        'share': ServerValue.increment(1),
+      await database.reference().child('songsData').child('share').update({
+        currentSong.code!: ServerValue.increment(1),
       });
-      currentSong.share = currentSong.share! + 1;
       return true;
     } catch (e) {
       print('Error updating shares in realtime: $e');
@@ -343,20 +338,16 @@ class RealtimeDbHelper {
   Future<bool> changeLikes(
       BuildContext context, SongDetails currentSong, int toAdd) async {
     try {
-      await database
-          .reference()
-          .child('songs')
-          .child(currentSong.code!)
-          .update({
-        'likes': ServerValue.increment(toAdd),
-        'popularity': ServerValue.increment(toAdd),
-      });
-      currentSong.likes = currentSong.likes! + toAdd;
-      currentSong.popularity = currentSong.popularity! + toAdd;
-      SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
+      await Future.wait([
+        database.reference().child('songsData').child('likes').update({
+          currentSong.code!: ServerValue.increment(toAdd),
+        }),
+        database.reference().child('songsData').child('popularity').update({
+          currentSong.code!: ServerValue.increment(toAdd),
+        }),
+      ]);
       return true;
     } catch (e) {
-      currentSong.isLiked = !currentSong.isLiked;
       print('Error updating likes in realtime: $e');
       return false;
     }

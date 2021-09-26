@@ -423,11 +423,11 @@ class FireStoreHelper {
 
   Future<bool> changeShare(SongDetails currentSong) async {
     try {
-      await songs
-          .doc(currentSong.code)
-          .update({'share': FieldValue.increment(1)}).then((value) {
-        currentSong.share = currentSong.share! + 1;
-      });
+      await _firestore
+          .collection('songsData')
+          .doc('share')
+          .update({currentSong.code!: FieldValue.increment(1)});
+      currentSong.share = currentSong.share! + 1;
       return true;
     } catch (e) {
       print(e);
@@ -438,17 +438,18 @@ class FireStoreHelper {
   Future<bool> changeLikes(
       BuildContext context, SongDetails currentSong, int toAdd) async {
     try {
-      await songs.doc(currentSong.code).update({
-        'likes': FieldValue.increment(toAdd),
-        'popularity': FieldValue.increment(toAdd)
-      }).then((value) {
-        currentSong.likes = currentSong.likes! + toAdd;
-        currentSong.popularity = currentSong.popularity! + toAdd;
-        SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
-      });
+      await Future.wait([
+        _firestore.collection('songsData').doc('likes').update({
+          currentSong.code!: FieldValue.increment(toAdd),
+        }),
+        _firestore.collection('songsData').doc('popularity').update({
+          currentSong.code!: FieldValue.increment(toAdd),
+        }),
+      ]);
+      SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
       return true;
     } catch (e) {
-      print(e);
+      print('Error updating likes in firestore: $e');
       return false;
     }
   }

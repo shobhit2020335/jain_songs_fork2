@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -40,25 +41,51 @@ class _BuildRowState extends State<BuildRow> {
           overflow: TextOverflow.ellipsis,
         ),
         trailing: IconButton(
-          icon: Icon(
-            currentSong.isLiked == true
-                ? FontAwesomeIcons.solidHeart
-                : FontAwesomeIcons.heart,
-            color: widget.color,
-          ),
-          onPressed: () async {
-            if (currentSong.isLiked == true) {
-              currentSong.isLiked = false;
-              setState(() {});
-              DatabaseController().changeLikes(context, currentSong, -1);
-            } else {
-              currentSong.isLiked = true;
-              setState(() {});
-              DatabaseController().changeLikes(context, currentSong, 1);
-            }
-            setState(() {});
-          },
-        ),
+            icon: Icon(
+              currentSong.isLiked == true
+                  ? FontAwesomeIcons.solidHeart
+                  : FontAwesomeIcons.heart,
+              color: widget.color,
+            ),
+            onPressed: () async {
+              if (currentSong.isLiked == true) {
+                currentSong.isLiked = false;
+                currentSong.likes = currentSong.likes! - 1;
+                currentSong.popularity = currentSong.popularity! - 1;
+                setState(() {});
+                DatabaseController()
+                    .changeLikes(context, currentSong, -1)
+                    .then((value) {
+                  if (value == false) {
+                    print('Error changing likes');
+                    currentSong.isLiked = true;
+                    currentSong.likes = currentSong.likes! + 1;
+                    currentSong.popularity = currentSong.popularity! + 1;
+                    ConstWidget.showSimpleToast(
+                        context, 'Error Disliking song! Try again');
+                  }
+                  setState(() {});
+                });
+              } else {
+                currentSong.isLiked = true;
+                currentSong.likes = currentSong.likes! + 1;
+                currentSong.popularity = currentSong.popularity! + 1;
+                setState(() {});
+                DatabaseController()
+                    .changeLikes(context, currentSong, 1)
+                    .then((value) {
+                  if (value == false) {
+                    print('Error changing likes');
+                    currentSong.isLiked = false;
+                    currentSong.likes = currentSong.likes! - 1;
+                    currentSong.popularity = currentSong.popularity! - 1;
+                    ConstWidget.showSimpleToast(
+                        context, 'Error Liking song! Try again');
+                  }
+                  setState(() {});
+                });
+              }
+            }),
         onTap: () async {
           await Navigator.push(
             context,

@@ -169,10 +169,49 @@ class SQfliteHelper {
         whereArgs: [currentSong.code],
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
-      print('Updated clicks in SQLite');
       return true;
     } catch (e) {
       print('Error Updating clicks in SQflite: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeShare(SongDetails currentSong) async {
+    final db = await database;
+    try {
+      await db?.update(
+        'songs',
+        {
+          'share': currentSong.share,
+        },
+        where: 'code = ?',
+        whereArgs: [currentSong.code],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      return true;
+    } catch (e) {
+      print('Error updating likes in SQflite: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeLikes(SongDetails currentSong) async {
+    final db = await database;
+    try {
+      await db?.update(
+        'songs',
+        {
+          'popularity': currentSong.popularity,
+          'likes': currentSong.likes,
+          'isLiked': currentSong.isLiked,
+        },
+        where: 'code = ?',
+        whereArgs: [currentSong.code],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      return true;
+    } catch (e) {
+      print('Error updating likes in SQflite: $e');
       return false;
     }
   }
