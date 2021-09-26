@@ -1,5 +1,6 @@
 //TODO: Add custom notification sound
-//TODO: Remote config and daily update for sql, realtime for sql
+//TODO: daily update for sql
+//TODO: refresh song data with latest data, database package also new.
 //TODO: Update sql data.
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics

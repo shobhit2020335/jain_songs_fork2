@@ -7,7 +7,6 @@ import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
@@ -18,6 +17,7 @@ class DatabaseController {
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
 
+  //The function SQl fetch complete is called only if data is fetched from SQl.
   Future<bool> fetchSongs(BuildContext context,
       {required onSqlFetchComplete()}) async {
     bool isSuccess = false;
@@ -42,27 +42,41 @@ class DatabaseController {
     return isSuccess;
   }
 
+  //Fetches the song data from realtime or firestore according to remote config
+  //If one way does not works then it tries the another.
   Future<bool> fetchSongsData(BuildContext context) async {
     bool isSuccess = false;
     if (dbForSongsData == 'realtime') {
+      print('Realtime se fetching songData');
       isSuccess = await RealtimeDbHelper(
         Provider.of<FirebaseApp>(context, listen: false),
       ).fetchSongsData();
+      if (isSuccess == false) {
+        isSuccess = await FireStoreHelper().fetchSongsData();
+      }
     } else {
       isSuccess = await FireStoreHelper().fetchSongsData();
+      if (isSuccess == false) {
+        isSuccess = await RealtimeDbHelper(
+          Provider.of<FirebaseApp>(context, listen: false),
+        ).fetchSongsData();
+      }
     }
     return isSuccess;
   }
 
   //Clicks are changed in both realtime and firestore.
-  Future<bool> changeClicks(
+  Future<void> changeClicks(
       BuildContext context, SongDetails currentSong) async {
     bool isSuccess = await FireStoreHelper().changeClicks(currentSong);
-    isSuccess = isSuccess &
-        await RealtimeDbHelper(
-          Provider.of<FirebaseApp>(context, listen: false),
-        ).changeClicks(currentSong);
-    return isSuccess;
+    if (isSuccess) {
+      RealtimeDbHelper(
+        Provider.of<FirebaseApp>(context, listen: false),
+      ).changeClicks(currentSong);
+      SQfliteHelper().changeClicks(currentSong);
+    } else {
+      print('Error changing clicks');
+    }
   }
 
   //Shares are changed in both realtime and firestore.

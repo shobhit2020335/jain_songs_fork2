@@ -38,6 +38,8 @@ class FireStoreHelper {
     Globals.welcomeMessage = remoteConfig.getString('welcome_message');
     DatabaseController.fromCache = remoteConfig.getBool('from_cache');
     DatabaseController.dbName = remoteConfig.getString('db_name');
+    DatabaseController.dbForSongsData =
+        remoteConfig.getString('db_for_songs_data');
   }
 
   //Fetches Days of app passed, min version required by user and remote configs.
@@ -56,6 +58,7 @@ class FireStoreHelper {
       Globals.welcomeMessage = 'Jai Jinendra';
       DatabaseController.dbName = 'firestore';
       DatabaseController.fromCache = false;
+      DatabaseController.dbForSongsData = 'firestore';
     }
 
     try {
@@ -353,7 +356,7 @@ class FireStoreHelper {
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
-  //TODO: SUggestion data storing is paused for paryushan timing.
+  //TODO: SUggestion data storing is paused
   Future<void> storeSuggesterStreak(
       String songCode, String suggestionStreak) async {
     // String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
@@ -391,17 +394,26 @@ class FireStoreHelper {
     }
 
     try {
-      await songs.doc(currentSong.code).update({
-        'popularity': FieldValue.increment(1),
-        'totalClicks': FieldValue.increment(1),
-        'todayClicks': FieldValue.increment(1),
-        'trendPoints': FieldValue.increment(trendPointInc),
-      }).then((value) {
-        currentSong.todayClicks = currentSong.todayClicks! + 1;
-        currentSong.totalClicks = currentSong.totalClicks! + 1;
-        currentSong.popularity = currentSong.popularity! + 1;
-        currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
-      });
+      await Future.wait([
+        _firestore.collection('songsData').doc('popularity').update({
+          currentSong.code!: FieldValue.increment(1),
+        }),
+        _firestore.collection('songsData').doc('totalClicks').update({
+          currentSong.code!: FieldValue.increment(1),
+        }),
+        _firestore.collection('songsData').doc('todayClicks').update({
+          currentSong.code!: FieldValue.increment(1),
+        }),
+        _firestore.collection('songsData').doc('trendPoints').update({
+          currentSong.code!: FieldValue.increment(trendPointInc),
+        }),
+      ]);
+      print('All Futures runned');
+      currentSong.todayClicks = currentSong.todayClicks! + 1;
+      currentSong.totalClicks = currentSong.totalClicks! + 1;
+      currentSong.popularity = currentSong.popularity! + 1;
+      currentSong.trendPoints = currentSong.trendPoints! + trendPointInc;
+
       return true;
     } catch (e) {
       print(e);

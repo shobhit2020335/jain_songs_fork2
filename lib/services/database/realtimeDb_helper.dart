@@ -143,6 +143,7 @@ class RealtimeDbHelper {
     });
   }
 
+  //Reading single songs
   SongDetails _readSingleSong(DataSnapshot song, List<SongDetails?> listToAdd) {
     Map<String, dynamic> currentSong = Map<String, dynamic>.from(song.value);
     String state = currentSong['aaa'];
@@ -301,23 +302,25 @@ class RealtimeDbHelper {
     //is updated first.
 
     try {
-      await database
-          .reference()
-          .child('songs')
-          .child(currentSong.code!)
-          .update({
-        'popularity': ServerValue.increment(1),
-        'totalClicks': ServerValue.increment(1),
-        'todayClicks': ServerValue.increment(1),
-      });
-      database.reference().child('songs').child(currentSong.code!).update({
-        'trendPoints': currentSong.trendPoints,
-      });
+      await Future.wait([
+        database.reference().child('songsData').child('popularity').update({
+          currentSong.code!: ServerValue.increment(1),
+        }),
+        database.reference().child('songsData').child('todayClicks').update({
+          currentSong.code!: ServerValue.increment(1),
+        }),
+        database.reference().child('songsData').child('totalClicks').update({
+          currentSong.code!: ServerValue.increment(1),
+        }),
+        database.reference().child('songsData').child('trendPoints').update({
+          currentSong.code!: currentSong.trendPoints,
+        }),
+      ]);
+      return true;
     } catch (e) {
       print('Error updating clicks or popularity in realtime: $e');
       return false;
     }
-    return true;
   }
 
   Future<bool> changeShare(SongDetails currentSong) async {

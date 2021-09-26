@@ -151,4 +151,29 @@ class SQfliteHelper {
       }
     }
   }
+
+  Future<bool> changeClicks(SongDetails currentSong) async {
+    //Algorithm is not used here, it is used in firestore side because firestore
+    //is updated first.
+    final db = await database;
+    try {
+      await db?.update(
+        'songs',
+        {
+          'popularity': currentSong.popularity,
+          'todayClicks': currentSong.todayClicks,
+          'totalClicks': currentSong.totalClicks,
+          'trendPoints': currentSong.trendPoints,
+        },
+        where: 'code = ?',
+        whereArgs: [currentSong.code],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      print('Updated clicks in SQLite');
+      return true;
+    } catch (e) {
+      print('Error Updating clicks in SQflite: $e');
+      return false;
+    }
+  }
 }
