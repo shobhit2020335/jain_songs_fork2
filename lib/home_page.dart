@@ -136,32 +136,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         setState(() {
           ConstWidget.showUpdateDialog(context);
         });
-      }
-      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-      if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
-        Globals.fetchedDays = Globals.totalDays;
-        try {
-          DatabaseController.fromCache = false;
-          bool isSuccess = await FireStoreHelper().fetchSongs();
-          if (isSuccess == false) {
-            ConstWidget.showSimpleToast(context,
-                'Please check your Internet Connection and restart Stavan');
-            setState(() {
-              showProgress = false;
-            });
-          } else {
-            FireStoreHelper().dailyUpdate(context);
-          }
-        } catch (e) {
-          print(e);
-          ConstWidget.showSimpleToast(
-              context, 'Stavan is under maintenance. Please try again later!');
-          setState(() {
-            showProgress = false;
-          });
-        }
       } else {
-        print('Before going in fetch songs');
         bool isSuccess = await DatabaseController()
             .fetchSongs(context, onSqlFetchComplete: refreshSongData);
         if (isSuccess == false) {

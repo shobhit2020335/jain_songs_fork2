@@ -1,12 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
+
+import '../network_helper.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
@@ -16,6 +20,7 @@ class DatabaseController {
   static String dbForSongsData = 'firestore';
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
+  final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
 
   //The function SQl fetch complete is called only if data is fetched from SQl.
   Future<bool> fetchSongs(BuildContext context,
@@ -50,19 +55,52 @@ class DatabaseController {
       print('Realtime se fetching songData');
       isSuccess = await RealtimeDbHelper(
         Provider.of<FirebaseApp>(context, listen: false),
-      ).fetchSongsData();
+      ).fetchSongsData(context);
       if (isSuccess == false) {
-        isSuccess = await FireStoreHelper().fetchSongsData();
+        isSuccess = await FireStoreHelper().fetchSongsData(context);
       }
     } else {
-      isSuccess = await FireStoreHelper().fetchSongsData();
+      isSuccess = await FireStoreHelper().fetchSongsData(context);
       if (isSuccess == false) {
         isSuccess = await RealtimeDbHelper(
           Provider.of<FirebaseApp>(context, listen: false),
-        ).fetchSongsData();
+        ).fetchSongsData(context);
       }
     }
     return isSuccess;
+  }
+
+  Future<void> dailyUpdate(
+      BuildContext context,
+      Map<String, dynamic> todayClicksMap,
+      Map<String, dynamic> totalClicksMap) async {
+    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
+    if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
+      _trace.start();
+      try {
+        Globals.fetchedDays = Globals.totalDays;
+        Map<String, int> newTodayClicksMap = {};
+        Map<String, double> newTrendPointsMap = {};
+
+        todayClicksMap.forEach((key, value) {
+          int todayClicks = int.parse(todayClicksMap[key].toString());
+          int totalClicks = int.parse(totalClicksMap[key].toString());
+
+          //Algo for trendPoints
+          double avgClicks = totalClicks / Globals.totalDays;
+          double trendPoints = (todayClicks - avgClicks) / 2.0;
+          newTodayClicksMap[key] = 0;
+          newTrendPointsMap[key] = trendPoints;
+        });
+
+        await FireStoreHelper()
+            .dailyUpdate(context, newTodayClicksMap, newTrendPointsMap);
+        _trace.stop();
+      } catch (e) {
+        _trace.stop();
+        print('Error in daily update: $e');
+      }
+    }
   }
 
   //Clicks are changed in both realtime and firestore.

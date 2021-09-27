@@ -1,7 +1,7 @@
 //TODO: Add custom notification sound
-//TODO: daily update for sql
+//TODO: Add crashlytics for sql.
+//TODO: Searching does not work properly when refreshing is going on.
 //TODO: refresh song data with latest data, database package also new.
-//TODO: Update sql data.
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.

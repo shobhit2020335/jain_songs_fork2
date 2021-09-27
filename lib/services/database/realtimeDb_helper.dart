@@ -18,6 +18,7 @@ class RealtimeDbHelper {
   final Trace _traceSync = FirebasePerformance.instance.newTrace('syncDatbase');
   final Trace _traceRealtime =
       FirebasePerformance.instance.newTrace('getSongRealtime');
+  final _firestore = FirebaseFirestore.instance;
 
   RealtimeDbHelper(this.app) {
     if (app != null) {
@@ -39,6 +40,68 @@ class RealtimeDbHelper {
             .set(ListFunctions.songList[i]!.toMap());
       }
 
+      var docSnapshot =
+          await _firestore.collection('songsData').doc('likes').get();
+      Map<String, dynamic> likesDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
+
+      docSnapshot = await _firestore.collection('songsData').doc('share').get();
+      Map<String, dynamic> shareDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
+
+      docSnapshot =
+          await _firestore.collection('songsData').doc('todayClicks').get();
+      Map<String, dynamic> todayClicksDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
+
+      docSnapshot =
+          await _firestore.collection('songsData').doc('totalClicks').get();
+      Map<String, dynamic> totalClicksDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
+
+      docSnapshot =
+          await _firestore.collection('songsData').doc('popularity').get();
+      Map<String, dynamic> popularityDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
+
+      docSnapshot =
+          await _firestore.collection('songsData').doc('trendPoints').get();
+      Map<String, dynamic> trendPointsDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
+
+      await Future.wait([
+        database
+            .reference()
+            .child('songsData')
+            .child('likes')
+            .update(likesDataMap),
+        database
+            .reference()
+            .child('songsData')
+            .child('share')
+            .update(shareDataMap),
+        database
+            .reference()
+            .child('songsData')
+            .child('popularity')
+            .update(popularityDataMap),
+        database
+            .reference()
+            .child('songsData')
+            .child('todayClicks')
+            .update(todayClicksDataMap),
+        database
+            .reference()
+            .child('songsData')
+            .child('totalClicks')
+            .update(totalClicksDataMap),
+        database
+            .reference()
+            .child('songsData')
+            .child('trendPoints')
+            .update(trendPointsDataMap),
+      ]);
+
       Timestamp lastUpdated = Timestamp.now();
       CollectionReference others =
           FirebaseFirestore.instance.collection('others');
@@ -47,10 +110,11 @@ class RealtimeDbHelper {
       });
 
       _traceSync.stop();
+      print('Realtime Database Synced with Firestore');
       return true;
     } catch (e) {
       _traceSync.stop();
-      print('Error syncing realtime database.');
+      print('Error syncing realtime database: $e');
       return false;
     }
   }
@@ -190,7 +254,7 @@ class RealtimeDbHelper {
     return currentSongDetails;
   }
 
-  Future<bool> fetchSongsData() async {
+  Future<bool> fetchSongsData(BuildContext context) async {
     try {
       var docSnapshot =
           await database.reference().child('songsData').child('likes').get();
@@ -257,6 +321,11 @@ class RealtimeDbHelper {
         popularityDataMap,
         trendPointsDataMap,
       );
+
+      if (isSuccess) {
+        DatabaseController()
+            .dailyUpdate(context, todayClicksDataMap, totalClicksDataMap);
+      }
       return isSuccess;
     } catch (e) {
       print('Error fetching songs data: $e');

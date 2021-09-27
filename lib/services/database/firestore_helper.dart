@@ -77,26 +77,20 @@ class FireStoreHelper {
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
-  Future<void> dailyUpdate(BuildContext context) async {
-    _trace.start();
-
-    for (SongDetails? currentSong in ListFunctions.songList) {
-      int? todayClicks = currentSong?.todayClicks;
-      int? totalClicks = currentSong?.totalClicks;
-
-      //Algo for trendPoints
-      double avgClicks = totalClicks! / Globals.totalDays;
-      double trendPoints = (todayClicks! - avgClicks) / 2.0;
-      currentSong!.todayClicks = 0;
-      currentSong.trendPoints = trendPoints;
-
-      await this.songs.doc(currentSong.code).update({
-        'todayClicks': currentSong.todayClicks,
-        'trendPoints': currentSong.trendPoints,
-      }).catchError((error) {
-        print('Error in daily update firestore!');
-      });
-    }
+  Future<void> dailyUpdate(
+      BuildContext context,
+      Map<String, int> todayClicksMap,
+      Map<String, double> trendPointsMap) async {
+    await Future.wait([
+      _firestore
+          .collection('songsData')
+          .doc('todayClicks')
+          .update(todayClicksMap),
+      _firestore
+          .collection('songsData')
+          .doc('trendPoints')
+          .update(trendPointsMap),
+    ]);
 
     Timestamp lastUpdated = Timestamp.now();
     CollectionReference others = _firestore.collection('others');
@@ -106,7 +100,6 @@ class FireStoreHelper {
     }).catchError((error) {
       print('Error updating days.' + error);
     });
-    _trace.stop();
 
     await RealtimeDbHelper(
       Provider.of<FirebaseApp>(context, listen: false),
@@ -244,44 +237,46 @@ class FireStoreHelper {
     return currentSongDetails;
   }
 
-  Future<bool> fetchSongsData() async {
+  Future<bool> fetchSongsData(BuildContext context) async {
     try {
       var docSnapshot =
           await _firestore.collection('songsData').doc('likes').get();
-      Map<String, int>? likesDataMap = docSnapshot.data() as Map<String, int>;
+      Map<String, dynamic> likesDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
 
       docSnapshot = await _firestore.collection('songsData').doc('share').get();
-      Map<String, int>? shareDataMap = docSnapshot.data() as Map<String, int>;
+      Map<String, dynamic> shareDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
 
       docSnapshot =
           await _firestore.collection('songsData').doc('todayClicks').get();
-      Map<String, int>? todayClicksDataMap =
-          docSnapshot.data() as Map<String, int>;
+      Map<String, dynamic> todayClicksDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
 
       docSnapshot =
           await _firestore.collection('songsData').doc('totalClicks').get();
-      Map<String, int>? totalClicksDataMap =
-          docSnapshot.data() as Map<String, int>;
+      Map<String, dynamic> totalClicksDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
 
       docSnapshot =
           await _firestore.collection('songsData').doc('popularity').get();
-      Map<String, int>? popularityDataMap =
-          docSnapshot.data() as Map<String, int>;
+      Map<String, dynamic> popularityDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
 
       docSnapshot =
           await _firestore.collection('songsData').doc('trendPoints').get();
-      Map<String, double>? trendPointsDataMap =
-          docSnapshot.data() as Map<String, double>;
+      Map<String, dynamic> trendPointsDataMap =
+          Map<String, dynamic>.from(docSnapshot.data()!);
 
       for (SongDetails? song in ListFunctions.songList) {
         String code = song!.code!;
         if (likesDataMap.containsKey(code)) {
-          song.likes = likesDataMap[code];
-          song.share = shareDataMap[code];
-          song.todayClicks = todayClicksDataMap[code];
-          song.totalClicks = totalClicksDataMap[code];
-          song.popularity = popularityDataMap[code];
-          song.trendPoints = trendPointsDataMap[code];
+          song.likes = int.parse(likesDataMap[code].toString());
+          song.share = int.parse(shareDataMap[code].toString());
+          song.todayClicks = int.parse(todayClicksDataMap[code].toString());
+          song.totalClicks = int.parse(totalClicksDataMap[code].toString());
+          song.popularity = int.parse(popularityDataMap[code].toString());
+          song.trendPoints = double.parse(trendPointsDataMap[code].toString());
           likesDataMap.remove(code);
         } else {
           song.aaa = 'invalid';
@@ -296,6 +291,11 @@ class FireStoreHelper {
         popularityDataMap,
         trendPointsDataMap,
       );
+
+      if (isSuccess) {
+        DatabaseController()
+            .dailyUpdate(context, todayClicksDataMap, totalClicksDataMap);
+      }
       return isSuccess;
     } catch (e) {
       print('Error fetching songs data: $e');
@@ -304,12 +304,12 @@ class FireStoreHelper {
   }
 
   Future<bool> addNewSongs(
-    Map<String, int> likesMap,
-    Map<String, int> shareMap,
-    Map<String, int> todayClicksMap,
-    Map<String, int> totalClicksMap,
-    Map<String, int> popularityMap,
-    Map<String, double> trendPointsMap,
+    Map<String, dynamic> likesMap,
+    Map<String, dynamic> shareMap,
+    Map<String, dynamic> todayClicksMap,
+    Map<String, dynamic> totalClicksMap,
+    Map<String, dynamic> popularityMap,
+    Map<String, dynamic> trendPointsMap,
   ) async {
     try {
       List<String> songNotFound = [];
@@ -321,12 +321,12 @@ class FireStoreHelper {
       for (String code in songNotFound) {
         var song = await songs.doc(code).get();
         SongDetails currentSong = _readSingleSong(song, ListFunctions.songList);
-        currentSong.likes = likesMap[code];
-        currentSong.share = shareMap[code];
-        currentSong.todayClicks = todayClicksMap[code];
-        currentSong.totalClicks = totalClicksMap[code];
-        currentSong.popularity = popularityMap[code];
-        currentSong.trendPoints = trendPointsMap[code];
+        currentSong.likes = int.parse(likesMap[code].toString());
+        currentSong.share = int.parse(shareMap[code].toString());
+        currentSong.todayClicks = int.parse(todayClicksMap[code].toString());
+        currentSong.totalClicks = int.parse(totalClicksMap[code].toString());
+        currentSong.popularity = int.parse(popularityMap[code].toString());
+        currentSong.trendPoints = double.parse(trendPointsMap[code].toString());
         SQfliteHelper().insertSong(currentSong);
       }
       return true;
