@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
@@ -11,18 +10,19 @@ import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
 
 import '../network_helper.dart';
+import '../sharedPrefs.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
   //Variable to decide which database to use from Realtime and firestore for fetching songs.
-  static String dbName = 'firestore';
+  static String dbName = 'realtime';
   //Variable to decide which database to use for fetching songsData
   static String dbForSongsData = 'firestore';
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
   final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
 
-  //The function SQl fetch complete is called only if data is fetched from SQl.
+  //The function SQL fetch complete is called only if data is fetched from SQl.
   Future<bool> fetchSongs(BuildContext context,
       {required onSqlFetchComplete()}) async {
     bool isSuccess = false;
@@ -30,6 +30,7 @@ class DatabaseController {
     if (isSuccess) {
       onSqlFetchComplete();
     } else {
+      //TODO: Add log here that sql se not fetching
       if (dbName == 'realtime') {
         isSuccess = await RealtimeDbHelper(
           Provider.of<FirebaseApp>(context, listen: false),
@@ -67,7 +68,37 @@ class DatabaseController {
         ).fetchSongsData(context);
       }
     }
+
+    //Syncs the changes from firebase
+    if (isSuccess) {
+      syncNewChanges(context).then((value) {
+        if (value) {
+          SharedPrefs.setLastSyncTime(Globals.lastSongModifiedTime);
+        } else {
+          print('Already synced or Error in syncing new changes: $value');
+        }
+      });
+    }
     return isSuccess;
+  }
+
+  //This function works only with firestore because there is no way to query
+  //data from realtime DB as per my knowledge.
+  Future<bool> syncNewChanges(BuildContext context) async {
+    try {
+      int? lastSyncTime = await SharedPrefs.getLastSyncTime();
+      if (lastSyncTime == null) {
+        lastSyncTime = DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
+      }
+      bool isSuccess = false;
+      if (Globals.lastSongModifiedTime > lastSyncTime) {
+        isSuccess = await FireStoreHelper().syncNewSongs(lastSyncTime);
+      }
+      return isSuccess;
+    } catch (e) {
+      print('Error Syncing new changes: $e');
+      return false;
+    }
   }
 
   Future<void> dailyUpdate(

@@ -1,5 +1,8 @@
 //TODO: Add custom notification sound
 //TODO: Add crashlytics for sql.
+//TODO: new database writing and copying
+//TODO: Check error in firebase performance.
+//TODO: Refresh only if user is refreshing after long time.
 //TODO: Searching does not work properly when refreshing is going on.
 //TODO: refresh song data with latest data, database package also new.
 //TODO: Bug in daily update for syncing song.
@@ -84,7 +87,7 @@ void main() async {
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
 
   //SQflite initialization
-  SQfliteHelper.initializeSQflite();
+  await SQfliteHelper.initializeSQflite();
 
   //Persistenace for Firestore
   FirebaseFirestore.instance.settings = Settings(
@@ -106,13 +109,11 @@ void main() async {
       initializationSettings,
       onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
+  //Initialising AdMob.
   MobileAds.instance.initialize();
   runApp(MainTheme(app));
   //XXX: Comment while debugging.
   secureScreen();
-  ListFunctions.songsVisited.clear();
-  //Initialising AdMob.
-
   ListFunctions.songsVisited.clear();
 }
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -6,11 +7,10 @@ import 'package:jain_songs/utilities/song_details.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
 import '../useful_functions.dart';
 
 class SQfliteHelper {
-  static Future<Database>? database;
+  static Database? database;
 
   static Future<void> initializeSQflite() async {
     //First copying Database file from asset to internal storage.
@@ -40,28 +40,93 @@ class SQfliteHelper {
       print('Database file exists in internal storage');
     }
 
-    database = openDatabase(
-      join(applicationDirectory.path, 'songs_database.db'),
+    database = await openDatabase(
+      path,
       //Creates the TABLE for first time.
       onCreate: (db, version) {
         if (isFileFound == false) {
           print('Creating database because not found in internal storage');
-          return db.execute(SongDetails.createSongTable);
+          db.execute(SongDetails.createSongTable);
         }
       },
-      onUpgrade: (db, oldVersion, newVerison) {
+      onUpgrade: (db, oldVersion, newVerison) async {
         if (isFileFound == false) {
-          print('Creating database because not found in internal storage');
-          return db.execute(SongDetails.createSongTable);
+          print('Creating database because it might be deleted');
+          await db.execute(SongDetails.createSongTable);
+        } else if (isFileFound && newVerison > oldVersion) {
+          print('Deleting file and copying new file');
+          await File(path).delete();
+          try {
+            ByteData data =
+                await rootBundle.load(join('assets', 'songs_database.db'));
+            List<int> bytes =
+                data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
+
+            await File(path).writeAsBytes(bytes);
+            print('Database file copied from asset to internal storage');
+            isFileFound = true;
+          } catch (e) {
+            print('Error copying database to internal Storage: $e');
+            isFileFound = false;
+          }
         }
       },
+      //XXX: Increase version when there is change in database schema
       version: 1,
     );
   }
 
+  Future<void> deleteSong(String code) async {
+    final db = database;
+
+    print('deleting song: $code');
+    db!.delete('songs', where: 'code = ?', whereArgs: [code]);
+  }
+
+  //Song is called for update from firestore which are modified.
+  Future<bool> updateSong(
+    Map<String, dynamic> currentSong,
+  ) async {
+    final db = database;
+
+    try {
+      print('upadting song in sqflite: ${currentSong['code']}');
+      Timestamp? timestamp = currentSong['lastModifiedTime'];
+      await db!.update(
+        'songs',
+        {
+          'aaa': currentSong['aaa'].toString(),
+          'album': currentSong['album'].toString(),
+          'category': currentSong['category'].toString(),
+          'genre': currentSong['genre'].toString(),
+          'gujaratiLyrics': currentSong['gujaratiLyrics'].toString(),
+          'language': currentSong['language'].toString(),
+          'lyrics': currentSong['lyrics'].toString(),
+          'englishLyrics': currentSong['englishLyrics'].toString(),
+          'songNameEnglish': currentSong['songNameEnglish'].toString(),
+          'songNameHindi': currentSong['songNameHindi'].toString(),
+          'originalSong': currentSong['originalSong'].toString(),
+          'production': currentSong['production'].toString(),
+          'searchKeywords': currentSong['searchKeywords'].toString(),
+          'singer': currentSong['singer'].toString(),
+          'tirthankar': currentSong['tirthankar'].toString(),
+          'youTubeLink': currentSong['youTubeLink'].toString(),
+          'lastModifiedTime': timestamp?.millisecondsSinceEpoch,
+        },
+        where: 'code = ?',
+        whereArgs: [currentSong['code'].toString()],
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      return true;
+    } catch (e) {
+      print('Error updating song in SQflite: $e');
+      return false;
+    }
+  }
+
   //Inserts song to SQflite.
   Future<bool> insertSong(SongDetails song) async {
-    final db = await database;
+    final db = database;
 
     try {
       int position = await db!.insert('songs', song.toMapForSQflite(),
@@ -80,37 +145,36 @@ class SQfliteHelper {
   }
 
   Future<bool> deleteDatabase() async {
-    final db = await database;
-    db!.delete('songs');
+    final db = database;
+    db?.delete('songs');
     return true;
   }
 
   Future<bool> fetchSongs() async {
-    final Database? db = await database;
+    final Database? db = database;
     print('Fetching Songs from sqlite');
 
     try {
+      bool isSuccess = false;
       List<Map<String, dynamic>> songs =
           await db!.query('songs', orderBy: 'code ASC');
-      if (songs.length == 0) {
-        return false;
-      }
       ListFunctions.songList.clear();
-      await _readFetchedSongs(songs, ListFunctions.songList);
-      return true;
+      isSuccess = await _readFetchedSongs(songs, ListFunctions.songList);
+      return isSuccess;
     } catch (e) {
       print('Error fetching songs from SQflite: $e');
       return false;
     }
   }
 
-  Future<void> _readFetchedSongs(
+  Future<bool> _readFetchedSongs(
       List<Map<String, dynamic>> songs, List<SongDetails?> listToAdd) async {
-    for (Map<String, dynamic> currentSong in songs) {
-      String state = currentSong['aaa'];
-      state = state.toLowerCase();
-      if (state.contains('invalid') != true) {
-        SongDetails currentSongDetails = SongDetails(
+    try {
+      for (Map<String, dynamic> currentSong in songs) {
+        String state = currentSong['aaa'];
+        state = state.toLowerCase();
+        if (state.contains('invalid') != true) {
+          SongDetails currentSongDetails = SongDetails(
             album: currentSong['album'],
             code: currentSong['code'],
             category: currentSong['category'],
@@ -132,30 +196,38 @@ class SQfliteHelper {
             trendPoints: currentSong['trendPoints'],
             likes: currentSong['likes'],
             share: currentSong['share'],
-            youTubeLink: currentSong['youTubeLink']);
-        bool? valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
-        if (valueIsliked == null) {
-          SharedPrefs.setIsLiked(currentSong['code'], false);
-          valueIsliked = false;
+            youTubeLink: currentSong['youTubeLink'],
+            lastModifiedTime: currentSong['lastModifiedTime'],
+          );
+          bool? valueIsliked =
+              await SharedPrefs.getIsLiked(currentSong['code']);
+          if (valueIsliked == null) {
+            SharedPrefs.setIsLiked(currentSong['code'], false);
+            valueIsliked = false;
+          }
+          currentSongDetails.isLiked = valueIsliked;
+          String songInfo =
+              '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+          currentSongDetails.songInfo = trimSpecialChars(songInfo);
+          if (currentSongDetails.songInfo.length == 0) {
+            currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+          }
+          listToAdd.add(
+            currentSongDetails,
+          );
         }
-        currentSongDetails.isLiked = valueIsliked;
-        String songInfo =
-            '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
-        currentSongDetails.songInfo = trimSpecialChars(songInfo);
-        if (currentSongDetails.songInfo.length == 0) {
-          currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
-        }
-        listToAdd.add(
-          currentSongDetails,
-        );
       }
+      return true;
+    } catch (e) {
+      print("error reading songs from sqlite: $e");
+      return false;
     }
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {
     //Algorithm is not used here, it is used in firestore side because firestore
     //is updated first.
-    final db = await database;
+    final db = database;
     try {
       await db?.update(
         'songs',
@@ -177,7 +249,7 @@ class SQfliteHelper {
   }
 
   Future<bool> changeShare(SongDetails currentSong) async {
-    final db = await database;
+    final db = database;
     try {
       await db?.update(
         'songs',
@@ -196,7 +268,7 @@ class SQfliteHelper {
   }
 
   Future<bool> changeLikes(SongDetails currentSong) async {
-    final db = await database;
+    final db = database;
     try {
       await db?.update(
         'songs',

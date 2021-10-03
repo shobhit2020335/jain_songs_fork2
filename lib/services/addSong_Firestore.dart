@@ -155,6 +155,8 @@ class AddSong {
       }
     }
     currentSongMap['searchKeywords'] = searchKeywords;
+    currentSongMap['lastModifiedTime'] =
+        Timestamp.fromDate(DateTime(2020, 12, 25, 12));
     // _addSearchKeywords(code, searchKeywords.toLowerCase());
   }
 
@@ -166,6 +168,8 @@ class AddSong {
   }
 
   Future<void> addToRealtimeDB() async {
+    Timestamp timestamp = currentSongMap['lastModifiedTime'];
+    currentSongMap['lastModifiedTime'] = timestamp.millisecondsSinceEpoch;
     FirebaseDatabase(app: this.app)
         .reference()
         .child('songs')

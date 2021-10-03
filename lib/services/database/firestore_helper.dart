@@ -67,6 +67,8 @@ class FireStoreHelper {
       Map<String, dynamic> othersMap = docSnap.data() as Map<String, dynamic>;
       Globals.fetchedDays = othersMap['totalDays'];
       Globals.fetchedVersion = othersMap['appVersion'];
+      Timestamp timestamp = othersMap['lastSongModifiedTime'];
+      Globals.lastSongModifiedTime = timestamp.millisecondsSinceEpoch;
     } catch (e) {
       print(e);
       Globals.fetchedDays = Globals.totalDays;
@@ -107,6 +109,8 @@ class FireStoreHelper {
   }
 
   Future<bool> fetchSongs() async {
+    print('Fetching songs from Firestore');
+    bool isSuccess = false;
     _trace2.start();
     ListFunctions.songList.clear();
     QuerySnapshot songs;
@@ -132,24 +136,26 @@ class FireStoreHelper {
         return false;
       }
 
-      await _readFetchedSongs(songs, ListFunctions.songList);
+      isSuccess = await _readFetchedSongs(songs, ListFunctions.songList);
     } catch (e) {
       _trace2.stop();
       print(e);
       return false;
     }
     _trace2.stop();
-    return true;
+    return isSuccess;
   }
 
-  Future<void> _readFetchedSongs(
+  Future<bool> _readFetchedSongs(
       QuerySnapshot songs, List<SongDetails?> listToAdd) async {
-    for (var song in songs.docs) {
-      Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
-      String state = currentSong['aaa'];
-      state = state.toLowerCase();
-      if (state.contains('invalid') != true) {
-        SongDetails currentSongDetails = SongDetails(
+    try {
+      for (var song in songs.docs) {
+        Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
+        String state = currentSong['aaa'];
+        state = state.toLowerCase();
+        if (state.contains('invalid') != true) {
+          Timestamp timestamp = currentSong['lastModifiedTime'];
+          SongDetails currentSongDetails = SongDetails(
             album: currentSong['album'],
             code: currentSong['code'],
             category: currentSong['category'],
@@ -171,23 +177,31 @@ class FireStoreHelper {
             trendPoints: currentSong['trendPoints'],
             likes: currentSong['likes'],
             share: currentSong['share'],
-            youTubeLink: currentSong['youTubeLink']);
-        bool? valueIsliked = await SharedPrefs.getIsLiked(currentSong['code']);
-        if (valueIsliked == null) {
-          SharedPrefs.setIsLiked(currentSong['code'], false);
-          valueIsliked = false;
+            youTubeLink: currentSong['youTubeLink'],
+            lastModifiedTime: timestamp.millisecondsSinceEpoch,
+          );
+          bool? valueIsliked =
+              await SharedPrefs.getIsLiked(currentSong['code']);
+          if (valueIsliked == null) {
+            SharedPrefs.setIsLiked(currentSong['code'], false);
+            valueIsliked = false;
+          }
+          currentSongDetails.isLiked = valueIsliked;
+          String songInfo =
+              '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+          currentSongDetails.songInfo = trimSpecialChars(songInfo);
+          if (currentSongDetails.songInfo.length == 0) {
+            currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+          }
+          listToAdd.add(
+            currentSongDetails,
+          );
         }
-        currentSongDetails.isLiked = valueIsliked;
-        String songInfo =
-            '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
-        currentSongDetails.songInfo = trimSpecialChars(songInfo);
-        if (currentSongDetails.songInfo.length == 0) {
-          currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
-        }
-        listToAdd.add(
-          currentSongDetails,
-        );
       }
+      return true;
+    } catch (e) {
+      print('Error in reading from firestore: $e');
+      return false;
     }
   }
 
@@ -196,29 +210,32 @@ class FireStoreHelper {
     Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
     String state = currentSong['aaa'];
     state = state.toLowerCase();
+    Timestamp timestamp = currentSong['lastModifiedTime'];
     SongDetails currentSongDetails = SongDetails(
-        album: currentSong['album'],
-        code: currentSong['code'],
-        category: currentSong['category'],
-        genre: currentSong['genre'],
-        gujaratiLyrics: currentSong['gujaratiLyrics'],
-        language: currentSong['language'],
-        lyrics: currentSong['lyrics'],
-        englishLyrics: currentSong['englishLyrics'],
-        songNameEnglish: currentSong['songNameEnglish'],
-        songNameHindi: currentSong['songNameHindi'],
-        originalSong: currentSong['originalSong'],
-        popularity: currentSong['popularity'],
-        production: currentSong['production'],
-        searchKeywords: currentSong['searchKeywords'],
-        singer: currentSong['singer'],
-        tirthankar: currentSong['tirthankar'],
-        todayClicks: currentSong['todayClicks'],
-        totalClicks: currentSong['totalClicks'],
-        trendPoints: currentSong['trendPoints'],
-        likes: currentSong['likes'],
-        share: currentSong['share'],
-        youTubeLink: currentSong['youTubeLink']);
+      album: currentSong['album'],
+      code: currentSong['code'],
+      category: currentSong['category'],
+      genre: currentSong['genre'],
+      gujaratiLyrics: currentSong['gujaratiLyrics'],
+      language: currentSong['language'],
+      lyrics: currentSong['lyrics'],
+      englishLyrics: currentSong['englishLyrics'],
+      songNameEnglish: currentSong['songNameEnglish'],
+      songNameHindi: currentSong['songNameHindi'],
+      originalSong: currentSong['originalSong'],
+      popularity: currentSong['popularity'],
+      production: currentSong['production'],
+      searchKeywords: currentSong['searchKeywords'],
+      singer: currentSong['singer'],
+      tirthankar: currentSong['tirthankar'],
+      todayClicks: currentSong['todayClicks'],
+      totalClicks: currentSong['totalClicks'],
+      trendPoints: currentSong['trendPoints'],
+      likes: currentSong['likes'],
+      share: currentSong['share'],
+      youTubeLink: currentSong['youTubeLink'],
+      lastModifiedTime: timestamp.millisecondsSinceEpoch,
+    );
     SharedPrefs.setIsLiked(currentSong['code'], false);
     currentSongDetails.isLiked = false;
     String songInfo =
@@ -332,6 +349,31 @@ class FireStoreHelper {
       return true;
     } catch (e) {
       print('Error fetching new songs: $e');
+      return false;
+    }
+  }
+
+  //Get data of latest modification made in a song and then updates it into SQL.
+  Future<bool> syncNewSongs(int lastSyncTime) async {
+    try {
+      bool isSuccess = true;
+      QuerySnapshot songs = await _firestore
+          .collection('songs')
+          .where('lastModifiedTime',
+              isGreaterThan: Timestamp.fromMillisecondsSinceEpoch(lastSyncTime))
+          .get(GetOptions(
+              source: DatabaseController.fromCache
+                  ? Source.cache
+                  : Source.serverAndCache));
+
+      for (var song in songs.docs) {
+        isSuccess = isSuccess &
+            await SQfliteHelper()
+                .updateSong(song.data() as Map<String, dynamic>);
+      }
+      return isSuccess;
+    } catch (e) {
+      print('Error syncing new songs: $e');
       return false;
     }
   }

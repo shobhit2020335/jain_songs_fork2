@@ -33,4 +33,19 @@ class SharedPrefs {
     bool? value = prefs.getBool(code);
     return value;
   }
+
+  static Future<void> setLastSyncTime(int lastSyncTime) async {
+    print('Updating last sync time to: $lastSyncTime');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(
+      'lastSyncTime',
+      lastSyncTime,
+    );
+  }
+
+  static Future<int?> getLastSyncTime() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? lastSyncTime = prefs.getInt('lastSyncTime');
+    return lastSyncTime;
+  }
 }

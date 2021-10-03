@@ -23,6 +23,12 @@ class SongDetails {
   int? totalClicks;
   double? trendPoints;
   String? youTubeLink;
+  //Last modified song time has different storing format in different places.
+  //In firestore it is stored as TimeStamp, in realtime DB,
+  //SQflite as int and in sharedPrefs (last Sync time) as int. So, it must
+  //be typeCast properly everywhere.
+  int? lastModifiedTime;
+
   //Used locally not stored in DBs.
   bool isLiked;
   int level1;
@@ -37,8 +43,9 @@ class SongDetails {
       'englishLyrics TEXT, genre TEXT, gujaratiLyrics TEXT,isLiked INTEGER, likes INTEGER, language TEXT, '
       'lyrics TEXT, originalSong TEXT, popularity INTEGER, production TEXT, searchKeywords TEXT, '
       'share INTEGER, singer TEXT, songNameEnglish TEXT, songNameHindi TEXT, tirthankar TEXT, '
-      'todayClicks INTEGER, totalClicks INTEGER, trendPoints REAL, youTubeLink TEXT)';
+      'todayClicks INTEGER, totalClicks INTEGER, trendPoints REAL, youTubeLink TEXT, lastModifiedTime INTEGER)';
 
+  //Used to delete songs table
   static String deleteSongTable = 'DROP TABLE IF EXISTS songs';
 
   SongDetails({
@@ -71,7 +78,11 @@ class SongDetails {
     this.level3: 0,
     this.level4: 0,
     this.songInfo: '',
+    this.lastModifiedTime,
   }) {
+    if (this.lastModifiedTime == null) {
+      this.lastModifiedTime = DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
+    }
     if (searchKeywords == null) {
       this.searchKeywords = 'song';
     }
@@ -124,6 +135,7 @@ class SongDetails {
       'totalClicks': totalClicks,
       'trendPoints': trendPoints,
       'youTubeLink': youTubeLink,
+      'lastModifiedTime': this.lastModifiedTime,
     };
   }
 
@@ -152,6 +164,7 @@ class SongDetails {
       'totalClicks': totalClicks,
       'trendPoints': trendPoints,
       'youTubeLink': youTubeLink,
+      'lastModifiedTime': this.lastModifiedTime,
     };
   }
 }

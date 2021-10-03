@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/network_helper.dart';
@@ -120,6 +121,8 @@ class RealtimeDbHelper {
   }
 
   Future<bool> fetchSongs() async {
+    print('fetching songs from Realtime DB');
+    bool isSuccess = false;
     _traceRealtime.start();
     ListFunctions.songList.clear();
     DataSnapshot? songSnapshot;
@@ -138,7 +141,7 @@ class RealtimeDbHelper {
         songSnapshot = await database.reference().child('songs').once();
       }
 
-      _readFetchedSongs(songSnapshot, ListFunctions.songList);
+      isSuccess = _readFetchedSongs(songSnapshot, ListFunctions.songList);
       if (ListFunctions.songList.length == 0) {
         return false;
       }
@@ -148,110 +151,126 @@ class RealtimeDbHelper {
       return false;
     }
     _traceRealtime.stop();
-    return true;
+    return isSuccess;
   }
 
-  void _readFetchedSongs(
+  bool _readFetchedSongs(
       DataSnapshot songSnapshot, List<SongDetails?> listToAdd) {
-    Map<String?, dynamic> allSongs =
-        Map<String, dynamic>.from(songSnapshot.value);
+    try {
+      Map<String?, dynamic> allSongs =
+          Map<String, dynamic>.from(songSnapshot.value);
 
-    allSongs.forEach((key, value) {
-      Map<String, dynamic> currentSong = Map<String, dynamic>.from(value);
-      String state = currentSong['aaa'].toString();
-      state = state.toLowerCase();
-      if (state.contains('invalid') != true) {
-        SongDetails currentSongDetails = SongDetails(
-          album: currentSong['album'].toString(),
-          code: currentSong['code'].toString(),
-          category: currentSong['category'].toString(),
-          genre: currentSong['genre'].toString(),
-          gujaratiLyrics: currentSong['gujaratiLyrics'].toString(),
-          language: currentSong['language'].toString(),
-          lyrics: currentSong['lyrics'].toString(),
-          englishLyrics: currentSong['englishLyrics'].toString(),
-          songNameEnglish: currentSong['songNameEnglish'].toString(),
-          songNameHindi: currentSong['songNameHindi'].toString(),
-          originalSong: currentSong['originalSong'].toString(),
-          popularity: int.parse(currentSong['popularity'].toString()),
-          production: currentSong['production'].toString(),
-          searchKeywords: currentSong['searchKeywords'].toString(),
-          singer: currentSong['singer'].toString(),
-          tirthankar: currentSong['tirthankar'].toString(),
-          todayClicks: int.parse(currentSong['todayClicks'].toString()),
-          totalClicks: int.parse(currentSong['totalClicks'].toString()),
-          trendPoints: double.parse(currentSong['trendPoints'].toString()),
-          likes: int.parse(currentSong['likes'].toString()),
-          share: int.parse(currentSong['share'].toString()),
-          youTubeLink: currentSong['youTubeLink'].toString(),
-        );
-        SharedPrefs.getIsLiked(currentSong['code'].toString())
-            .then((valueIsliked) {
-          if (valueIsliked == null) {
-            SharedPrefs.setIsLiked(currentSong['code'].toString(), false);
-            valueIsliked = false;
+      allSongs.forEach((key, value) {
+        Map<String, dynamic> currentSong = Map<String, dynamic>.from(value);
+        String state = currentSong['aaa'].toString();
+        state = state.toLowerCase();
+        if (state.contains('invalid') != true) {
+          SongDetails currentSongDetails = SongDetails(
+            album: currentSong['album'].toString(),
+            code: currentSong['code'].toString(),
+            category: currentSong['category'].toString(),
+            genre: currentSong['genre'].toString(),
+            gujaratiLyrics: currentSong['gujaratiLyrics'].toString(),
+            language: currentSong['language'].toString(),
+            lyrics: currentSong['lyrics'].toString(),
+            englishLyrics: currentSong['englishLyrics'].toString(),
+            songNameEnglish: currentSong['songNameEnglish'].toString(),
+            songNameHindi: currentSong['songNameHindi'].toString(),
+            originalSong: currentSong['originalSong'].toString(),
+            popularity: int.parse(currentSong['popularity'].toString()),
+            production: currentSong['production'].toString(),
+            searchKeywords: currentSong['searchKeywords'].toString(),
+            singer: currentSong['singer'].toString(),
+            tirthankar: currentSong['tirthankar'].toString(),
+            todayClicks: int.parse(currentSong['todayClicks'].toString()),
+            totalClicks: int.parse(currentSong['totalClicks'].toString()),
+            trendPoints: double.parse(currentSong['trendPoints'].toString()),
+            likes: int.parse(currentSong['likes'].toString()),
+            share: int.parse(currentSong['share'].toString()),
+            youTubeLink: currentSong['youTubeLink'].toString(),
+            lastModifiedTime:
+                int.parse(currentSong['lastModifiedTime'].toString()),
+          );
+          SharedPrefs.getIsLiked(currentSong['code'].toString())
+              .then((valueIsliked) {
+            if (valueIsliked == null) {
+              SharedPrefs.setIsLiked(currentSong['code'].toString(), false);
+              valueIsliked = false;
+            }
+            currentSongDetails.isLiked = valueIsliked;
+          });
+
+          String songInfo =
+              '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+          currentSongDetails.songInfo = trimSpecialChars(songInfo);
+          if (currentSongDetails.songInfo.length == 0) {
+            currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
           }
-          currentSongDetails.isLiked = valueIsliked;
-        });
-
-        String songInfo =
-            '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
-        currentSongDetails.songInfo = trimSpecialChars(songInfo);
-        if (currentSongDetails.songInfo.length == 0) {
-          currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+          listToAdd.add(
+            currentSongDetails,
+          );
         }
-        listToAdd.add(
-          currentSongDetails,
-        );
-      }
-    });
+      });
+      return true;
+    } catch (e) {
+      print('Error reading songs from realtime: $e');
+      return false;
+    }
   }
 
   //Reading single songs
-  SongDetails _readSingleSong(DataSnapshot song, List<SongDetails?> listToAdd) {
-    Map<String, dynamic> currentSong = Map<String, dynamic>.from(song.value);
-    String state = currentSong['aaa'];
-    state = state.toLowerCase();
-    SongDetails currentSongDetails = SongDetails(
-      album: currentSong['album'].toString(),
-      code: currentSong['code'].toString(),
-      category: currentSong['category'].toString(),
-      genre: currentSong['genre'].toString(),
-      gujaratiLyrics: currentSong['gujaratiLyrics'].toString(),
-      language: currentSong['language'].toString(),
-      lyrics: currentSong['lyrics'].toString(),
-      englishLyrics: currentSong['englishLyrics'].toString(),
-      songNameEnglish: currentSong['songNameEnglish'].toString(),
-      songNameHindi: currentSong['songNameHindi'].toString(),
-      originalSong: currentSong['originalSong'].toString(),
-      popularity: int.parse(currentSong['popularity'].toString()),
-      production: currentSong['production'].toString(),
-      searchKeywords: currentSong['searchKeywords'].toString(),
-      singer: currentSong['singer'].toString(),
-      tirthankar: currentSong['tirthankar'].toString(),
-      todayClicks: int.parse(currentSong['todayClicks'].toString()),
-      totalClicks: int.parse(currentSong['totalClicks'].toString()),
-      trendPoints: double.parse(currentSong['trendPoints'].toString()),
-      likes: int.parse(currentSong['likes'].toString()),
-      share: int.parse(currentSong['share'].toString()),
-      youTubeLink: currentSong['youTubeLink'].toString(),
-    );
-    SharedPrefs.setIsLiked(currentSong['code'], false);
-    currentSongDetails.isLiked = false;
-    String songInfo =
-        '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
-    currentSongDetails.songInfo = trimSpecialChars(songInfo);
-    if (currentSongDetails.songInfo.length == 0) {
-      currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
-    }
-    listToAdd.add(
-      currentSongDetails,
-    );
+  SongDetails? _readSingleSong(
+      DataSnapshot song, List<SongDetails?> listToAdd) {
+    try {
+      Map<String, dynamic> currentSong = Map<String, dynamic>.from(song.value);
+      String state = currentSong['aaa'];
+      state = state.toLowerCase();
+      SongDetails currentSongDetails = SongDetails(
+        album: currentSong['album'].toString(),
+        code: currentSong['code'].toString(),
+        category: currentSong['category'].toString(),
+        genre: currentSong['genre'].toString(),
+        gujaratiLyrics: currentSong['gujaratiLyrics'].toString(),
+        language: currentSong['language'].toString(),
+        lyrics: currentSong['lyrics'].toString(),
+        englishLyrics: currentSong['englishLyrics'].toString(),
+        songNameEnglish: currentSong['songNameEnglish'].toString(),
+        songNameHindi: currentSong['songNameHindi'].toString(),
+        originalSong: currentSong['originalSong'].toString(),
+        popularity: int.parse(currentSong['popularity'].toString()),
+        production: currentSong['production'].toString(),
+        searchKeywords: currentSong['searchKeywords'].toString(),
+        singer: currentSong['singer'].toString(),
+        tirthankar: currentSong['tirthankar'].toString(),
+        todayClicks: int.parse(currentSong['todayClicks'].toString()),
+        totalClicks: int.parse(currentSong['totalClicks'].toString()),
+        trendPoints: double.parse(currentSong['trendPoints'].toString()),
+        likes: int.parse(currentSong['likes'].toString()),
+        share: int.parse(currentSong['share'].toString()),
+        youTubeLink: currentSong['youTubeLink'].toString(),
+        lastModifiedTime: int.parse(currentSong['lastModifiedTime'].toString()),
+      );
 
-    if (state.contains('invalid') == true) {
-      currentSongDetails.aaa = 'invalid';
+      SharedPrefs.setIsLiked(currentSong['code'], false);
+      currentSongDetails.isLiked = false;
+      String songInfo =
+          '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
+      currentSongDetails.songInfo = trimSpecialChars(songInfo);
+      if (currentSongDetails.songInfo.length == 0) {
+        currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
+      }
+      listToAdd.add(
+        currentSongDetails,
+      );
+
+      if (state.contains('invalid') == true) {
+        currentSongDetails.aaa = 'invalid';
+      }
+      return currentSongDetails;
+    } catch (e) {
+      print('Error reading single song in realtime: $e');
+      return null;
     }
-    return currentSongDetails;
   }
 
   Future<bool> fetchSongsData(BuildContext context) async {
@@ -313,6 +332,10 @@ class RealtimeDbHelper {
         }
       }
 
+      if (likesDataMap.isNotEmpty) {
+        ConstWidget.showSimpleToast(context, 'Downloading Latest Songs');
+      }
+
       bool isSuccess = await addNewSongs(
         likesDataMap,
         shareDataMap,
@@ -350,14 +373,16 @@ class RealtimeDbHelper {
       print('Songs which are not found: $songNotFound');
       for (String code in songNotFound) {
         var song = await database.reference().child('songs').child(code).get();
-        SongDetails currentSong = _readSingleSong(song, ListFunctions.songList);
-        currentSong.likes = int.parse(likesMap[code].toString());
-        currentSong.share = int.parse(shareMap[code].toString());
-        currentSong.todayClicks = int.parse(todayClicksMap[code].toString());
-        currentSong.totalClicks = int.parse(totalClicksMap[code].toString());
-        currentSong.popularity = int.parse(popularityMap[code].toString());
-        currentSong.trendPoints = double.parse(trendPointsMap[code].toString());
-        SQfliteHelper().insertSong(currentSong);
+        SongDetails? currentSong =
+            _readSingleSong(song, ListFunctions.songList);
+        currentSong?.likes = int.parse(likesMap[code].toString());
+        currentSong?.share = int.parse(shareMap[code].toString());
+        currentSong?.todayClicks = int.parse(todayClicksMap[code].toString());
+        currentSong?.totalClicks = int.parse(totalClicksMap[code].toString());
+        currentSong?.popularity = int.parse(popularityMap[code].toString());
+        currentSong?.trendPoints =
+            double.parse(trendPointsMap[code].toString());
+        SQfliteHelper().insertSong(currentSong!);
       }
       return true;
     } catch (e) {
