@@ -55,15 +55,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
-=======
->>>>>>> Stashed changes
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
