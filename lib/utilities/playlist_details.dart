@@ -14,11 +14,11 @@ class PlaylistDetails {
 
   PlaylistDetails({
     this.active: true,
-    /*required*/ required this.title,
-    /*required*/ required this.subtitle,
+    required this.title,
+    required this.subtitle,
     this.playlistTag: '',
     this.playlistTagType: '',
-    /*required*/ required this.leadIcon,
+    required this.leadIcon,
     this.iconSize: 30,
     this.color: Colors.cyan,
   });

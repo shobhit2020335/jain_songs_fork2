@@ -77,10 +77,16 @@ android {
     }
 
      buildTypes {
+<<<<<<< Updated upstream
          //XXX: Comment below while release
            debug {
                applicationIdSuffix ".debug"
            }
+=======
+        //  debug {
+        //      applicationIdSuffix ".debug"
+        //  }
+>>>>>>> Stashed changes
          release {
              signingConfig signingConfigs.release
              minifyEnabled true
