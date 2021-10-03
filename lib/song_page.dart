@@ -11,6 +11,7 @@ import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -154,7 +155,7 @@ class _SongPageState extends State<SongPage> {
         initialVideoId:
             YoutubePlayer.convertUrlToId(currentSong!.youTubeLink!)!,
         flags: YoutubePlayerFlags(
-          autoPlay: true,
+          autoPlay: Globals.isVideoAutoPlay,
           mute: false,
           enableCaption: false,
           useHybridComposition: false,

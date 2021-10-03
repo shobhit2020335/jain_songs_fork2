@@ -22,6 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 12),
       child: Column(
         children: [
           Expanded(

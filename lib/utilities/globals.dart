@@ -14,4 +14,7 @@ class Globals {
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
+
+  //varible which sets whether to autoplay videos/songs or not.
+  static bool isVideoAutoPlay = true;
 }

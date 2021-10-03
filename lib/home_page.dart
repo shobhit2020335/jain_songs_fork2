@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
@@ -420,9 +421,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             if (index == 1) {
               appBarTitle = Text('');
             } else if (index == 2) {
-              appBarTitle = Text('Playlists');
+              appBarTitle = Text(
+                'Playlists',
+                style: GoogleFonts.raleway(
+                  color: Color(0xFF212323),
+                  fontWeight: FontWeight.bold,
+                ),
+              );
             } else if (index == 3) {
-              appBarTitle = Text('Settings and More');
+              appBarTitle = Text(
+                'Settings and More',
+                style: GoogleFonts.raleway(
+                  color: Color(0xFF212323),
+                  fontWeight: FontWeight.bold,
+                ),
+              );
             } else {
               appBarTitle = ConstWidget.mainAppTitle();
               getSongs('', false);
