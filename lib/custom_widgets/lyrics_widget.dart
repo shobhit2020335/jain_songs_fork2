@@ -23,10 +23,7 @@ class LyricsWidget extends StatelessWidget {
     return Text(
       '\n' + escapeCharacterIncluded(),
       textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 20,
-        color: Colors.white,
-      ),
+      style: Theme.of(context).primaryTextTheme.bodyText2,
     );
   }
 }

@@ -1,6 +1,7 @@
 //This file contains all list related function and data.
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
@@ -284,7 +285,7 @@ class ListFunctions {
       playlistTag: 'favourites',
       playlistTagType: '',
       leadIcon: FontAwesomeIcons.gratipay,
-      color: Colors.pink[300],
+      color: ConstWidget.signatureColors(value: 1),
     ),
     PlaylistDetails(
       active: true,
@@ -293,7 +294,7 @@ class ListFunctions {
       playlistTag: 'latest',
       playlistTagType: 'genre',
       leadIcon: FontAwesomeIcons.calendarPlus,
-      color: Colors.green,
+      color: ConstWidget.signatureColors(value: 2),
     ),
     PlaylistDetails(
       active: true,
@@ -302,7 +303,7 @@ class ListFunctions {
       playlistTag: 'popular',
       playlistTagType: '',
       leadIcon: FontAwesomeIcons.fire,
-      color: Colors.amber,
+      color: ConstWidget.signatureColors(value: 0),
     ),
     PlaylistDetails(
       active: true,
@@ -311,7 +312,7 @@ class ListFunctions {
       playlistTag: 'bhakti',
       playlistTagType: 'category',
       leadIcon: Icons.ac_unit,
-      color: Colors.redAccent,
+      color: ConstWidget.signatureColors(value: 3),
     ),
     PlaylistDetails(
       active: true,

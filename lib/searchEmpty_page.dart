@@ -9,6 +9,24 @@ class SearchEmpty extends StatelessWidget {
 
   SearchEmpty(this.searchController);
 
+  Widget formTextField(int? lines,
+      {String? hint, required TextEditingController editingController}) {
+    return TextField(
+      controller: editingController,
+      keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
+      maxLines: lines,
+      style: TextStyle(fontSize: 16),
+      decoration: InputDecoration(
+        hintText: hint,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +52,7 @@ class SearchEmpty extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 2,
-                  child: ConstWidget.formTextField(
+                  child: formTextField(
                     null,
                     hint: 'Song you are searching',
                     editingController: nameController,
@@ -73,7 +91,7 @@ class SearchEmpty extends StatelessWidget {
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: Colors.indigo,
+                        color: ConstWidget.signatureColors(),
                       ),
                       height: 40,
                       child: Center(

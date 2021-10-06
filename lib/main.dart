@@ -2,6 +2,7 @@
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.
+//TODO: SHared prefs for autoplay and dark mode
 //TODO: suggest edit
 //TODO: Consider less points for words smaller than 3 length in searchify.
 //TODO: Reduce reads by storing time of song insertion or offline lyrics or all songs in one doc.
@@ -150,25 +151,85 @@ class MainTheme extends StatelessWidget {
           return null;
         },
         theme: ThemeData(
-          primaryColor: Colors.white,
+          brightness: Globals.isDarkMode ? Brightness.dark : Brightness.light,
+          primaryColor: Globals.isDarkMode ? Colors.white : Colors.indigo,
+          //Used in bottom navigation, back button
+          primaryColorLight:
+              Globals.isDarkMode ? Colors.white : Color(0xFF212323),
+          //Used in circle avatar of logo
+          primaryColorDark:
+              Globals.isDarkMode ? Colors.blue[100] : Colors.blue[200],
+          //appBar theme
           appBarTheme: AppBarTheme(
             //Changes the color of icons on AppBars
             iconTheme: IconThemeData(
-              color: Color(0xFF212323),
+              color: Globals.isDarkMode ? Colors.white : Color(0xFF212323),
             ),
-          ),
-          primaryTextTheme: TextTheme(
-            //changes color of AppBar title
-            headline6: GoogleFonts.raleway(
-              color: Color(0xFF212323),
+            //App bar color
+            backgroundColor:
+                Globals.isDarkMode ? Color(0xFF212323) : Colors.white,
+            //App bar title text style
+            titleTextStyle: GoogleFonts.raleway(
+              color: Globals.isDarkMode ? Colors.white : Color(0xFF212323),
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
-          accentColor: Colors.white,
-          textTheme: TextTheme(
-            //changes color of expansion tile when closed
-            subtitle1: TextStyle(color: Colors.white),
-            bodyText2: TextStyle(color: Colors.white),
+          //Progress bar theme
+          progressIndicatorTheme: ProgressIndicatorThemeData(
+            circularTrackColor: Colors.indigo,
+            color: Globals.isDarkMode ? Colors.grey[850] : Colors.white,
+          ),
+          primaryTextTheme: TextTheme(
+            headline1: GoogleFonts.raleway(
+              color: Colors.green,
+              fontWeight: FontWeight.bold,
+            ),
+            //Headline for song title in song page
+            headline2: GoogleFonts.lato(
+              color: Globals.isDarkMode ? Colors.white : Colors.black,
+              fontSize: 20,
+            ),
+            //Heading for playlist pages
+            headline3: GoogleFonts.raleway(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            //Used in form page heading: Suggest us some songs
+            headline4: GoogleFonts.raleway(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Globals.isDarkMode ? Colors.white : Colors.black,
+            ),
+            //Used in smaller heading: in form page below suggest songs
+            headline5: GoogleFonts.raleway(
+              fontSize: 14,
+              color: Globals.isDarkMode ? Colors.white : Colors.black,
+            ),
+            //Used in button texts
+            headline6: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            //Used as title text for all list tiles.
+            bodyText1: GoogleFonts.raleway(
+              color: Globals.isDarkMode ? Colors.white : Colors.black,
+              fontWeight: FontWeight.w600,
+            ),
+            //Used in Lyrics widget
+            bodyText2: GoogleFonts.raleway(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+            //Used in: upload lyrics image, no internet avaliable, songs loading.
+            subtitle2: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+            ),
           ),
         ),
         home: HomePage(),

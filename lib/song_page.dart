@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
-import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -258,10 +257,7 @@ class _SongPageState extends State<SongPage> {
     return Scaffold(
       body: showProgress
           ? Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                backgroundColor: Colors.indigo,
-              ),
+              child: CircularProgressIndicator(),
             )
           : Builder(
               builder: (context) => SafeArea(
@@ -281,7 +277,7 @@ class _SongPageState extends State<SongPage> {
                           },
                           child: Icon(
                             Icons.arrow_back_ios_new_rounded,
-                            color: Colors.black54,
+                            color: Theme.of(context).primaryColorLight,
                           ),
                         ),
                         title: InkWell(
@@ -296,10 +292,7 @@ class _SongPageState extends State<SongPage> {
                           },
                           child: Text(
                             '${currentSong!.songNameEnglish}',
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 20,
-                            ),
+                            style: Theme.of(context).primaryTextTheme.headline2,
                           ),
                         ),
                         subtitle: InkWell(
@@ -358,7 +351,8 @@ class _SongPageState extends State<SongPage> {
                                         MediaQuery.of(context).size.width / 1,
                                     controller: _youtubePlayerController!,
                                     showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.indigo,
+                                    progressIndicatorColor:
+                                        Theme.of(context).primaryColor,
                                     liveUIColor: Colors.indigo,
                                     onEnded: (youtubeMetaData) {
                                       ConstWidget.showSimpleToast(
@@ -396,9 +390,9 @@ class _SongPageState extends State<SongPage> {
                                   )
                                 : Text(
                                     linkInfo,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .subtitle2,
                                   ),
                             SizedBox(height: 10),
                             Row(
@@ -552,6 +546,7 @@ class _SongPageState extends State<SongPage> {
                                               'Language',
                                               style: GoogleFonts.lato(
                                                 fontWeight: FontWeight.bold,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -586,6 +581,7 @@ class _SongPageState extends State<SongPage> {
                                               'Share',
                                               style: GoogleFonts.lato(
                                                 fontWeight: FontWeight.bold,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -717,9 +713,7 @@ class _SongPageState extends State<SongPage> {
         ),
         title: Text(
           '${suggester!.suggestedSongs[index]!.songNameEnglish}',
-          style: GoogleFonts.lato(
-            color: Colors.black,
-          ),
+          style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
         subtitle: Text(
           '${suggester!.suggestedSongs[index]!.songInfo}',

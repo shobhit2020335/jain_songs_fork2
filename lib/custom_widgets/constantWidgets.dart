@@ -44,7 +44,7 @@ class ConstWidget {
     size: 20,
   );
 
-  static Color? signatureColors(int value) {
+  static Color? signatureColors({int value: 4}) {
     if (value == 0) {
       return Colors.amber;
     } else if (value == 1) {
@@ -63,7 +63,7 @@ class ConstWidget {
         scale: scale,
         child: Image.asset(
           'images/Logo.png',
-          color: Colors.indigo,
+          color: Globals.isDarkMode ? Colors.white : Colors.indigo,
         ));
   }
 
@@ -89,50 +89,18 @@ class ConstWidget {
       content: Text(message),
       duration: Duration(seconds: duration),
       action: SnackBarAction(
-          label: 'HIDE', onPressed: scaffold.hideCurrentSnackBar),
+        label: 'HIDE',
+        onPressed: scaffold.hideCurrentSnackBar,
+      ),
     );
     scaffold.showSnackBar(snackBar);
-  }
-
-  static Widget formFieldTitle(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        color: Colors.black,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
-    );
-  }
-
-  static Widget formTextField(int? lines,
-      {String? hint, required TextEditingController editingController}) {
-    return Theme(
-      data: ThemeData(
-        primaryColor: Colors.black,
-      ),
-      child: TextField(
-        controller: editingController,
-        keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
-        maxLines: lines,
-        style: TextStyle(color: Colors.black, fontSize: 16),
-        decoration: InputDecoration(
-          hintText: hint,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 
   static Widget mainAppTitle() {
     return Text(
       'Stavan',
       style: GoogleFonts.itim(
-        color: Colors.indigo,
+        color: Globals.isDarkMode ? Colors.white : Colors.indigo,
         fontSize: 30,
         // fontWeight: FontWeight.bold,
       ),

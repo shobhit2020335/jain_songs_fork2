@@ -17,4 +17,6 @@ class Globals {
 
   //varible which sets whether to autoplay videos/songs or not.
   static bool isVideoAutoPlay = true;
+  //Variable which sets whether dark mode is on or off.
+  static bool isDarkMode = true;
 }

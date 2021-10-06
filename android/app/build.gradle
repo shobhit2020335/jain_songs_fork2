@@ -78,9 +78,9 @@ android {
 
      buildTypes {
          //XXX: Comment below while release
-           debug {
-               applicationIdSuffix ".debug"
-           }
+        //    debug {
+        //        applicationIdSuffix ".debug"
+        //    }
          release {
              signingConfig signingConfigs.release
              minifyEnabled true

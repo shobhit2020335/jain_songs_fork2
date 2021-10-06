@@ -17,6 +17,35 @@ class _FormPageState extends State<FormPage> {
   var otherController = TextEditingController();
   List<File> images = [];
 
+  Widget formFieldTitle(String title) {
+    return Text(
+      title,
+      style: TextStyle(
+        color: Theme.of(context).primaryColorLight,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+    );
+  }
+
+  Widget formTextField(int? lines,
+      {String? hint, required TextEditingController editingController}) {
+    return TextField(
+      controller: editingController,
+      keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
+      maxLines: lines,
+      style: TextStyle(fontSize: 16),
+      decoration: InputDecoration(
+        hintText: hint,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     songController.dispose();
@@ -27,7 +56,6 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      //Try this and edit if not working.
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -42,6 +70,7 @@ class _FormPageState extends State<FormPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
+                      backgroundColor: Colors.indigo,
                       child: ConstWidget.showLogo(),
                     ),
                     SizedBox(
@@ -50,7 +79,7 @@ class _FormPageState extends State<FormPage> {
                     Text(
                       'स्तवन',
                       style: TextStyle(
-                        color: Colors.indigo,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Pacifico',
@@ -63,18 +92,12 @@ class _FormPageState extends State<FormPage> {
                 ),
                 Text(
                   'Suggest us some songs.',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500),
+                  style: Theme.of(context).primaryTextTheme.headline4,
                 ),
                 SizedBox(height: 10),
                 Text(
                   'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                  ),
+                  style: Theme.of(context).primaryTextTheme.headline5,
                 ),
                 SizedBox(height: 25),
                 InkWell(
@@ -108,7 +131,7 @@ class _FormPageState extends State<FormPage> {
                         )
                       : Icon(
                           Icons.cloud_upload_rounded,
-                          color: Colors.indigo,
+                          color: ConstWidget.signatureColors(),
                           size: 50,
                         ),
                 ),
@@ -142,21 +165,18 @@ class _FormPageState extends State<FormPage> {
                     images.isEmpty
                         ? 'Upload Lyrics Image'
                         : '${images.length} images selected',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context).primaryTextTheme.subtitle2,
                   ),
                 ),
                 SizedBox(height: 20),
-                ConstWidget.formFieldTitle('Song Title'),
+                formFieldTitle('Song Title'),
                 SizedBox(height: 7),
-                ConstWidget.formTextField(null,
+                formTextField(null,
                     hint: 'Song title', editingController: songController),
                 SizedBox(height: 20),
-                ConstWidget.formFieldTitle('Other Details'),
+                formFieldTitle('Other Details'),
                 SizedBox(height: 7),
-                ConstWidget.formTextField(
+                formTextField(
                   null,
                   hint:
                       'Link of Lyrics or Youtube video. Other song information',
@@ -209,17 +229,14 @@ class _FormPageState extends State<FormPage> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.indigo,
+                      color: ConstWidget.signatureColors(),
                     ),
                     width: 250,
                     height: 57,
                     child: Center(
                       child: Text(
                         'Submit',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                        style: Theme.of(context).primaryTextTheme.headline6,
                       ),
                     ),
                   ),

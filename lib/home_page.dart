@@ -37,8 +37,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   //This variable is used to determine whether the user searching is found or not.
   KeyboardVisibilityController _keyboardVisibilityController =
       KeyboardVisibilityController();
-  // KeyboardVisibilityNotification _keyboardVisibilityNotification =
-  //     KeyboardVisibilityNotification();
   bool isBasicSearchEmpty = false;
   bool showProgress = false;
   Widget appBarTitle = ConstWidget.mainAppTitle();
@@ -46,7 +44,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Icon searchOrCrossIcon = Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
-    color: Colors.indigo,
+    color: ConstWidget.signatureColors(),
   );
 
   SpeechToText speechToText = SpeechToText();
@@ -61,14 +59,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             textInputAction: TextInputAction.search,
             controller: searchController,
             autofocus: true,
+            cursorColor: Theme.of(context).primaryColor,
             onChanged: (value) {
               getSongs(value, false);
             },
-            style: TextStyle(color: Colors.black),
             decoration: InputDecoration(
               prefixIcon: Icon(
                 Icons.search_rounded,
-                color: Colors.black,
+                color: Theme.of(context).appBarTheme.iconTheme?.color,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
               ),
               hintText: 'Search anything...',
             ),
@@ -184,6 +185,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     await FilterListDialog.display(context,
         height: 480,
         borderRadius: 20,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        unselectedTextColor: Theme.of(context).primaryColorLight,
+        searchFieldBackgroundColor:
+            Theme.of(context).progressIndicatorTheme.color!,
+        unselectedTextbackGroundColor:
+            Theme.of(context).progressIndicatorTheme.color!,
         searchFieldHintText: "Search Here", onApplyButtonClick: (list) {
       ListFunctions.filtersSelected = List.from(list);
       setState(() {
@@ -263,7 +270,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: Colors.indigo,
+        shadowColor: Theme.of(context).primaryColor,
         title: _currentIndex == 0
             ? TextButton(
                 onPressed: () {
@@ -287,7 +294,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               },
               child: Image.asset(
                 'images/Logo.png',
-                color: Colors.indigo,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ),
@@ -303,7 +310,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   child: GestureDetector(
                     child: Icon(
                       Icons.mic,
-                      color: isListening ? Colors.red : Colors.black,
+                      color: isListening
+                          ? Colors.red
+                          : Theme.of(context).appBarTheme.iconTheme?.color,
                     ),
                     onTap: () {
                       if (isListening) {
@@ -406,15 +415,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           Icons.book_rounded,
           Icons.info_outline_rounded,
         ],
-        inactiveColor: Color(0xFF212323),
-        splashColor: Colors.indigo,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        inactiveColor: Theme.of(context).primaryColorLight,
         iconSize: 30,
         elevation: 5,
         activeIndex: _currentIndex,
         gapLocation: GapLocation.none,
         notchSmoothness: NotchSmoothness.smoothEdge,
-        activeColor: ConstWidget.signatureColors(5),
-        backgroundColor: Colors.white,
+        activeColor: Theme.of(context).primaryColor,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
@@ -423,18 +431,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             } else if (index == 2) {
               appBarTitle = Text(
                 'Playlists',
-                style: GoogleFonts.raleway(
-                  color: Color(0xFF212323),
-                  fontWeight: FontWeight.bold,
-                ),
               );
             } else if (index == 3) {
               appBarTitle = Text(
                 'Settings and More',
-                style: GoogleFonts.raleway(
-                  color: Color(0xFF212323),
-                  fontWeight: FontWeight.bold,
-                ),
               );
             } else {
               appBarTitle = ConstWidget.mainAppTitle();
@@ -449,10 +449,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         showProgress
             ? Container(
                 child: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    backgroundColor: Colors.indigo,
-                  ),
+                  child: CircularProgressIndicator(),
                 ),
               )
             : BuildList(

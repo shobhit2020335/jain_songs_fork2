@@ -28,9 +28,7 @@ class Services {
               leading: Icon(Icons.camera_alt_rounded),
               title: Text(
                 'Camera',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                style: Theme.of(context).primaryTextTheme.bodyText1,
               ),
               onTap: () {
                 print('onTap');
@@ -41,9 +39,7 @@ class Services {
               leading: Icon(Icons.image_rounded),
               title: Text(
                 'Gallery (Select multiple images)',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                style: Theme.of(context).primaryTextTheme.bodyText1,
               ),
               onTap: () {
                 return Navigator.of(context).pop(ImageSource.gallery);

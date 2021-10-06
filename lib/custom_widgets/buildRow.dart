@@ -28,12 +28,11 @@ class _BuildRowState extends State<BuildRow> {
     SongDetails currentSong = widget.currentSong!;
 
     return ListTileTheme(
-      selectedColor: Colors.blue[300],
       style: ListTileStyle.drawer,
       child: ListTile(
         title: Text(
           currentSong.songNameEnglish!,
-          style: TextStyle(color: Color(0xFF212323)),
+          style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
         subtitle: Text(
           currentSong.songInfo,

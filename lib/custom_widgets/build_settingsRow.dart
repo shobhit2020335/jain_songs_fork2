@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
@@ -25,11 +26,11 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
   @override
   Widget build(BuildContext context) {
     return ListTileTheme(
-      selectedColor: Colors.grey,
       style: ListTileStyle.drawer,
       child: ListTile(
         title: Text(
           widget.settingsDetails.title,
+          style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
         subtitle: Text(
           widget.settingsDetails.subtitle,
@@ -39,7 +40,7 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
             ? Switch(
                 value: Globals.isVideoAutoPlay,
                 onChanged: _toggleAutoPlay,
-                activeColor: Colors.indigo,
+                activeColor: ConstWidget.signatureColors(),
               )
             : null,
         onTap: () {
