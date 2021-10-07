@@ -2,10 +2,8 @@
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.
-//TODO: SHared prefs for autoplay and dark mode
 //TODO: suggest edit
 //TODO: Consider less points for words smaller than 3 length in searchify.
-//TODO: Reduce reads by storing time of song insertion or offline lyrics or all songs in one doc.
 //TODO: Change playlist colors.
 //TODO: On Clicking subtitle open specific playlist of it.
 //TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
@@ -13,18 +11,14 @@
 //TODO: Remove debug and check versions.
 //TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
 //TODO: in searching consider keyboard
-//TODO: singers, in suggester.
 //TODO: fetch song faster by any means or fetch particular song in dynamic link.
 //TODO: Store as much data of user you can.
 //TODO: Kannada
 //TODO: User can chat with me.
-//TODO: Song update only before 1AM.
 //TODO: Splash screen
 //TODO: Request lyrics
-//TODO: image suggestion
 //TODO Playlist banner of RSJ, Vicky, Etc
 //TODO: remove special characters in search
-//TODO: Check searchify.
 //TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
 //TODO: speaking jai jinendra
@@ -45,7 +39,6 @@
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
 //TODO: zoom/size
-//TODO: Dark mode
 //TODO: Karaoke
 //TODO: playlist list to be square.
 //TODO: user can make playlist

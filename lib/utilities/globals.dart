@@ -24,6 +24,7 @@ class Globals {
   //Variable which sets whether dark mode is on or off.
   static bool isDarkTheme = true;
 
+  //Set user settings when app is started.
   static Future<void> setGlobals() async {
     isDarkTheme = await SharedPrefs.getIsDarkTheme();
     SharedPrefs.getIsAutoplayVideo().then((value) {
