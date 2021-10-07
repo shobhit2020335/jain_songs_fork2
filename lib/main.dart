@@ -1,7 +1,18 @@
 //TODO: Add custom notification sound
+//TODO: Add crashlytics for sql.
+//TODO: new database writing and copying
+//TODO: Check error in firebase performance.
+//TODO: likes not updating quickly
+//TODO: Scrolll to top when searching starts
+//TODO: Priority of work in saearching
+//TODO:Detect filter from search and apply it on top
+//TODO: Refresh only if user is refreshing after long time.
+//TODO: Searching does not work properly when refreshing is going on.
+//TODO: refresh song data with latest data, database package also new.
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.
+//TODO: INcrease time for scrolling up.
 //TODO: suggest edit
 //TODO: Consider less points for words smaller than 3 length in searchify.
 //TODO: Change playlist colors.
@@ -52,6 +63,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/provider/darkTheme_provider.dart';
@@ -72,6 +84,9 @@ void main() async {
 
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
+
+  //SQflite initialization
+  await SQfliteHelper.initializeSQflite();
 
   //Persistenace for Firestore
   FirebaseFirestore.instance.settings = Settings(

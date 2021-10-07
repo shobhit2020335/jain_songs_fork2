@@ -10,6 +10,8 @@ class Globals {
   static int totalDays = 1;
   static int? fetchedDays = 1;
   static String welcomeMessage = 'Jai Jinendra';
+  static int lastSongModifiedTime =
+      DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
 
   //TODO: update app version for new app.
   static const double appVersion = 1.33;

@@ -138,33 +138,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         setState(() {
           ConstWidget.showUpdateDialog(context);
         });
-      }
-      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-      if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
-        Globals.fetchedDays = Globals.totalDays;
-        try {
-          DatabaseController.fromCache = false;
-          bool isSuccess = await FireStoreHelper().fetchSongs();
-          if (isSuccess == false) {
-            ConstWidget.showSimpleToast(context,
-                'Please check your Internet Connection and restart Stavan');
-            setState(() {
-              showProgress = false;
-            });
-          } else {
-            FireStoreHelper().dailyUpdate(context);
-          }
-        } catch (e) {
-          print(e);
-          ConstWidget.showSimpleToast(
-              context, 'Stavan is under maintenance. Please try again later!');
-          setState(() {
-            showProgress = false;
-          });
-        }
       } else {
-        print('Before going in fetch songs');
-        bool isSuccess = await DatabaseController().fetchSongs(context);
+        bool isSuccess = await DatabaseController()
+            .fetchSongs(context, onSqlFetchComplete: refreshSongData);
         if (isSuccess == false) {
           ConstWidget.showSimpleToast(context,
               'Please check your Internet Connection and restart Stavan');
@@ -264,6 +240,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
     // _keyboardVisibilityNotification.dispose();
     super.dispose();
+  }
+
+  Future<void> refreshSongData() async {
+    print('Refreshing song data');
+    bool isSuccess = await DatabaseController().fetchSongsData(context);
+
+    if (isSuccess) {
+      print('Refresh success');
+      ListFunctions().addElementsToList('home');
+      setState(() {});
+    } else {
+      ConstWidget.showSimpleToast(context, 'Unable to refresh songs');
+    }
+    print('Refresh Complete');
   }
 
   @override

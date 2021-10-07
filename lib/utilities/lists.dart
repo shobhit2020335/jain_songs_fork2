@@ -191,8 +191,11 @@ class ListFunctions {
     playlistTag = playlistTag.toLowerCase();
     //This is for main list having all songs. It is called only when home page loads the songs after refreshing.
     if (playlistTag.contains('home')) {
+      sortedSongList.clear();
       for (int i = 0; i < songList.length; i++) {
-        sortedSongList.add(songList[i]);
+        if (songList[i]?.aaa == 'valid') {
+          sortedSongList.add(songList[i]);
+        }
       }
       sortedSongList.sort(trendComparison);
       listToShow = List.from(sortedSongList);
