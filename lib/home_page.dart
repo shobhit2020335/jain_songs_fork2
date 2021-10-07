@@ -417,12 +417,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ],
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         inactiveColor: Theme.of(context).primaryColorLight,
+        activeColor: ConstWidget.signatureColors(),
+        splashColor: ConstWidget.signatureColors(),
         iconSize: 30,
         elevation: 5,
         activeIndex: _currentIndex,
         gapLocation: GapLocation.none,
         notchSmoothness: NotchSmoothness.smoothEdge,
-        activeColor: Theme.of(context).primaryColor,
         onTap: (index) {
           setState(() {
             _currentIndex = index;

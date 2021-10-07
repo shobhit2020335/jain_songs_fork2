@@ -70,7 +70,7 @@ class _FormPageState extends State<FormPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      backgroundColor: Colors.indigo,
+                      backgroundColor: Theme.of(context).primaryColorDark,
                       child: ConstWidget.showLogo(),
                     ),
                     SizedBox(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
 
@@ -18,14 +19,14 @@ class DatabaseController {
     bool isSuccess = false;
     if (dbName == 'realtime') {
       isSuccess = await RealtimeDbHelper(
-        Provider.of<FirebaseApp>(context, listen: false),
+        Globals.firebaseApp,
       ).fetchSongs();
     }
     if (isSuccess == false) {
       isSuccess = await FireStoreHelper().fetchSongs();
       if (isSuccess == false) {
         isSuccess = await RealtimeDbHelper(
-          Provider.of<FirebaseApp>(context, listen: false),
+          Globals.firebaseApp,
         ).fetchSongs();
       }
     }
@@ -38,7 +39,7 @@ class DatabaseController {
     bool isSuccess = await FireStoreHelper().changeClicks(currentSong);
     isSuccess = isSuccess &
         await RealtimeDbHelper(
-          Provider.of<FirebaseApp>(context, listen: false),
+          Globals.firebaseApp,
         ).changeClicks(currentSong);
     return isSuccess;
   }
@@ -49,7 +50,7 @@ class DatabaseController {
     bool isSuccess = await FireStoreHelper().changeShare(currentSong);
     isSuccess = isSuccess &
         await RealtimeDbHelper(
-          Provider.of<FirebaseApp>(context, listen: false),
+          Globals.firebaseApp,
         ).changeShare(currentSong);
     return isSuccess;
   }
@@ -61,7 +62,7 @@ class DatabaseController {
         await FireStoreHelper().changeLikes(context, currentSong, toAdd);
     isSuccess = isSuccess &
         await RealtimeDbHelper(
-          Provider.of<FirebaseApp>(context, listen: false),
+          Globals.firebaseApp,
         ).changeLikes(context, currentSong, toAdd);
     if (isSuccess == false) {
       ConstWidget.showSimpleToast(

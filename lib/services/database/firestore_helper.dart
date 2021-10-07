@@ -105,7 +105,7 @@ class FireStoreHelper {
     _trace.stop();
 
     await RealtimeDbHelper(
-      Provider.of<FirebaseApp>(context, listen: false),
+      Globals.firebaseApp,
     ).syncDatabase();
   }
 

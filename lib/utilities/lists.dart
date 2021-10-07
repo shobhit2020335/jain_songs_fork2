@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -260,6 +261,13 @@ class ListFunctions {
       title: 'Autoplay Video',
       subtitle: 'Autoplay song and video when a song is clicked',
       isSetting: true,
+      dependentValue: Globals.isVideoAutoPlay,
+    ),
+    SettingsDetails(
+      title: 'Dark Mode',
+      subtitle: 'Using dark mode reduces strain on eyes',
+      isSetting: true,
+      dependentValue: false,
     ),
     SettingsDetails(
       title: 'About',

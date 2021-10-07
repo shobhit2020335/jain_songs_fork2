@@ -21,6 +21,8 @@ class RealtimeDbHelper {
   RealtimeDbHelper(this.app) {
     if (app != null) {
       database = FirebaseDatabase(app: this.app);
+    } else {
+      print('Firebase App is null');
     }
   }
 
@@ -60,6 +62,7 @@ class RealtimeDbHelper {
     DataSnapshot? songSnapshot;
 
     try {
+      print('Fetching songs from realtime DB');
       bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
       if (DatabaseController.fromCache == false || isFirstOpen == null) {

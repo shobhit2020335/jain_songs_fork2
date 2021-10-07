@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jain_songs/services/provider/darkTheme_provider.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -63,7 +64,7 @@ class ConstWidget {
         scale: scale,
         child: Image.asset(
           'images/Logo.png',
-          color: Globals.isDarkMode ? Colors.white : Colors.indigo,
+          color: Globals.isDarkTheme ? Colors.white : Colors.indigo,
         ));
   }
 
@@ -100,9 +101,8 @@ class ConstWidget {
     return Text(
       'Stavan',
       style: GoogleFonts.itim(
-        color: Globals.isDarkMode ? Colors.white : Colors.indigo,
+        color: Globals.isDarkTheme ? Colors.white : Colors.indigo,
         fontSize: 30,
-        // fontWeight: FontWeight.bold,
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:jain_songs/services/sharedPrefs.dart';
 
 class Globals {
   static final DateTime startDate = DateTime(2020, 12, 23);
@@ -14,9 +16,18 @@ class Globals {
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
+  //Used for initializing realtime DB
+  static FirebaseApp? firebaseApp;
 
   //varible which sets whether to autoplay videos/songs or not.
   static bool isVideoAutoPlay = true;
   //Variable which sets whether dark mode is on or off.
-  static bool isDarkMode = true;
+  static bool isDarkTheme = true;
+
+  static Future<void> setGlobals() async {
+    isDarkTheme = await SharedPrefs.getIsDarkTheme();
+    SharedPrefs.getIsAutoplayVideo().then((value) {
+      isVideoAutoPlay = value;
+    });
+  }
 }

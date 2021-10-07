@@ -26,6 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Column(
         children: [
           Expanded(
+            flex: 2,
             child: BuildSettingsList(),
           ),
           Expanded(
@@ -36,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      backgroundColor: ConstWidget.signatureColors(),
+                      backgroundColor: Theme.of(context).primaryColorDark,
                       child: ConstWidget.showLogo(),
                     ),
                     SizedBox(

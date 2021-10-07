@@ -1,6 +1,34 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
+  static Future<void> setIsDarkTheme(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isDarkTheme', value);
+  }
+
+  static Future<bool> getIsDarkTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? value = prefs.getBool('isDarkTheme');
+    if (value == null) {
+      return true;
+    }
+    return value;
+  }
+
+  static Future<void> setIsAutoplayVideo(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isAutoplayVideo', value);
+  }
+
+  static Future<bool> getIsAutoplayVideo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? value = prefs.getBool('isAutoplayVideo');
+    if (value == null) {
+      return true;
+    }
+    return value;
+  }
+
   static Future<void> setIsFirstOpen(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isFirstOpen', value);
