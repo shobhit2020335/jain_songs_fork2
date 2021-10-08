@@ -35,6 +35,7 @@ class RealtimeDbHelper {
     _traceSync.start();
 
     try {
+      print('Syncing realtime database');
       for (int i = 0; i < ListFunctions.songList.length; i++) {
         database
             .reference()
@@ -43,67 +44,69 @@ class RealtimeDbHelper {
             .set(ListFunctions.songList[i]!.toMap());
       }
 
-      var docSnapshot =
-          await _firestore.collection('songsData').doc('likes').get();
-      Map<String, dynamic> likesDataMap =
-          Map<String, dynamic>.from(docSnapshot.data()!);
+      //TODO: XXX Commented this becuase it is synced while pressing submit in
+      //form page
+      // var docSnapshot =
+      //     await _firestore.collection('songsData').doc('likes').get();
+      // Map<String, dynamic> likesDataMap =
+      //     Map<String, dynamic>.from(docSnapshot.data()!);
 
-      docSnapshot = await _firestore.collection('songsData').doc('share').get();
-      Map<String, dynamic> shareDataMap =
-          Map<String, dynamic>.from(docSnapshot.data()!);
+      // docSnapshot = await _firestore.collection('songsData').doc('share').get();
+      // Map<String, dynamic> shareDataMap =
+      //     Map<String, dynamic>.from(docSnapshot.data()!);
 
-      docSnapshot =
-          await _firestore.collection('songsData').doc('todayClicks').get();
-      Map<String, dynamic> todayClicksDataMap =
-          Map<String, dynamic>.from(docSnapshot.data()!);
+      // docSnapshot =
+      //     await _firestore.collection('songsData').doc('todayClicks').get();
+      // Map<String, dynamic> todayClicksDataMap =
+      //     Map<String, dynamic>.from(docSnapshot.data()!);
 
-      docSnapshot =
-          await _firestore.collection('songsData').doc('totalClicks').get();
-      Map<String, dynamic> totalClicksDataMap =
-          Map<String, dynamic>.from(docSnapshot.data()!);
+      // docSnapshot =
+      //     await _firestore.collection('songsData').doc('totalClicks').get();
+      // Map<String, dynamic> totalClicksDataMap =
+      //     Map<String, dynamic>.from(docSnapshot.data()!);
 
-      docSnapshot =
-          await _firestore.collection('songsData').doc('popularity').get();
-      Map<String, dynamic> popularityDataMap =
-          Map<String, dynamic>.from(docSnapshot.data()!);
+      // docSnapshot =
+      //     await _firestore.collection('songsData').doc('popularity').get();
+      // Map<String, dynamic> popularityDataMap =
+      //     Map<String, dynamic>.from(docSnapshot.data()!);
 
-      docSnapshot =
-          await _firestore.collection('songsData').doc('trendPoints').get();
-      Map<String, dynamic> trendPointsDataMap =
-          Map<String, dynamic>.from(docSnapshot.data()!);
+      // docSnapshot =
+      //     await _firestore.collection('songsData').doc('trendPoints').get();
+      // Map<String, dynamic> trendPointsDataMap =
+      //     Map<String, dynamic>.from(docSnapshot.data()!);
 
-      await Future.wait([
-        database
-            .reference()
-            .child('songsData')
-            .child('likes')
-            .update(likesDataMap),
-        database
-            .reference()
-            .child('songsData')
-            .child('share')
-            .update(shareDataMap),
-        database
-            .reference()
-            .child('songsData')
-            .child('popularity')
-            .update(popularityDataMap),
-        database
-            .reference()
-            .child('songsData')
-            .child('todayClicks')
-            .update(todayClicksDataMap),
-        database
-            .reference()
-            .child('songsData')
-            .child('totalClicks')
-            .update(totalClicksDataMap),
-        database
-            .reference()
-            .child('songsData')
-            .child('trendPoints')
-            .update(trendPointsDataMap),
-      ]);
+      // await Future.wait([
+      //   database
+      //       .reference()
+      //       .child('songsData')
+      //       .child('likes')
+      //       .update(likesDataMap),
+      //   database
+      //       .reference()
+      //       .child('songsData')
+      //       .child('share')
+      //       .update(shareDataMap),
+      //   database
+      //       .reference()
+      //       .child('songsData')
+      //       .child('popularity')
+      //       .update(popularityDataMap),
+      //   database
+      //       .reference()
+      //       .child('songsData')
+      //       .child('todayClicks')
+      //       .update(todayClicksDataMap),
+      //   database
+      //       .reference()
+      //       .child('songsData')
+      //       .child('totalClicks')
+      //       .update(totalClicksDataMap),
+      //   database
+      //       .reference()
+      //       .child('songsData')
+      //       .child('trendPoints')
+      //       .update(trendPointsDataMap),
+      // ]);
 
       Timestamp lastUpdated = Timestamp.now();
       CollectionReference others =

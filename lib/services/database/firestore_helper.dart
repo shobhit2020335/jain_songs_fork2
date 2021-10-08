@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
@@ -16,7 +17,6 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:firebase_performance/firebase_performance.dart';
-import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
@@ -493,6 +493,90 @@ class FireStoreHelper {
     } catch (e) {
       print('Error updating likes in firestore: $e');
       return false;
+    }
+  }
+
+  //Rewrite songsData
+  Future<void> rewriteSongsDataInFirebase() async {
+    try {
+      print('Inrewrite songs Data');
+      Map<String, int> likesMap = {};
+      Map<String, int> shareMap = {};
+      Map<String, int> todayClicksMap = {};
+      Map<String, int> totalClicksMap = {};
+      Map<String, int> popularityMap = {};
+      Map<String, double> trendPointsMap = {};
+
+      QuerySnapshot querySnapshot = await songs.get();
+
+      for (var song in querySnapshot.docs) {
+        Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
+        String state = currentSong['aaa'];
+        state = state.toLowerCase();
+        if (state.contains('invalid') != true) {
+          likesMap[currentSong['code']] = currentSong['likes'];
+          shareMap[currentSong['code']] = currentSong['share'];
+          todayClicksMap[currentSong['code']] = currentSong['todayClicks'];
+          totalClicksMap[currentSong['code']] = currentSong['totalClicks'];
+          popularityMap[currentSong['code']] = currentSong['popularity'];
+          trendPointsMap[currentSong['code']] = currentSong['trendPoints'];
+        }
+      }
+
+      await _firestore.collection('songsData').doc('likes').set(likesMap);
+      await _firestore.collection('songsData').doc('share').set(shareMap);
+      await _firestore
+          .collection('songsData')
+          .doc('todayClicks')
+          .set(todayClicksMap);
+      await _firestore
+          .collection('songsData')
+          .doc('totalClicks')
+          .set(totalClicksMap);
+      await _firestore
+          .collection('songsData')
+          .doc('popularity')
+          .set(popularityMap);
+      await _firestore
+          .collection('songsData')
+          .doc('trendPoints')
+          .set(trendPointsMap);
+
+      FirebaseDatabase database = FirebaseDatabase(app: Globals.firebaseApp);
+
+      await database
+          .reference()
+          .child('songsData')
+          .child('likes')
+          .set(likesMap);
+      await database
+          .reference()
+          .child('songsData')
+          .child('share')
+          .set(shareMap);
+      await database
+          .reference()
+          .child('songsData')
+          .child('todayClicks')
+          .set(todayClicksMap);
+      await database
+          .reference()
+          .child('songsData')
+          .child('totalClicks')
+          .set(totalClicksMap);
+      await database
+          .reference()
+          .child('songsData')
+          .child('popularity')
+          .set(popularityMap);
+      await database
+          .reference()
+          .child('songsData')
+          .child('trendPoints')
+          .set(trendPointsMap);
+      print('Rewritten songsData successfully');
+    } catch (e) {
+      print('Error rewriting songsData: $e');
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../useful_functions.dart';
@@ -16,64 +17,84 @@ class SQfliteHelper {
     //First copying Database file from asset to internal storage.
     bool isFileFound = false;
 
-    //Constructing fiel path to copy database to
-    Directory? applicationDirectory = await getApplicationDocumentsDirectory();
-    String path = join(applicationDirectory.path, 'songs_database.db');
+    if (await _requestPermission(Permission.storage)) {
+      //Constructing fiel path to copy database to
+      Directory? applicationDirectory = await getExternalStorageDirectory();
+      String path = join(applicationDirectory!.path, 'songs_database.db');
 
-    //Copying file if not found.
-    if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
-      try {
-        ByteData data =
-            await rootBundle.load(join('assets', 'songs_database.db'));
-        List<int> bytes =
-            data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
+      //TODO: XXX: Commented this to create db file directly to external storage,
+      //changed: Directory? applicationDirectory = await getApplicationDocumentsDirectory();
+      //to
+      //Copying file if not found.
+      // if (FileSystemEntity.typeSync(path) == FileSystemEntityType.notFound) {
+      //   try {
+      //     ByteData data =
+      //         await rootBundle.load(join('assets', 'songs_database.db'));
+      //     List<int> bytes =
+      //         data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
 
-        await File(path).writeAsBytes(bytes);
-        print('Database file copied from asset to internal storage');
-        isFileFound = true;
-      } catch (e) {
-        print('Error copying database to internal Storage: $e');
-        isFileFound = false;
-      }
-    } else {
-      isFileFound = true;
-      print('Database file exists in internal storage');
-    }
+      //     await File(path).writeAsBytes(bytes);
+      //     print('Database file copied from asset to internal storage');
+      //     isFileFound = true;
+      //   } catch (e) {
+      //     print('Error copying database to internal Storage: $e');
+      //     isFileFound = false;
+      //   }
+      // } else {
+      //   isFileFound = true;
+      //   print('Database file exists in internal storage');
+      // }
 
-    database = await openDatabase(
-      path,
-      //Creates the TABLE for first time.
-      onCreate: (db, version) {
-        if (isFileFound == false) {
-          print('Creating database because not found in internal storage');
-          db.execute(SongDetails.createSongTable);
-        }
-      },
-      onUpgrade: (db, oldVersion, newVerison) async {
-        if (isFileFound == false) {
-          print('Creating database because it might be deleted');
-          await db.execute(SongDetails.createSongTable);
-        } else if (isFileFound && newVerison > oldVersion) {
-          print('Deleting file and copying new file');
-          await File(path).delete();
-          try {
-            ByteData data =
-                await rootBundle.load(join('assets', 'songs_database.db'));
-            List<int> bytes =
-                data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
-
-            await File(path).writeAsBytes(bytes);
-            print('Database file copied from asset to internal storage');
-            isFileFound = true;
-          } catch (e) {
-            print('Error copying database to internal Storage: $e');
-            isFileFound = false;
+      database = await openDatabase(
+        path,
+        //Creates the TABLE for first time.
+        onCreate: (db, version) {
+          if (isFileFound == false) {
+            print('Creating database because not found in internal storage');
+            db.execute(SongDetails.createSongTable);
           }
-        }
-      },
-      //XXX: Increase version when there is change in database schema
-      version: 1,
-    );
+        },
+        onUpgrade: (db, oldVersion, newVerison) async {
+          if (isFileFound == false) {
+            print('Creating database because it might be deleted');
+            await db.execute(SongDetails.createSongTable);
+          } else if (isFileFound && newVerison > oldVersion) {
+            print('Deleting file and copying new file');
+            await File(path).delete();
+            try {
+              ByteData data =
+                  await rootBundle.load(join('assets', 'songs_database.db'));
+              List<int> bytes = data.buffer
+                  .asInt8List(data.offsetInBytes, data.lengthInBytes);
+
+              await File(path).writeAsBytes(bytes);
+              print('Database file copied from asset to internal storage');
+              isFileFound = true;
+            } catch (e) {
+              print('Error copying database to internal Storage: $e');
+              isFileFound = false;
+            }
+          }
+        },
+        //XXX: Increase version when there is change in database schema
+        version: 1,
+      );
+    } else {
+      print('Permission not granted');
+    }
+  }
+
+  //This requests permission for storage or anything.
+  static Future<bool> _requestPermission(Permission permission) async {
+    if (await permission.isGranted) {
+      return true;
+    } else {
+      var result = await permission.request();
+      if (result == PermissionStatus.granted) {
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<void> deleteSong(String code) async {

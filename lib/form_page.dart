@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
+import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/services.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'services/network_helper.dart';
 
@@ -185,6 +187,13 @@ class _FormPageState extends State<FormPage> {
                 SizedBox(height: 30),
                 TextButton(
                   onPressed: () async {
+                    //TODO: XXX: Syncs the database and songData
+                    FireStoreHelper()
+                        .rewriteSongsDataInFirebase()
+                        .then((value) {
+                      print('Rewritten songsData in both databases');
+                      RealtimeDbHelper(Globals.firebaseApp).syncDatabase();
+                    });
                     SongSuggestions currentSongSuggestion = SongSuggestions(
                       songController.text,
                       otherController.text,

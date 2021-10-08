@@ -1,6 +1,7 @@
 //TODO: Add custom notification sound
 //TODO: Add crashlytics for sql.
 //TODO: new database writing and copying
+//TODO: UPladoing images test it.
 //TODO: Check error in firebase performance.
 //TODO: likes not updating quickly
 //TODO: Scrolll to top when searching starts
