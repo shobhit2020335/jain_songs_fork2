@@ -104,7 +104,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    //TODO: Try changing hthis to white for dark mode
                     Colors.grey[850]!,
                     currentPlaylist != null
                         ? currentPlaylist!.color!

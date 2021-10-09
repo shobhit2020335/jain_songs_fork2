@@ -1,14 +1,11 @@
 //TODO: Add custom notification sound
 //TODO: Add crashlytics for sql.
-//TODO: new database writing and copying
-//TODO: Check error in firebase performance.
-//TODO: likes not updating quickly
-//TODO: Scrolll to top when searching starts
-//TODO: Priority of work in saearching
+//TODO: Firebase performance removed. Add it.
+//TODO: scroll to top when searching
+//TODO: Priority of tirhtnkar, etc in saearching
 //TODO:Detect filter from search and apply it on top
 //TODO: Refresh only if user is refreshing after long time.
 //TODO: Searching does not work properly when refreshing is going on.
-//TODO: refresh song data with latest data, database package also new.
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.

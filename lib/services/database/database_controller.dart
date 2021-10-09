@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
@@ -8,7 +7,6 @@ import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
-
 import '../network_helper.dart';
 import '../sharedPrefs.dart';
 
@@ -20,7 +18,6 @@ class DatabaseController {
   static String dbForSongsData = 'firestore';
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
-  final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
 
   //The function SQL fetch complete is called only if data is fetched from SQl.
   Future<bool> fetchSongs(BuildContext context,
@@ -107,7 +104,6 @@ class DatabaseController {
       Map<String, dynamic> totalClicksMap) async {
     bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
     if (Globals.totalDays > Globals.fetchedDays! && isInternetConnected) {
-      _trace.start();
       try {
         Globals.fetchedDays = Globals.totalDays;
         Map<String, int> newTodayClicksMap = {};
@@ -126,9 +122,7 @@ class DatabaseController {
 
         await FireStoreHelper()
             .dailyUpdate(context, newTodayClicksMap, newTrendPointsMap);
-        _trace.stop();
       } catch (e) {
-        _trace.stop();
         print('Error in daily update: $e');
       }
     }

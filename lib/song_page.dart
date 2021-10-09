@@ -8,7 +8,6 @@ import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
-import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
@@ -119,7 +118,7 @@ class _SongPageState extends State<SongPage> {
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
       //XXX: Comment while debugging.
-      // DatabaseController().changeClicks(context, currentSong!);
+      DatabaseController().changeClicks(context, currentSong!);
     }
 
     langNo = 1;
@@ -271,16 +270,16 @@ class _SongPageState extends State<SongPage> {
         setState(() {});
       });
     } else {
-      currentSong!.isLiked = true;
-      currentSong!.likes = currentSong!.likes! + 1;
-      currentSong!.popularity = currentSong!.popularity! + 1;
+      currentSong?.isLiked = true;
+      currentSong?.likes = currentSong!.likes! + 1;
+      currentSong?.popularity = currentSong!.popularity! + 1;
       setState(() {});
       DatabaseController().changeLikes(context, currentSong!, 1).then((value) {
         if (value == false) {
           print('Error changing likes');
           currentSong?.isLiked = false;
           currentSong?.likes = currentSong!.likes! - 1;
-          currentSong!.popularity = currentSong!.popularity! - 1;
+          currentSong?.popularity = currentSong!.popularity! - 1;
           ConstWidget.showSimpleToast(context, 'Error Liking song! Try again');
         }
         setState(() {});

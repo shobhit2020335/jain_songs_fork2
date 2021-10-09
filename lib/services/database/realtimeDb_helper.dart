@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
@@ -16,9 +15,6 @@ import 'package:jain_songs/utilities/song_details.dart';
 class RealtimeDbHelper {
   final FirebaseApp? app;
   late FirebaseDatabase database;
-  final Trace _traceSync = FirebasePerformance.instance.newTrace('syncDatbase');
-  final Trace _traceRealtime =
-      FirebasePerformance.instance.newTrace('getSongRealtime');
   final _firestore = FirebaseFirestore.instance;
 
   RealtimeDbHelper(this.app) {
@@ -32,8 +28,6 @@ class RealtimeDbHelper {
   //Updates the trend points and resets other data in both firestore and realtime
   //syncs realtime db and firestore
   Future<bool> syncDatabase() async {
-    _traceSync.start();
-
     try {
       for (int i = 0; i < ListFunctions.songList.length; i++) {
         database
@@ -112,11 +106,9 @@ class RealtimeDbHelper {
         'lastDatabaseSynced': lastUpdated,
       });
 
-      _traceSync.stop();
       print('Realtime Database Synced with Firestore');
       return true;
     } catch (e) {
-      _traceSync.stop();
       print('Error syncing realtime database: $e');
       return false;
     }
@@ -125,7 +117,6 @@ class RealtimeDbHelper {
   Future<bool> fetchSongs() async {
     print('fetching songs from Realtime DB');
     bool isSuccess = false;
-    _traceRealtime.start();
     ListFunctions.songList.clear();
     DataSnapshot? songSnapshot;
 
@@ -149,11 +140,9 @@ class RealtimeDbHelper {
         return false;
       }
     } catch (e) {
-      _traceRealtime.stop();
       print('Error in realtime: $e');
       return false;
     }
-    _traceRealtime.stop();
     return isSuccess;
   }
 

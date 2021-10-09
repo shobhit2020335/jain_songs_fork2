@@ -4,7 +4,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
@@ -277,7 +276,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               onTap: () {
                 listScrollController.animateTo(
                   listScrollController.position.minScrollExtent,
-                  duration: Duration(milliseconds: 1000),
+                  duration: Duration(milliseconds: 2000),
                   curve: Curves.fastOutSlowIn,
                 );
                 ConstWidget.showToast(Globals.welcomeMessage);

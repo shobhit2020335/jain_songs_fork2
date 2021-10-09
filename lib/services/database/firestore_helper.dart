@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
@@ -15,15 +14,11 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
-import 'package:firebase_performance/firebase_performance.dart';
-import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 class FireStoreHelper {
   final _firestore = FirebaseFirestore.instance;
-  final Trace _trace = FirebasePerformance.instance.newTrace('dailyUpdate');
-  final Trace _trace2 = FirebasePerformance.instance.newTrace('getSongs');
   final CollectionReference songs =
       FirebaseFirestore.instance.collection('songs');
   final CollectionReference suggestions =
@@ -111,7 +106,6 @@ class FireStoreHelper {
   Future<bool> fetchSongs() async {
     print('Fetching songs from Firestore');
     bool isSuccess = false;
-    _trace2.start();
     ListFunctions.songList.clear();
     QuerySnapshot songs;
 
@@ -132,17 +126,14 @@ class FireStoreHelper {
         }
       }
       if (songs.size == 0) {
-        _trace2.stop();
         return false;
       }
 
       isSuccess = await _readFetchedSongs(songs, ListFunctions.songList);
     } catch (e) {
-      _trace2.stop();
       print(e);
       return false;
     }
-    _trace2.stop();
     return isSuccess;
   }
 
