@@ -22,9 +22,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 12),
       child: Column(
         children: [
           Expanded(
+            flex: 2,
             child: BuildSettingsList(),
           ),
           Expanded(
@@ -35,7 +37,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      child: showLogo(),
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      child: ConstWidget.showLogo(),
                     ),
                     SizedBox(
                       width: 10,
@@ -43,17 +46,16 @@ class _SettingsPageState extends State<SettingsPage> {
                     Text(
                       'Stavan',
                       style: GoogleFonts.itim(
-                        color: Colors.indigo,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 40,
-                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  'v1.3.2',
+                  'v1.3.3',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],

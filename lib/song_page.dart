@@ -8,8 +8,9 @@ import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/services/Suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
-import 'package:jain_songs/services/launch_otherApp.dart';
+import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
@@ -116,7 +117,7 @@ class _SongPageState extends State<SongPage> {
 
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
-      //TODO: Comment while debugging.
+      //XXX: Comment while debugging.
       DatabaseController().changeClicks(context, currentSong!);
     }
 
@@ -153,7 +154,7 @@ class _SongPageState extends State<SongPage> {
         initialVideoId:
             YoutubePlayer.convertUrlToId(currentSong!.youTubeLink!)!,
         flags: YoutubePlayerFlags(
-          autoPlay: true,
+          autoPlay: Globals.isVideoAutoPlay,
           mute: false,
           enableCaption: false,
           useHybridComposition: false,
@@ -189,7 +190,7 @@ class _SongPageState extends State<SongPage> {
       currentSong = widget.currentSong;
       loadScreen();
     } else {
-      _timerLink = Timer(Duration(milliseconds: 3000), () {
+      _timerLink = Timer(Duration(milliseconds: 5000), () {
         if (ListFunctions.songList.isNotEmpty) {
           currentSong = ListFunctions.songList.firstWhere((song) {
             return song!.code == widget.codeFromDynamicLink;
@@ -197,15 +198,19 @@ class _SongPageState extends State<SongPage> {
             return null;
           });
           if (currentSong == null) {
-            showSimpleToast(context,
-                'The link might be incorrect. Try searching for the song.');
+            ConstWidget.showSimpleToast(
+              context,
+              'Song not found. Restart the App to load the new song and then try again.',
+              duration: 5,
+            );
             Navigator.of(context).pop();
           } else {
             loadScreen();
           }
         } else {
           _timerLink?.cancel();
-          _timerLink = Timer(Duration(milliseconds: 3000), () {
+          ConstWidget.showSimpleToast(context, 'Loading Song. Please Wait!');
+          _timerLink = Timer(Duration(milliseconds: 10000), () {
             if (ListFunctions.songList.isNotEmpty) {
               currentSong = ListFunctions.songList.firstWhere((song) {
                 return song!.code == widget.codeFromDynamicLink;
@@ -213,14 +218,18 @@ class _SongPageState extends State<SongPage> {
                 return null;
               });
               if (currentSong == null) {
-                showSimpleToast(context,
-                    'The link might be incorrect. Try searching for the song.');
+                ConstWidget.showSimpleToast(
+                  context,
+                  'Song not found. Restart the App to load the new song and then try again.',
+                  duration: 5,
+                );
                 Navigator.of(context).pop();
               } else {
                 loadScreen();
               }
             } else {
-              showSimpleToast(context, 'Internet Connection is slow!');
+              ConstWidget.showSimpleToast(
+                  context, 'Internet connection might be slow!');
               Navigator.of(context).pop();
             }
           });
@@ -243,15 +252,47 @@ class _SongPageState extends State<SongPage> {
     super.dispose();
   }
 
+  Future<void> _likeTheSong() async {
+    if (currentSong!.isLiked == true) {
+      currentSong?.isLiked = false;
+      currentSong?.likes = currentSong!.likes! - 1;
+      currentSong?.popularity = currentSong!.popularity! - 1;
+      setState(() {});
+      DatabaseController().changeLikes(context, currentSong!, -1).then((value) {
+        if (value == false) {
+          print('Error changing likes');
+          currentSong?.isLiked = true;
+          currentSong?.likes = currentSong!.likes! + 1;
+          currentSong?.popularity = currentSong!.popularity! + 1;
+          ConstWidget.showSimpleToast(
+              context, 'Error Disliking song! Try again');
+        }
+        setState(() {});
+      });
+    } else {
+      currentSong?.isLiked = true;
+      currentSong?.likes = currentSong!.likes! + 1;
+      currentSong?.popularity = currentSong!.popularity! + 1;
+      setState(() {});
+      DatabaseController().changeLikes(context, currentSong!, 1).then((value) {
+        if (value == false) {
+          print('Error changing likes');
+          currentSong?.isLiked = false;
+          currentSong?.likes = currentSong!.likes! - 1;
+          currentSong?.popularity = currentSong!.popularity! - 1;
+          ConstWidget.showSimpleToast(context, 'Error Liking song! Try again');
+        }
+        setState(() {});
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: showProgress
           ? Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                backgroundColor: Colors.indigo,
-              ),
+              child: CircularProgressIndicator(),
             )
           : Builder(
               builder: (context) => SafeArea(
@@ -271,7 +312,7 @@ class _SongPageState extends State<SongPage> {
                           },
                           child: Icon(
                             Icons.arrow_back_ios_new_rounded,
-                            color: Colors.black54,
+                            color: Theme.of(context).primaryColorLight,
                           ),
                         ),
                         title: InkWell(
@@ -286,10 +327,7 @@ class _SongPageState extends State<SongPage> {
                           },
                           child: Text(
                             '${currentSong!.songNameEnglish}',
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 20,
-                            ),
+                            style: Theme.of(context).primaryTextTheme.headline2,
                           ),
                         ),
                         subtitle: InkWell(
@@ -310,23 +348,7 @@ class _SongPageState extends State<SongPage> {
                         ),
                         trailing: InkWell(
                           onTap: () {
-                            if (currentSong!.isLiked == true) {
-                              currentSong!.isLiked = false;
-                              setState(() {});
-                              DatabaseController()
-                                  .changeLikes(context, currentSong!, -1)
-                                  .then((value) {
-                                setState(() {});
-                              });
-                            } else {
-                              currentSong!.isLiked = true;
-                              setState(() {});
-                              DatabaseController()
-                                  .changeLikes(context, currentSong!, 1)
-                                  .then((value) {
-                                setState(() {});
-                              });
-                            }
+                            _likeTheSong();
                           },
                           child: Icon(
                             currentSong!.isLiked == true
@@ -348,10 +370,11 @@ class _SongPageState extends State<SongPage> {
                                         MediaQuery.of(context).size.width / 1,
                                     controller: _youtubePlayerController!,
                                     showVideoProgressIndicator: true,
-                                    progressIndicatorColor: Colors.indigo,
+                                    progressIndicatorColor:
+                                        Theme.of(context).primaryColor,
                                     liveUIColor: Colors.indigo,
                                     onEnded: (youtubeMetaData) {
-                                      showSimpleToast(
+                                      ConstWidget.showSimpleToast(
                                           context, 'Playing next in 7 seconds',
                                           duration: 7);
                                       _timerLink?.cancel();
@@ -386,9 +409,9 @@ class _SongPageState extends State<SongPage> {
                                   )
                                 : Text(
                                     linkInfo,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .subtitle2,
                                   ),
                             SizedBox(height: 10),
                             Row(
@@ -396,24 +419,7 @@ class _SongPageState extends State<SongPage> {
                                 SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
-                                    if (currentSong!.isLiked == true) {
-                                      currentSong!.isLiked = false;
-                                      setState(() {});
-                                      DatabaseController()
-                                          .changeLikes(
-                                              context, currentSong!, -1)
-                                          .then((value) {
-                                        setState(() {});
-                                      });
-                                    } else {
-                                      currentSong!.isLiked = true;
-                                      setState(() {});
-                                      DatabaseController()
-                                          .changeLikes(context, currentSong!, 1)
-                                          .then((value) {
-                                        setState(() {});
-                                      });
-                                    }
+                                    _likeTheSong();
                                   },
                                   child: Row(
                                     children: [
@@ -441,7 +447,8 @@ class _SongPageState extends State<SongPage> {
                                 InkWell(
                                   onTap: () {
                                     //Opens other app to share song.
-                                    shareApp(currentSong?.songNameHindi,
+                                    Services.shareApp(
+                                        currentSong?.songNameHindi,
                                         currentSong?.code);
 
                                     DatabaseController()
@@ -518,7 +525,7 @@ class _SongPageState extends State<SongPage> {
                                       InkWell(
                                         onTap: () {
                                           if (noOfLang == 1) {
-                                            showSimpleToast(
+                                            ConstWidget.showSimpleToast(
                                               context,
                                               'No more languages for this song is available now!',
                                             );
@@ -541,6 +548,7 @@ class _SongPageState extends State<SongPage> {
                                               'Language',
                                               style: GoogleFonts.lato(
                                                 fontWeight: FontWeight.bold,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -549,7 +557,8 @@ class _SongPageState extends State<SongPage> {
                                       InkWell(
                                         onTap: () {
                                           //Opens other app to share song.
-                                          shareApp(currentSong?.songNameHindi,
+                                          Services.shareApp(
+                                              currentSong?.songNameHindi,
                                               currentSong?.code);
 
                                           DatabaseController()
@@ -574,6 +583,7 @@ class _SongPageState extends State<SongPage> {
                                               'Share',
                                               style: GoogleFonts.lato(
                                                 fontWeight: FontWeight.bold,
+                                                color: Colors.white,
                                               ),
                                             ),
                                           ],
@@ -588,6 +598,33 @@ class _SongPageState extends State<SongPage> {
                                             ? currentSong!.englishLyrics
                                             : currentSong!.gujaratiLyrics),
                                   ),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     Navigator.of(context).push(
+                                  //       MaterialPageRoute(
+                                  //         builder: (context) {
+                                  //           return FormPage();
+                                  //         },
+                                  //       ),
+                                  //     );
+                                  //   },
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Icon(
+                                  //         FontAwesomeIcons.edit,
+                                  //         color: Colors.white,
+                                  //         size: 20,
+                                  //       ),
+                                  //       SizedBox(width: 10),
+                                  //       Text(
+                                  //         'Suggest Edit',
+                                  //         style: GoogleFonts.lato(
+                                  //           fontWeight: FontWeight.bold,
+                                  //         ),
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -678,9 +715,7 @@ class _SongPageState extends State<SongPage> {
         ),
         title: Text(
           '${suggester!.suggestedSongs[index]!.songNameEnglish}',
-          style: GoogleFonts.lato(
-            color: Colors.black,
-          ),
+          style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
         subtitle: Text(
           '${suggester!.suggestedSongs[index]!.songInfo}',

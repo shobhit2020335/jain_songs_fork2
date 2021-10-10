@@ -9,6 +9,24 @@ class SearchEmpty extends StatelessWidget {
 
   SearchEmpty(this.searchController);
 
+  Widget formTextField(int? lines,
+      {String? hint, required TextEditingController editingController}) {
+    return TextField(
+      controller: editingController,
+      keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
+      maxLines: lines,
+      style: TextStyle(fontSize: 16),
+      decoration: InputDecoration(
+        hintText: hint,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,26 +62,22 @@ class SearchEmpty extends StatelessWidget {
                   flex: 1,
                   child: TextButton(
                     onPressed: () {
-                      if (nameController != null &&
-                          searchController != null &&
-                          nameController.text.trim().length > 4) {
-                        showSimpleToast(
+                      if (nameController.text.trim().length > 4) {
+                        ConstWidget.showSimpleToast(
                           context,
                           'ThankYou for submitting! We will update the song soon.',
                         );
 
                         SongSuggestions currentSongSuggestion = SongSuggestions(
-                          "Got by search submission",
-                          "Got from search submission",
                           nameController.text,
-                          "What user tried to search is given in otherDetails.",
-                          searchController.text,
+                          "User filled it after not finding the song.",
                         );
-                        FireStoreHelper().addSuggestions(currentSongSuggestion);
+                        FireStoreHelper()
+                            .addSuggestions(currentSongSuggestion, []);
 
                         nameController.clear();
                       } else {
-                        showSimpleToast(
+                        ConstWidget.showSimpleToast(
                           context,
                           'Please Enter correct song name.',
                         );
@@ -77,7 +91,7 @@ class SearchEmpty extends StatelessWidget {
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: Colors.indigo,
+                        color: ConstWidget.signatureColors(),
                       ),
                       height: 40,
                       child: Center(

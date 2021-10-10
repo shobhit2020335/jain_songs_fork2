@@ -1,34 +1,37 @@
-//TODO Add custom notification sound
+//TODO: Add custom notification sound
+//TODO: Add crashlytics for sql.
+//TODO: Firebase performance removed. Add it.
+//TODO: scroll to top when searching
+//TODO: Priority of tirhtnkar, etc in saearching
+//TODO:Detect filter from search and apply it on top
+//TODO: Refresh only if user is refreshing after long time.
+//TODO: Searching does not work properly when refreshing is going on.
 //TODO: Bug in daily update for syncing song.
+//TODO: edit song in lyrics
+//TODO: Playlist on home page.
+//TODO: INcrease time for scrolling up.
+//TODO: suggest edit
+//TODO: Consider less points for words smaller than 3 length in searchify.
+//TODO: Change playlist colors.
+//TODO: On Clicking subtitle open specific playlist of it.
 //TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
-//TODO: SUggestion data storing is paused for paryushan timing.
+//TODO: SUggestion data storing is paused
 //TODO: Remove debug and check versions.
-//TODO: SUgester dict for adinth adeshwar, latest new, stavan bhajan
+//TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
 //TODO: in searching consider keyboard
-//TODO: singers, in suggester.
-//TODO: INcrese loading time for dynamik link or fetch song faster by any means or fetch particular song.
-//TODO: Girnar playist
+//TODO: fetch song faster by any means or fetch particular song in dynamic link.
 //TODO: Store as much data of user you can.
-//TODO: SUggestion data storing is paused for paryushan timing.
 //TODO: Kannada
-//TODO: Remove debug and check versions.
-//TODO: singers, in suggester.
-//TODO: Girnar playist
 //TODO: User can chat with me.
-//TODO: Song update only before 1AM.
 //TODO: Splash screen
 //TODO: Request lyrics
-//TODO: image suggestion
 //TODO Playlist banner of RSJ, Vicky, Etc
-//TODO: see Relatime DB.
 //TODO: remove special characters in search
-//TODO: Check searchify.
 //TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
 //TODO: speaking jai jinendra
 //TODO: Streaming audio.
 //TODO: Paryushan related images.
-//TODO: New tirthankar, categories.
 //TODO: Jain Dict
 //TODO: set Rigtone option.
 //TODO: Stavan for web
@@ -44,7 +47,6 @@
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
 //TODO: zoom/size
-//TODO: Dark mode
 //TODO: Karaoke
 //TODO: playlist list to be square.
 //TODO: user can make playlist
@@ -56,11 +58,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
+import 'package:jain_songs/services/provider/darkTheme_provider.dart';
+import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
@@ -73,10 +77,13 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final FirebaseApp app = await Firebase.initializeApp();
+  Globals.firebaseApp = await Firebase.initializeApp();
 
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
+
+  //SQflite initialization
+  await SQfliteHelper.initializeSQflite();
 
   //Persistenace for Firestore
   FirebaseFirestore.instance.settings = Settings(
@@ -98,80 +105,87 @@ void main() async {
       initializationSettings,
       onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
+  //Sets the dark theme and autoplay settings from Shared prefs
+  await Globals.setGlobals();
+
   MobileAds.instance.initialize();
-  runApp(MainTheme(app));
-  //TODO: Comment while debugging.
-  secureScreen();
+
+  runApp(MainTheme());
+  //XXX: Comment while debugging.
+  UISettings.secureScreen();
   //Initialising AdMob.
 
   ListFunctions.songsVisited.clear();
 }
 
-class MainTheme extends StatelessWidget {
-  final FirebaseApp app;
-  MainTheme(this.app);
+class MainTheme extends StatefulWidget {
+  MainTheme();
+
+  @override
+  State<MainTheme> createState() => _MainThemeState();
+}
+
+class _MainThemeState extends State<MainTheme> {
+  //Provider class made in provider folder.
+  DarkThemeProvider themeProvider = DarkThemeProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentAppTheme();
+  }
+
+  void getCurrentAppTheme() async {
+    bool value = await SharedPrefs.getIsDarkTheme();
+    await themeProvider.setIsDarkTheme(value);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Provider<FirebaseApp>(
-      create: (context) => this.app,
-      child: MaterialApp(
-        navigatorKey: navigatorKey,
-        onGenerateRoute: (settings) {
-          if (settings.name == '/song') {
-            final Map<String, dynamic>? args =
-                settings.arguments as Map<String, dynamic>?;
+    return ChangeNotifierProvider(
+      create: (_) {
+        return themeProvider;
+      },
+      child: Consumer<DarkThemeProvider>(
+        builder: (BuildContext context, value, Widget? child) {
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+            onGenerateRoute: (settings) {
+              if (settings.name == '/song') {
+                final Map<String, dynamic>? args =
+                    settings.arguments as Map<String, dynamic>?;
 
-            return MaterialPageRoute(builder: (context) {
-              return WillPopScope(
-                onWillPop: () async {
-                  // print('dynamic link onwillpop: -1${args!['code']}');
-                  FireStoreHelper()
-                      .storeSuggesterStreak(args!['code'], '-1${args['code']}');
-                  return true;
-                },
-                child: SongPage(
-                  codeFromDynamicLink: args!['code'],
-                  suggestionStreak: '-1' + args['code'],
-                ),
-              );
-            });
-          } else if (settings.name == '/playlist') {
-            final Map<String, dynamic>? args =
-                settings.arguments as Map<String, dynamic>?;
+                return MaterialPageRoute(builder: (context) {
+                  return WillPopScope(
+                    onWillPop: () async {
+                      // print('dynamic link onwillpop: -1${args!['code']}');
+                      FireStoreHelper().storeSuggesterStreak(
+                          args!['code'], '-1${args['code']}');
+                      return true;
+                    },
+                    child: SongPage(
+                      codeFromDynamicLink: args!['code'],
+                      suggestionStreak: '-1' + args['code'],
+                    ),
+                  );
+                });
+              } else if (settings.name == '/playlist') {
+                final Map<String, dynamic>? args =
+                    settings.arguments as Map<String, dynamic>?;
 
-            return MaterialPageRoute(builder: (context) {
-              return PlaylistPage(
-                playlistCode: args!['code'],
-              );
-            });
-          }
-          // assert(false, 'Need to implement ${settings.name}');
-          return null;
+                return MaterialPageRoute(builder: (context) {
+                  return PlaylistPage(
+                    playlistCode: args!['code'],
+                  );
+                });
+              }
+              // assert(false, 'Need to implement ${settings.name}');
+              return null;
+            },
+            theme: UISettings.themeData(themeProvider.isDarkTheme, context),
+            home: HomePage(),
+          );
         },
-        theme: ThemeData(
-          primaryColor: Colors.white,
-          appBarTheme: AppBarTheme(
-            //Changes the color of icons on AppBars
-            iconTheme: IconThemeData(
-              color: Color(0xFF212323),
-            ),
-          ),
-          primaryTextTheme: TextTheme(
-            //changes color of AppBar title
-            headline6: GoogleFonts.raleway(
-              color: Color(0xFF212323),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          accentColor: Colors.white,
-          textTheme: TextTheme(
-            //changes color of expansion tile when closed
-            subtitle1: TextStyle(color: Colors.white),
-            bodyText2: TextStyle(color: Colors.white),
-          ),
-        ),
-        home: HomePage(),
       ),
     );
   }

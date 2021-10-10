@@ -1,41 +1,89 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/information_page.dart';
+import 'package:jain_songs/services/provider/darkTheme_provider.dart';
+import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
-import 'package:jain_songs/services/launch_otherApp.dart';
+import 'package:jain_songs/services/services.dart';
+import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class BuildSettingsRow extends StatelessWidget {
+class BuildSettingsRow extends StatefulWidget {
   final SettingsDetails settingsDetails;
 
   BuildSettingsRow(this.settingsDetails);
 
   @override
+  State<BuildSettingsRow> createState() => _BuildSettingsRowState();
+}
+
+class _BuildSettingsRowState extends State<BuildSettingsRow> {
+  @override
   Widget build(BuildContext context) {
+    DarkThemeProvider themeChange = Provider.of<DarkThemeProvider>(context);
+    if (widget.settingsDetails.title.toLowerCase().contains('dark')) {
+      widget.settingsDetails.dependentValue = themeChange.isDarkTheme;
+    }
+
+    void _toggleAutoPlay(bool newValue) {
+      Globals.isVideoAutoPlay = !Globals.isVideoAutoPlay;
+      widget.settingsDetails.dependentValue = Globals.isVideoAutoPlay;
+      SharedPrefs.setIsAutoplayVideo(Globals.isVideoAutoPlay);
+      setState(() {});
+    }
+
+    void _toggleDarkMode(bool newValue) {
+      widget.settingsDetails.dependentValue = newValue;
+      themeChange.setIsDarkTheme(newValue);
+      setState(() {});
+    }
+
+    void _toggleSetting(bool newValue) {
+      if (widget.settingsDetails.title.toLowerCase().contains('autoplay')) {
+        _toggleAutoPlay(Globals.isVideoAutoPlay);
+      } else if (widget.settingsDetails.title.toLowerCase().contains('dark')) {
+        _toggleDarkMode(newValue);
+      }
+    }
+
     return ListTileTheme(
-      selectedColor: Colors.grey,
       style: ListTileStyle.drawer,
       child: ListTile(
         title: Text(
-          settingsDetails.title,
+          widget.settingsDetails.title,
+          style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
         subtitle: Text(
-          settingsDetails.subtitle,
+          widget.settingsDetails.subtitle,
           style: TextStyle(color: Colors.grey),
         ),
+        trailing: widget.settingsDetails.isSetting
+            ? Switch(
+                value: widget.settingsDetails.dependentValue,
+                onChanged: _toggleSetting,
+                activeColor: ConstWidget.signatureColors(),
+              )
+            : null,
         onTap: () {
-          if (settingsDetails.title == 'Feedback & Support') {
-            sendEmail();
-          } else {
-            if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => InformationPage(
-                  settingsDetails,
+          if (widget.settingsDetails.isSetting == false) {
+            if (widget.settingsDetails.title == 'Feedback & Support') {
+              Services.sendEmail();
+            } else {
+              if (Platform.isAndroid)
+                WebView.platform = SurfaceAndroidWebView();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => InformationPage(
+                    widget.settingsDetails,
+                  ),
                 ),
-              ),
-            );
+              );
+            }
+          } else {
+            _toggleSetting(widget.settingsDetails.dependentValue);
           }
         },
       ),

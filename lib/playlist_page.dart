@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistPage extends StatefulWidget {
   final PlaylistDetails? currentPlaylist;
@@ -48,8 +48,21 @@ class _PlaylistPageState extends State<PlaylistPage> {
       if (currentPlaylist == null) {
         Navigator.of(context).pop();
       } else {
-        _timerLink = Timer(Duration(milliseconds: 3000), () {
-          setUpPlaylistDetails();
+        _timerLink = Timer(Duration(milliseconds: 5000), () {
+          if (ListFunctions.songList.isNotEmpty) {
+            setUpPlaylistDetails();
+          } else {
+            _timerLink?.cancel();
+            _timerLink = Timer(Duration(milliseconds: 10000), () {
+              if (ListFunctions.songList.isNotEmpty) {
+                setUpPlaylistDetails();
+              } else {
+                ConstWidget.showSimpleToast(
+                    context, 'Internet connection might be slow! Try again.');
+                Navigator.of(context).pop();
+              }
+            });
+          }
         });
       }
     }
@@ -58,7 +71,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   void dispose() {
     if (_timerLink != null) {
-      _timerLink!.cancel();
+      _timerLink?.cancel();
     }
     super.dispose();
   }
@@ -81,11 +94,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     SizedBox(height: 15),
                     Text(
                       currentPlaylist != null ? currentPlaylist!.title : '',
-                      style: GoogleFonts.raleway(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).primaryTextTheme.headline3,
                     ),
                   ],
                 ),
@@ -95,7 +104,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Colors.black,
+                    Colors.grey[850]!,
                     currentPlaylist != null
                         ? currentPlaylist!.color!
                         : Colors.white,
@@ -116,7 +125,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
                           height: 200,
                         ),
                         CircularProgressIndicator(
-                          color: Colors.white,
                           backgroundColor: currentPlaylist != null
                               ? currentPlaylist!.color
                               : Colors.indigo,
@@ -133,9 +141,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ),
                       Text(
                         'Songs loading...\nLike songs to save them in your Favourites playlist.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
+                        style: Theme.of(context).primaryTextTheme.subtitle2,
                       ),
                     ],
                   );

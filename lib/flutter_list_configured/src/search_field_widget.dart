@@ -22,9 +22,11 @@ class SearchFieldWidget extends StatelessWidget {
             color: searchFieldBackgroundColor),
         child: TextField(
           onChanged: onChanged,
-          style: TextStyle(fontSize: 18, color: Colors.black87),
+          style: TextStyle(
+              fontSize: 18, color: Theme.of(context).primaryColorLight),
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: Colors.black38),
+            prefixIcon: Icon(Icons.search,
+                color: Theme.of(context).appBarTheme.iconTheme?.color),
             hintText: searchFieldHintText,
             border: InputBorder.none,
           ),
