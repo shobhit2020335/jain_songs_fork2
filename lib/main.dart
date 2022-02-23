@@ -3,7 +3,7 @@
 //TODO: Firebase performance removed. Add it.
 //TODO: scroll to top when searching
 //TODO: Priority of tirhtnkar, etc in saearching
-//TODO:Detect filter from search and apply it on top
+//TODO: Detect filter from search and apply it on top
 //TODO: Refresh only if user is refreshing after long time.
 //TODO: Searching does not work properly when refreshing is going on.
 //TODO: Bug in daily update for syncing song.
