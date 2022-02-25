@@ -1,32 +1,39 @@
-class UserSearchBehaviourModel {
+class UserBehaviourModel {
   String code = '';
   String songCode;
   String songName;
+  //This id can be user'sid, onesigal id or fcm id.
+  String userId = '';
   //String searched by user in search bar
   String? userSearched;
-  //Filters applied by the user.
-  List<String>? filters;
+  //Suggestion opened like: autoplayed suggestion or manual suggestion + suggestion list
+  String? suggestionOpened;
   //If song is accessed from a playlist
   String? playlistOpened;
   //Is the song liked by user.
   bool isLiked = false;
   //Songs listened before this song with same configuration.
   int clickedAtRank;
-  //Position of song in list visible
+  //Position of song in list like: main list, playlist list or suggestion list.
   int positionInList;
   DateTime? timeOfClick;
 
-  UserSearchBehaviourModel({
+  UserBehaviourModel({
     required this.songCode,
     required this.songName,
+    this.userId = '',
     this.userSearched,
-    this.filters,
+    this.suggestionOpened,
     this.playlistOpened,
     this.isLiked = false,
     required this.clickedAtRank,
     required this.positionInList,
     this.timeOfClick,
   }) {
+    if (timeOfClick == null) {
+      timeOfClick = DateTime.now();
+    }
+
     code = songCode;
     if (userSearched != null) {
       code += '_' + userSearched!.trim().toLowerCase();
@@ -34,31 +41,28 @@ class UserSearchBehaviourModel {
     if (playlistOpened != null) {
       code += '_' + playlistOpened!.trim().toLowerCase();
     }
-    if (filters != null && filters!.isNotEmpty) {
-      code += '_' + filters!.first;
-    }
+    code += '_' + timeOfClick!.millisecondsSinceEpoch.toString();
+  }
 
-    if (filters == null) {
-      filters = [];
-    }
-
-    if (timeOfClick == null) {
-      timeOfClick = DateTime.now();
+  void setUserId(String? id) {
+    if (id != null) {
+      userId = id;
     }
   }
 
   Map<String, dynamic> toMap() {
     userSearched ??= '';
-    filters ??= [];
     playlistOpened ??= '';
+    suggestionOpened ??= '';
     timeOfClick ??= DateTime.now();
 
     return {
       'code': code,
       'songCode': songCode,
       'songName': songName,
+      'userId': userId,
       'userSearched': userSearched,
-      'filters': filters,
+      'suggestionOpened': suggestionOpened,
       'playlistOpened': playlistOpened,
       'isLiked': isLiked,
       'clickedAtRank': clickedAtRank,

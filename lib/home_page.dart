@@ -61,6 +61,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             cursorColor: Theme.of(context).primaryColor,
             onChanged: (value) {
               getSongs(value, false);
+
+              listScrollController.animateTo(
+                listScrollController.position.minScrollExtent,
+                duration: Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn,
+              );
             },
             decoration: InputDecoration(
               prefixIcon: Icon(

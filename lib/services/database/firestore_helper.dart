@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/models/user_behaviour_model.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
@@ -24,8 +25,30 @@ class FireStoreHelper {
   final CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
 
+  //Error storing user search behaviour
+  Future<bool> storeUserSearchBehaviour(
+      UserBehaviourModel userBehaviour) async {
+    print('Storing user behaviour');
+    try {
+      String? fcmToken = await FirebaseFCMManager.getFCMToken();
+      userBehaviour.setUserId(fcmToken);
+      String? playerId = await SharedPrefs.getOneSignalPlayerId();
+      userBehaviour.setUserId(playerId);
+
+      await _firestore
+          .collection('userSearchBehaviour')
+          .doc(userBehaviour.code)
+          .set(userBehaviour.toMap());
+
+      return true;
+    } catch (e) {
+      print('Error storing user search behaviour to firestore: $e');
+      return false;
+    }
+  }
+
   Future<void> fetchRemoteConfigs() async {
-    RemoteConfig remoteConfig = RemoteConfig.instance;
+    FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
         minimumFetchInterval: Duration(seconds: 1),
         fetchTimeout: Duration(seconds: 4)));
@@ -387,30 +410,6 @@ class FireStoreHelper {
     songSuggestion.setOneSignalPlayerId(playerId);
 
     return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
-  }
-
-  //TODO: SUggestion data storing is paused
-  Future<void> storeSuggesterStreak(
-      String songCode, String suggestionStreak) async {
-    // String suggestionUID = removeWhiteSpaces('Suggester_${songCode}_').trim() +
-    //     randomAlphaNumeric(6).trim();
-
-    // SongSuggestions songSuggestion = SongSuggestions(
-
-    //     'v1.3.1',
-    //     '${suggestionStreak[0]}',
-    //     '-1=DynamicLink, 0=NoPlaylist, 1=Playlist, lyrics=songVis',
-    //     '${ListFunctions.songsVisited.toList()}',
-    //     '$suggestionStreak');
-
-    // String? fcmToken = await FirebaseFCMManager.getFCMToken();
-    // songSuggestion.setFCMToken(fcmToken);
-
-    // String? playerId = await SharedPrefs.getOneSignalPlayerId();
-    // songSuggestion.setOneSignalPlayerId(playerId);
-
-    // //XXX: Comment while debugging.
-    // return suggestions.doc(suggestionUID).set(songSuggestion.songSuggestionMap);
   }
 
   Future<bool> changeClicks(SongDetails currentSong) async {

@@ -150,6 +150,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     ListFunctions.listToShow[index],
                     color: currentPlaylist!.color,
                     playlist: currentPlaylist,
+                    positionInList: index,
                   );
                 }
               },

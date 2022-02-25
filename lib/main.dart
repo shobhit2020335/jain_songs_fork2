@@ -1,27 +1,24 @@
 //TODO: Add custom notification sound
 //TODO: Add crashlytics for sql.
 //TODO: Firebase performance removed. Add it.
-//TODO: scroll to top when searching
 //TODO: Priority of tirhtnkar, etc in saearching
 //TODO: Detect filter from search and apply it on top
-//TODO: Refresh only if user is refreshing after long time.
-//TODO: Searching does not work properly when refreshing is going on.
+//TODO: Refresh only if user is refreshing after long time
+//TODO: Searching does not work properly when refreshing is going on
 //TODO: Bug in daily update for syncing song.
 //TODO: edit song in lyrics
 //TODO: Playlist on home page.
-//TODO: INcrease time for scrolling up.
 //TODO: suggest edit
 //TODO: Consider less points for words smaller than 3 length in searchify.
 //TODO: Change playlist colors.
 //TODO: On Clicking subtitle open specific playlist of it.
-//TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same.
-//TODO: SUggestion data storing is paused
-//TODO: Remove debug and check versions.
+//TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same
 //TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
 //TODO: in searching consider keyboard
-//TODO: fetch song faster by any means or fetch particular song in dynamic link.
-//TODO: Store as much data of user you can.
+//TODO: fetch song faster by any means or fetch particular song in dynamic link
 //TODO: Kannada
+//TODO: Find similar words algorithm when searching and search found is empty, see searchEmpty page to get idea
+//TODO: Automatically change timer time for dynamic link by taking average user time of opening.
 //TODO: User can chat with me.
 //TODO: Splash screen
 //TODO: Request lyrics
@@ -29,7 +26,6 @@
 //TODO: remove special characters in search
 //TODO: popular, trending sorting.
 //TODO: People can report song if its incorrect.
-//TODO: speaking jai jinendra
 //TODO: Streaming audio.
 //TODO: Paryushan related images.
 //TODO: Jain Dict
@@ -43,7 +39,7 @@
 //TODO: Playlist Banner in front page.
 //TODO: Searching inside playlists.
 //TODO: different ads than interstitial ads (native ads).
-//TODO: provider(State management)
+//TODO: getx(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
 //TODO: zoom/size
@@ -62,7 +58,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
-import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/provider/darkTheme_provider.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/uisettings.dart';
@@ -152,17 +147,10 @@ class _MainThemeState extends State<MainTheme> {
                     settings.arguments as Map<String, dynamic>?;
 
                 return MaterialPageRoute(builder: (context) {
-                  return WillPopScope(
-                    onWillPop: () async {
-                      // print('dynamic link onwillpop: -1${args!['code']}');
-                      FireStoreHelper().storeSuggesterStreak(
-                          args!['code'], '-1${args['code']}');
-                      return true;
-                    },
-                    child: SongPage(
-                      codeFromDynamicLink: args!['code'],
-                      suggestionStreak: '-1' + args['code'],
-                    ),
+                  return SongPage(
+                    codeFromDynamicLink: args!['code'],
+                    suggestionStreak: '-1' + args['code'],
+                    postitionInList: -1,
                   );
                 });
               } else if (settings.name == '/playlist') {

@@ -11,7 +11,7 @@ class BuildList extends StatelessWidget {
   BuildList({
     this.colorRowIcon: Colors.grey,
     this.scrollController,
-    /*required*/ required this.searchController,
+    required this.searchController,
   });
 
   @override
@@ -26,6 +26,8 @@ class BuildList extends StatelessWidget {
           return BuildRow(
             ListFunctions.listToShow[i],
             color: colorRowIcon,
+            userSearched: searchController.text,
+            positionInList: i,
           );
         }
       },
