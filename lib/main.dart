@@ -89,12 +89,8 @@ void main() async {
   FirebaseFirestore.instance.settings = Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   //Persistence for Realtime Database
-  FirebaseDatabase.instance
-      .setPersistenceEnabled(true)
-      .then((value) => print('Set persistance: $value'));
-  FirebaseDatabase.instance
-      .setPersistenceCacheSizeBytes(100000000)
-      .then((value) => print('persistance cache size: $value'));
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
+  FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100000000);
 
   //Below is flutter local notification
   var initializationSettingsAndroid =
