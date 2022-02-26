@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class CloudStorage {
-  FirebaseStorage _songSuggestionStorage = FirebaseStorage.instance;
+  final FirebaseStorage _songSuggestionStorage = FirebaseStorage.instance;
 
   Future<String> uploadSuggestionImage(
       File? imageFile, String? fileName) async {

@@ -13,20 +13,20 @@ class UISettings {
       brightness: isDarkTheme ? Brightness.dark : Brightness.light,
       primaryColor: isDarkTheme ? Colors.white : Colors.indigo,
       //Used in bottom navigation, back button
-      primaryColorLight: isDarkTheme ? Colors.white : Color(0xFF212323),
+      primaryColorLight: isDarkTheme ? Colors.white : const Color(0xFF212323),
       //Used in circle avatar of logo
       primaryColorDark: isDarkTheme ? Colors.indigo : Colors.blue[200],
       //appBar theme
       appBarTheme: AppBarTheme(
         //Changes the color of icons on AppBars
         iconTheme: IconThemeData(
-          color: isDarkTheme ? Colors.white : Color(0xFF212323),
+          color: isDarkTheme ? Colors.white : const Color(0xFF212323),
         ),
         //App bar color
-        backgroundColor: isDarkTheme ? Color(0xFF212323) : Colors.white,
+        backgroundColor: isDarkTheme ? const Color(0xFF212323) : Colors.white,
         //App bar title text style
         titleTextStyle: GoogleFonts.raleway(
-          color: isDarkTheme ? Colors.white : Color(0xFF212323),
+          color: isDarkTheme ? Colors.white : const Color(0xFF212323),
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
@@ -64,7 +64,7 @@ class UISettings {
           color: isDarkTheme ? Colors.white : Colors.black,
         ),
         //Used in button texts
-        headline6: TextStyle(
+        headline6: const TextStyle(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class UISettings {
           fontWeight: FontWeight.w500,
         ),
         //Used in: upload lyrics image, no internet avaliable, songs loading.
-        subtitle2: TextStyle(
+        subtitle2: const TextStyle(
           color: Colors.grey,
           fontWeight: FontWeight.w400,
           fontSize: 16,

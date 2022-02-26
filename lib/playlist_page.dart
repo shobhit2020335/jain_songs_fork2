@@ -10,7 +10,8 @@ class PlaylistPage extends StatefulWidget {
   //Below Variable is recieved when page is opened from Dynamic link or FCM.
   final String? playlistCode;
 
-  PlaylistPage({this.currentPlaylist, this.playlistCode});
+  const PlaylistPage({Key? key, this.currentPlaylist, this.playlistCode})
+      : super(key: key);
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();
@@ -36,7 +37,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
       showProgress = true;
     });
 
-    if (widget.playlistCode == null || widget.playlistCode!.length == 0) {
+    if (widget.playlistCode == null || widget.playlistCode!.isEmpty) {
       currentPlaylist = widget.currentPlaylist;
       setUpPlaylistDetails();
     } else {
@@ -48,12 +49,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
       if (currentPlaylist == null) {
         Navigator.of(context).pop();
       } else {
-        _timerLink = Timer(Duration(milliseconds: 5000), () {
+        _timerLink = Timer(const Duration(milliseconds: 5000), () {
           if (ListFunctions.songList.isNotEmpty) {
             setUpPlaylistDetails();
           } else {
             _timerLink?.cancel();
-            _timerLink = Timer(Duration(milliseconds: 10000), () {
+            _timerLink = Timer(const Duration(milliseconds: 10000), () {
               if (ListFunctions.songList.isNotEmpty) {
                 setUpPlaylistDetails();
               } else {
@@ -91,7 +92,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Text(
                       currentPlaylist != null ? currentPlaylist!.title : '',
                       style: Theme.of(context).primaryTextTheme.headline3,
@@ -121,7 +122,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   return Center(
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 200,
                         ),
                         CircularProgressIndicator(
@@ -132,11 +133,11 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ],
                     ),
                   );
-                } else if (ListFunctions.listToShow.length == 0) {
+                } else if (ListFunctions.listToShow.isEmpty) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 70,
                       ),
                       Text(
@@ -150,12 +151,14 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     ListFunctions.listToShow[index],
                     color: currentPlaylist!.color,
                     playlist: currentPlaylist,
+                    positionInList: index,
                   );
                 }
+                return null;
               },
               childCount: showProgress
                   ? 1
-                  : (ListFunctions.listToShow.length == 0
+                  : (ListFunctions.listToShow.isEmpty
                       ? 1
                       : ListFunctions.listToShow.length),
             ),

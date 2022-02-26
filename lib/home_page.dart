@@ -10,7 +10,7 @@ import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/notification/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
-import 'package:jain_songs/services/Searchify.dart';
+import 'package:jain_songs/services/searchify.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/oneSignal_notification.dart';
@@ -23,6 +23,8 @@ import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -34,13 +36,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Timer? _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
-  KeyboardVisibilityController _keyboardVisibilityController =
+  final KeyboardVisibilityController _keyboardVisibilityController =
       KeyboardVisibilityController();
   bool isBasicSearchEmpty = false;
   bool showProgress = false;
   Widget appBarTitle = ConstWidget.mainAppTitle();
 
-  Icon searchOrCrossIcon = Icon(Icons.search);
+  Icon searchOrCrossIcon = const Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
     color: ConstWidget.signatureColors(),
@@ -53,14 +55,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     if (showProgress == false) {
       setState(
         () {
-          this.searchOrCrossIcon = ConstWidget.clearIcon;
-          this.appBarTitle = TextField(
+          searchOrCrossIcon = ConstWidget.clearIcon;
+          appBarTitle = TextField(
             textInputAction: TextInputAction.search,
             controller: searchController,
             autofocus: true,
             cursorColor: Theme.of(context).primaryColor,
             onChanged: (value) {
               getSongs(value, false);
+
+              listScrollController.animateTo(
+                listScrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn,
+              );
             },
             decoration: InputDecoration(
               prefixIcon: Icon(
@@ -221,7 +229,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       _timerLink = Timer(
-        Duration(milliseconds: 1000),
+        const Duration(milliseconds: 1000),
         () {
           // print('Lifecycle state resumed');
           FirebaseDynamicLinkService.retrieveDynamicLink(context);
@@ -276,7 +284,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               onTap: () {
                 listScrollController.animateTo(
                   listScrollController.position.minScrollExtent,
-                  duration: Duration(milliseconds: 2000),
+                  duration: const Duration(milliseconds: 2000),
                   curve: Curves.fastOutSlowIn,
                 );
                 ConstWidget.showToast(Globals.welcomeMessage);
@@ -352,7 +360,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     onTap: () {
                       setState(
                         () {
-                          if (this.searchOrCrossIcon.icon == Icons.search) {
+                          if (searchOrCrossIcon.icon == Icons.search) {
                             _searchAppBarUi();
                           } else {
                             if (isListening) {
@@ -366,9 +374,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   context, 'Stopped Listening.',
                                   duration: 2);
                             }
-                            if (searchController.text.trim().length == 0) {
-                              searchOrCrossIcon = Icon(Icons.search);
-                              this.appBarTitle = ConstWidget.mainAppTitle();
+                            if (searchController.text.trim().isEmpty) {
+                              searchOrCrossIcon = const Icon(Icons.search);
+                              appBarTitle = ConstWidget.mainAppTitle();
                               searchController.clear();
                               getSongs('', false);
                             } else {
@@ -398,7 +406,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ],
       ),
       bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: <IconData>[
+        icons: const <IconData>[
           FontAwesomeIcons.chartLine,
           Icons.edit_rounded,
           Icons.book_rounded,
@@ -417,37 +425,35 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           setState(() {
             _currentIndex = index;
             if (index == 1) {
-              appBarTitle = Text('');
+              appBarTitle = const Text('');
             } else if (index == 2) {
-              appBarTitle = Text(
+              appBarTitle = const Text(
                 'Playlists',
               );
             } else if (index == 3) {
-              appBarTitle = Text(
+              appBarTitle = const Text(
                 'Settings and More',
               );
             } else {
               appBarTitle = ConstWidget.mainAppTitle();
               getSongs('', false);
               searchController.clear();
-              this.searchOrCrossIcon = Icon(Icons.search);
+              searchOrCrossIcon = const Icon(Icons.search);
             }
           });
         },
       ),
       body: <Widget>[
         showProgress
-            ? Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+            ? const Center(
+                child: CircularProgressIndicator(),
               )
             : BuildList(
                 scrollController: listScrollController,
                 searchController: searchController,
               ),
-        FormPage(),
-        BuildPlaylistList(),
+        const FormPage(),
+        const BuildPlaylistList(),
         SettingsPage(),
       ][_currentIndex],
     );

@@ -7,7 +7,7 @@ class AdManager {
     } else if (Platform.isIOS) {
       return "Not yet defined";
     } else {
-      throw new UnsupportedError("Unsupported Platform");
+      throw UnsupportedError("Unsupported Platform");
     }
   }
 
@@ -19,7 +19,7 @@ class AdManager {
     } else if (Platform.isIOS) {
       return "Not yet defined";
     } else {
-      throw new UnsupportedError("Unsupported Platform");
+      throw UnsupportedError("Unsupported Platform");
     }
   }
 
@@ -29,7 +29,7 @@ class AdManager {
     } else if (Platform.isIOS) {
       return "Not yet defined";
     } else {
-      throw new UnsupportedError("Unsupported Platform");
+      throw UnsupportedError("Unsupported Platform");
     }
   }
 

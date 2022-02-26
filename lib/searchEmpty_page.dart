@@ -7,7 +7,7 @@ class SearchEmpty extends StatelessWidget {
   final nameController = TextEditingController();
   final TextEditingController searchController;
 
-  SearchEmpty(this.searchController);
+  SearchEmpty(this.searchController, {Key? key}) : super(key: key);
 
   Widget formTextField(int? lines,
       {String? hint, required TextEditingController editingController}) {
@@ -15,10 +15,10 @@ class SearchEmpty extends StatelessWidget {
       controller: editingController,
       keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
       maxLines: lines,
-      style: TextStyle(fontSize: 16),
+      style: const TextStyle(fontSize: 16),
       decoration: InputDecoration(
         hintText: hint,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(5),
           ),
@@ -30,22 +30,22 @@ class SearchEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            Text(
+            const Text(
               "✔ Check for any spelling mistakes.\n✔ Change the filters if applied.\n",
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 15,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
@@ -85,7 +85,7 @@ class SearchEmpty extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                           bottomLeft: Radius.circular(20),
@@ -94,7 +94,7 @@ class SearchEmpty extends StatelessWidget {
                         color: ConstWidget.signatureColors(),
                       ),
                       height: 40,
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Submit',
                           style: TextStyle(

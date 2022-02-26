@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,12 +16,12 @@ import 'package:jain_songs/utilities/song_details.dart';
 
 class RealtimeDbHelper {
   final FirebaseApp? app;
-  late FirebaseDatabase database;
+  late DatabaseReference database;
   final _firestore = FirebaseFirestore.instance;
 
   RealtimeDbHelper(this.app) {
     if (app != null) {
-      database = FirebaseDatabase(app: this.app);
+      database = FirebaseDatabase.instanceFor(app: app!).ref();
     } else {
       print('Firebase App is null');
     }
@@ -31,7 +33,6 @@ class RealtimeDbHelper {
     try {
       for (int i = 0; i < ListFunctions.songList.length; i++) {
         database
-            .reference()
             .child('songs')
             .child(ListFunctions.songList[i]!.code!)
             .set(ListFunctions.songList[i]!.toMap());
@@ -67,33 +68,21 @@ class RealtimeDbHelper {
           Map<String, dynamic>.from(docSnapshot.data()!);
 
       await Future.wait([
+        database.child('songsData').child('likes').update(likesDataMap),
+        database.child('songsData').child('share').update(shareDataMap),
         database
-            .reference()
-            .child('songsData')
-            .child('likes')
-            .update(likesDataMap),
-        database
-            .reference()
-            .child('songsData')
-            .child('share')
-            .update(shareDataMap),
-        database
-            .reference()
             .child('songsData')
             .child('popularity')
             .update(popularityDataMap),
         database
-            .reference()
             .child('songsData')
             .child('todayClicks')
             .update(todayClicksDataMap),
         database
-            .reference()
             .child('songsData')
             .child('totalClicks')
             .update(totalClicksDataMap),
         database
-            .reference()
             .child('songsData')
             .child('trendPoints')
             .update(trendPointsDataMap),
@@ -129,14 +118,15 @@ class RealtimeDbHelper {
           SharedPrefs.setIsFirstOpen(false);
         }
 
-        songSnapshot = await database.reference().child('songs').get();
+        songSnapshot = await database.child('songs').get();
       } else {
         print('From cache');
-        songSnapshot = await database.reference().child('songs').once();
+        DatabaseEvent event = await database.child('songs').once();
+        songSnapshot = event.snapshot;
       }
 
       isSuccess = _readFetchedSongs(songSnapshot, ListFunctions.songList);
-      if (ListFunctions.songList.length == 0) {
+      if (ListFunctions.songList.isEmpty) {
         return false;
       }
     } catch (e) {
@@ -150,7 +140,7 @@ class RealtimeDbHelper {
       DataSnapshot songSnapshot, List<SongDetails?> listToAdd) {
     try {
       Map<String?, dynamic> allSongs =
-          Map<String, dynamic>.from(songSnapshot.value);
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(songSnapshot.value)));
 
       allSongs.forEach((key, value) {
         Map<String, dynamic> currentSong = Map<String, dynamic>.from(value);
@@ -195,7 +185,7 @@ class RealtimeDbHelper {
           String songInfo =
               '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
           currentSongDetails.songInfo = trimSpecialChars(songInfo);
-          if (currentSongDetails.songInfo.length == 0) {
+          if (currentSongDetails.songInfo.isEmpty) {
             currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
           }
           listToAdd.add(
@@ -214,7 +204,8 @@ class RealtimeDbHelper {
   SongDetails? _readSingleSong(
       DataSnapshot song, List<SongDetails?> listToAdd) {
     try {
-      Map<String, dynamic> currentSong = Map<String, dynamic>.from(song.value);
+      Map<String, dynamic> currentSong =
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(song.value)));
       String state = currentSong['aaa'];
       state = state.toLowerCase();
       SongDetails currentSongDetails = SongDetails(
@@ -248,7 +239,7 @@ class RealtimeDbHelper {
       String songInfo =
           '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
       currentSongDetails.songInfo = trimSpecialChars(songInfo);
-      if (currentSongDetails.songInfo.length == 0) {
+      if (currentSongDetails.songInfo.isEmpty) {
         currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
       }
       listToAdd.add(
@@ -267,47 +258,33 @@ class RealtimeDbHelper {
 
   Future<bool> fetchSongsData(BuildContext context) async {
     try {
-      var docSnapshot =
-          await database.reference().child('songsData').child('likes').get();
+      var docSnapshot = await database.child('songsData').child('likes').get();
       Map<String, dynamic> likesDataMap =
-          Map<String, dynamic>.from(docSnapshot.value);
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
+      print('fetched likes');
+
+      docSnapshot = await database.child('songsData').child('share').get();
+      Map<String, dynamic> shareDataMap =
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
 
       docSnapshot =
-          await database.reference().child('songsData').child('share').get();
-      Map<String, dynamic> shareDataMap =
-          Map<String, dynamic>.from(docSnapshot.value);
-
-      docSnapshot = await database
-          .reference()
-          .child('songsData')
-          .child('todayClicks')
-          .get();
+          await database.child('songsData').child('todayClicks').get();
       Map<String, dynamic> todayClicksDataMap =
-          Map<String, dynamic>.from(docSnapshot.value);
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
 
-      docSnapshot = await database
-          .reference()
-          .child('songsData')
-          .child('totalClicks')
-          .get();
+      docSnapshot =
+          await database.child('songsData').child('totalClicks').get();
       Map<String, dynamic> totalClicksDataMap =
-          Map<String, dynamic>.from(docSnapshot.value);
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
 
-      docSnapshot = await database
-          .reference()
-          .child('songsData')
-          .child('popularity')
-          .get();
+      docSnapshot = await database.child('songsData').child('popularity').get();
       Map<String, dynamic> popularityDataMap =
-          Map<String, dynamic>.from(docSnapshot.value);
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
 
-      docSnapshot = await database
-          .reference()
-          .child('songsData')
-          .child('trendPoints')
-          .get();
+      docSnapshot =
+          await database.child('songsData').child('trendPoints').get();
       Map<String, dynamic> trendPointsDataMap =
-          Map<String, dynamic>.from(docSnapshot.value);
+          Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
 
       for (SongDetails? song in ListFunctions.songList) {
         String code = song!.code!;
@@ -364,7 +341,7 @@ class RealtimeDbHelper {
 
       print('Songs which are not found: $songNotFound');
       for (String code in songNotFound) {
-        var song = await database.reference().child('songs').child(code).get();
+        var song = await database.child('songs').child(code).get();
         SongDetails? currentSong =
             _readSingleSong(song, ListFunctions.songList);
         currentSong?.likes = int.parse(likesMap[code].toString());
@@ -389,16 +366,16 @@ class RealtimeDbHelper {
 
     try {
       await Future.wait([
-        database.reference().child('songsData').child('popularity').update({
+        database.child('songsData').child('popularity').update({
           currentSong.code!: ServerValue.increment(1),
         }),
-        database.reference().child('songsData').child('todayClicks').update({
+        database.child('songsData').child('todayClicks').update({
           currentSong.code!: ServerValue.increment(1),
         }),
-        database.reference().child('songsData').child('totalClicks').update({
+        database.child('songsData').child('totalClicks').update({
           currentSong.code!: ServerValue.increment(1),
         }),
-        database.reference().child('songsData').child('trendPoints').update({
+        database.child('songsData').child('trendPoints').update({
           currentSong.code!: currentSong.trendPoints,
         }),
       ]);
@@ -411,7 +388,7 @@ class RealtimeDbHelper {
 
   Future<bool> changeShare(SongDetails currentSong) async {
     try {
-      await database.reference().child('songsData').child('share').update({
+      await database.child('songsData').child('share').update({
         currentSong.code!: ServerValue.increment(1),
       });
       return true;
@@ -425,10 +402,10 @@ class RealtimeDbHelper {
       BuildContext context, SongDetails currentSong, int toAdd) async {
     try {
       await Future.wait([
-        database.reference().child('songsData').child('likes').update({
+        database.child('songsData').child('likes').update({
           currentSong.code!: ServerValue.increment(toAdd),
         }),
-        database.reference().child('songsData').child('popularity').update({
+        database.child('songsData').child('popularity').update({
           currentSong.code!: ServerValue.increment(toAdd),
         }),
       ]);
@@ -447,7 +424,6 @@ class RealtimeDbHelper {
 
     //XXX: Comment while debugging.
     database
-        .reference()
         .child("userBehaviour")
         .child("filters")
         .push()

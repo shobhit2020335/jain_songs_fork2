@@ -13,13 +13,13 @@ class PlaylistDetails {
   bool active;
 
   PlaylistDetails({
-    this.active: true,
+    this.active = true,
     required this.title,
     required this.subtitle,
-    this.playlistTag: '',
-    this.playlistTagType: '',
+    this.playlistTag = '',
+    this.playlistTagType = '',
     required this.leadIcon,
-    this.iconSize: 30,
-    this.color: Colors.cyan,
+    this.iconSize = 30,
+    this.color = Colors.cyan,
   });
 }

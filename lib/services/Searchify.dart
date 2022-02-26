@@ -3,7 +3,7 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:sortedmap/sortedmap.dart';
 
 class Searchify {
-  var _map = SortedMap(Ordering.byValue());
+  final _map = SortedMap(const Ordering.byValue());
 
   void wordWiseSearch(String query) {
     ListFunctions.listToShow.clear();
@@ -28,7 +28,7 @@ class Searchify {
 
         for (int j = 0; j < words.length; j++) {
           String word = words[j].trim();
-          if (word.length > 0 && searchKeywords.contains(word)) {
+          if (word.isNotEmpty && searchKeywords.contains(word)) {
             songScore = songScore! + 1;
           }
         }

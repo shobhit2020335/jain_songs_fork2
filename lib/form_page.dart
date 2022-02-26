@@ -8,6 +8,8 @@ import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'services/network_helper.dart';
 
 class FormPage extends StatefulWidget {
+  const FormPage({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _FormPageState();
 }
@@ -34,10 +36,10 @@ class _FormPageState extends State<FormPage> {
       controller: editingController,
       keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
       maxLines: lines,
-      style: TextStyle(fontSize: 16),
+      style: const TextStyle(fontSize: 16),
       decoration: InputDecoration(
         hintText: hint,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(5),
           ),
@@ -62,7 +64,7 @@ class _FormPageState extends State<FormPage> {
         },
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
                 Row(
@@ -73,7 +75,7 @@ class _FormPageState extends State<FormPage> {
                       backgroundColor: Theme.of(context).primaryColorDark,
                       child: ConstWidget.showLogo(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -87,19 +89,19 @@ class _FormPageState extends State<FormPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
                   'Suggest us some songs.',
                   style: Theme.of(context).primaryTextTheme.headline4,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
                   style: Theme.of(context).primaryTextTheme.headline5,
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 InkWell(
                   onTap: () async {
                     final source =
@@ -135,7 +137,7 @@ class _FormPageState extends State<FormPage> {
                           size: 50,
                         ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 InkWell(
                   onTap: () async {
                     final source =
@@ -168,21 +170,21 @@ class _FormPageState extends State<FormPage> {
                     style: Theme.of(context).primaryTextTheme.subtitle2,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 formFieldTitle('Song Title'),
-                SizedBox(height: 7),
+                const SizedBox(height: 7),
                 formTextField(null,
                     hint: 'Song title', editingController: songController),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 formFieldTitle('Other Details'),
-                SizedBox(height: 7),
+                const SizedBox(height: 7),
                 formTextField(
                   null,
                   hint:
                       'Link of Lyrics or Youtube video. Other song information',
                   editingController: otherController,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 TextButton(
                   onPressed: () async {
                     SongSuggestions currentSongSuggestion = SongSuggestions(
@@ -209,7 +211,7 @@ class _FormPageState extends State<FormPage> {
                         'No Internet Connection!',
                       );
                     } else {
-                      if (images.length > 0) {
+                      if (images.isNotEmpty) {
                         ConstWidget.showSimpleToast(
                             context, 'Uploading Images....');
                       }

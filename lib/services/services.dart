@@ -45,7 +45,7 @@ class Services {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.camera_alt_rounded),
+              leading: const Icon(Icons.camera_alt_rounded),
               title: Text(
                 'Camera',
                 style: Theme.of(context).primaryTextTheme.bodyText1,
@@ -56,7 +56,7 @@ class Services {
               },
             ),
             ListTile(
-              leading: Icon(Icons.image_rounded),
+              leading: const Icon(Icons.image_rounded),
               title: Text(
                 'Gallery (Select multiple images)',
                 style: Theme.of(context).primaryTextTheme.bodyText1,
@@ -95,7 +95,7 @@ class Services {
   static Future<List<File>> pickMultipleImages() async {
     try {
       final images = await ImagePicker().pickMultiImage();
-      if (images == null || images.length == 0) {
+      if (images == null || images.isEmpty) {
         return [];
       }
 

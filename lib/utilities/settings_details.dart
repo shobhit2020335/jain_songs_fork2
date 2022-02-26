@@ -11,7 +11,7 @@ class SettingsDetails {
   SettingsDetails({
     required this.title,
     required this.subtitle,
-    this.isSetting: false,
-    this.dependentValue: false,
+    this.isSetting = false,
+    this.dependentValue = false,
   });
 }

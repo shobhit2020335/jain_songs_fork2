@@ -28,7 +28,8 @@ class FirebaseFCMManager {
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // name
-      'This channel is used for important notifications.', // description
+      description:
+          'This channel is used for important notifications.', // description
       importance: Importance.high);
 
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -93,9 +94,10 @@ class FirebaseFCMManager {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              channel.description,
+              channelDescription: channel.description,
               icon: 'icon_notification',
-              sound: RawResourceAndroidNotificationSound('tone_notification'),
+              sound: const RawResourceAndroidNotificationSound(
+                  'tone_notification'),
               importance: Importance.high,
               // other properties...
             ),

@@ -7,7 +7,7 @@ String removeSpecialChars(String input) {
 }
 
 String removeSpecificString(String input, String toRemove) {
-  return input.replaceAll('$toRemove', '');
+  return input.replaceAll(toRemove, '');
 }
 
 String trimSpecialChars(String str) {
@@ -18,7 +18,7 @@ String trimSpecialChars(String str) {
   if (str[0] == '|') {
     str = str.replaceFirst('|', '').trim();
   }
-  if (str.length > 0 && str[str.length - 1] == '|') {
+  if (str.isNotEmpty && str[str.length - 1] == '|') {
     str = str.substring(0, str.length - 1).trim();
   }
   return str;

@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
-import 'package:jain_songs/services/Suggester.dart';
+import 'package:jain_songs/models/user_behaviour_model.dart';
+import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
@@ -26,13 +26,21 @@ class SongPage extends StatefulWidget {
   final PlaylistDetails? playlist;
   final Suggester? suggester;
   final String suggestionStreak;
+  //Used in user behaviour capture
+  final String? userSearched;
+  //Dont use it other than user behaviour. Or undertand user behaviour and then use.
+  final int postitionInList;
 
-  SongPage(
-      {this.currentSong,
-      this.codeFromDynamicLink,
-      this.playlist,
-      this.suggester,
-      required this.suggestionStreak});
+  const SongPage({
+    Key? key,
+    this.currentSong,
+    this.codeFromDynamicLink,
+    this.playlist,
+    this.suggester,
+    required this.suggestionStreak,
+    this.userSearched,
+    required this.postitionInList,
+  }) : super(key: key);
 
   @override
   _SongPageState createState() => _SongPageState();
@@ -62,7 +70,7 @@ class _SongPageState extends State<SongPage> {
 
   //This is for admob to understand the content in the app. Two more arguements
   //are there but i have not updated them.
-  AdRequest adRequest = AdRequest(
+  AdRequest adRequest = const AdRequest(
     keywords: ['song', 'interstitial'],
   );
 
@@ -110,10 +118,50 @@ class _SongPageState extends State<SongPage> {
     _interstitialAd = null;
   }
 
+  //Stores the user behaviour of clicking, suggestoin, playlist, FCM, etc
+  Future<void> _storeUserBehaviour() async {
+    int clickedAtRank = ListFunctions.songsVisited.length + 1;
+    int positionInList = widget.postitionInList;
+    String suggestionOpened = '';
+    String? playlistTitle = widget.playlist?.title;
+
+    if (widget.codeFromDynamicLink != null) {
+      playlistTitle = 'Dynamic Link';
+    }
+
+    if (widget.suggester != null) {
+      suggestionOpened = 'Suggestion. List: ';
+      if (positionInList == -1) {
+        suggestionOpened = 'Autoplay Suggestion. List: ';
+        positionInList = 0;
+      }
+
+      for (int i = 0; i < widget.suggester!.suggestedSongs.length; i++) {
+        suggestionOpened += ' ' + widget.suggester!.suggestedSongs[i]!.code!;
+      }
+    }
+
+    UserBehaviourModel userBehaviourModel = UserBehaviourModel(
+      songCode: currentSong!.code!,
+      songName: currentSong!.songNameEnglish!,
+      userSearched: widget.userSearched,
+      suggestionOpened: suggestionOpened,
+      playlistOpened: playlistTitle,
+      isLiked: currentSong!.isLiked,
+      clickedAtRank: clickedAtRank,
+      positionInList: widget.postitionInList,
+    );
+
+    await FireStoreHelper().storeUserSearchBehaviour(userBehaviourModel);
+  }
+
   void setUpSongDetails() async {
     setState(() {
       showProgress = true;
     });
+
+    //Stores the user behaviour
+    _storeUserBehaviour();
 
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
@@ -190,7 +238,7 @@ class _SongPageState extends State<SongPage> {
       currentSong = widget.currentSong;
       loadScreen();
     } else {
-      _timerLink = Timer(Duration(milliseconds: 5000), () {
+      _timerLink = Timer(const Duration(milliseconds: 3000), () {
         if (ListFunctions.songList.isNotEmpty) {
           currentSong = ListFunctions.songList.firstWhere((song) {
             return song!.code == widget.codeFromDynamicLink;
@@ -210,7 +258,7 @@ class _SongPageState extends State<SongPage> {
         } else {
           _timerLink?.cancel();
           ConstWidget.showSimpleToast(context, 'Loading Song. Please Wait!');
-          _timerLink = Timer(Duration(milliseconds: 10000), () {
+          _timerLink = Timer(const Duration(milliseconds: 10000), () {
             if (ListFunctions.songList.isNotEmpty) {
               currentSong = ListFunctions.songList.firstWhere((song) {
                 return song!.code == widget.codeFromDynamicLink;
@@ -291,7 +339,7 @@ class _SongPageState extends State<SongPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: showProgress
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           : Builder(
@@ -302,12 +350,6 @@ class _SongPageState extends State<SongPage> {
                       ListTile(
                         leading: InkWell(
                           onTap: () {
-                            if (widget.suggestionStreak.characters.last
-                                .contains(RegExp(r'[0-9]'))) {
-                              FireStoreHelper().storeSuggesterStreak(
-                                  '${currentSong?.code}',
-                                  '${widget.suggestionStreak}');
-                            }
                             Navigator.pop(context);
                           },
                           child: Icon(
@@ -341,7 +383,7 @@ class _SongPageState extends State<SongPage> {
                             });
                           },
                           child: Text(
-                            '${currentSong!.songInfo}',
+                            currentSong!.songInfo,
                             overflow: showTextDetails,
                             style: GoogleFonts.lato(),
                           ),
@@ -359,11 +401,11 @@ class _SongPageState extends State<SongPage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             isLinkAvail
                                 ? YoutubePlayer(
                                     width:
@@ -379,28 +421,18 @@ class _SongPageState extends State<SongPage> {
                                           duration: 7);
                                       _timerLink?.cancel();
                                       _timerLink = Timer(
-                                          Duration(milliseconds: 8000), () {
+                                          const Duration(milliseconds: 8000),
+                                          () {
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(builder: (context) {
-                                            return WillPopScope(
-                                              onWillPop: () async {
-                                                // print(
-                                                //     'Automatically changed onwillpop: ${widget.suggestionStreak}0');
-                                                FireStoreHelper()
-                                                    .storeSuggesterStreak(
-                                                        '${currentSong?.code}',
-                                                        '${widget.suggestionStreak}1');
-                                                return true;
-                                              },
-                                              child: SongPage(
-                                                currentSong: suggester!
-                                                    .suggestedSongs[0],
-                                                suggester: suggester,
-                                                suggestionStreak:
-                                                    widget.suggestionStreak +
-                                                        '1',
-                                              ),
+                                            return SongPage(
+                                              currentSong:
+                                                  suggester!.suggestedSongs[0],
+                                              suggester: suggester,
+                                              suggestionStreak:
+                                                  widget.suggestionStreak + '1',
+                                              postitionInList: -1,
                                             );
                                           }),
                                         );
@@ -413,10 +445,10 @@ class _SongPageState extends State<SongPage> {
                                         .primaryTextTheme
                                         .subtitle2,
                                   ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Row(
                               children: [
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 InkWell(
                                   onTap: () {
                                     _likeTheSong();
@@ -443,7 +475,7 @@ class _SongPageState extends State<SongPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(width: 50),
+                                const SizedBox(width: 50),
                                 InkWell(
                                   onTap: () {
                                     //Opens other app to share song.
@@ -482,12 +514,12 @@ class _SongPageState extends State<SongPage> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(),
+                                const SizedBox(),
                               ],
                             ),
-                            Divider(thickness: 1),
+                            const Divider(thickness: 1),
                             Visibility(
-                              visible: suggester!.suggestedSongs.length > 0,
+                              visible: suggester!.suggestedSongs.isNotEmpty,
                               child: suggestionBuilder(0),
                             ),
                             Visibility(
@@ -499,10 +531,10 @@ class _SongPageState extends State<SongPage> {
                               child: suggestionBuilder(2),
                             ),
                             // Divider(thickness: 1),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
+                              padding: const EdgeInsets.all(15),
+                              decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(25),
                                 ),
@@ -538,12 +570,12 @@ class _SongPageState extends State<SongPage> {
                                         },
                                         child: Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               FontAwesomeIcons.language,
                                               color: Colors.white,
                                               size: 20,
                                             ),
-                                            SizedBox(width: 10),
+                                            const SizedBox(width: 10),
                                             Text(
                                               'Language',
                                               style: GoogleFonts.lato(
@@ -573,12 +605,12 @@ class _SongPageState extends State<SongPage> {
                                         },
                                         child: Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               FontAwesomeIcons.share,
                                               color: Colors.white,
                                               size: 18,
                                             ),
-                                            SizedBox(width: 10),
+                                            const SizedBox(width: 10),
                                             Text(
                                               'Share',
                                               style: GoogleFonts.lato(
@@ -598,44 +630,17 @@ class _SongPageState extends State<SongPage> {
                                             ? currentSong!.englishLyrics
                                             : currentSong!.gujaratiLyrics),
                                   ),
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     Navigator.of(context).push(
-                                  //       MaterialPageRoute(
-                                  //         builder: (context) {
-                                  //           return FormPage();
-                                  //         },
-                                  //       ),
-                                  //     );
-                                  //   },
-                                  //   child: Row(
-                                  //     children: [
-                                  //       Icon(
-                                  //         FontAwesomeIcons.edit,
-                                  //         color: Colors.white,
-                                  //         size: 20,
-                                  //       ),
-                                  //       SizedBox(width: 10),
-                                  //       Text(
-                                  //         'Suggest Edit',
-                                  //         style: GoogleFonts.lato(
-                                  //           fontWeight: FontWeight.bold,
-                                  //         ),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Text(
-                              '© ${currentSong!.production!.trim().length > 0 ? currentSong?.production : 'Stavan Co.'}',
+                              '© ${currentSong!.production!.trim().isNotEmpty ? currentSong?.production : 'Stavan Co.'}',
                               style: GoogleFonts.lato(
                                 color: Colors.grey,
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),
@@ -653,19 +658,11 @@ class _SongPageState extends State<SongPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) {
-            return WillPopScope(
-              onWillPop: () async {
-                // print(
-                //     'selected another suggestion onwillpop: ${widget.suggestionStreak}$index');
-                FireStoreHelper().storeSuggesterStreak('${currentSong?.code}',
-                    '${widget.suggestionStreak}${index + 1}');
-                return true;
-              },
-              child: SongPage(
-                currentSong: suggester!.suggestedSongs[index],
-                suggester: suggester,
-                suggestionStreak: widget.suggestionStreak + '${index + 1}',
-              ),
+            return SongPage(
+              currentSong: suggester!.suggestedSongs[index],
+              suggester: suggester,
+              suggestionStreak: widget.suggestionStreak + '${index + 1}',
+              postitionInList: index,
             );
           }),
         );
@@ -718,7 +715,7 @@ class _SongPageState extends State<SongPage> {
           style: Theme.of(context).primaryTextTheme.bodyText1,
         ),
         subtitle: Text(
-          '${suggester!.suggestedSongs[index]!.songInfo}',
+          suggester!.suggestedSongs[index]!.songInfo,
           overflow: showTextDetails,
           style: GoogleFonts.lato(),
         ),

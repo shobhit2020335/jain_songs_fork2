@@ -42,7 +42,7 @@ class SharedPrefs {
 
   static Future<void> setOneSignalPlayerId(String? playerId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('playerId', playerId != null ? playerId : 'NA');
+    prefs.setString('playerId', playerId ?? 'NA');
   }
 
   static Future<String?> getOneSignalPlayerId() async {
