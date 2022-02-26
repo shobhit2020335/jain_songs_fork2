@@ -49,63 +49,49 @@ class SongDetails {
   static String deleteSongTable = 'DROP TABLE IF EXISTS songs';
 
   SongDetails({
-    this.aaa: 'valid',
+    this.aaa = 'valid',
     this.album,
-    this.category: "",
+    this.category = "",
     this.code,
-    this.genre: '',
+    this.genre = '',
     this.gujaratiLyrics,
-    this.language: '',
-    this.isLiked: false,
-    this.likes: 0,
+    this.language = '',
+    this.isLiked = false,
+    this.likes = 0,
     this.lyrics,
     this.englishLyrics,
-    this.originalSong: 'Unknown',
-    this.popularity: 0,
+    this.originalSong = 'Unknown',
+    this.popularity = 0,
     this.production,
-    this.searchKeywords: '',
-    this.share: 0,
+    this.searchKeywords = '',
+    this.share = 0,
     this.singer,
     this.songNameEnglish,
     this.songNameHindi,
-    this.tirthankar: '',
-    this.todayClicks: 0,
-    this.totalClicks: 0,
-    this.trendPoints: 0,
+    this.tirthankar = '',
+    this.todayClicks = 0,
+    this.totalClicks = 0,
+    this.trendPoints = 0,
     this.youTubeLink,
-    this.level1: 0,
-    this.level2: 0,
-    this.level3: 0,
-    this.level4: 0,
-    this.songInfo: '',
+    this.level1 = 0,
+    this.level2 = 0,
+    this.level3 = 0,
+    this.level4 = 0,
+    this.songInfo = '',
     this.lastModifiedTime,
   }) {
-    if (this.lastModifiedTime == null) {
-      this.lastModifiedTime = DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
+    lastModifiedTime ??= DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
+    searchKeywords ??= 'song';
+    trendPoints ??= 0.0;
+    todayClicks ??= 0;
+    totalClicks ??= 0;
+    popularity ??= 0;
+    likes ??= 0;
+    if (englishLyrics == null || englishLyrics!.length <= 1) {
+      englishLyrics = "NA";
     }
-    if (searchKeywords == null) {
-      this.searchKeywords = 'song';
-    }
-    if (this.trendPoints == null) {
-      this.trendPoints = 0.0;
-    }
-    if (this.todayClicks == null) {
-      this.todayClicks = 0;
-    }
-    if (totalClicks == null) {
-      this.totalClicks = 0;
-    }
-    if (popularity == null) {
-      this.popularity = 0;
-    }
-    if (likes == null) {
-      this.likes = 0;
-    }
-    if (this.englishLyrics == null || this.englishLyrics!.length <= 1) {
-      this.englishLyrics = "NA";
-    }
-    if (this.gujaratiLyrics == null || this.gujaratiLyrics!.length <= 1) {
-      this.gujaratiLyrics = "NA";
+    if (gujaratiLyrics == null || gujaratiLyrics!.length <= 1) {
+      gujaratiLyrics = "NA";
     }
   }
 
@@ -135,7 +121,7 @@ class SongDetails {
       'totalClicks': totalClicks,
       'trendPoints': trendPoints,
       'youTubeLink': youTubeLink,
-      'lastModifiedTime': this.lastModifiedTime,
+      'lastModifiedTime': lastModifiedTime,
     };
   }
 
@@ -164,7 +150,7 @@ class SongDetails {
       'totalClicks': totalClicks,
       'trendPoints': trendPoints,
       'youTubeLink': youTubeLink,
-      'lastModifiedTime': this.lastModifiedTime,
+      'lastModifiedTime': lastModifiedTime,
     };
   }
 }

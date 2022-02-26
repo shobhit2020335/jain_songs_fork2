@@ -16,7 +16,7 @@ class SearchFieldWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
             color: searchFieldBackgroundColor),

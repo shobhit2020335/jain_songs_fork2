@@ -57,11 +57,12 @@ class ProgressBar extends StatefulWidget {
   final bool isExpanded;
 
   /// Creates [ProgressBar] widget.
-  ProgressBar({
+  const ProgressBar({
+    Key? key,
     this.controller,
     this.colors,
     this.isExpanded = false,
-  });
+  }) : super(key: key);
 
   @override
   _ProgressBarState createState() {

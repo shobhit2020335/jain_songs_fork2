@@ -13,15 +13,16 @@ class PlaybackSpeedButton extends StatefulWidget {
   final YoutubePlayerController? controller;
 
   /// Defines icon for the button.
-  final Widget icon = Icon(
+  final Widget icon = const Icon(
     Icons.ac_unit,
     color: Colors.transparent,
   );
 
   /// Creates [PlaybackSpeedButton] widget.
-  PlaybackSpeedButton({
+  const PlaybackSpeedButton({
+    Key? key,
     this.controller,
-  });
+  }) : super(key: key);
 
   @override
   _PlaybackSpeedButtonState createState() => _PlaybackSpeedButtonState();

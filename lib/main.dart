@@ -68,7 +68,7 @@ import 'package:provider/provider.dart';
 import 'home_page.dart';
 
 //This is used by OneSignal to open page.
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,7 +81,7 @@ void main() async {
   await SQfliteHelper.initializeSQflite();
 
   //Persistenace for Firestore
-  FirebaseFirestore.instance.settings = Settings(
+  FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   //Persistence for Realtime Database
   FirebaseDatabase.instance.setPersistenceEnabled(true);
@@ -89,9 +89,9 @@ void main() async {
 
   //Below is flutter local notification
   var initializationSettingsAndroid =
-      new AndroidInitializationSettings('icon_notification');
+      const AndroidInitializationSettings('icon_notification');
   var initializationSettings =
-      new InitializationSettings(android: initializationSettingsAndroid);
+      InitializationSettings(android: initializationSettingsAndroid);
   FirebaseFCMManager.flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
@@ -101,16 +101,16 @@ void main() async {
 
   MobileAds.instance.initialize();
 
-  runApp(MainTheme());
+  runApp(const MainTheme());
+
   //XXX: Comment while debugging.
   UISettings.secureScreen();
-  //Initialising AdMob.
 
   ListFunctions.songsVisited.clear();
 }
 
 class MainTheme extends StatefulWidget {
-  MainTheme();
+  const MainTheme({Key? key}) : super(key: key);
 
   @override
   State<MainTheme> createState() => _MainThemeState();
@@ -167,7 +167,7 @@ class _MainThemeState extends State<MainTheme> {
               return null;
             },
             theme: UISettings.themeData(themeProvider.isDarkTheme, context),
-            home: HomePage(),
+            home: const HomePage(),
           );
         },
       ),

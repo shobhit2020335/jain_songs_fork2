@@ -5,7 +5,7 @@ class Filters {
   String name;
   Color color;
 
-  Filters(this.category, this.name, {this.color: Colors.indigo});
+  Filters(this.category, this.name, {this.color = Colors.indigo});
 }
 
 class UserFilters {
@@ -15,14 +15,14 @@ class UserFilters {
   String language;
 
   UserFilters({
-    this.genre: "",
-    this.tirthankar: "",
-    this.category: "",
-    this.language: "",
+    this.genre = "",
+    this.tirthankar = "",
+    this.category = "",
+    this.language = "",
   });
 
-  Map<String, String> toMap(){
-    return{
+  Map<String, String> toMap() {
+    return {
       'genre': genre,
       'tirthankar': tirthankar,
       'category': category,

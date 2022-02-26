@@ -6,7 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class InformationPage extends StatelessWidget {
   final SettingsDetails settingsDetails;
 
-  InformationPage(this.settingsDetails);
+  const InformationPage(this.settingsDetails, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +16,12 @@ class InformationPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: settingsDetails.title == 'About'
-            ? WebView(
-                initialUrl:
-                    'https://stavancoj.wixsite.com/website/about',
+            ? const WebView(
+                initialUrl: 'https://stavancoj.wixsite.com/website/about',
               )
-            : WebView(
-                initialUrl: 'https://stavancoj.wixsite.com/website/privacypolicy',
+            : const WebView(
+                initialUrl:
+                    'https://stavancoj.wixsite.com/website/privacypolicy',
               ),
         //Uncomment Below to create typed informationpage rather than webpage.
         // child: SingleChildScrollView(

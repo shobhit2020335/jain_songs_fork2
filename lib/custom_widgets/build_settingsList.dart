@@ -3,6 +3,8 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'build_settingsRow.dart';
 
 class BuildSettingsList extends StatelessWidget {
+  const BuildSettingsList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

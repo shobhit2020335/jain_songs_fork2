@@ -4,6 +4,8 @@ import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'custom_widgets/build_settingsList.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -22,10 +24,10 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.only(top: 12),
       child: Column(
         children: [
-          Expanded(
+          const Expanded(
             flex: 2,
             child: BuildSettingsList(),
           ),
@@ -40,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       backgroundColor: Theme.of(context).primaryColorDark,
                       child: ConstWidget.showLogo(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(

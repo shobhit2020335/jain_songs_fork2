@@ -35,6 +35,7 @@ class FireStoreHelper {
       String? playerId = await SharedPrefs.getOneSignalPlayerId();
       userBehaviour.setUserId(playerId);
 
+      //XXX: Remove while debugging
       await _firestore
           .collection('userSearchBehaviour')
           .doc(userBehaviour.code)
@@ -50,8 +51,8 @@ class FireStoreHelper {
   Future<void> fetchRemoteConfigs() async {
     FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
-        minimumFetchInterval: Duration(seconds: 1),
-        fetchTimeout: Duration(seconds: 4)));
+        minimumFetchInterval: const Duration(seconds: 1),
+        fetchTimeout: const Duration(seconds: 4)));
     await remoteConfig.fetchAndActivate();
     Globals.welcomeMessage = remoteConfig.getString('welcome_message');
     DatabaseController.fromCache = remoteConfig.getBool('from_cache');
@@ -143,7 +144,7 @@ class FireStoreHelper {
       } else {
         songs = await _firestore
             .collection('songs')
-            .get(GetOptions(source: Source.cache));
+            .get(const GetOptions(source: Source.cache));
         if (songs.size == 0) {
           songs = await _firestore.collection('songs').get();
         }
@@ -204,7 +205,7 @@ class FireStoreHelper {
           String songInfo =
               '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
           currentSongDetails.songInfo = trimSpecialChars(songInfo);
-          if (currentSongDetails.songInfo.length == 0) {
+          if (currentSongDetails.songInfo.isEmpty) {
             currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
           }
           listToAdd.add(
@@ -255,7 +256,7 @@ class FireStoreHelper {
     String songInfo =
         '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
     currentSongDetails.songInfo = trimSpecialChars(songInfo);
-    if (currentSongDetails.songInfo.length == 0) {
+    if (currentSongDetails.songInfo.isEmpty) {
       currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
     }
     listToAdd.add(

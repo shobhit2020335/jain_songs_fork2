@@ -17,10 +17,11 @@ class LiveBottomBar extends StatefulWidget {
   final Color liveUIColor;
 
   /// Creates [LiveBottomBar] widget.
-  LiveBottomBar({
+  const LiveBottomBar({
+    Key? key,
     this.controller,
     required this.liveUIColor,
-  });
+  }) : super(key: key);
 
   @override
   _LiveBottomBarState createState() => _LiveBottomBarState();
@@ -76,7 +77,7 @@ class _LiveBottomBarState extends State<LiveBottomBar> {
           const SizedBox(
             width: 14.0,
           ),
-          CurrentPosition(),
+          const CurrentPosition(),
           Expanded(
             child: Padding(
               child: Slider(

@@ -2,14 +2,15 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseDynamicLinkService {
-  static FirebaseDynamicLinks _dynamicLinks = FirebaseDynamicLinks.instance;
+  static final FirebaseDynamicLinks _dynamicLinks =
+      FirebaseDynamicLinks.instance;
 
   //To create Dynamic link like when someone is sharing product to other person.
   static Future<Uri> createDynamicLink(String id) async {
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://stavan.page.link',
       link: Uri.parse('https://stavan.com/song?code=$id'),
-      androidParameters: AndroidParameters(
+      androidParameters: const AndroidParameters(
         packageName: 'com.JainDevelopers.jain_songs',
         minimumVersion: 4,
       ),

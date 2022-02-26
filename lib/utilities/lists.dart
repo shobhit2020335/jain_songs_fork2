@@ -13,7 +13,7 @@ class ListFunctions {
   static List<SongDetails?> songList = [];
   static List<SongDetails?> sortedSongList = [];
   static List<SongDetails?> listToShow = [];
-  static Set<String?> songsVisited = Set();
+  static Set<String?> songsVisited = {};
 
   //Lists for applying filters.
   static final List<Filters> filtersAll = [

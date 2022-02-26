@@ -52,7 +52,7 @@ android {
         disable 'InvalidPackage'
         checkReleaseBuilds false
     }
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -61,7 +61,7 @@ android {
     defaultConfig {
         applicationId "com.JainDevelopers.jain_songs"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true

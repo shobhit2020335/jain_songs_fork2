@@ -5,7 +5,7 @@ import '../filters.dart';
 import 'choice_chip_widget.dart';
 
 class FilterListWidget extends StatefulWidget {
-  FilterListWidget(
+  const FilterListWidget(
       {Key? key,
       this.height,
       this.width,
@@ -75,102 +75,99 @@ class _FilterListWidgetState extends State<FilterListWidget> {
   bool showApplyButton = false;
 
   Widget _body() {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              widget.hideHeader ? SizedBox() : _header(),
-              widget.hideSelectedTextCount
-                  ? SizedBox(
-                      height: 5,
-                    )
-                  : Padding(
-                      padding: EdgeInsets.only(top: 5),
-                      child: Text(
-                        '${_selectedTextList.length} selected items',
-                        style: Theme.of(context).textTheme.caption,
+    return Stack(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            widget.hideHeader ? const SizedBox() : _header(),
+            widget.hideSelectedTextCount
+                ? const SizedBox(
+                    height: 5,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Text(
+                      '${_selectedTextList.length} selected items',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                  ),
+            Expanded(
+              child: Container(
+                padding:
+                    const EdgeInsets.only(top: 0, bottom: 0, left: 5, right: 5),
+                child: SingleChildScrollView(
+                  // padding: EdgeInsets.only(top: 0, bottom: 0, left: 5, right: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '   Genre',
+                        style: TextStyle(
+                          color: Colors.indigo,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-              Expanded(
-                child: Container(
-                  padding:
-                      EdgeInsets.only(top: 0, bottom: 0, left: 5, right: 5),
-                  child: SingleChildScrollView(
-                    // padding: EdgeInsets.only(top: 0, bottom: 0, left: 5, right: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '   Genre',
-                          style: TextStyle(
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Divider(
-                          height: 5,
+                      const Divider(
+                        height: 5,
+                        color: Colors.indigo,
+                      ),
+                      Wrap(
+                        children: _buildChoiceList(_allTextList, 'genre'),
+                      ),
+                      const Text(
+                        '   Tirthankar',
+                        style: TextStyle(
                           color: Colors.indigo,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Wrap(
-                          children: _buildChoiceList(_allTextList, 'genre'),
-                        ),
-                        Text(
-                          '   Tirthankar',
-                          style: TextStyle(
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Divider(
-                          height: 5,
+                      ),
+                      const Divider(
+                        height: 5,
+                        color: Colors.indigo,
+                      ),
+                      Wrap(
+                        children: _buildChoiceList(_allTextList, 'tirthankar'),
+                      ),
+                      const Text(
+                        '   Category',
+                        style: TextStyle(
                           color: Colors.indigo,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Wrap(
-                          children:
-                              _buildChoiceList(_allTextList, 'tirthankar'),
-                        ),
-                        Text(
-                          '   Category',
-                          style: TextStyle(
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Divider(
-                          height: 5,
+                      ),
+                      const Divider(
+                        height: 5,
+                        color: Colors.indigo,
+                      ),
+                      Wrap(
+                        children: _buildChoiceList(_allTextList, 'category'),
+                      ),
+                      const Text(
+                        '   Language',
+                        style: TextStyle(
                           color: Colors.indigo,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Wrap(
-                          children: _buildChoiceList(_allTextList, 'category'),
-                        ),
-                        Text(
-                          '   Language',
-                          style: TextStyle(
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Divider(
-                          height: 5,
-                          color: Colors.indigo,
-                        ),
-                        Wrap(
-                          children: _buildChoiceList(_allTextList, 'language'),
-                        ),
-                      ],
-                    ),
+                      ),
+                      const Divider(
+                        height: 5,
+                        color: Colors.indigo,
+                      ),
+                      Wrap(
+                        children: _buildChoiceList(_allTextList, 'language'),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 60,
-              ),
-            ],
-          ),
-          _controlButon()
-        ],
-      ),
+            ),
+            const SizedBox(
+              height: 60,
+            ),
+          ],
+        ),
+        _controlButon()
+      ],
     );
   }
 
@@ -178,7 +175,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
     return Container(
       decoration: BoxDecoration(
         color: widget.backgroundColor,
-        boxShadow: <BoxShadow>[
+        boxShadow: const <BoxShadow>[
           BoxShadow(
             offset: Offset(0, 5),
             blurRadius: 15,
@@ -197,7 +194,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                 Expanded(
                   flex: 6,
                   child: widget.hideSearchField
-                      ? SizedBox()
+                      ? const SizedBox()
                       : SearchFieldWidget(
                           searchFieldBackgroundColor:
                               widget.searchFieldBackgroundColor,
@@ -218,7 +215,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                 Expanded(
                   flex: 1,
                   child: InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
                     onTap: () {
                       Navigator.pop(context, null);
                     },
@@ -245,33 +242,30 @@ class _FilterListWidgetState extends State<FilterListWidget> {
 
   List<Widget> _buildChoiceList(List<Filters> list, String category) {
     List<Widget> choices = [];
-    list.forEach(
-      (item) {
-        if (item.category == category) {
-          var selectedText = _selectedTextList.contains(item);
-          choices.add(
-            ChoicechipWidget(
-              onSelected: (value) {
-                setState(
-                  () {
-                    selectedText
-                        ? _selectedTextList.remove(item)
-                        : _selectedTextList.add(item);
-                  },
-                );
-              },
-              selected: selectedText,
-              selectedTextColor: widget.selectedTextColor,
-              selectedTextBackgroundColor: item.color,
-              unselectedTextBackgroundColor:
-                  widget.unselectedTextbackGroundColor,
-              unselectedTextColor: widget.unselectedTextColor,
-              text: item.name,
-            ),
-          );
-        }
-      },
-    );
+    for (var item in list) {
+      if (item.category == category) {
+        var selectedText = _selectedTextList.contains(item);
+        choices.add(
+          ChoicechipWidget(
+            onSelected: (value) {
+              setState(
+                () {
+                  selectedText
+                      ? _selectedTextList.remove(item)
+                      : _selectedTextList.add(item);
+                },
+              );
+            },
+            selected: selectedText,
+            selectedTextColor: widget.selectedTextColor,
+            selectedTextBackgroundColor: item.color,
+            unselectedTextBackgroundColor: widget.unselectedTextbackGroundColor,
+            unselectedTextColor: widget.unselectedTextColor,
+            text: item.name,
+          ),
+        );
+      }
+    }
     choices.add(
       SizedBox(
         height: 10,
@@ -287,16 +281,16 @@ class _FilterListWidgetState extends State<FilterListWidget> {
       child: Container(
         height: 45,
         width: MediaQuery.of(context).size.width * .9,
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         alignment: Alignment.center,
         child: Row(
           children: <Widget>[
-            Expanded(child: SizedBox()),
+            const Expanded(child: SizedBox()),
             Container(
               decoration: BoxDecoration(
                 color: widget.backgroundColor,
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-                boxShadow: <BoxShadow>[
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                boxShadow: const <BoxShadow>[
                   BoxShadow(
                     offset: Offset(0, 5),
                     blurRadius: 15,
@@ -309,7 +303,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                   TextButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
+                        const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
                           ),
@@ -337,7 +331,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                   TextButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
+                        const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
                           ),
@@ -367,8 +361,8 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                   ),
                   MaterialButton(
                     color: widget.applyButonTextBackgroundColor,
-                    padding: EdgeInsets.only(bottom: 5),
-                    shape: RoundedRectangleBorder(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     child: Center(
                       child: Text(
@@ -391,7 +385,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
             ),
 
             /// add Bottom space in list
-            Expanded(child: SizedBox()),
+            const Expanded(child: SizedBox()),
           ],
         ),
       ),

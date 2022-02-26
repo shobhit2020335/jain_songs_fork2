@@ -11,10 +11,10 @@ class ConstWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Update Available'),
+          title: const Text('Update Available'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: const <Widget>[
                 Text(
                   'Newer Version of app is available.',
                   style: TextStyle(color: Colors.grey),
@@ -28,7 +28,7 @@ class ConstWidget {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Update'),
+              child: const Text('Update'),
               onPressed: () {
                 Services.launchPlayStore(Globals.appURL);
               },
@@ -39,12 +39,12 @@ class ConstWidget {
     );
   }
 
-  static Icon clearIcon = Icon(
+  static Icon clearIcon = const Icon(
     Icons.close,
     size: 20,
   );
 
-  static Color? signatureColors({int value: 4}) {
+  static Color? signatureColors({int value = 4}) {
     if (value == 0) {
       return Colors.amber;
     } else if (value == 1) {
@@ -69,8 +69,8 @@ class ConstWidget {
 
   static void showToast(
     String message, {
-    Toast toastLength: Toast.LENGTH_LONG,
-    Color toastColor: Colors.indigo,
+    Toast toastLength = Toast.LENGTH_LONG,
+    Color toastColor = Colors.indigo,
   }) {
     Fluttertoast.showToast(
       msg: message,
@@ -82,7 +82,7 @@ class ConstWidget {
   }
 
   static void showSimpleToast(BuildContext context, String message,
-      {int duration: 4}) {
+      {int duration = 4}) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.hideCurrentSnackBar();
     final snackBar = SnackBar(

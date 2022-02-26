@@ -96,7 +96,8 @@ class FirebaseFCMManager {
               channel.name,
               channelDescription: channel.description,
               icon: 'icon_notification',
-              sound: RawResourceAndroidNotificationSound('tone_notification'),
+              sound: const RawResourceAndroidNotificationSound(
+                  'tone_notification'),
               importance: Importance.high,
               // other properties...
             ),

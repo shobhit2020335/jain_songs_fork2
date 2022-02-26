@@ -13,13 +13,14 @@ class BuildRow extends StatefulWidget {
   final String? userSearched;
   final int positionInList;
 
-  BuildRow(
+  const BuildRow(
     this.currentSong, {
-    this.color: Colors.grey,
+    Key? key,
+    this.color = Colors.grey,
     this.playlist,
     this.userSearched,
     required this.positionInList,
-  });
+  }) : super(key: key);
 
   @override
   _BuildRowState createState() => _BuildRowState();
@@ -96,7 +97,7 @@ class _BuildRowState extends State<BuildRow> {
               return SongPage(
                 currentSong: currentSong,
                 playlist: widget.playlist,
-                suggestionStreak: '$isFromPlaylist' + currentSong.code!,
+                suggestionStreak: isFromPlaylist + currentSong.code!,
                 userSearched: widget.userSearched,
                 postitionInList: widget.positionInList,
               );

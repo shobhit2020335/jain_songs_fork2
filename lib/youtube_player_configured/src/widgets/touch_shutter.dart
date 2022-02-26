@@ -25,11 +25,12 @@ class TouchShutter extends StatefulWidget {
   final Duration timeOut;
 
   /// Creates [TouchShutter] widget.
-  TouchShutter({
+  const TouchShutter({
+    Key? key,
     this.controller,
     this.disableDragSeek = false,
     required this.timeOut,
-  });
+  }) : super(key: key);
 
   @override
   _TouchShutterState createState() => _TouchShutterState();

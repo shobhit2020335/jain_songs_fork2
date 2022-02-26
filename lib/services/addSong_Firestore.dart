@@ -85,7 +85,7 @@ class AddSong {
     'trendPoints': 0.0,
     'youTubeLink': 'https://youtu.be/HKcJ0vmMYV4',
   };
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
   CollectionReference suggestion =
       FirebaseFirestore.instance.collection('suggestions');
@@ -120,14 +120,14 @@ class AddSong {
 
   void extraSearchKeywords(
     String code, {
-    String englishName: '',
-    String hindiName: '',
-    String tirthankar: '',
-    String originalSong: '',
-    String album: '',
-    String extra1: '',
-    String extra2: '',
-    String extra3: '',
+    String englishName = '',
+    String hindiName = '',
+    String tirthankar = '',
+    String originalSong = '',
+    String album = '',
+    String extra1 = '',
+    String extra2 = '',
+    String extra3 = '',
   }) {
     searchKeywords =
         searchKeywords.toLowerCase() + ' ' + englishName + ' ' + hindiName;
@@ -154,7 +154,7 @@ class AddSong {
     List<String> searchWordsList = searchKeywords.toLowerCase().split(' ');
     searchKeywords = "";
     for (int i = 0; i < searchWordsList.length; i++) {
-      if (searchWordsList[i].length > 0) {
+      if (searchWordsList[i].isNotEmpty) {
         searchKeywords += ' ' + searchWordsList[i];
       }
     }
@@ -164,18 +164,11 @@ class AddSong {
     // _addSearchKeywords(code, searchKeywords.toLowerCase());
   }
 
-  //Directly writing search keywords so not required now.
-  void _addSearchKeywords(String code, String stringSearchKeyword) async {
-    await songs.doc(code).update({'searchKeywords': stringSearchKeyword});
-
-    print('Added Search Keywords successfully');
-  }
-
   Future<void> addToRealtimeDB() async {
     Timestamp timestamp = currentSongMap['lastModifiedTime'];
     currentSongMap['lastModifiedTime'] = timestamp.millisecondsSinceEpoch;
-    FirebaseDatabase(app: this.app)
-        .reference()
+    FirebaseDatabase.instanceFor(app: app)
+        .ref()
         .child('songs')
         .child(currentSongMap['code'])
         .set(currentSongMap);
@@ -203,43 +196,43 @@ class AddSong {
         currentSongMap['code']: currentSongMap['trendPoints'],
       });
 
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('likes')
           .update({
         currentSongMap['code']: currentSongMap['likes'],
       });
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('share')
           .update({
         currentSongMap['code']: currentSongMap['share'],
       });
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('todayClicks')
           .update({
         currentSongMap['code']: currentSongMap['todayClicks'],
       });
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('totalClicks')
           .update({
         currentSongMap['code']: currentSongMap['totalClicks'],
       });
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('popularity')
           .update({
         currentSongMap['code']: currentSongMap['popularity'],
       });
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('trendPoints')
           .update({
@@ -261,7 +254,7 @@ class AddSong {
       Map<String, int> popularityMap = {};
       Map<String, double> trendPointsMap = {};
       QuerySnapshot querySnapshot =
-          await songs.get(GetOptions(source: Source.cache));
+          await songs.get(const GetOptions(source: Source.cache));
 
       for (var song in querySnapshot.docs) {
         Map<String, dynamic> currentSong = song.data() as Map<String, dynamic>;
@@ -296,33 +289,33 @@ class AddSong {
           .doc('trendPoints')
           .set(trendPointsMap);
 
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('likes')
           .set(likesMap);
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('share')
           .set(shareMap);
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('todayClicks')
           .set(todayClicksMap);
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('totalClicks')
           .set(totalClicksMap);
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('popularity')
           .set(popularityMap);
-      await FirebaseDatabase(app: this.app)
-          .reference()
+      await FirebaseDatabase.instanceFor(app: app)
+          .ref()
           .child('songsData')
           .child('trendPoints')
           .set(trendPointsMap);

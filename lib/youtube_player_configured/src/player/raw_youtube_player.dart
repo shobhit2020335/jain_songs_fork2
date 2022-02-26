@@ -2,8 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../enums/player_state.dart';
@@ -21,7 +22,7 @@ class RawYoutubePlayer extends StatefulWidget {
   final void Function(YoutubeMetaData metaData)? onEnded;
 
   /// Creates a [RawYoutubePlayer] widget.
-  RawYoutubePlayer({
+  const RawYoutubePlayer({
     this.key,
     this.onEnded,
   });
@@ -236,8 +237,7 @@ class _RawYoutubePlayerState extends State<RawYoutubePlayer>
     );
   }
 
-  String get player =>
-      '''
+  String get player => '''
     <!DOCTYPE html>
     <html>
     <head>

@@ -16,10 +16,11 @@ class PlayPauseButton extends StatefulWidget {
   final Widget? bufferIndicator;
 
   /// Creates [PlayPauseButton] widget.
-  PlayPauseButton({
+  const PlayPauseButton({
+    Key? key,
     this.controller,
     this.bufferIndicator,
-  });
+  }) : super(key: key);
 
   @override
   _PlayPauseButtonState createState() => _PlayPauseButtonState();
@@ -98,10 +99,10 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
     }
     if (_controller.value.hasError) return const SizedBox();
     return widget.bufferIndicator ??
-        Container(
+        const SizedBox(
           width: 70.0,
           height: 70.0,
-          child: const CircularProgressIndicator(
+          child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation(Colors.white),
           ),
         );

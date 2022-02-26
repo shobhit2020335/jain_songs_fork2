@@ -13,7 +13,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class BuildSettingsRow extends StatefulWidget {
   final SettingsDetails settingsDetails;
 
-  BuildSettingsRow(this.settingsDetails);
+  const BuildSettingsRow(this.settingsDetails, {Key? key}) : super(key: key);
 
   @override
   State<BuildSettingsRow> createState() => _BuildSettingsRowState();
@@ -57,7 +57,7 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
         ),
         subtitle: Text(
           widget.settingsDetails.subtitle,
-          style: TextStyle(color: Colors.grey),
+          style: const TextStyle(color: Colors.grey),
         ),
         trailing: widget.settingsDetails.isSetting
             ? Switch(
@@ -71,8 +71,9 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
             if (widget.settingsDetails.title == 'Feedback & Support') {
               Services.sendEmail();
             } else {
-              if (Platform.isAndroid)
+              if (Platform.isAndroid) {
                 WebView.platform = SurfaceAndroidWebView();
+              }
               Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -30,9 +30,7 @@ class UserBehaviourModel {
     required this.positionInList,
     this.timeOfClick,
   }) {
-    if (timeOfClick == null) {
-      timeOfClick = DateTime.now();
-    }
+    timeOfClick ??= DateTime.now();
 
     code = songCode;
     if (userSearched != null) {

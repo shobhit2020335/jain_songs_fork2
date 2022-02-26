@@ -8,11 +8,12 @@ class BuildList extends StatelessWidget {
   final ScrollController? scrollController;
   final TextEditingController searchController;
 
-  BuildList({
-    this.colorRowIcon: Colors.grey,
+  const BuildList({
+    Key? key,
+    this.colorRowIcon = Colors.grey,
     this.scrollController,
     required this.searchController,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -209,7 +209,7 @@ class SQfliteHelper {
           String songInfo =
               '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
           currentSongDetails.songInfo = trimSpecialChars(songInfo);
-          if (currentSongDetails.songInfo.length == 0) {
+          if (currentSongDetails.songInfo.isEmpty) {
             currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
           }
           listToAdd.add(

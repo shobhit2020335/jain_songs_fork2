@@ -21,7 +21,7 @@ class DatabaseController {
 
   //The function SQL fetch complete is called only if data is fetched from SQl.
   Future<bool> fetchSongs(BuildContext context,
-      {required onSqlFetchComplete()}) async {
+      {required Function() onSqlFetchComplete}) async {
     bool isSuccess = false;
     isSuccess = await SQfliteHelper().fetchSongs();
     if (isSuccess) {
@@ -84,9 +84,7 @@ class DatabaseController {
   Future<bool> syncNewChanges(BuildContext context) async {
     try {
       int? lastSyncTime = await SharedPrefs.getLastSyncTime();
-      if (lastSyncTime == null) {
-        lastSyncTime = DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
-      }
+      lastSyncTime ??= DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
       bool isSuccess = false;
       if (Globals.lastSongModifiedTime > lastSyncTime) {
         isSuccess = await FireStoreHelper().syncNewSongs(lastSyncTime);

@@ -21,7 +21,7 @@ class RealtimeDbHelper {
 
   RealtimeDbHelper(this.app) {
     if (app != null) {
-      database = FirebaseDatabase.instanceFor(app: this.app!).ref();
+      database = FirebaseDatabase.instanceFor(app: app!).ref();
     } else {
       print('Firebase App is null');
     }
@@ -126,7 +126,7 @@ class RealtimeDbHelper {
       }
 
       isSuccess = _readFetchedSongs(songSnapshot, ListFunctions.songList);
-      if (ListFunctions.songList.length == 0) {
+      if (ListFunctions.songList.isEmpty) {
         return false;
       }
     } catch (e) {
@@ -139,7 +139,6 @@ class RealtimeDbHelper {
   bool _readFetchedSongs(
       DataSnapshot songSnapshot, List<SongDetails?> listToAdd) {
     try {
-      //TODO: Test this
       Map<String?, dynamic> allSongs =
           Map<String, dynamic>.from(jsonDecode(jsonEncode(songSnapshot.value)));
 
@@ -186,7 +185,7 @@ class RealtimeDbHelper {
           String songInfo =
               '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
           currentSongDetails.songInfo = trimSpecialChars(songInfo);
-          if (currentSongDetails.songInfo.length == 0) {
+          if (currentSongDetails.songInfo.isEmpty) {
             currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
           }
           listToAdd.add(
@@ -240,7 +239,7 @@ class RealtimeDbHelper {
       String songInfo =
           '${currentSongDetails.tirthankar} | ${currentSongDetails.genre} | ${currentSongDetails.singer}';
       currentSongDetails.songInfo = trimSpecialChars(songInfo);
-      if (currentSongDetails.songInfo.length == 0) {
+      if (currentSongDetails.songInfo.isEmpty) {
         currentSongDetails.songInfo = currentSongDetails.songNameHindi!;
       }
       listToAdd.add(
