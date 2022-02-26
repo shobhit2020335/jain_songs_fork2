@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors, avoid_print, avoid_renaming_method_parameters
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -325,6 +327,6 @@ class InheritedYoutubePlayer extends InheritedWidget {
   final YoutubePlayerController controller;
 
   @override
-  bool updateShouldNotify(InheritedYoutubePlayer oldWidget) =>
-      oldWidget.controller.hashCode != controller.hashCode;
+  bool updateShouldNotify(InheritedYoutubePlayer oldPlayer) =>
+      oldPlayer.controller.hashCode != controller.hashCode;
 }

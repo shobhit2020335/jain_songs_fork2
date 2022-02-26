@@ -2,9 +2,11 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: use_key_in_widget_constructors
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../enums/thumbnail_quality.dart';
 import '../utils/errors.dart';
@@ -367,15 +369,15 @@ class _YoutubePlayerState extends State<YoutubePlayer> {
                           children: widget.bottomActions ??
                               [
                                 const SizedBox(width: 14.0),
-                                const CurrentPosition(),
+                                CurrentPosition(),
                                 const SizedBox(width: 8.0),
                                 ProgressBar(
                                   isExpanded: true,
                                   colors: widget.progressColors,
                                 ),
-                                const RemainingDuration(),
-                                const PlaybackSpeedButton(),
-                                const FullScreenButton(),
+                                RemainingDuration(),
+                                PlaybackSpeedButton(),
+                                FullScreenButton(),
                               ],
                         ),
                       ),
@@ -401,8 +403,8 @@ class _YoutubePlayerState extends State<YoutubePlayer> {
             ),
           ],
           if (!controller.flags.hideControls)
-            const Center(
-              child: const PlayPauseButton(),
+            Center(
+              child: PlayPauseButton(),
             ),
           if (controller.value.hasError) errorWidget,
         ],

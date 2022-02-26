@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../utils/youtube_player_controller.dart';
@@ -17,11 +19,10 @@ class LiveBottomBar extends StatefulWidget {
   final Color liveUIColor;
 
   /// Creates [LiveBottomBar] widget.
-  const LiveBottomBar({
-    Key? key,
+  LiveBottomBar({
     this.controller,
     required this.liveUIColor,
-  }) : super(key: key);
+  });
 
   @override
   _LiveBottomBarState createState() => _LiveBottomBarState();
@@ -77,7 +78,7 @@ class _LiveBottomBarState extends State<LiveBottomBar> {
           const SizedBox(
             width: 14.0,
           ),
-          const CurrentPosition(),
+          CurrentPosition(),
           Expanded(
             child: Padding(
               child: Slider(

@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 
 import '../enums/player_state.dart';
@@ -16,11 +18,10 @@ class PlayPauseButton extends StatefulWidget {
   final Widget? bufferIndicator;
 
   /// Creates [PlayPauseButton] widget.
-  const PlayPauseButton({
-    Key? key,
+  PlayPauseButton({
     this.controller,
     this.bufferIndicator,
-  }) : super(key: key);
+  });
 
   @override
   _PlayPauseButtonState createState() => _PlayPauseButtonState();
@@ -99,10 +100,10 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
     }
     if (_controller.value.hasError) return const SizedBox();
     return widget.bufferIndicator ??
-        const SizedBox(
+        Container(
           width: 70.0,
           height: 70.0,
-          child: CircularProgressIndicator(
+          child: const CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation(Colors.white),
           ),
         );

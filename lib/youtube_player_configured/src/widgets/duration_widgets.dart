@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../utils/duration_formatter.dart';
@@ -13,7 +15,7 @@ class CurrentPosition extends StatefulWidget {
   final YoutubePlayerController? controller;
 
   /// Creates [CurrentPosition] widget.
-  const CurrentPosition({Key? key, this.controller}) : super(key: key);
+  CurrentPosition({this.controller});
 
   @override
   _CurrentPositionState createState() => _CurrentPositionState();
@@ -70,7 +72,7 @@ class RemainingDuration extends StatefulWidget {
   final YoutubePlayerController? controller;
 
   /// Creates [RemainingDuration] widget.
-  const RemainingDuration({Key? key, this.controller}) : super(key: key);
+  RemainingDuration({this.controller});
 
   @override
   _RemainingDurationState createState() => _RemainingDurationState();

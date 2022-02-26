@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../enums/playback_rate.dart';
@@ -13,16 +15,15 @@ class PlaybackSpeedButton extends StatefulWidget {
   final YoutubePlayerController? controller;
 
   /// Defines icon for the button.
-  final Widget icon = const Icon(
+  final Widget icon = Icon(
     Icons.ac_unit,
     color: Colors.transparent,
   );
 
   /// Creates [PlaybackSpeedButton] widget.
-  const PlaybackSpeedButton({
-    Key? key,
+  PlaybackSpeedButton({
     this.controller,
-  }) : super(key: key);
+  });
 
   @override
   _PlaybackSpeedButtonState createState() => _PlaybackSpeedButtonState();
