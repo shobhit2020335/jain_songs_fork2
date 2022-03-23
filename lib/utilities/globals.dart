@@ -14,7 +14,7 @@ class Globals {
       DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
 
   //TODO: update app version for new app.
-  static const double appVersion = 1.34;
+  static const double appVersion = 1.40;
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
