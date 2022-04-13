@@ -58,13 +58,16 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/oneSignal_notification.dart';
 import 'package:jain_songs/services/provider/darkTheme_provider.dart';
 import 'package:jain_songs/services/sharedPrefs.dart';
 import 'package:jain_songs/services/uisettings.dart';
 import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'home_page.dart';
 
 //This is used by OneSignal to open page.
@@ -86,6 +89,8 @@ void main() async {
   //Persistence for Realtime Database
   FirebaseDatabase.instance.setPersistenceEnabled(true);
   FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100000000);
+
+  OneSignalNotification().initOneSignal();
 
   //Below is flutter local notification
   var initializationSettingsAndroid =

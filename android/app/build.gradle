@@ -1,7 +1,7 @@
 buildscript {
     repositories {
         // ...
-        maven { url 'https://plugins.gradle.org/m2/' } // Gradle Plugin Portal
+        maven { url 'https://plugins.gradle.org/m2/' } // OneSignal
     }
     dependencies {
         // ...
@@ -10,6 +10,7 @@ buildscript {
     }
 }
 
+//OneSignal
 apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 def localProperties = new Properties()

@@ -23,8 +23,8 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add EXTRA searchkeywords in form of string.
-  currentSong.extraSearchKeywords('OJMP',
-      englishName: 'jay mahabir prabho',
+  currentSong.extraSearchKeywords('ASRSU',
+      englishName: 'sone ko ugyo ugayo',
       hindiName: '',
       originalSong: '',
       album: '',
@@ -60,30 +60,28 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'OJMP',
+    'code': 'ASRSU',
     'album': '',
     'aaa': 'valid',
-    'category': 'Aarti',
+    'category': 'Stavan',
     'genre': '',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Marwadi',
     'likes': 0,
-    'lyrics':
-        'Jai Mahavir Prabho,Swami Jai Mahavir Prabho\nJannaayak Sukhdaayak,Ati gambhir prabho || ॐ ||\n\nKundalpur me janme, trishla ke jaaye\nPita Sidhaarth raja, Sun nar Harshaye || ॐ ||\n\nDeennath dayanidhi, hai mangal kaari\nJaghit saiyam dhara, Prabhu par-upkaari || ॐ ||\n\nPaapachar mitaya, Satpath dikhlaya\nDayadharm ka jhanda, Jag me lehraya || ॐ ||\n\nArjunmaali Gautam, Shri chandanbala\nPaar jagat se beda, Inka Kar daala || ॐ ||\nPaawan naam tumhara, jag taaranhara\nNisidin jo nar dhyave, Kasht mitay saara || ॐ ||\n\nKaruna sagar, teri mahima hai nyaari\nGyanmuni gun gaave, charanan balihaari || ॐ ||\n ',
-    'englishLyrics':
-        'ॐ जय महावीर प्रभु,\nस्वामी जय महावीर प्रभु ।\nकुण्डलपुर अवतारी,\nचांदनपुर अवतारी,\nत्रिशलानंद विभु ॥\n\nसिध्धारथ घर जन्मे,\nवैभव था भारी ।\nबाल ब्रह्मचारी व्रत,\nपाल्यो तप धारी ॥\n॥ॐ जय महावीर प्रभु...॥\n\nआतम ज्ञान विरागी,\nसम दृष्टि धारी ।\nमाया मोह विनाशक,\nज्ञान ज्योति जारी ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजग में पाठ अहिंसा,\nआप ही विस्तारयो ।\nहिंसा पाप मिटा कर,\nसुधर्म परिचारियो ॥\n॥ॐ जय महावीर प्रभु...॥\n\nअमर चंद को सपना,\nतुमने परभू दीना ।\nमंदिर तीन शेखर का,\nनिर्मित है कीना ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजयपुर नृप भी तेरे,\nअतिशय के सेवी ।\nएक ग्राम तिन्ह दीनो,\nसेवा हित यह भी ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजल में भिन्न कमल जो,\nघर में बाल यति ।\nराज पाठ सब त्यागे,\nममता मोह हती ॥\n॥ॐ जय महावीर प्रभु...॥\n \nभूमंडल चांदनपुर,\nमंदिर मध्य लसे ।\nशांत जिनिश्वर मूरत,\nदर्शन पाप लसे ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजो कोई तेरे दर पर,\nइच्छा कर आवे ।\nधन सुत्त सब कुछ पावे,\nसंकट मिट जावे ॥\n॥ॐ जय महावीर प्रभु...॥\n\nनिशदिन प्रभु मंदिर में,\nजगमग ज्योत जरे ।\nहम सेवक चरणों में,\nआनंद मूँद भरे ॥\n॥ॐ जय महावीर प्रभु...॥\n\nॐ जय महावीर प्रभु,\nस्वामी जय महावीर प्रभु ।\nकुण्डलपुर अवतारी,\nचांदनपुर अवतारी,\nत्रिशलानंद विभु ॥\n ',
+    'lyrics': 'Lyrics not available at the moment!',
+    'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Brijwani Cassettes',
+    'production': 'Jainsite',
     'share': 0,
-    'singer': 'Vandana Bhardwaj',
-    'songNameEnglish': 'Om Jai Mahaveer Prabhu',
-    'songNameHindi': 'ॐ जय महावीर प्रभु',
-    'tirthankar': 'Mahavir',
+    'singer': '',
+    'songNameEnglish': 'Aaj Sona Ro Suraj Ugiyo',
+    'songNameHindi': 'आज सोना रो सूरज उग्यो',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/HKcJ0vmMYV4',
+    'youTubeLink': 'https://youtu.be/ivumhfzH26Y',
   };
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
