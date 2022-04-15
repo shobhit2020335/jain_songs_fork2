@@ -1,18 +1,17 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/buildRow.dart';
-import 'package:jain_songs/services/Suggester.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class PlaylistPage extends StatefulWidget {
   final PlaylistDetails? currentPlaylist;
   //Below Variable is recieved when page is opened from Dynamic link or FCM.
   final String? playlistCode;
 
-  PlaylistPage({this.currentPlaylist, this.playlistCode});
+  const PlaylistPage({Key? key, this.currentPlaylist, this.playlistCode})
+      : super(key: key);
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();
@@ -23,41 +22,26 @@ class _PlaylistPageState extends State<PlaylistPage> {
   Timer? _timerLink;
   PlaylistDetails? currentPlaylist;
 
-  void getSongs() async {
-    setState(() {
-      showProgress = true;
-    });
-    await FireStoreHelper().getPopularSongs();
-
+  void setUpPlaylistDetails() {
+    ListFunctions().addElementsToList(currentPlaylist!.playlistTag);
     setState(() {
       showProgress = false;
     });
   }
 
-  void setUpPlaylistDetails() {
-    if (currentPlaylist!.playlistTag.contains('popular')) {
-      getSongs();
-    } else {
-      addElementsToList(currentPlaylist!.playlistTag);
-      setState(() {
-        showProgress = false;
-      });
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    listToShow.clear();
+    ListFunctions.listToShow.clear();
     setState(() {
       showProgress = true;
     });
 
-    if (widget.playlistCode == null || widget.playlistCode!.length == 0) {
+    if (widget.playlistCode == null || widget.playlistCode!.isEmpty) {
       currentPlaylist = widget.currentPlaylist;
       setUpPlaylistDetails();
     } else {
-      currentPlaylist = playlistList.firstWhere((playlist) {
+      currentPlaylist = ListFunctions.playlistList.firstWhere((playlist) {
         return playlist!.playlistTag.contains(widget.playlistCode!);
       }, orElse: () {
         return null;
@@ -65,8 +49,21 @@ class _PlaylistPageState extends State<PlaylistPage> {
       if (currentPlaylist == null) {
         Navigator.of(context).pop();
       } else {
-        _timerLink = Timer(Duration(milliseconds: 3000), () {
-          setUpPlaylistDetails();
+        _timerLink = Timer(const Duration(milliseconds: 5000), () {
+          if (ListFunctions.songList.isNotEmpty) {
+            setUpPlaylistDetails();
+          } else {
+            _timerLink?.cancel();
+            _timerLink = Timer(const Duration(milliseconds: 10000), () {
+              if (ListFunctions.songList.isNotEmpty) {
+                setUpPlaylistDetails();
+              } else {
+                ConstWidget.showSimpleToast(
+                    context, 'Internet connection might be slow! Try again.');
+                Navigator.of(context).pop();
+              }
+            });
+          }
         });
       }
     }
@@ -75,7 +72,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
   @override
   void dispose() {
     if (_timerLink != null) {
-      _timerLink!.cancel();
+      _timerLink?.cancel();
     }
     super.dispose();
   }
@@ -95,14 +92,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Text(
                       currentPlaylist != null ? currentPlaylist!.title : '',
-                      style: GoogleFonts.raleway(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).primaryTextTheme.headline3,
                     ),
                   ],
                 ),
@@ -112,7 +105,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    Colors.black,
+                    Colors.grey[850]!,
                     currentPlaylist != null
                         ? currentPlaylist!.color!
                         : Colors.white,
@@ -129,11 +122,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
                   return Center(
                     child: Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 200,
                         ),
                         CircularProgressIndicator(
-                          color: Colors.white,
                           backgroundColor: currentPlaylist != null
                               ? currentPlaylist!.color
                               : Colors.indigo,
@@ -141,32 +133,34 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ],
                     ),
                   );
-                } else if (listToShow.length == 0) {
+                } else if (ListFunctions.listToShow.isEmpty) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 70,
                       ),
                       Text(
                         'Songs loading...\nLike songs to save them in your Favourites playlist.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
+                        style: Theme.of(context).primaryTextTheme.subtitle2,
                       ),
                     ],
                   );
-                } else if (index < listToShow.length) {
+                } else if (index < ListFunctions.listToShow.length) {
                   return BuildRow(
-                    listToShow[index],
+                    ListFunctions.listToShow[index],
                     color: currentPlaylist!.color,
                     playlist: currentPlaylist,
+                    positionInList: index,
                   );
                 }
+                return null;
               },
               childCount: showProgress
                   ? 1
-                  : (listToShow.length == 0 ? 1 : listToShow.length),
+                  : (ListFunctions.listToShow.isEmpty
+                      ? 1
+                      : ListFunctions.listToShow.length),
             ),
           ),
         ],

@@ -3,16 +3,18 @@ import 'package:jain_songs/custom_widgets/build_playlistRow.dart';
 import 'package:jain_songs/utilities/lists.dart';
 
 class BuildPlaylistList extends StatelessWidget {
+  const BuildPlaylistList({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: playlistList.length * 2,
+      itemCount: ListFunctions.playlistList.length * 2,
       itemBuilder: (context, i) {
         if (i % 2 == 1) {
-          return Divider();
+          return const Divider();
         } else {
           return BuildPlaylistRow(
-            playlistList[i ~/ 2],
+            ListFunctions.playlistList[i ~/ 2],
           );
         }
       },

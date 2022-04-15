@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -9,13 +8,13 @@ import 'package:jain_songs/custom_widgets/buildList.dart';
 import 'package:jain_songs/custom_widgets/build_playlistList.dart';
 import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
-// import 'package:jain_songs/keyboard_visibility_configured/keyboard_visibility.dart';
-import 'package:jain_songs/services/FirebaseDynamicLinkService.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
-import 'package:jain_songs/services/Searchify.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
-import 'package:jain_songs/services/oneSignal_notification.dart';
+import 'package:jain_songs/services/notification/FirebaseDynamicLinkService.dart';
+import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/searchify.dart';
+import 'package:jain_songs/services/database/database_controller.dart';
+import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/settings_page.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -23,6 +22,8 @@ import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -34,18 +35,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Timer? _timerLink;
 
   //This variable is used to determine whether the user searching is found or not.
-  KeyboardVisibilityController _keyboardVisibilityController =
+  final KeyboardVisibilityController _keyboardVisibilityController =
       KeyboardVisibilityController();
-  // KeyboardVisibilityNotification _keyboardVisibilityNotification =
-  //     KeyboardVisibilityNotification();
   bool isBasicSearchEmpty = false;
   bool showProgress = false;
-  Widget appBarTitle = mainAppTitle();
+  Widget appBarTitle = ConstWidget.mainAppTitle();
 
-  Icon searchOrCrossIcon = Icon(Icons.search);
+  Icon searchOrCrossIcon = const Icon(Icons.search);
   Icon filterIcon = Icon(
     Icons.filter_list_alt,
-    color: Colors.indigo,
+    color: ConstWidget.signatureColors(),
   );
 
   SpeechToText speechToText = SpeechToText();
@@ -53,68 +52,109 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   void _searchAppBarUi() {
     if (showProgress == false) {
-      setState(() {
-        this.searchOrCrossIcon = clearIcon;
-        this.appBarTitle = TextField(
-          textInputAction: TextInputAction.search,
-          controller: searchController,
-          autofocus: true,
-          onChanged: (value) {
-            getSongs(value, false);
-          },
-          style: TextStyle(color: Colors.black),
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.search_rounded,
-              color: Colors.black,
+      setState(
+        () {
+          searchOrCrossIcon = ConstWidget.clearIcon;
+          appBarTitle = TextField(
+            textInputAction: TextInputAction.search,
+            controller: searchController,
+            autofocus: true,
+            cursorColor: Theme.of(context).primaryColor,
+            onChanged: (value) {
+              getSongs(value, false);
+
+              listScrollController.animateTo(
+                listScrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.fastOutSlowIn,
+              );
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: Theme.of(context).appBarTheme.iconTheme?.color,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
+              ),
+              hintText: 'Search anything...',
             ),
-            hintText: 'Search anything...',
-          ),
-        );
-      });
+          );
+        },
+      );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getSongs('', true);
+
+    FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
+    FirebaseDynamicLinkService.retrieveDynamicLink(context);
+
+    WidgetsBinding.instance!.addObserver(this);
+
+    FirebaseFCMManager.handleFCMRecieved(context);
+
+    // AdManager.initializeFBAds();
+
+    speechToText.initialize(onError: (error) {
+      setState(() {
+        isListening = false;
+        ConstWidget.showSimpleToast(
+            context, "Couldn't recognize your words. Please try again!",
+            duration: 3);
+      });
+    }).then((value) {
+      setState(() {});
+    }).onError((dynamic error, stackTrace) {
+      print('Error loading. $error & $stackTrace');
+    });
+
+    _keyboardVisibilityController.onChange.listen((isVisible) {
+      if (!isVisible &&
+          isBasicSearchEmpty &&
+          searchController.text.length > 3) {
+        isBasicSearchEmpty = false;
+        SongSuggestions currentSongSuggestion = SongSuggestions(
+          searchController.text,
+          "User tried to search this",
+        );
+        FireStoreHelper().addSuggestions(currentSongSuggestion, []);
+      }
+    });
   }
 
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
   //Searching has flag = false.
-  void getSongs(String query, bool flag) async {
+  void getSongs(String? query, bool flag) async {
     setState(() {
       showProgress = true;
     });
 
-    filtersSelected.clear();
+    ListFunctions.filtersSelected.clear();
 
     if (query != null && flag == false) {
       isBasicSearchEmpty = Searchify().basicSearch(query);
     } else {
       await NetworkHelper().changeDateAndVersion();
-      if (fetchedVersion! > appVersion) {
+      if (Globals.fetchedVersion! > Globals.appVersion) {
         setState(() {
-          showUpdateDialog(context);
+          ConstWidget.showUpdateDialog(context);
         });
-      }
-      bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-      if (totalDays > fetchedDays! && isInternetConnected) {
-        fetchedDays = totalDays;
-        try {
-          await FireStoreHelper().dailyUpdate();
-        } catch (e) {
-          print(e);
-          setState(() {
-            showProgress = false;
-          });
-        }
       } else {
-        try {
-          await FireStoreHelper().getSongs();
-        } catch (e) {
-          print(e);
+        bool isSuccess = await DatabaseController()
+            .fetchSongs(context, onSqlFetchComplete: refreshSongData);
+        if (isSuccess == false) {
+          ConstWidget.showSimpleToast(context,
+              'Please check your Internet Connection and restart Stavan');
           setState(() {
             showProgress = false;
           });
         }
       }
-      addElementsToList('home');
+      ListFunctions().addElementsToList('home');
     }
 
     setState(() {
@@ -126,12 +166,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     await FilterListDialog.display(context,
         height: 480,
         borderRadius: 20,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+        unselectedTextColor: Theme.of(context).primaryColorLight,
+        searchFieldBackgroundColor:
+            Theme.of(context).progressIndicatorTheme.color!,
+        unselectedTextbackGroundColor:
+            Theme.of(context).progressIndicatorTheme.color!,
         searchFieldHintText: "Search Here", onApplyButtonClick: (list) {
-      filtersSelected = List.from(list);
+      ListFunctions.filtersSelected = List.from(list);
       setState(() {
         showProgress = true;
       });
-      applyFilter().then((value) {
+      ListFunctions().applyFilter().then((value) {
         setState(() {
           showProgress = false;
         });
@@ -139,8 +185,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         FirebaseCrashlytics.instance
             .log('home_page/_filterDialog(): ' + onError.toString());
 
-        listToShow = List.from(sortedSongList);
-        showSimpleToast(
+        ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
+        ConstWidget.showSimpleToast(
           context,
           'Error applying Filter',
         );
@@ -152,19 +198,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     },
         //To implement onAllButtonCLick see how onResetButtonClick is made.
         onResetButtonClick: (list) {
-      filtersSelected = List.from(list);
+      ListFunctions.filtersSelected = List.from(list);
       setState(() {
         showProgress = true;
       });
-      applyFilter().then((value) {
+      ListFunctions().applyFilter().then((value) {
         setState(() {
           showProgress = false;
         });
       }).catchError((onError) {
         FirebaseCrashlytics.instance
             .log('home_page/_filterDialog(): ' + onError.toString());
-        listToShow = List.from(sortedSongList);
-        showSimpleToast(
+        ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
+        ConstWidget.showSimpleToast(
           context,
           'Error applying Filter',
         );
@@ -181,58 +227,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       _timerLink = Timer(
-        Duration(milliseconds: 1000),
+        const Duration(milliseconds: 1000),
         () {
-          print('Lifecycle state resumed');
+          // print('Lifecycle state resumed');
           FirebaseDynamicLinkService.retrieveDynamicLink(context);
         },
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getSongs('', true);
-
-    FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
-    FirebaseDynamicLinkService.retrieveDynamicLink(context);
-    OneSignalNotification().initOneSignal();
-
-    WidgetsBinding.instance!.addObserver(this);
-
-    FirebaseFCMManager.handleFCMRecieved(context);
-
-    // AdManager.initializeFBAds();
-
-    speechToText.initialize(onError: (error) {
-      setState(() {
-        isListening = false;
-        showSimpleToast(
-            context, "Couldn't recognize your words. Please try again!",
-            duration: 3);
-      });
-    }).then((value) {
-      setState(() {});
-    }).onError((dynamic error, stackTrace) {
-      print('Error loading. $error & $stackTrace');
-    });
-
-    _keyboardVisibilityController.onChange.listen((isVisible) {
-      if (!isVisible &&
-          isBasicSearchEmpty &&
-          searchController.text.length > 3) {
-        isBasicSearchEmpty = false;
-        SongSuggestions currentSongSuggestion = SongSuggestions(
-          "Got from search",
-          "Got from basic search emptiness",
-          searchController.text,
-          "What user tried to search is given in otherDetails.",
-          '',
-        );
-        FireStoreHelper().addSuggestions(context, currentSongSuggestion);
-      }
-    });
   }
 
   @override
@@ -246,11 +247,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  Future<void> refreshSongData() async {
+    print('Refreshing song data');
+    bool isSuccess = await DatabaseController().fetchSongsData(context);
+
+    if (isSuccess) {
+      print('Refresh success');
+      ListFunctions().addElementsToList('home');
+      setState(() {});
+    } else {
+      ConstWidget.showSimpleToast(context, 'Unable to refresh songs');
+    }
+    print('Refresh Complete');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shadowColor: Colors.indigo,
+        shadowColor: Theme.of(context).primaryColor,
         title: _currentIndex == 0
             ? TextButton(
                 onPressed: () {
@@ -267,14 +282,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               onTap: () {
                 listScrollController.animateTo(
                   listScrollController.position.minScrollExtent,
-                  duration: Duration(milliseconds: 1000),
+                  duration: const Duration(milliseconds: 2000),
                   curve: Curves.fastOutSlowIn,
                 );
-                showToast(welcomeMessage);
+                ConstWidget.showToast(Globals.welcomeMessage);
               },
               child: Image.asset(
                 'images/Logo.png',
-                color: Colors.indigo,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ),
@@ -290,11 +305,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   child: GestureDetector(
                     child: Icon(
                       Icons.mic,
-                      color: isListening ? Colors.red : Colors.black,
+                      color: isListening
+                          ? Colors.red
+                          : Theme.of(context).appBarTheme.iconTheme?.color,
                     ),
                     onTap: () {
                       if (isListening) {
-                        showSimpleToast(context, 'Stopped Listening.',
+                        ConstWidget.showSimpleToast(
+                            context, 'Stopped Listening.',
                             duration: 2);
                         speechToText.stop().then((value) {
                           setState(() {
@@ -318,13 +336,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         });
 
                         isListening = true;
-                        if (searchOrCrossIcon == clearIcon) {
+                        if (searchOrCrossIcon == ConstWidget.clearIcon) {
                           setState(() {
-                            showSimpleToast(context, 'Listening...',
+                            ConstWidget.showSimpleToast(context, 'Listening...',
                                 duration: 3);
                           });
                         } else {
-                          showSimpleToast(context, 'Listening...', duration: 3);
+                          ConstWidget.showSimpleToast(context, 'Listening...',
+                              duration: 3);
                           _searchAppBarUi();
                         }
                       }
@@ -339,7 +358,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     onTap: () {
                       setState(
                         () {
-                          if (this.searchOrCrossIcon.icon == Icons.search) {
+                          if (searchOrCrossIcon.icon == Icons.search) {
                             _searchAppBarUi();
                           } else {
                             if (isListening) {
@@ -349,12 +368,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                 });
                               });
 
-                              showSimpleToast(context, 'Stopped Listening.',
+                              ConstWidget.showSimpleToast(
+                                  context, 'Stopped Listening.',
                                   duration: 2);
                             }
-                            if (searchController.text.trim().length == 0) {
-                              searchOrCrossIcon = Icon(Icons.search);
-                              this.appBarTitle = mainAppTitle();
+                            if (searchController.text.trim().isEmpty) {
+                              searchOrCrossIcon = const Icon(Icons.search);
+                              appBarTitle = ConstWidget.mainAppTitle();
                               searchController.clear();
                               getSongs('', false);
                             } else {
@@ -384,56 +404,54 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ],
       ),
       bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: <IconData>[
+        icons: const <IconData>[
           FontAwesomeIcons.chartLine,
           Icons.edit_rounded,
           Icons.book_rounded,
           Icons.info_outline_rounded,
         ],
-        inactiveColor: Color(0xFF212323),
-        splashColor: Colors.indigo,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        inactiveColor: Theme.of(context).primaryColorLight,
+        activeColor: ConstWidget.signatureColors(),
+        splashColor: ConstWidget.signatureColors(),
         iconSize: 30,
         elevation: 5,
         activeIndex: _currentIndex,
         gapLocation: GapLocation.none,
         notchSmoothness: NotchSmoothness.smoothEdge,
-        activeColor: signatureColors(5),
-        backgroundColor: Colors.white,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
             if (index == 1) {
-              appBarTitle = Text('');
+              appBarTitle = const Text('');
             } else if (index == 2) {
-              appBarTitle = Text('Playlists');
+              appBarTitle = const Text(
+                'Playlists',
+              );
             } else if (index == 3) {
-              appBarTitle = Text('Settings and More');
+              appBarTitle = const Text(
+                'Settings and More',
+              );
             } else {
-              appBarTitle = mainAppTitle();
+              appBarTitle = ConstWidget.mainAppTitle();
               getSongs('', false);
               searchController.clear();
-              this.searchOrCrossIcon = Icon(Icons.search);
+              searchOrCrossIcon = const Icon(Icons.search);
             }
           });
         },
       ),
       body: <Widget>[
-        //TODO: Test this along with searching and mic.
         showProgress
-            ? Container(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    backgroundColor: Colors.indigo,
-                  ),
-                ),
+            ? const Center(
+                child: CircularProgressIndicator(),
               )
             : BuildList(
                 scrollController: listScrollController,
                 searchController: searchController,
               ),
-        FormPage(),
-        BuildPlaylistList(),
+        const FormPage(),
+        const BuildPlaylistList(),
         SettingsPage(),
       ][_currentIndex],
     );

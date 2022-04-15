@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/services/firestore_helper.dart';
+import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'custom_widgets/constantWidgets.dart';
 
@@ -7,27 +7,45 @@ class SearchEmpty extends StatelessWidget {
   final nameController = TextEditingController();
   final TextEditingController searchController;
 
-  SearchEmpty(this.searchController);
+  SearchEmpty(this.searchController, {Key? key}) : super(key: key);
+
+  Widget formTextField(int? lines,
+      {String? hint, required TextEditingController editingController}) {
+    return TextField(
+      controller: editingController,
+      keyboardType: lines == 1 ? TextInputType.name : TextInputType.multiline,
+      maxLines: lines,
+      style: const TextStyle(fontSize: 16),
+      decoration: InputDecoration(
+        hintText: hint,
+        border: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
-            Text(
+            const Text(
               "✔ Check for any spelling mistakes.\n✔ Change the filters if applied.\n",
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 15,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
@@ -44,27 +62,22 @@ class SearchEmpty extends StatelessWidget {
                   flex: 1,
                   child: TextButton(
                     onPressed: () {
-                      if (nameController != null &&
-                          searchController != null &&
-                          nameController.text.trim().length > 4) {
-                        showSimpleToast(
+                      if (nameController.text.trim().length > 4) {
+                        ConstWidget.showSimpleToast(
                           context,
                           'ThankYou for submitting! We will update the song soon.',
                         );
 
                         SongSuggestions currentSongSuggestion = SongSuggestions(
-                          "Got by search submission",
-                          "Got from search submission",
                           nameController.text,
-                          "What user tried to search is given in otherDetails.",
-                          searchController.text,
+                          "User filled it after not finding the song.",
                         );
                         FireStoreHelper()
-                            .addSuggestions(context, currentSongSuggestion);
+                            .addSuggestions(currentSongSuggestion, []);
 
                         nameController.clear();
                       } else {
-                        showSimpleToast(
+                        ConstWidget.showSimpleToast(
                           context,
                           'Please Enter correct song name.',
                         );
@@ -72,16 +85,16 @@ class SearchEmpty extends StatelessWidget {
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                           bottomLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20),
                         ),
-                        color: Colors.indigo,
+                        color: ConstWidget.signatureColors(),
                       ),
                       height: 40,
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Submit',
                           style: TextStyle(

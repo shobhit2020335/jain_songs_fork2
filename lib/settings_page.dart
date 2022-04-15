@@ -4,6 +4,8 @@ import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'custom_widgets/build_settingsList.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -22,9 +24,11 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(top: 12),
       child: Column(
         children: [
-          Expanded(
+          const Expanded(
+            flex: 2,
             child: BuildSettingsList(),
           ),
           Expanded(
@@ -35,25 +39,25 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      child: showLogo(),
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      child: ConstWidget.showLogo(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
                       'Stavan',
                       style: GoogleFonts.itim(
-                        color: Colors.indigo,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 40,
-                        // fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
                 Text(
-                  'v1.2.3',
+                  'v1.3.4',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ],

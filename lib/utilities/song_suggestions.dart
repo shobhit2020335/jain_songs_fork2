@@ -3,44 +3,48 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class SongSuggestions {
   String? fcmToken;
   String? oneSignalPlayerId;
-  String name;
-  String email;
   String songName;
-  String lyrics;
   String otherDetails;
+  List<String>? imagesLink;
   Timestamp? submissionTime;
-  Map<String, dynamic> songSuggestionMap = Map<String, String?>();
+  Map<String, dynamic> songSuggestionMap = <String, String?>{};
 
-  SongSuggestions(
-      this.name, this.email, this.songName, this.lyrics, this.otherDetails,
-      {this.submissionTime,
-      this.fcmToken: 'NA',
-      this.oneSignalPlayerId: 'NA'}) {
-    this.submissionTime = Timestamp.now();
+  SongSuggestions(this.songName, this.otherDetails,
+      {this.imagesLink,
+      this.submissionTime,
+      this.fcmToken = 'NA',
+      this.oneSignalPlayerId = 'NA'}) {
+    submissionTime = Timestamp.now();
     songSuggestionMap = {
-      'oneSignalPlayerId': this.oneSignalPlayerId,
-      'fcmToken': this.fcmToken,
-      'email': this.email,
-      'lyrics': this.lyrics,
-      'name': this.name,
-      'otherDetails': this.otherDetails,
-      'songName': this.songName,
-      'submissionTime': this.submissionTime,
+      'oneSignalPlayerId': oneSignalPlayerId,
+      'fcmToken': fcmToken,
+      'imagesLink': imagesLink,
+      'otherDetails': otherDetails,
+      'songName': songName,
+      'submissionTime': submissionTime,
     };
+  }
+
+  void addImagesLink(String link) {
+    imagesLink ??= [];
+    if (imagesLink != null) {
+      imagesLink?.add(link);
+    }
+    songSuggestionMap['imagesLink'] = imagesLink;
   }
 
   void setFCMToken(String? fcmToken) {
     this.fcmToken = fcmToken;
-    this.songSuggestionMap['fcmToken'] = fcmToken;
+    songSuggestionMap['fcmToken'] = fcmToken;
   }
 
   void setOneSignalPlayerId(String? playerId) {
-    this.oneSignalPlayerId = playerId;
-    this.songSuggestionMap['oneSignalPlayerId'] = playerId;
+    oneSignalPlayerId = playerId;
+    songSuggestionMap['oneSignalPlayerId'] = playerId;
   }
 
   void setSubmissionTime(Timestamp time) {
-    this.submissionTime = time;
-    this.songSuggestionMap['submissionTime'] = time;
+    submissionTime = time;
+    songSuggestionMap['submissionTime'] = time;
   }
 }

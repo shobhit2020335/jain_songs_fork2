@@ -15,7 +15,7 @@ class FirebaseFCMManager {
       if (routeFromNotification == 'deeplink') {
         launch(codeFromNotification!);
       } else {
-        print('Before push named code recieved = $codeFromNotification');
+        // print('Before push named code recieved = $codeFromNotification');
         Navigator.pushNamed(contextForNotiTap, '/$routeFromNotification',
             arguments: {
               'code': codeFromNotification,
@@ -28,7 +28,8 @@ class FirebaseFCMManager {
   static const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // name
-      'This channel is used for important notifications.', // description
+      description:
+          'This channel is used for important notifications.', // description
       importance: Importance.high);
 
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -41,8 +42,13 @@ class FirebaseFCMManager {
   }
 
   static Future<String?> getFCMToken() async {
-    String? fcmToken = await FirebaseMessaging.instance.getToken();
-
+    String? fcmToken = 'null';
+    try {
+      fcmToken = await FirebaseMessaging.instance.getToken();
+    } catch (e) {
+      print('Error fetching FCM token: $e');
+      fcmToken = 'null';
+    }
     return fcmToken;
   }
 
@@ -88,9 +94,10 @@ class FirebaseFCMManager {
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              channel.description,
+              channelDescription: channel.description,
               icon: 'icon_notification',
-              sound: RawResourceAndroidNotificationSound('tone_notification'),
+              sound: const RawResourceAndroidNotificationSound(
+                  'tone_notification'),
               importance: Importance.high,
               // other properties...
             ),
@@ -100,16 +107,14 @@ class FirebaseFCMManager {
             .then((value) {
           print('Finish making local notification');
 
-          if (message != null) {
-            if (message.data['deeplink'] != null) {
-              routeFromNotification = 'deeplink';
-              codeFromNotification = message.data['deeplink'];
-              contextForNotiTap = context;
-            } else if (message.data['route'] != null) {
-              contextForNotiTap = context;
-              routeFromNotification = message.data['route'];
-              codeFromNotification = message.data['code'];
-            }
+          if (message.data['deeplink'] != null) {
+            routeFromNotification = 'deeplink';
+            codeFromNotification = message.data['deeplink'];
+            contextForNotiTap = context;
+          } else if (message.data['route'] != null) {
+            contextForNotiTap = context;
+            routeFromNotification = message.data['route'];
+            codeFromNotification = message.data['code'];
           }
         });
       }

@@ -30,12 +30,8 @@ class FilterListDialog {
     Function(List<Filters>)? onApplyButtonClick,
     Function(List<Filters>)? onResetButtonClick,
   }) async {
-    if (height == null) {
-      height = MediaQuery.of(context).size.height * .8;
-    }
-    if (width == null) {
-      width = MediaQuery.of(context).size.width;
-    }
+    height ??= MediaQuery.of(context).size.height * .8;
+    width ??= MediaQuery.of(context).size.width;
     // ignore: unused_local_variable
     var list = await showDialog(
       context: context,
@@ -76,6 +72,6 @@ class FilterListDialog {
         );
       },
     );
-    return filtersSelected;
+    return ListFunctions.filtersSelected;
   }
 }

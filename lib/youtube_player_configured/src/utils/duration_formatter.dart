@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+
 /// Formats duration in milliseconds to xx:xx:xx format.
 String durationFormatter(int milliSeconds) {
   var seconds = milliSeconds ~/ 1000;
