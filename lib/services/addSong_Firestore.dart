@@ -23,10 +23,10 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add EXTRA searchkeywords in form of string.
-  currentSong.extraSearchKeywords('ASRSU',
-      englishName: 'sone ko ugyo ugayo',
-      hindiName: '',
-      originalSong: '',
+  currentSong.extraSearchKeywords('DWTS',
+      englishName: 'dandey waale tere sukriya',
+      hindiName: 'mohankheda rajendra suri',
+      originalSong: 'rajendar soori',
       album: '',
       tirthankar: '',
       extra1: '',
@@ -60,28 +60,29 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'ASRSU',
+    'code': 'DWTS',
     'album': '',
     'aaa': 'valid',
-    'category': 'Stavan',
-    'genre': '',
+    'category': 'Song',
+    'genre': 'Latest',
     'gujaratiLyrics': '',
-    'language': 'Marwadi',
+    'language': 'Hindi',
     'likes': 0,
-    'lyrics': 'Lyrics not available at the moment!',
+    'lyrics':
+        'Mere Sar Pe Hath Tera\nDarne Ki Mujhko Kya Baat Hai\nMujhko Kisiki Zarurat Hi Kya\nTu Jo Mere Ab Saath Hai\nMain Bhatka Tha\nAndheron Mein\nTune Ujaala Kiya\nO Dande Waale Tera Shukriya -2\n\nMeri Har Kami\nTu Hi to Jaane\nMera Har Karam\nTu Hi Pehchaane\nTere Naam Ka\nHi Kha Raha Hu Main\nTere Liye\nLikhta Hu Gaane\nJo Karta Gungaan Tera\nTu Uski Naiyya Paar Kare\nParas Raj Ye Vinti Kare\nTu Sangh Ka Uddhaar Kare\nMain Jab Jab Bhi\nLadkhadaya Hoon\nTune Sambhaal Liya\nO Dande Wale Tera Shukriya \n\nTera Har Karam Jo Mujhpe Hua Hai\nMeri Zindagi Ko Khushiyon Ne Chhuaa Hai\nHaar Ke Bhi Ab Main Jeet Jaata Hoon\nTeri Hi Duaa Ka Asar Aisa Hua Hai\nTeri Bhakti Ki Shakti Mein Jo\nJaadu Hai Wo Aur Kahan\nTere Kadmon Mein Aake Gire\nJo Ghumke Aaye Saara Jahan\nMeri Duniya Mein Aakar Ke\nTune Sambhal Liya\n',
     'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Jainsite',
+    'production': 'Bhakti Bhavna',
     'share': 0,
-    'singer': '',
-    'songNameEnglish': 'Aaj Sona Ro Suraj Ugiyo',
-    'songNameHindi': 'आज सोना रो सूरज उग्यो',
-    'tirthankar': '',
+    'singer': 'Rishabh Sambhav Jain (RSJ)',
+    'songNameEnglish': 'Dande Wale Tera Shukriya',
+    'songNameHindi': 'डंडे वाले तेरा शुक्रिया',
+    'tirthankar': 'Rajendrasuri',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/ivumhfzH26Y',
+    'youTubeLink': 'https://youtu.be/ZlLEUCL218I',
   };
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');

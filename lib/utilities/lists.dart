@@ -161,7 +161,7 @@ class ListFunctions {
     }
   }
 
-//This is used in bhakti playlist.
+//This is used in all playlists
   static int popularityComparison(SongDetails? a, SongDetails? b) {
     final propertyA = a!.popularity!;
     final propertyB = b!.popularity!;
@@ -215,6 +215,7 @@ class ListFunctions {
           listToShow.add(songList[i]);
         }
       }
+      listToShow.sort(trendComparison);
     }
     //This is for popular playlist.
     else if (playlistTag.contains('popular')) {
@@ -243,6 +244,7 @@ class ListFunctions {
           listToShow.add(songList[i]);
         }
       }
+      listToShow.sort(popularityComparison);
     }
     //This is Tirthankar, diksha, singer and paryushan playlist
     else {
@@ -255,6 +257,7 @@ class ListFunctions {
           listToShow.add(songList[i]);
         }
       }
+      listToShow.sort(popularityComparison);
     }
   }
 
