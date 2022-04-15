@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 class OneSignalNotification {
   Future<void> initOneSignal() async {
     // //Remove this method to stop OneSignal Debugging
-    // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
     OneSignal.shared.setAppId("2c654820-9b1d-42a6-8bad-eb0a1e430d6c");
 
     //Sets the playerId used for sending notification.
@@ -44,6 +44,7 @@ class OneSignalNotification {
         (OSNotificationOpenedResult result) async {
       // Will be called whenever a notification is opened/button pressed.
       print('One signal notification clicked now, background');
+
       Map<String, dynamic> dataReceived = result.notification.additionalData!;
 
       if (dataReceived.containsKey('route') &&

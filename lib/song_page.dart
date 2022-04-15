@@ -14,9 +14,6 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
-import 'package:jain_songs/youtube_player_configured/src/player/youtube_player.dart';
-import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_controller.dart';
-import 'package:jain_songs/youtube_player_configured/src/utils/youtube_player_flags.dart';
 import 'package:jain_songs/youtube_player_configured/youtube_player_flutter.dart';
 import 'custom_widgets/constantWidgets.dart';
 import 'services/database/firestore_helper.dart';
@@ -67,7 +64,9 @@ class _SongPageState extends State<SongPage> {
 
   //Info to be displayed if net is not on/link is not available.
   String linkInfo = '';
-  YoutubePlayerController? _youtubePlayerController;
+  YoutubePlayerController? _youtubePlayerController = YoutubePlayerController(
+      initialVideoId:
+          YoutubePlayer.convertUrlToId('https://youtu.be/fHrHhtbQU6w')!);
 
   //This is for admob to understand the content in the app. Two more arguements
   //are there but i have not updated them.

@@ -10,6 +10,7 @@ import 'package:jain_songs/custom_widgets/constantWidgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/notification/FirebaseDynamicLinkService.dart';
 import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/oneSignal_notification.dart';
 import 'package:jain_songs/services/searchify.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
@@ -92,6 +93,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
     FirebaseDynamicLinkService.retrieveDynamicLink(context);
+    OneSignalNotification().initOneSignal();
 
     WidgetsBinding.instance!.addObserver(this);
 
@@ -452,7 +454,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               ),
         const FormPage(),
         const BuildPlaylistList(),
-        SettingsPage(),
+        const SettingsPage(),
       ][_currentIndex],
     );
   }
