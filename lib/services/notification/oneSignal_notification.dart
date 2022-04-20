@@ -5,9 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class OneSignalNotification {
   Future<void> initOneSignal() async {
-    //Remove this method to stop OneSignal Debugging
+    // //Remove this method to stop OneSignal Debugging
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
     OneSignal.shared.setAppId("2c654820-9b1d-42a6-8bad-eb0a1e430d6c");
 
     //Sets the playerId used for sending notification.
@@ -22,16 +21,30 @@ class OneSignalNotification {
     });
 
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
-        (OSNotificationReceivedEvent event) {
+        (OSNotificationReceivedEvent result) {
       // Will be called whenever a notification is received in foreground
       // Display Notification, pass null param for not displaying the notification
-      event.complete(event.notification);
+      result.complete(result.notification);
+
+      print('One signal notification clicked now, foreground');
+      Map<String, dynamic> dataReceived = result.notification.additionalData!;
+
+      if (dataReceived.containsKey('route') &&
+          dataReceived.containsKey('code')) {
+        navigatorKey.currentState!
+            .pushNamed('/${dataReceived['route']}', arguments: {
+          'code': dataReceived['code'],
+        });
+      } else if (dataReceived.containsKey('deeplink')) {
+        launch(dataReceived['deeplink']);
+      }
     });
 
     OneSignal.shared.setNotificationOpenedHandler(
         (OSNotificationOpenedResult result) async {
       // Will be called whenever a notification is opened/button pressed.
-      print('One signal notification clicked now');
+      print('One signal notification clicked now, background');
+
       Map<String, dynamic> dataReceived = result.notification.additionalData!;
 
       if (dataReceived.containsKey('route') &&

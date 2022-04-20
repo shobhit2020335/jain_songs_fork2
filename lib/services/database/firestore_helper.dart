@@ -31,9 +31,9 @@ class FireStoreHelper {
     print('Storing user behaviour');
     try {
       String? fcmToken = await FirebaseFCMManager.getFCMToken();
-      userBehaviour.setUserId(fcmToken);
+      userBehaviour.setFCMToken(fcmToken);
       String? playerId = await SharedPrefs.getOneSignalPlayerId();
-      userBehaviour.setUserId(playerId);
+      userBehaviour.setOneSignalId(playerId);
 
       //XXX: Remove while debugging
       await _firestore

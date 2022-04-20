@@ -23,10 +23,10 @@ void main() async {
   currentSong.mainSearchKeywords();
 
   //Uncomment Below to add EXTRA searchkeywords in form of string.
-  currentSong.extraSearchKeywords('OJMP',
-      englishName: 'jay mahabir prabho',
-      hindiName: '',
-      originalSong: '',
+  currentSong.extraSearchKeywords('DWTS',
+      englishName: 'dandey waale tere sukriya',
+      hindiName: 'mohankheda rajendra suri',
+      originalSong: 'rajendar soori',
       album: '',
       tirthankar: '',
       extra1: '',
@@ -60,30 +60,29 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'OJMP',
+    'code': 'DWTS',
     'album': '',
     'aaa': 'valid',
-    'category': 'Aarti',
-    'genre': '',
+    'category': 'Song',
+    'genre': 'Latest',
     'gujaratiLyrics': '',
     'language': 'Hindi',
     'likes': 0,
     'lyrics':
-        'Jai Mahavir Prabho,Swami Jai Mahavir Prabho\nJannaayak Sukhdaayak,Ati gambhir prabho || ॐ ||\n\nKundalpur me janme, trishla ke jaaye\nPita Sidhaarth raja, Sun nar Harshaye || ॐ ||\n\nDeennath dayanidhi, hai mangal kaari\nJaghit saiyam dhara, Prabhu par-upkaari || ॐ ||\n\nPaapachar mitaya, Satpath dikhlaya\nDayadharm ka jhanda, Jag me lehraya || ॐ ||\n\nArjunmaali Gautam, Shri chandanbala\nPaar jagat se beda, Inka Kar daala || ॐ ||\nPaawan naam tumhara, jag taaranhara\nNisidin jo nar dhyave, Kasht mitay saara || ॐ ||\n\nKaruna sagar, teri mahima hai nyaari\nGyanmuni gun gaave, charanan balihaari || ॐ ||\n ',
-    'englishLyrics':
-        'ॐ जय महावीर प्रभु,\nस्वामी जय महावीर प्रभु ।\nकुण्डलपुर अवतारी,\nचांदनपुर अवतारी,\nत्रिशलानंद विभु ॥\n\nसिध्धारथ घर जन्मे,\nवैभव था भारी ।\nबाल ब्रह्मचारी व्रत,\nपाल्यो तप धारी ॥\n॥ॐ जय महावीर प्रभु...॥\n\nआतम ज्ञान विरागी,\nसम दृष्टि धारी ।\nमाया मोह विनाशक,\nज्ञान ज्योति जारी ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजग में पाठ अहिंसा,\nआप ही विस्तारयो ।\nहिंसा पाप मिटा कर,\nसुधर्म परिचारियो ॥\n॥ॐ जय महावीर प्रभु...॥\n\nअमर चंद को सपना,\nतुमने परभू दीना ।\nमंदिर तीन शेखर का,\nनिर्मित है कीना ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजयपुर नृप भी तेरे,\nअतिशय के सेवी ।\nएक ग्राम तिन्ह दीनो,\nसेवा हित यह भी ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजल में भिन्न कमल जो,\nघर में बाल यति ।\nराज पाठ सब त्यागे,\nममता मोह हती ॥\n॥ॐ जय महावीर प्रभु...॥\n \nभूमंडल चांदनपुर,\nमंदिर मध्य लसे ।\nशांत जिनिश्वर मूरत,\nदर्शन पाप लसे ॥\n॥ॐ जय महावीर प्रभु...॥\n\nजो कोई तेरे दर पर,\nइच्छा कर आवे ।\nधन सुत्त सब कुछ पावे,\nसंकट मिट जावे ॥\n॥ॐ जय महावीर प्रभु...॥\n\nनिशदिन प्रभु मंदिर में,\nजगमग ज्योत जरे ।\nहम सेवक चरणों में,\nआनंद मूँद भरे ॥\n॥ॐ जय महावीर प्रभु...॥\n\nॐ जय महावीर प्रभु,\nस्वामी जय महावीर प्रभु ।\nकुण्डलपुर अवतारी,\nचांदनपुर अवतारी,\nत्रिशलानंद विभु ॥\n ',
+        'Mere Sar Pe Hath Tera\nDarne Ki Mujhko Kya Baat Hai\nMujhko Kisiki Zarurat Hi Kya\nTu Jo Mere Ab Saath Hai\nMain Bhatka Tha\nAndheron Mein\nTune Ujaala Kiya\nO Dande Waale Tera Shukriya -2\n\nMeri Har Kami\nTu Hi to Jaane\nMera Har Karam\nTu Hi Pehchaane\nTere Naam Ka\nHi Kha Raha Hu Main\nTere Liye\nLikhta Hu Gaane\nJo Karta Gungaan Tera\nTu Uski Naiyya Paar Kare\nParas Raj Ye Vinti Kare\nTu Sangh Ka Uddhaar Kare\nMain Jab Jab Bhi\nLadkhadaya Hoon\nTune Sambhaal Liya\nO Dande Wale Tera Shukriya \n\nTera Har Karam Jo Mujhpe Hua Hai\nMeri Zindagi Ko Khushiyon Ne Chhuaa Hai\nHaar Ke Bhi Ab Main Jeet Jaata Hoon\nTeri Hi Duaa Ka Asar Aisa Hua Hai\nTeri Bhakti Ki Shakti Mein Jo\nJaadu Hai Wo Aur Kahan\nTere Kadmon Mein Aake Gire\nJo Ghumke Aaye Saara Jahan\nMeri Duniya Mein Aakar Ke\nTune Sambhal Liya\n',
+    'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Brijwani Cassettes',
+    'production': 'Bhakti Bhavna',
     'share': 0,
-    'singer': 'Vandana Bhardwaj',
-    'songNameEnglish': 'Om Jai Mahaveer Prabhu',
-    'songNameHindi': 'ॐ जय महावीर प्रभु',
-    'tirthankar': 'Mahavir',
+    'singer': 'Rishabh Sambhav Jain (RSJ)',
+    'songNameEnglish': 'Dande Wale Tera Shukriya',
+    'songNameHindi': 'डंडे वाले तेरा शुक्रिया',
+    'tirthankar': 'Rajendrasuri',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/HKcJ0vmMYV4',
+    'youTubeLink': 'https://youtu.be/ZlLEUCL218I',
   };
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');

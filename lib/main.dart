@@ -143,12 +143,12 @@ class _MainThemeState extends State<MainTheme> {
             navigatorKey: navigatorKey,
             onGenerateRoute: (settings) {
               if (settings.name == '/song') {
-                final Map<String, dynamic>? args =
-                    settings.arguments as Map<String, dynamic>?;
+                final Map<String, dynamic> args =
+                    settings.arguments as Map<String, dynamic>;
 
                 return MaterialPageRoute(builder: (context) {
                   return SongPage(
-                    codeFromDynamicLink: args!['code'],
+                    codeFromDynamicLink: args['code'],
                     suggestionStreak: '-1' + args['code'],
                     postitionInList: -1,
                   );

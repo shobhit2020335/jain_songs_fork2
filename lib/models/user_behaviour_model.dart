@@ -3,7 +3,8 @@ class UserBehaviourModel {
   String songCode;
   String songName;
   //This id can be user'sid, onesigal id or fcm id.
-  String userId = '';
+  String oneSignalId = '';
+  String fcmToken = '';
   //String searched by user in search bar
   String? userSearched;
   //Suggestion opened like: autoplayed suggestion or manual suggestion + suggestion list
@@ -21,7 +22,8 @@ class UserBehaviourModel {
   UserBehaviourModel({
     required this.songCode,
     required this.songName,
-    this.userId = '',
+    this.oneSignalId = '',
+    this.fcmToken = '',
     this.userSearched,
     this.suggestionOpened,
     this.playlistOpened,
@@ -42,9 +44,15 @@ class UserBehaviourModel {
     code += '_' + timeOfClick!.millisecondsSinceEpoch.toString();
   }
 
-  void setUserId(String? id) {
+  void setOneSignalId(String? id) {
     if (id != null) {
-      userId = id;
+      oneSignalId = id;
+    }
+  }
+
+  void setFCMToken(String? token) {
+    if (token != null) {
+      fcmToken = token;
     }
   }
 
@@ -58,7 +66,8 @@ class UserBehaviourModel {
       'code': code,
       'songCode': songCode,
       'songName': songName,
-      'userId': userId,
+      'oneSignalId': oneSignalId,
+      'fcmToken': fcmToken,
       'userSearched': userSearched,
       'suggestionOpened': suggestionOpened,
       'playlistOpened': playlistOpened,
