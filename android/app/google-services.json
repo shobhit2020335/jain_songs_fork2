@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:456042169963:android:ae3fc31522dd1a8547932e",
         "android_client_info": {
-          "package_name": "com.JainDevelopers.jain_songs.debug"
+          "package_name": "com.JainDevelopers.jain_songs"
         }
       },
       "oauth_client": [
@@ -37,5 +37,5 @@
       "admob_app_id": "ca-app-pub-1265975785443681~2810280418"
     }
   ],
-  "configuration_version": "15"
+  "configuration_version": "16"
 }
