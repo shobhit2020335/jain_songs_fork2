@@ -6,6 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
+import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -520,6 +521,12 @@ class _SongPageState extends State<SongPage> {
                                       ),
                                       const SizedBox(),
                                     ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  ConstWidget.statusCard(
+                                    onTap: () async {
+                                      await CloudStorage().downloadPost();
+                                    },
                                   ),
                                   const Divider(thickness: 1),
                                   Visibility(

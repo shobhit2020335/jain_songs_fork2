@@ -5,6 +5,39 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ConstWidget {
+  static Widget statusCard({required void Function() onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Icon(
+              Icons.whatsapp_outlined,
+              color: Colors.white,
+            ),
+            Text(
+              'Apply Status',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(),
+          ],
+        ),
+      ),
+    );
+  }
+
   static Future<void> showUpdateDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
