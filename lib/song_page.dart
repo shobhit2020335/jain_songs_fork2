@@ -525,7 +525,17 @@ class _SongPageState extends State<SongPage> {
                                   const SizedBox(height: 10),
                                   ConstWidget.statusCard(
                                     onTap: () async {
-                                      await CloudStorage().downloadPost();
+                                      bool isSuccess =
+                                          await DatabaseControllerForPosts()
+                                              .fetchPostsOfSong(
+                                                  currentSong!.code!);
+                                      // await CloudStorage().downloadPost();
+                                      if (isSuccess) {
+                                        print(
+                                            'Posts fetched successfully for a song');
+                                      } else {
+                                        print('Error fetching posts of a song');
+                                      }
                                     },
                                   ),
                                   const Divider(thickness: 1),

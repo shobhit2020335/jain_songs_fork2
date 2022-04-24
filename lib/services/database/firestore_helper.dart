@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
@@ -484,6 +485,87 @@ class FireStoreHelper {
     } catch (e) {
       print('Error updating likes in firestore: $e');
       return false;
+    }
+  }
+}
+
+class FirestoreHelperForPost extends FireStoreHelper {
+  final CollectionReference postsCollection =
+      FirebaseFirestore.instance.collection('posts');
+
+  //TODO: Also find solution for playlist specific post fetching
+  //Also try to reduce reads combining both the ways
+  Future<bool> fetchPostsOfSong(String songCode) async {
+    print('Fetching posts of song: $songCode from firestore');
+    ListFunctions.postsToShow.clear();
+    QuerySnapshot posts;
+
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+
+      if (!ListFunctions.postsFetchedForSongs.contains(songCode)) {
+        if (DatabaseController.fromCache == false || isFirstOpen == null) {
+          if (isFirstOpen == null) {
+            SharedPrefs.setIsFirstOpen(false);
+          }
+          posts = await _firestore
+              .collection('posts')
+              .where('linkedSongs', arrayContains: songCode)
+              .orderBy('trendPoints', descending: true)
+              .get();
+        } else {
+          posts = await _firestore
+              .collection('posts')
+              .where('linkedSongs', arrayContains: songCode)
+              .orderBy('trendPoints', descending: true)
+              .get(const GetOptions(source: Source.cache));
+          if (posts.size == 0) {
+            posts = await _firestore
+                .collection('posts')
+                .where('linkedSongs', arrayContains: songCode)
+                .orderBy('trendPoints', descending: true)
+                .get();
+          }
+        }
+
+        for (var post in posts.docs) {
+          PostModel postModel = PostModel.fromDocumentSnapshot(post);
+          if (postModel.isAvailableForStatus) {
+            ListFunctions.postsToShow.add(postModel);
+          }
+          if (!ListFunctions.postsFetched.contains(postModel.code)) {
+            ListFunctions.allPosts.add(postModel);
+          }
+          ListFunctions.postsFetched.add(postModel.code);
+        }
+        ListFunctions.postsFetchedForSongs.add(songCode);
+      } else {
+        for (int i = 0; i < ListFunctions.allPosts.length; i++) {
+          if (ListFunctions.allPosts[i].linkedSongs!.contains(songCode) &&
+              ListFunctions.allPosts[i].isAvailableForStatus) {
+            ListFunctions.postsToShow.add(ListFunctions.allPosts[i]);
+          }
+        }
+      }
+
+      ListFunctions.postsToShow.sort(_trendComparison);
+
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  int _trendComparison(PostModel? a, PostModel? b) {
+    final propertyA = a!.trendPoints;
+    final propertyB = b!.trendPoints;
+    if (propertyA < propertyB) {
+      return 1;
+    } else if (propertyA > propertyB) {
+      return -1;
+    } else {
+      return 0;
     }
   }
 }

@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//TODO: Feature add posts and detecting songs which should be linked to the post
+// on the basis of the keywords
+
 class PostModel {
-  //Format: type_premium_name_uploadedBy
-  //Remember: File name is same as the code of the post and name is just a title
+  //Format: type_premium_descriptionTitle_uploadedBy. Note it must not contain
+  //any special characters other than _.
+  //Remember: File name is same as the code of the post with its extension and name is just a title
   //for the post
   late String code;
-  late String name;
+  late String fileName;
   //The title for description heading
-  String? descriptionTitle;
+  late String descriptionTitle;
   //The written content of the post
   String? descriptionSubtitle;
   //The URL for the post's image or video
@@ -24,6 +28,8 @@ class PostModel {
 
   //Users who successfully applied the post as their status
   int appliedOnStatusBy = 0;
+  //Users who successfullt downloaded the post.
+  int downloadedBy = 0;
   int likes = 0;
   int popularity = 0;
   int todayClicks = 0;
@@ -32,20 +38,21 @@ class PostModel {
 
   //Types: Video, Image, Gif, etc
   late String type;
-  late String uploadedBy;
+  String uploadedBy = 'Stavan Co.';
   DateTime? lastModified;
 
   PostModel({
     required this.code,
-    required this.name,
+    required this.fileName,
     required this.url,
-    this.descriptionTitle,
+    required this.descriptionTitle,
     this.descriptionSubtitle,
     this.isAvailableForStatus = true,
     this.isPremium = false,
     required this.linkedPlaylists,
     required this.linkedSongs,
     this.appliedOnStatusBy = 0,
+    this.downloadedBy = 0,
     this.likes = 0,
     this.popularity = 0,
     this.totalClicks = 0,
@@ -58,14 +65,17 @@ class PostModel {
     lastModified ??= DateTime.now();
   }
 
+  void createCode() {
+    //TODO:
+  }
+
   Map<String, dynamic> toMap() {
-    descriptionTitle ??= '';
     descriptionSubtitle ??= '';
     lastModified ??= DateTime.now();
 
     return {
       'code': code,
-      'name': name,
+      'fileName': fileName,
       'url': url,
       'descriptionTitle': descriptionTitle,
       'descriptionSubtitle': descriptionSubtitle,
@@ -74,6 +84,7 @@ class PostModel {
       'linkedPlaylists': linkedPlaylists,
       'linkedSongs': linkedSongs,
       'appliedOnStatusBy': appliedOnStatusBy,
+      'downloadedBy': downloadedBy,
       'likes': likes,
       'popularity': popularity,
       'totalClicks': totalClicks,
@@ -87,7 +98,7 @@ class PostModel {
 
   PostModel.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
     code = documentSnapshot['code'];
-    name = documentSnapshot['name'];
+    fileName = documentSnapshot['fileName'];
     url = documentSnapshot['url'];
     descriptionTitle = documentSnapshot['descriptionTitle'];
     descriptionSubtitle = documentSnapshot['descriptionSubtitle'];
@@ -100,6 +111,7 @@ class PostModel {
         ? List<String>.from(documentSnapshot['linkedSongs'])
         : [];
     appliedOnStatusBy = documentSnapshot['appliedOnStatusBy'];
+    downloadedBy = documentSnapshot['downloadedBy'];
     likes = documentSnapshot['likes'];
     popularity = documentSnapshot['popularity'];
     totalClicks = documentSnapshot['totalClicks'];

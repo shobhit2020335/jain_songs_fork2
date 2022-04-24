@@ -12,7 +12,7 @@ import '../sharedPrefs.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
-  //Variable to decide which database to use from Realtime and firestore for fetching songs.
+  //Variable to decide which database to use from realtime and firestore for fetching songs
   static String dbName = 'realtime';
   //Variable to decide which database to use for fetching songsData
   static String dbForSongsData = 'firestore';
@@ -165,5 +165,21 @@ class DatabaseController {
         ).changeLikes(context, currentSong, toAdd);
     isSuccess = isSuccess & await SQfliteHelper().changeLikes(currentSong);
     return isSuccess;
+  }
+}
+
+//TODO:
+//This is database controller for the posts
+class DatabaseControllerForPosts extends DatabaseController {
+  //Fetches the post required for a particular song
+  Future<bool> fetchPostsOfSong(String songCode) async {
+    try {
+      bool isSuccess =
+          await FirestoreHelperForPost().fetchPostsOfSong(songCode);
+      return isSuccess;
+    } catch (e) {
+      print('Error fetching posts from firestore: $e');
+      return false;
+    }
   }
 }
