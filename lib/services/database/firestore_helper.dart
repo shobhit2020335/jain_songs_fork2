@@ -519,13 +519,6 @@ class FirestoreHelperForPost extends FireStoreHelper {
               .where('linkedSongs', arrayContains: songCode)
               .orderBy('trendPoints', descending: true)
               .get(const GetOptions(source: Source.cache));
-          if (posts.size == 0) {
-            posts = await _firestore
-                .collection('posts')
-                .where('linkedSongs', arrayContains: songCode)
-                .orderBy('trendPoints', descending: true)
-                .get();
-          }
         }
 
         for (var post in posts.docs) {
@@ -549,6 +542,60 @@ class FirestoreHelperForPost extends FireStoreHelper {
       }
 
       ListFunctions.postsToShow.sort(_trendComparison);
+
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  //Fethces a other posts if a song does not have its specific post
+  //TODO: Now its fetching most popular posts. But it should be changed
+  //to fetch posts related to song code. Also the status must not be
+  //seen by the user in this session
+  Future<bool> fetchRelatedPosts(String keywords) async {
+    print('Fetching related post for song from firestore');
+    ListFunctions.postsToShow.clear();
+    QuerySnapshot posts;
+
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
+        posts = await _firestore
+            .collection('posts')
+            .orderBy('popularity', descending: true)
+            .limit(3)
+            .get();
+      } else {
+        posts = await _firestore
+            .collection('posts')
+            .orderBy('popularity', descending: true)
+            .limit(3)
+            .get(const GetOptions(source: Source.cache));
+        if (posts.size == 0) {
+          posts = await _firestore
+              .collection('posts')
+              .orderBy('popularity', descending: true)
+              .limit(3)
+              .get();
+        }
+      }
+
+      for (var post in posts.docs) {
+        PostModel postModel = PostModel.fromDocumentSnapshot(post);
+        if (postModel.isAvailableForStatus) {
+          ListFunctions.postsToShow.add(postModel);
+        }
+        if (!ListFunctions.postsFetched.contains(postModel.code)) {
+          ListFunctions.allPosts.add(postModel);
+        }
+        ListFunctions.postsFetched.add(postModel.code);
+      }
 
       return true;
     } catch (e) {

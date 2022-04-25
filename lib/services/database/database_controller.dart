@@ -5,6 +5,7 @@ import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/database/realtimeDb_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
 import '../network_helper.dart';
@@ -172,10 +173,15 @@ class DatabaseController {
 //This is database controller for the posts
 class DatabaseControllerForPosts extends DatabaseController {
   //Fetches the post required for a particular song
-  Future<bool> fetchPostsOfSong(String songCode) async {
+  Future<bool> fetchPostsOfSong(String songCode, String searchKeywords) async {
     try {
       bool isSuccess =
           await FirestoreHelperForPost().fetchPostsOfSong(songCode);
+      if (isSuccess == false || ListFunctions.postsToShow.isEmpty) {
+        isSuccess =
+            await FirestoreHelperForPost().fetchRelatedPosts(searchKeywords);
+      }
+
       return isSuccess;
     } catch (e) {
       print('Error fetching posts from firestore: $e');

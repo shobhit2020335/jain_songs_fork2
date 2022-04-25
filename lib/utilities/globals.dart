@@ -4,8 +4,6 @@ import 'package:jain_songs/services/sharedPrefs.dart';
 
 class Globals {
   static final DateTime startDate = DateTime(2020, 12, 23);
-  static const String appURL =
-      'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
   static late DateTime todayDate;
   static int totalDays = 1;
   static int? fetchedDays = 1;
@@ -32,5 +30,9 @@ class Globals {
     SharedPrefs.getIsAutoplayVideo().then((value) {
       isVideoAutoPlay = value;
     });
+  }
+
+  static String getAppPlayStoreUrl() {
+    return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
   }
 }

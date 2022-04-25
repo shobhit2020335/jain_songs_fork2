@@ -525,17 +525,25 @@ class _SongPageState extends State<SongPage> {
                                   const SizedBox(height: 10),
                                   ConstWidget.statusCard(
                                     onTap: () async {
+                                      _youtubePlayerController?.pause();
                                       bool isSuccess =
                                           await DatabaseControllerForPosts()
                                               .fetchPostsOfSong(
-                                                  currentSong!.code!);
-                                      // await CloudStorage().downloadPost();
-                                      if (isSuccess) {
+                                                  currentSong!.code!,
+                                                  currentSong!.searchKeywords!);
+                                      //TODO: Show some loading here
+                                      if (isSuccess &&
+                                          ListFunctions
+                                              .postsToShow.isNotEmpty) {
                                         print(
                                             'Posts fetched successfully for a song');
+                                        await ConstWidget.showPostsForStatus(
+                                            context);
                                       } else {
-                                        print('Error fetching posts of a song');
+                                        print(
+                                            'Error fetching posts of a song or empty posts');
                                       }
+                                      _youtubePlayerController?.play();
                                     },
                                   ),
                                   const Divider(thickness: 1),
