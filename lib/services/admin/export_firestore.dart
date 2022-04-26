@@ -1,6 +1,7 @@
 //Functions to export firestore datas
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
@@ -25,7 +26,7 @@ class ExportFirestore {
 
       allUserBehaviourList.add(userBehaviour);
       jsonConverted += ', ' + jsonEncode(userBehaviour);
-      print('Json converted for a user behaviour query');
+      debugPrint('Json converted for a user behaviour query');
     }
 
     return jsonConverted;
@@ -37,9 +38,9 @@ class ExportFirestore {
       String path = join(externalDirectory!.path, 'user_behaviour.txt');
       File textFile = File(path);
       await textFile.writeAsString(data);
-      print('successfully stored data as text file');
+      debugPrint('successfully stored data as text file');
     } catch (e) {
-      print('Error storing text in file: $e');
+      debugPrint('Error storing text in file: $e');
     }
   }
 

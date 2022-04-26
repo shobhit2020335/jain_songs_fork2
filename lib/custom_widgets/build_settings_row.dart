@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/information_page.dart';
-import 'package:jain_songs/services/provider/darkTheme_provider.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/provider/dark_theme_provider.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/services/services.dart';

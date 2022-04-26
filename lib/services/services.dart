@@ -4,7 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,7 +51,7 @@ class Services {
                 style: Theme.of(context).primaryTextTheme.bodyText1,
               ),
               onTap: () {
-                print('onTap');
+                debugPrint('onTap');
                 return Navigator.of(context).pop(ImageSource.camera);
               },
             ),
@@ -87,7 +87,7 @@ class Services {
       final imagePermanent = await saveImagePermanently(image.path);
       return imagePermanent;
     } on Exception catch (e) {
-      print('Failed to pick Image: $e');
+      debugPrint('Failed to pick Image: $e');
       return null;
     }
   }
@@ -105,7 +105,7 @@ class Services {
       }
       return imagesPermanent;
     } on Exception catch (e) {
-      print('Failed to pick multiple Images: $e');
+      debugPrint('Failed to pick multiple Images: $e');
       return [];
     }
   }
@@ -150,7 +150,7 @@ class Services {
     // Code to get system info for android.
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.model}');
+    debugPrint('Running on ${androidInfo.model}');
 
     String body = '\n\n\nDO NOT DELETE \n{' +
         androidInfo.androidId +

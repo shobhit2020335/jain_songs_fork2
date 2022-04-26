@@ -6,10 +6,10 @@ import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
-import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/network_helper.dart';
-import 'package:jain_songs/services/database/realtimeDb_helper.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/database/realtime_db_helper.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/utilities/globals.dart';
@@ -29,7 +29,7 @@ class FireStoreHelper {
   //Error storing user search behaviour
   Future<bool> storeUserSearchBehaviour(
       UserBehaviourModel userBehaviour) async {
-    print('Storing user behaviour');
+    debugPrint('Storing user behaviour');
     try {
       String? fcmToken = await FirebaseFCMManager.getFCMToken();
       userBehaviour.setFCMToken(fcmToken);
@@ -44,7 +44,7 @@ class FireStoreHelper {
 
       return true;
     } catch (e) {
-      print('Error storing user search behaviour to firestore: $e');
+      debugPrint('Error storing user search behaviour to firestore: $e');
       return false;
     }
   }
@@ -74,7 +74,7 @@ class FireStoreHelper {
     try {
       await fetchRemoteConfigs();
     } catch (e) {
-      print('error fetching remote config: $e');
+      debugPrint('error fetching remote config: $e');
       Globals.welcomeMessage = 'Jai Jinendra';
       DatabaseController.dbName = 'firestore';
       DatabaseController.fromCache = false;
@@ -90,12 +90,12 @@ class FireStoreHelper {
       Timestamp timestamp = othersMap['lastSongModifiedTime'];
       Globals.lastSongModifiedTime = timestamp.millisecondsSinceEpoch;
     } catch (e) {
-      print(e);
+      debugPrint('Error fetching days and version: $e');
       Globals.fetchedDays = Globals.totalDays;
       Globals.fetchedVersion = Globals.appVersion;
     }
 
-    print(Globals.fetchedVersion);
+    debugPrint('Minimum app version required: ${Globals.fetchedVersion}');
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
@@ -120,7 +120,7 @@ class FireStoreHelper {
       'totalDays': Globals.totalDays,
       'lastUpdated': lastUpdated,
     }).catchError((error) {
-      print('Error updating days.' + error);
+      debugPrint('Error updating days.' + error);
     });
 
     await RealtimeDbHelper(
@@ -129,7 +129,7 @@ class FireStoreHelper {
   }
 
   Future<bool> fetchSongs() async {
-    print('Fetching songs from Firestore');
+    debugPrint('Fetching songs from Firestore');
     bool isSuccess = false;
     ListFunctions.songList.clear();
     QuerySnapshot songs;
@@ -156,7 +156,7 @@ class FireStoreHelper {
 
       isSuccess = await _readFetchedSongs(songs, ListFunctions.songList);
     } catch (e) {
-      print(e);
+      debugPrint('Error fetching songs from firestore: $e');
       return false;
     }
     return isSuccess;
@@ -216,7 +216,7 @@ class FireStoreHelper {
       }
       return true;
     } catch (e) {
-      print('Error in reading from firestore: $e');
+      debugPrint('Error in reading from firestore: $e');
       return false;
     }
   }
@@ -331,7 +331,7 @@ class FireStoreHelper {
       }
       return isSuccess;
     } catch (e) {
-      print('Error fetching songs data: $e');
+      debugPrint('Error fetching songs data: $e');
       return false;
     }
   }
@@ -350,7 +350,7 @@ class FireStoreHelper {
         songNotFound.add(key);
       });
 
-      print('Songs which are not found: $songNotFound');
+      debugPrint('Songs which are not found: $songNotFound');
       for (String code in songNotFound) {
         var song = await songs.doc(code).get();
         SongDetails currentSong = _readSingleSong(song, ListFunctions.songList);
@@ -364,7 +364,7 @@ class FireStoreHelper {
       }
       return true;
     } catch (e) {
-      print('Error fetching new songs: $e');
+      debugPrint('Error fetching new songs: $e');
       return false;
     }
   }
@@ -389,7 +389,7 @@ class FireStoreHelper {
       }
       return isSuccess;
     } catch (e) {
-      print('Error syncing new songs: $e');
+      debugPrint('Error syncing new songs: $e');
       return false;
     }
   }
@@ -442,7 +442,7 @@ class FireStoreHelper {
           currentSong.code!: FieldValue.increment(trendPointInc),
         }),
       ]);
-      print('All Futures runned');
+      debugPrint('All Futures runned');
       currentSong.todayClicks = currentSong.todayClicks! + 1;
       currentSong.totalClicks = currentSong.totalClicks! + 1;
       currentSong.popularity = currentSong.popularity! + 1;
@@ -450,7 +450,7 @@ class FireStoreHelper {
 
       return true;
     } catch (e) {
-      print(e);
+      debugPrint('Error changing clicks on firestore: $e');
       return false;
     }
   }
@@ -464,7 +464,7 @@ class FireStoreHelper {
       currentSong.share = currentSong.share! + 1;
       return true;
     } catch (e) {
-      print(e);
+      debugPrint('Error increasing shares of song: $e');
       return false;
     }
   }
@@ -483,7 +483,7 @@ class FireStoreHelper {
       SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
       return true;
     } catch (e) {
-      print('Error updating likes in firestore: $e');
+      debugPrint('Error updating likes in firestore: $e');
       return false;
     }
   }
@@ -496,7 +496,7 @@ class FirestoreHelperForPost extends FireStoreHelper {
   //TODO: Also find solution for playlist specific post fetching
   //Also try to reduce reads combining both the ways
   Future<bool> fetchPostsOfSong(String songCode) async {
-    print('Fetching posts of song: $songCode from firestore');
+    debugPrint('Fetching posts of song: $songCode from firestore');
     ListFunctions.postsToShow.clear();
     QuerySnapshot posts;
 
@@ -545,7 +545,7 @@ class FirestoreHelperForPost extends FireStoreHelper {
 
       return true;
     } catch (e) {
-      print(e);
+      debugPrint('Error fetching posts of a song: $e');
       return false;
     }
   }
@@ -555,7 +555,7 @@ class FirestoreHelperForPost extends FireStoreHelper {
   //to fetch posts related to song code. Also the status must not be
   //seen by the user in this session
   Future<bool> fetchRelatedPosts(String keywords) async {
-    print('Fetching related post for song from firestore');
+    debugPrint('Fetching related post for song from firestore');
     ListFunctions.postsToShow.clear();
     QuerySnapshot posts;
 
@@ -599,7 +599,7 @@ class FirestoreHelperForPost extends FireStoreHelper {
 
       return true;
     } catch (e) {
-      print(e);
+      debugPrint('Error fetching releated posts: $e');
       return false;
     }
   }

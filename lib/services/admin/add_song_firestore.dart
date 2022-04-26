@@ -9,7 +9,7 @@ import 'package:jain_songs/utilities/globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final FirebaseApp app = await Firebase.initializeApp();
+  await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
 
@@ -42,15 +42,15 @@ void main() async {
 
   // //Uncomment below to add a new song.
   // await currentSong.addToFirestore().catchError((error) {
-  //   print('Error: ' + error);
+  //   debugPrint('Error: ' + error);
   // });
-  // print('Added song successfully');
+  // debugPrint('Added song successfully');
 
   // //Uncomment below to add song in realtimeDB.
   // await currentSong.addToRealtimeDB().catchError((error) {
-  //   print('Error: ' + error);
+  //   debugPrint('Error: ' + error);
   // }).then((value) {
-  //   print('Added song to realtimeDB successfully');
+  //   debugPrint('Added song to realtimeDB successfully');
   // });
 
   // //Comment below to stop adding songsData
@@ -78,25 +78,23 @@ class _MainThemeState extends State<MainTheme> {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Container(
-            child: Center(
-              child: Row(
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      userBehaviourJson =
-                          await exportFirestore.getUserBehaviourToJson();
-                    },
-                    child: Text('Fetch'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      await exportFirestore.storeInTextFile(userBehaviourJson);
-                    },
-                    child: Text('Store'),
-                  ),
-                ],
-              ),
+          child: Center(
+            child: Row(
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    userBehaviourJson =
+                        await exportFirestore.getUserBehaviourToJson();
+                  },
+                  child: const Text('Fetch'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await exportFirestore.storeInTextFile(userBehaviourJson);
+                  },
+                  child: const Text('Store'),
+                ),
+              ],
             ),
           ),
         ),
@@ -144,7 +142,7 @@ class AddSong {
 
   Future<void> deleteSuggestion(String uid) async {
     return suggestion.doc(uid).delete().then((value) {
-      print('Deleted Successfully');
+      debugPrint('Deleted Successfully');
     });
   }
 
@@ -288,9 +286,9 @@ class AddSong {
           .update({
         currentSongMap['code']: currentSongMap['trendPoints'],
       });
-      print('songData added successfully');
+      debugPrint('songData added successfully');
     } catch (e) {
-      print('Error writing songsData: $e');
+      debugPrint('Error writing songsData: $e');
     }
   }
 
@@ -369,9 +367,9 @@ class AddSong {
           .child('songsData')
           .child('trendPoints')
           .set(trendPointsMap);
-      print('Rewritten songsData successfully');
+      debugPrint('Rewritten songsData successfully');
     } catch (e) {
-      print('Error rewriting songsData: $e');
+      debugPrint('Error rewriting songsData: $e');
     }
   }
 }

@@ -2,14 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
-import 'package:jain_songs/services/database/realtimeDb_helper.dart';
+import 'package:jain_songs/services/database/realtime_db_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
 import '../network_helper.dart';
-import '../sharedPrefs.dart';
+import '../shared_prefs.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
@@ -51,7 +51,7 @@ class DatabaseController {
   Future<bool> fetchSongsData(BuildContext context) async {
     bool isSuccess = false;
     if (dbForSongsData == 'realtime') {
-      print('Realtime se fetching songData');
+      debugPrint('Realtime se fetching songData');
       isSuccess = await RealtimeDbHelper(
         Globals.firebaseApp,
       ).fetchSongsData(context);
@@ -73,7 +73,7 @@ class DatabaseController {
         if (value) {
           SharedPrefs.setLastSyncTime(Globals.lastSongModifiedTime);
         } else {
-          print('Already synced or Error in syncing new changes: $value');
+          debugPrint('Already synced or Error in syncing new changes: $value');
         }
       });
     }
@@ -92,7 +92,7 @@ class DatabaseController {
       }
       return isSuccess;
     } catch (e) {
-      print('Error Syncing new changes: $e');
+      debugPrint('Error Syncing new changes: $e');
       return false;
     }
   }
@@ -122,7 +122,7 @@ class DatabaseController {
         await FireStoreHelper()
             .dailyUpdate(context, newTodayClicksMap, newTrendPointsMap);
       } catch (e) {
-        print('Error in daily update: $e');
+        debugPrint('Error in daily update: $e');
       }
     }
   }
@@ -137,7 +137,7 @@ class DatabaseController {
       ).changeClicks(currentSong);
       SQfliteHelper().changeClicks(currentSong);
     } else {
-      print('Error changing clicks');
+      debugPrint('Error changing clicks');
     }
   }
 
@@ -151,7 +151,7 @@ class DatabaseController {
       ).changeShare(currentSong);
       SQfliteHelper().changeShare(currentSong);
     } else {
-      print('Error changing share');
+      debugPrint('Error changing share');
     }
   }
 
@@ -169,7 +169,6 @@ class DatabaseController {
   }
 }
 
-//TODO:
 //This is database controller for the posts
 class DatabaseControllerForPosts extends DatabaseController {
   //Fetches the post required for a particular song
@@ -184,7 +183,7 @@ class DatabaseControllerForPosts extends DatabaseController {
 
       return isSuccess;
     } catch (e) {
-      print('Error fetching posts from firestore: $e');
+      debugPrint('Error fetching posts from firestore: $e');
       return false;
     }
   }

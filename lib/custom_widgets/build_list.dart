@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/searchEmpty_page.dart';
+import 'package:jain_songs/search_empty_page.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'buildRow.dart';
+import 'build_row.dart';
 
 class BuildList extends StatelessWidget {
   final Color colorRowIcon;

@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/network_helper.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/utilities/lists.dart';
@@ -23,7 +23,7 @@ class RealtimeDbHelper {
     if (app != null) {
       database = FirebaseDatabase.instanceFor(app: app!).ref();
     } else {
-      print('Firebase App is null');
+      debugPrint('Firebase App is null');
     }
   }
 
@@ -95,22 +95,22 @@ class RealtimeDbHelper {
         'lastDatabaseSynced': lastUpdated,
       });
 
-      print('Realtime Database Synced with Firestore');
+      debugPrint('Realtime Database Synced with Firestore');
       return true;
     } catch (e) {
-      print('Error syncing realtime database: $e');
+      debugPrint('Error syncing realtime database: $e');
       return false;
     }
   }
 
   Future<bool> fetchSongs() async {
-    print('fetching songs from Realtime DB');
+    debugPrint('fetching songs from Realtime DB');
     bool isSuccess = false;
     ListFunctions.songList.clear();
     DataSnapshot? songSnapshot;
 
     try {
-      print('Fetching songs from realtime DB');
+      debugPrint('Fetching songs from realtime DB');
       bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
       if (DatabaseController.fromCache == false || isFirstOpen == null) {
@@ -120,7 +120,7 @@ class RealtimeDbHelper {
 
         songSnapshot = await database.child('songs').get();
       } else {
-        print('From cache');
+        debugPrint('From cache');
         DatabaseEvent event = await database.child('songs').once();
         songSnapshot = event.snapshot;
       }
@@ -130,7 +130,7 @@ class RealtimeDbHelper {
         return false;
       }
     } catch (e) {
-      print('Error in realtime: $e');
+      debugPrint('Error in realtime: $e');
       return false;
     }
     return isSuccess;
@@ -195,7 +195,7 @@ class RealtimeDbHelper {
       });
       return true;
     } catch (e) {
-      print('Error reading songs from realtime: $e');
+      debugPrint('Error reading songs from realtime: $e');
       return false;
     }
   }
@@ -251,7 +251,7 @@ class RealtimeDbHelper {
       }
       return currentSongDetails;
     } catch (e) {
-      print('Error reading single song in realtime: $e');
+      debugPrint('Error reading single song in realtime: $e');
       return null;
     }
   }
@@ -261,7 +261,7 @@ class RealtimeDbHelper {
       var docSnapshot = await database.child('songsData').child('likes').get();
       Map<String, dynamic> likesDataMap =
           Map<String, dynamic>.from(jsonDecode(jsonEncode(docSnapshot.value)));
-      print('fetched likes');
+      debugPrint('fetched likes');
 
       docSnapshot = await database.child('songsData').child('share').get();
       Map<String, dynamic> shareDataMap =
@@ -320,7 +320,7 @@ class RealtimeDbHelper {
       }
       return isSuccess;
     } catch (e) {
-      print('Error fetching songs data: $e');
+      debugPrint('Error fetching songs data: $e');
       return false;
     }
   }
@@ -339,7 +339,7 @@ class RealtimeDbHelper {
         songNotFound.add(key);
       });
 
-      print('Songs which are not found: $songNotFound');
+      debugPrint('Songs which are not found: $songNotFound');
       for (String code in songNotFound) {
         var song = await database.child('songs').child(code).get();
         SongDetails? currentSong =
@@ -355,7 +355,7 @@ class RealtimeDbHelper {
       }
       return true;
     } catch (e) {
-      print('Error fetching new songs: $e');
+      debugPrint('Error fetching new songs: $e');
       return false;
     }
   }
@@ -381,7 +381,7 @@ class RealtimeDbHelper {
       ]);
       return true;
     } catch (e) {
-      print('Error updating clicks or popularity in realtime: $e');
+      debugPrint('Error updating clicks or popularity in realtime: $e');
       return false;
     }
   }
@@ -393,7 +393,7 @@ class RealtimeDbHelper {
       });
       return true;
     } catch (e) {
-      print('Error updating shares in realtime: $e');
+      debugPrint('Error updating shares in realtime: $e');
       return false;
     }
   }
@@ -411,7 +411,7 @@ class RealtimeDbHelper {
       ]);
       return true;
     } catch (e) {
-      print('Error updating likes in realtime: $e');
+      debugPrint('Error updating likes in realtime: $e');
       return false;
     }
   }

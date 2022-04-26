@@ -15,7 +15,7 @@ class FirebaseFCMManager {
       if (routeFromNotification == 'deeplink') {
         launch(codeFromNotification!);
       } else {
-        // print('Before push named code recieved = $codeFromNotification');
+        // debugPrint('Before push named code recieved = $codeFromNotification');
         Navigator.pushNamed(contextForNotiTap, '/$routeFromNotification',
             arguments: {
               'code': codeFromNotification,
@@ -38,7 +38,7 @@ class FirebaseFCMManager {
   static Future<void> saveFCMToken() async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
 
-    print('FCM token: $fcmToken');
+    debugPrint('FCM token: $fcmToken');
   }
 
   static Future<String?> getFCMToken() async {
@@ -46,7 +46,7 @@ class FirebaseFCMManager {
     try {
       fcmToken = await FirebaseMessaging.instance.getToken();
     } catch (e) {
-      print('Error fetching FCM token: $e');
+      debugPrint('Error fetching FCM token: $e');
       fcmToken = 'null';
     }
     return fcmToken;
@@ -58,20 +58,21 @@ class FirebaseFCMManager {
         .getInitialMessage()
         .then((RemoteMessage? message) {
       if (message != null) {
-        print('Opening FCM, App was terminated.');
+        debugPrint('Opening FCM, App was terminated.');
 
         if (message.data['deeplink'] != null) {
-          print(message.data['deeplink']);
+          debugPrint(message.data['deeplink']);
           launch(message.data['deeplink']);
         } else if (message.data['route'] != null) {
-          print('Before push named code recieved = ${message.data['code']}');
+          debugPrint(
+              'Before push named code recieved = ${message.data['code']}');
           Navigator.pushNamed(context, '/${message.data['route']}', arguments: {
             'code': message.data['code'],
           });
         }
       }
     }).onError((dynamic error, stackTrace) {
-      print('Error in terminated FCM. error: ' +
+      debugPrint('Error in terminated FCM. error: ' +
           error +
           'stackTrace: ' +
           stackTrace.toString());
@@ -79,12 +80,12 @@ class FirebaseFCMManager {
 
     //FCM code for opening Notification when app is in foreground.
     FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
-      print('Opening FCM, App was in foreground.');
+      debugPrint('Opening FCM, App was in foreground.');
       RemoteNotification? notification = message!.notification;
       AndroidNotification? android = message.notification?.android;
 
       if (notification != null && android != null) {
-        print('Making local notification');
+        debugPrint('Making local notification');
         flutterLocalNotificationsPlugin
             .show(
           5,
@@ -105,7 +106,7 @@ class FirebaseFCMManager {
           payload: '',
         )
             .then((value) {
-          print('Finish making local notification');
+          debugPrint('Finish making local notification');
 
           if (message.data['deeplink'] != null) {
             routeFromNotification = 'deeplink';
@@ -119,7 +120,7 @@ class FirebaseFCMManager {
         });
       }
     }).onError((error, stackTrace) {
-      print('Error in foreground FCM. error: ' +
+      debugPrint('Error in foreground FCM. error: ' +
           error +
           'stackTrace: ' +
           stackTrace.toString());
@@ -127,21 +128,22 @@ class FirebaseFCMManager {
 
     //FCM code for opening Notification when app is in background.
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
-      print('Opening FCM, App was in background.');
+      debugPrint('Opening FCM, App was in background.');
 
       if (message != null) {
         if (message.data['deeplink'] != null) {
-          print(message.data['deeplink']);
+          debugPrint(message.data['deeplink']);
           launch(message.data['deeplink']);
         } else if (message.data['route'] != null) {
-          print('Before push named code recieved = ${message.data['code']}');
+          debugPrint(
+              'Before push named code recieved = ${message.data['code']}');
           Navigator.pushNamed(context, '/${message.data['route']}', arguments: {
             'code': message.data['code'],
           });
         }
       }
     }).onError((error, stackTrace) {
-      print('Error in background FCM. error: ' +
+      debugPrint('Error in background FCM. error: ' +
           error +
           'stackTrace: ' +
           stackTrace.toString());

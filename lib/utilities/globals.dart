@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 
 class Globals {
   static final DateTime startDate = DateTime(2020, 12, 23);

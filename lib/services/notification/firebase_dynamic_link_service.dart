@@ -31,11 +31,11 @@ class FirebaseDynamicLinkService {
   static Future<void> retrieveInitialDynamicLink(BuildContext context) async {
     final PendingDynamicLinkData? data = await _dynamicLinks.getInitialLink();
     final Uri? deepLink = data?.link;
-    print(deepLink);
+    debugPrint('DeepLink retrieved: $deepLink');
 
     if (deepLink != null) {
-      // print('route from DL: ${deepLink.queryParameters['route']}');
-      // print('code from DL: ${deepLink.queryParameters['code']}');
+      // debugPrint('route from DL: ${deepLink.queryParameters['route']}');
+      // debugPrint('code from DL: ${deepLink.queryParameters['code']}');
       Navigator.pushNamed(context, '/${deepLink.queryParameters['route']}',
           arguments: {
             'code': deepLink.queryParameters['code'],
@@ -54,7 +54,7 @@ class FirebaseDynamicLinkService {
             });
       }
     }).onError((error) {
-      print('Error in retireve dynamic link foregroun/backgroun: $error');
+      debugPrint('Error in retireve dynamic link foregroun/backgroun: $error');
     });
   }
 }

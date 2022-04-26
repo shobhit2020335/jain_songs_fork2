@@ -6,7 +6,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
-import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -16,7 +15,7 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/youtube_player_configured/youtube_player_flutter.dart';
-import 'custom_widgets/constantWidgets.dart';
+import 'custom_widgets/constant_widgets.dart';
 import 'services/database/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
@@ -82,16 +81,14 @@ class _SongPageState extends State<SongPage> {
       request: adRequest,
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
-          print('$ad Ad Loaded');
+          debugPrint('$ad Ad Loaded');
           _interstitialAd = ad;
           //show ad is called just after the ad is loaded.
           _showInterstitialAd();
         },
         onAdFailedToLoad: (LoadAdError error) {
-          // print('Interstitial ad load failed: $error');
+          // debugPrint('Interstitial ad load failed: $error');
           _interstitialAd = null;
-          //TODO: Can add recursive function to load ad again when failed,
-          //see admob flutter pub dev for this.
         },
       ),
     );
@@ -99,19 +96,18 @@ class _SongPageState extends State<SongPage> {
 
   void _showInterstitialAd() {
     if (_interstitialAd == null) {
-      // print('Null interstital Ad while showing');
+      // debugPrint('Null interstital Ad while showing');
       return;
     }
-    //TODO: Can again load ad after it is dismissed or failed.
     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('Ad onShowedFullScreenContent'),
+          debugPrint('Ad onShowedFullScreenContent'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad Ad onDismissedFullScreenContent');
+        debugPrint('$ad Ad onDismissedFullScreenContent');
         ad.dispose();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError e) {
-        print('$ad Ad onAdFailedFullScreenContent: $e');
+        debugPrint('$ad Ad onAdFailedFullScreenContent: $e');
         ad.dispose();
       },
     );
@@ -309,7 +305,7 @@ class _SongPageState extends State<SongPage> {
       setState(() {});
       DatabaseController().changeLikes(context, currentSong!, -1).then((value) {
         if (value == false) {
-          print('Error changing likes');
+          debugPrint('Error changing likes');
           currentSong?.isLiked = true;
           currentSong?.likes = currentSong!.likes! + 1;
           currentSong?.popularity = currentSong!.popularity! + 1;
@@ -325,7 +321,7 @@ class _SongPageState extends State<SongPage> {
       setState(() {});
       DatabaseController().changeLikes(context, currentSong!, 1).then((value) {
         if (value == false) {
-          print('Error changing likes');
+          debugPrint('Error changing likes');
           currentSong?.isLiked = false;
           currentSong?.likes = currentSong!.likes! - 1;
           currentSong?.popularity = currentSong!.popularity! - 1;
@@ -535,12 +531,12 @@ class _SongPageState extends State<SongPage> {
                                       if (isSuccess &&
                                           ListFunctions
                                               .postsToShow.isNotEmpty) {
-                                        print(
+                                        debugPrint(
                                             'Posts fetched successfully for a song');
                                         await ConstWidget.showPostsForStatus(
                                             context);
                                       } else {
-                                        print(
+                                        debugPrint(
                                             'Error fetching posts of a song or empty posts');
                                       }
                                       _youtubePlayerController?.play();

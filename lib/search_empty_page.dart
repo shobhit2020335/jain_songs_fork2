@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
-import 'custom_widgets/constantWidgets.dart';
+import 'custom_widgets/constant_widgets.dart';
 
 class SearchEmpty extends StatelessWidget {
   final nameController = TextEditingController();

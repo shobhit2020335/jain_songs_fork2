@@ -4,13 +4,13 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jain_songs/custom_widgets/buildList.dart';
-import 'package:jain_songs/custom_widgets/build_playlistList.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/build_list.dart';
+import 'package:jain_songs/custom_widgets/build_playlist_list.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/form_page.dart';
-import 'package:jain_songs/services/notification/FirebaseDynamicLinkService.dart';
-import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
-import 'package:jain_songs/services/notification/oneSignal_notification.dart';
+import 'package:jain_songs/services/notification/firebase_dynamic_link_service.dart';
+import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
+import 'package:jain_songs/services/notification/one_signal_notification.dart';
 import 'package:jain_songs/services/searchify.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }).then((value) {
       setState(() {});
     }).onError((dynamic error, stackTrace) {
-      print('Error loading. $error & $stackTrace');
+      debugPrint('Error loading. $error & $stackTrace');
     });
 
     _keyboardVisibilityController.onChange.listen((isVisible) {
@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       _timerLink = Timer(
         const Duration(milliseconds: 1000),
         () {
-          // print('Lifecycle state resumed');
+          // debugPrint('Lifecycle state resumed');
           FirebaseDynamicLinkService.retrieveDynamicLink(context);
         },
       );
@@ -250,17 +250,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Future<void> refreshSongData() async {
-    print('Refreshing song data');
+    debugPrint('Refreshing song data');
     bool isSuccess = await DatabaseController().fetchSongsData(context);
 
     if (isSuccess) {
-      print('Refresh success');
+      debugPrint('Refresh success');
       ListFunctions().addElementsToList('home');
       setState(() {});
     } else {
       ConstWidget.showSimpleToast(context, 'Unable to refresh songs');
     }
-    print('Refresh Complete');
+    debugPrint('Refresh Complete');
   }
 
   @override

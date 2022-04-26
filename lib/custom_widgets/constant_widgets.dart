@@ -207,7 +207,8 @@ class ConstWidget {
                                   .downloadPost(
                                       ListFunctions.postsToShow[postNumber]);
                               if (isSuccess == false) {
-                                print('Error in applying status, try again!');
+                                debugPrint(
+                                    'Error in applying status, try again!');
                               }
                             },
                             child: Container(

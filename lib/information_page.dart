@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-//TODO: Add rating and review.
 class InformationPage extends StatelessWidget {
   final SettingsDetails settingsDetails;
 

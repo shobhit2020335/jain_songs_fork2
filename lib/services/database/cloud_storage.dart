@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/services/services.dart';
@@ -18,7 +19,7 @@ class CloudStorage {
           await Services.requestPermission(Permission.storage);
 
       if (isStoragePermissionGranted == false) {
-        print('Permission not granted for storage');
+        debugPrint('Permission not granted for storage');
         return false;
       }
 
@@ -28,13 +29,13 @@ class CloudStorage {
       await Directory(appDocDir!.path + '/' + 'posts')
           .create(recursive: true)
           .then((Directory directory) {
-        print('Path of New Dir: ' + directory.path);
+        debugPrint('Path of New Dir: ' + directory.path);
       });
       String filePath = join(appDocDir.path, 'posts/${postModel.fileName}');
       final file = File(filePath);
 
       if (!await file.exists()) {
-        print('Post File does not exists, creating');
+        debugPrint('Post File does not exists, creating');
         await file.create(recursive: true);
         await postRef.writeToFile(file);
       }
@@ -44,7 +45,7 @@ class CloudStorage {
               '${postModel.descriptionTitle} Download Stavan App: ${Globals.getAppPlayStoreUrl()}');
       return true;
     } catch (e) {
-      print('Error in download post: $e');
+      debugPrint('Error in download post: $e');
       return false;
     }
   }
@@ -64,7 +65,7 @@ class CloudStorage {
       String imageURL = await uploadTask.ref.getDownloadURL();
       return imageURL;
     } on FirebaseException catch (e) {
-      print('Error uploading image: $e');
+      debugPrint('Error uploading image: $e');
       return 'Error in upload';
     }
   }
