@@ -10,11 +10,20 @@ import 'package:jain_songs/utilities/lists.dart';
 
 class ConstWidget {
   static Future showPostsForStatus(BuildContext context) {
-    int postNumber = 0;
-    BetterPlayerConfiguration _configuration = const BetterPlayerConfiguration(
-      autoPlay: true,
-      looping: true,
-    );
+    int postNumber = 1;
+
+    BetterPlayerConfiguration _configuration = BetterPlayerConfiguration(
+        autoPlay: true,
+        looping: true,
+        errorBuilder: (BuildContext context, String? errorMessage) {
+          return const Center(
+            child: Text(
+              'Error Loading Video!\nTry Again!',
+              textAlign: TextAlign.center,
+            ),
+          );
+        });
+
     BetterPlayerDataSource _dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
       ListFunctions.postsToShow[postNumber].url,
@@ -33,6 +42,7 @@ class ConstWidget {
         activityName: "MainActivity",
       ),
     );
+
     BetterPlayerController _betterPlayerController = BetterPlayerController(
       _configuration,
       betterPlayerDataSource: _dataSource,
@@ -76,6 +86,20 @@ class ConstWidget {
                             : CachedNetworkImage(
                                 imageUrl:
                                     ListFunctions.postsToShow[postNumber].url,
+                                placeholder: (context, url) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorWidget: (BuildContext context,
+                                    String? errorMessage, dynamic) {
+                                  return const Center(
+                                    child: Text(
+                                      'Error Loading Image!\nTry Again!',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                                },
                               ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -203,12 +227,23 @@ class ConstWidget {
                         Expanded(
                           child: GestureDetector(
                             onTap: () async {
+                              ConstWidget.showToast(
+                                'Applying Status!',
+                                toastColor: Colors.green,
+                              );
+
                               bool isSuccess = await CloudStorage()
                                   .downloadPost(
                                       ListFunctions.postsToShow[postNumber]);
                               if (isSuccess == false) {
                                 debugPrint(
                                     'Error in applying status, try again!');
+                                ConstWidget.showToast(
+                                  'Error Applying Status!',
+                                  toastColor: Colors.red,
+                                );
+                              } else {
+                                print('Success downloading');
                               }
                             },
                             child: Container(
@@ -346,12 +381,13 @@ class ConstWidget {
     String message, {
     Toast toastLength = Toast.LENGTH_LONG,
     Color toastColor = Colors.indigo,
+    Color textColor = Colors.white,
   }) {
     Fluttertoast.showToast(
       msg: message,
       toastLength: toastLength,
       gravity: ToastGravity.SNACKBAR,
-      textColor: Colors.white,
+      textColor: textColor,
       backgroundColor: toastColor,
     );
   }

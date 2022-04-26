@@ -3,6 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:jain_songs/services/shared_prefs.dart';
 
 class Globals {
+  //TODO: Make debug mode false when releasing
+  static const bool isDebugMode = true;
+
   static final DateTime startDate = DateTime(2020, 12, 23);
   static late DateTime todayDate;
   static int totalDays = 1;

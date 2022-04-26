@@ -45,6 +45,16 @@ class CloudStorage {
               '${postModel.descriptionTitle} Download Stavan App: ${Globals.getAppPlayStoreUrl()}');
       return true;
     } catch (e) {
+      //Handles the corrupt file and deletes it.
+      final appDocDir = await getExternalStorageDirectory();
+      String filePath = join(appDocDir!.path, 'posts/${postModel.fileName}');
+      final file = File(filePath);
+
+      if (await file.exists()) {
+        debugPrint('Corrupt post file exist, deleting');
+        await file.delete();
+      }
+
       debugPrint('Error in download post: $e');
       return false;
     }

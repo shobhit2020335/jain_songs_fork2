@@ -511,14 +511,19 @@ class FirestoreHelperForPost extends FireStoreHelper {
           posts = await _firestore
               .collection('posts')
               .where('linkedSongs', arrayContains: songCode)
-              .orderBy('trendPoints', descending: true)
               .get();
         } else {
           posts = await _firestore
               .collection('posts')
               .where('linkedSongs', arrayContains: songCode)
-              .orderBy('trendPoints', descending: true)
               .get(const GetOptions(source: Source.cache));
+
+          if (posts.size == 0) {
+            posts = await _firestore
+                .collection('posts')
+                .where('linkedSongs', arrayContains: songCode)
+                .get();
+          }
         }
 
         for (var post in posts.docs) {
@@ -595,6 +600,10 @@ class FirestoreHelperForPost extends FireStoreHelper {
           ListFunctions.allPosts.add(postModel);
         }
         ListFunctions.postsFetched.add(postModel.code);
+      }
+
+      if (ListFunctions.postsToShow.isEmpty) {
+        return false;
       }
 
       return true;

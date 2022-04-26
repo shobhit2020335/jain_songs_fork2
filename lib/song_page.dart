@@ -519,15 +519,45 @@ class _SongPageState extends State<SongPage> {
                                     ],
                                   ),
                                   const SizedBox(height: 10),
+                                  //This is the button to open status posts
                                   ConstWidget.statusCard(
                                     onTap: () async {
+                                      //Shows a loading dialog first
+                                      showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return WillPopScope(
+                                              onWillPop: () async {
+                                                return true;
+                                              },
+                                              child: const AlertDialog(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                elevation: 0,
+                                                content: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          });
+
+                                      //Then pauses the ongoing youtube song
                                       _youtubePlayerController?.pause();
+
                                       bool isSuccess =
                                           await DatabaseControllerForPosts()
                                               .fetchPostsOfSong(
                                                   currentSong!.code!,
                                                   currentSong!.searchKeywords!);
-                                      //TODO: Show some loading here
+
+                                      Navigator.of(context).pop();
+
                                       if (isSuccess &&
                                           ListFunctions
                                               .postsToShow.isNotEmpty) {
@@ -539,7 +569,10 @@ class _SongPageState extends State<SongPage> {
                                         debugPrint(
                                             'Error fetching posts of a song or empty posts');
                                       }
-                                      _youtubePlayerController?.play();
+
+                                      if (Globals.isVideoAutoPlay) {
+                                        _youtubePlayerController?.play();
+                                      }
                                     },
                                   ),
                                   const Divider(thickness: 1),
