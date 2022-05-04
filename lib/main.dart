@@ -116,8 +116,9 @@ void main() async {
 
   runApp(const MainTheme());
 
-  //XXX: Comment while debugging.
-  UISettings.secureScreen();
+  if (Globals.isDebugMode == false) {
+    UISettings.secureScreen();
+  }
 
   ListFunctions.songsVisited.clear();
 }

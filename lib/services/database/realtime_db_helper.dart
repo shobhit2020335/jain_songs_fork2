@@ -415,18 +415,4 @@ class RealtimeDbHelper {
       return false;
     }
   }
-
-  Future<void> userSelectedFilters(UserFilters userFilters) async {
-    bool isInternetConnected = await NetworkHelper().checkNetworkConnection();
-    if (isInternetConnected == false) {
-      return;
-    }
-
-    //XXX: Comment while debugging.
-    database
-        .child("userBehaviour")
-        .child("filters")
-        .push()
-        .set(userFilters.toMap());
-  }
 }

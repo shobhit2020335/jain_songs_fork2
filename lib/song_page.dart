@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
 import 'package:jain_songs/services/suggester.dart';
@@ -110,12 +108,16 @@ class _SongPageState extends State<SongPage> {
     });
 
     //Stores the user behaviour
-    _storeUserBehaviour();
+    if (Globals.isDebugMode == false) {
+      _storeUserBehaviour();
+    }
 
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
-      //XXX: Comment while debugging.
-      DatabaseController().changeClicks(context, currentSong!);
+
+      if (Globals.isDebugMode == false) {
+        DatabaseController().changeClicks(context, currentSong!);
+      }
     }
 
     langNo = 1;
@@ -135,7 +137,6 @@ class _SongPageState extends State<SongPage> {
   }
 
   Future<void> loadScreen() async {
-
     if (currentSong!.youTubeLink!.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
