@@ -65,7 +65,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
@@ -109,8 +108,6 @@ void main() async {
 
   //Sets the dark theme and autoplay settings from Shared prefs
   await Globals.setGlobals();
-
-  MobileAds.instance.initialize();
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,

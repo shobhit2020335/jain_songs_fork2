@@ -48,7 +48,6 @@ class _SongPageState extends State<SongPage> {
   SongDetails? currentSong;
   bool showProgress = true;
   Timer? _timerLink;
-  InterstitialAd? _interstitialAd;
 
   //Variable for suggestion, it initializes only when a song is opened from out.
   Suggester? suggester;
@@ -67,53 +66,6 @@ class _SongPageState extends State<SongPage> {
   YoutubePlayerController? _youtubePlayerController = YoutubePlayerController(
       initialVideoId:
           YoutubePlayer.convertUrlToId('https://youtu.be/fHrHhtbQU6w')!);
-
-  //This is for admob to understand the content in the app. Two more arguements
-  //are there but i have not updated them.
-  AdRequest adRequest = const AdRequest(
-    keywords: ['song', 'interstitial'],
-  );
-
-  Future<void> _createInterstitialAd() async {
-    await InterstitialAd.load(
-      //TODO: Change this to test when debugging and vice versa.
-      adUnitId: AdManager().songPageinterstitialId,
-      request: adRequest,
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          debugPrint('$ad Ad Loaded');
-          _interstitialAd = ad;
-          //show ad is called just after the ad is loaded.
-          _showInterstitialAd();
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          // debugPrint('Interstitial ad load failed: $error');
-          _interstitialAd = null;
-        },
-      ),
-    );
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd == null) {
-      // debugPrint('Null interstital Ad while showing');
-      return;
-    }
-    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          debugPrint('Ad onShowedFullScreenContent'),
-      onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        debugPrint('$ad Ad onDismissedFullScreenContent');
-        ad.dispose();
-      },
-      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError e) {
-        debugPrint('$ad Ad onAdFailedFullScreenContent: $e');
-        ad.dispose();
-      },
-    );
-    _interstitialAd!.show();
-    _interstitialAd = null;
-  }
 
   //Stores the user behaviour of clicking, suggestoin, playlist, FCM, etc
   Future<void> _storeUserBehaviour() async {
@@ -183,8 +135,6 @@ class _SongPageState extends State<SongPage> {
   }
 
   Future<void> loadScreen() async {
-    //Below code is for admob interstitial ads.
-    _createInterstitialAd();
 
     if (currentSong!.youTubeLink!.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
@@ -287,9 +237,6 @@ class _SongPageState extends State<SongPage> {
   void dispose() {
     if (_youtubePlayerController != null) {
       _youtubePlayerController?.dispose();
-    }
-    if (_interstitialAd != null) {
-      _interstitialAd?.dispose();
     }
     if (_timerLink != null) {
       _timerLink?.cancel();
