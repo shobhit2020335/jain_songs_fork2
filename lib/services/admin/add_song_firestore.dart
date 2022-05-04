@@ -9,52 +9,52 @@ import 'package:jain_songs/utilities/globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  FirebaseApp app = await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
 
-  runApp(const MainTheme());
+  // runApp(const MainTheme());
 
-  // AddSong currentSong = AddSong(app);
+  AddSong currentSong = AddSong(app);
 
   // currentSong.deleteSuggestion('chalomanagangs C0ww80');
 
-  // //Uncomment below to sync songData with original song values.
-  // // await currentSong.rewriteSongsDataInFirebase();
+  //Uncomment below to sync songData with original song values.
+  // await currentSong.rewriteSongsDataInFirebase();
 
-  // //This automatically creates searchKeywords from song details.
-  // currentSong.mainSearchKeywords();
+  //This automatically creates searchKeywords from song details.
+  currentSong.mainSearchKeywords();
 
-  // //Uncomment Below to add EXTRA searchkeywords in form of string.
-  // currentSong.extraSearchKeywords('OJMP',
-  //     englishName: 'jay mahabir prabho',
-  //     hindiName: '',
-  //     originalSong: '',
-  //     album: '',
-  //     tirthankar: '',
-  //     extra1: '',
-  //     extra2: '',
-  //     extra3: '');
-  // //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
-  // // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
-  // //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
-  // //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
+  //Uncomment Below to add EXTRA searchkeywords in form of string.
+  currentSong.extraSearchKeywords('BRPT',
+      englishName: 'akhateej tij',
+      hindiName: 'अदीश्वर् aadishwar',
+      originalSong: 'aadinath',
+      album: 'baapalda patikda tume',
+      tirthankar: '',
+      extra1: '',
+      extra2: '',
+      extra3: '');
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
+  // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
+  //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
+  //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 
-  // //Uncomment below to add a new song.
-  // await currentSong.addToFirestore().catchError((error) {
-  //   debugPrint('Error: ' + error);
-  // });
-  // debugPrint('Added song successfully');
+  //Uncomment below to add a new song.
+  await currentSong.addToFirestore().catchError((error) {
+    debugPrint('Error: ' + error);
+  });
+  debugPrint('Added song successfully');
 
-  // //Uncomment below to add song in realtimeDB.
-  // await currentSong.addToRealtimeDB().catchError((error) {
-  //   debugPrint('Error: ' + error);
-  // }).then((value) {
-  //   debugPrint('Added song to realtimeDB successfully');
-  // });
+  //Uncomment below to add song in realtimeDB.
+  await currentSong.addToRealtimeDB().catchError((error) {
+    debugPrint('Error: ' + error);
+  }).then((value) {
+    debugPrint('Added song to realtimeDB successfully');
+  });
 
-  // //Comment below to stop adding songsData
-  // await currentSong.addsongsDataInFirebase();
+  //Comment below to stop adding songsData
+  await currentSong.addsongsDataInFirebase();
 }
 
 class MainTheme extends StatefulWidget {
@@ -109,29 +109,29 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'DWTS',
+    'code': 'BRPT',
     'album': '',
     'aaa': 'valid',
-    'category': 'Song',
-    'genre': 'Latest',
+    'category': 'Stavan',
+    'genre': 'Tapasya',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Gujarati',
     'likes': 0,
     'lyrics':
-        'Mere Sar Pe Hath Tera\nDarne Ki Mujhko Kya Baat Hai\nMujhko Kisiki Zarurat Hi Kya\nTu Jo Mere Ab Saath Hai\nMain Bhatka Tha\nAndheron Mein\nTune Ujaala Kiya\nO Dande Waale Tera Shukriya -2\n\nMeri Har Kami\nTu Hi to Jaane\nMera Har Karam\nTu Hi Pehchaane\nTere Naam Ka\nHi Kha Raha Hu Main\nTere Liye\nLikhta Hu Gaane\nJo Karta Gungaan Tera\nTu Uski Naiyya Paar Kare\nParas Raj Ye Vinti Kare\nTu Sangh Ka Uddhaar Kare\nMain Jab Jab Bhi\nLadkhadaya Hoon\nTune Sambhaal Liya\nO Dande Wale Tera Shukriya \n\nTera Har Karam Jo Mujhpe Hua Hai\nMeri Zindagi Ko Khushiyon Ne Chhuaa Hai\nHaar Ke Bhi Ab Main Jeet Jaata Hoon\nTeri Hi Duaa Ka Asar Aisa Hua Hai\nTeri Bhakti Ki Shakti Mein Jo\nJaadu Hai Wo Aur Kahan\nTere Kadmon Mein Aake Gire\nJo Ghumke Aaye Saara Jahan\nMeri Duniya Mein Aakar Ke\nTune Sambhal Liya\n',
+        'बापलडा रे पातिकडा तमे, शुं करशो हवे रहीने रे;\nश्री सिध्धाचल नयणे निरख्यो, दूर जाओ तमे वहीने रे... १\n\nकाल अनादि लगे तुम साथे, प्रीत करी निरवहीने रे;\nआज थकी प्रभु चरणे रहेवुं ऐम शीखवीयुं मनने रे... २\n\nदुषम काळे ईणे भरते, मुक्ति नहीं संघयणने रे;\nपण तुम भक्ति मुक्तिने खेंचे, चमक पाषाण जेम लोहने रे... ३\n\nशुध्द सुवासन चूरण आप्युं, मिथ्यापंक शोधनने रे:\nआतम भाव थयो मुज निर्मळ, आनंदमय तुज भजने रे... ४\n\nअक्षय निधान तुज समकित पामी, कुण वंछे चल धनने रे;\nशांत सुधारस नयण कचोळे, सींचो सेवक तनने रे... ५\n\nबाह्य अभ्यंतर शत्रु केरो, भय न होवे मुजने रे;\nसेवक सुखीयो सुजस विलासी, ऐ महिमा प्रमु तुजने रे...६\n\nनाम मंत्र तुमारो साध्यो, ते थयो जग मोहनने रे;\nतुज मुख मुद्रा निरखीने हरखुं, जेम चातक जलधरने रे... ७\n\nतुज विण अवरने देव करीने, नवि चाहुं फरी फरीने रे;\n"ज्ञानविमल" कहे भवजल तारो, सेवक बाह्य ग्रहीने रे...८\n',
     'englishLyrics': '',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Bhakti Bhavna',
+    'production': 'Jain Media',
     'share': 0,
-    'singer': 'Rishabh Sambhav Jain (RSJ)',
-    'songNameEnglish': 'Dande Wale Tera Shukriya',
-    'songNameHindi': 'डंडे वाले तेरा शुक्रिया',
-    'tirthankar': 'Rajendrasuri',
+    'singer': 'Foram Prasham Shah',
+    'songNameEnglish': 'Bapalda Re Paatikda Tame',
+    'songNameHindi': 'बापलडा रे पातिकडा तमे',
+    'tirthankar': 'Adinath',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/ZlLEUCL218I',
+    'youTubeLink': 'https://youtu.be/RfZuEyLjYwM',
   };
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
