@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
+import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -48,7 +49,7 @@ class ConstWidget {
       betterPlayerDataSource: _dataSource,
     );
 
-    if (ListFunctions.postsToShow[postNumber].type != 'Video') {
+    if (ListFunctions.postsToShow[postNumber].type.toLowerCase() != 'video') {
       _betterPlayerController.dispose();
     }
 
@@ -62,9 +63,16 @@ class ConstWidget {
                 .addEventsListener((BetterPlayerEvent event) {
               if (event.betterPlayerEventType ==
                   BetterPlayerEventType.initialized) {
+                print('Better player controller initialzed');
                 _betterPlayerController.setOverriddenAspectRatio(
                     _betterPlayerController
                         .videoPlayerController!.value.aspectRatio);
+
+                if (ListFunctions.postsToShow[postNumber].type.toLowerCase() !=
+                    'video') {
+                  _betterPlayerController.dispose();
+                }
+
                 setStateInsideDialog(() {});
               }
             });
@@ -81,7 +89,9 @@ class ConstWidget {
                     Stack(
                       alignment: AlignmentDirectional.centerStart,
                       children: [
-                        ListFunctions.postsToShow[postNumber].type == 'Video'
+                        ListFunctions.postsToShow[postNumber].type
+                                    .toLowerCase() ==
+                                'video'
                             ? BetterPlayer(controller: _betterPlayerController)
                             : CachedNetworkImage(
                                 imageUrl:
@@ -112,6 +122,19 @@ class ConstWidget {
                                     postNumber =
                                         ListFunctions.postsToShow.length - 1;
                                   }
+
+                                  NetworkHelper()
+                                      .checkNetworkConnection()
+                                      .then((isConnected) {
+                                    if (!isConnected) {
+                                      ConstWidget.showToast(
+                                        'No Internet Connection',
+                                        toastColor: Colors.red,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                      );
+                                    }
+                                  });
+
                                   _dataSource = BetterPlayerDataSource(
                                     BetterPlayerDataSourceType.network,
                                     ListFunctions.postsToShow[postNumber].url,
@@ -157,6 +180,19 @@ class ConstWidget {
                                       ListFunctions.postsToShow.length) {
                                     postNumber = 0;
                                   }
+
+                                  NetworkHelper()
+                                      .checkNetworkConnection()
+                                      .then((isConnected) {
+                                    if (!isConnected) {
+                                      ConstWidget.showToast(
+                                        'No Internet Connection',
+                                        toastColor: Colors.red,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                      );
+                                    }
+                                  });
+
                                   _dataSource = BetterPlayerDataSource(
                                     BetterPlayerDataSourceType.network,
                                     ListFunctions.postsToShow[postNumber].url,
@@ -227,24 +263,38 @@ class ConstWidget {
                         Expanded(
                           child: GestureDetector(
                             onTap: () async {
+                              bool isSuccess = await NetworkHelper()
+                                  .checkNetworkConnection();
+
+                              if (!isSuccess) {
+                                ConstWidget.showToast(
+                                  'No Internet Connection',
+                                  toastColor: Colors.red,
+                                  toastLength: Toast.LENGTH_LONG,
+                                );
+                                return;
+                              }
+
                               ConstWidget.showToast(
                                 'Applying Status!',
                                 toastColor: Colors.green,
                               );
 
-                              bool isSuccess = await CloudStorage()
+                              CloudStorage()
                                   .downloadPost(
-                                      ListFunctions.postsToShow[postNumber]);
-                              if (isSuccess == false) {
-                                debugPrint(
-                                    'Error in applying status, try again!');
-                                ConstWidget.showToast(
-                                  'Error Applying Status!',
-                                  toastColor: Colors.red,
-                                );
-                              } else {
-                                print('Success downloading');
-                              }
+                                      ListFunctions.postsToShow[postNumber])
+                                  .then((value) {
+                                if (value == false) {
+                                  debugPrint(
+                                      'Error in applying status, try again!');
+                                  ConstWidget.showToast(
+                                    'Error Applying Status!',
+                                    toastColor: Colors.red,
+                                  );
+                                } else {
+                                  print('Success downloading status');
+                                }
+                              });
                             },
                             child: Container(
                               decoration: const BoxDecoration(

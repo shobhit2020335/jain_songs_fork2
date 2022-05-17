@@ -470,7 +470,7 @@ class _SongPageState extends State<SongPage> {
                                   //This is the button to open status posts
                                   ConstWidget.statusCard(
                                     onTap: () async {
-                                      //Shows a loading dialog first
+                                      //This is a loading dialog
                                       showDialog(
                                           barrierDismissible: false,
                                           context: context,
@@ -511,11 +511,16 @@ class _SongPageState extends State<SongPage> {
                                               .postsToShow.isNotEmpty) {
                                         debugPrint(
                                             'Posts fetched successfully for a song');
+
                                         await ConstWidget.showPostsForStatus(
                                             context);
                                       } else {
                                         debugPrint(
                                             'Error fetching posts of a song or empty posts');
+                                        ConstWidget.showSimpleToast(
+                                          context,
+                                          'Error downloading status!',
+                                        );
                                       }
 
                                       if (Globals.isVideoAutoPlay) {

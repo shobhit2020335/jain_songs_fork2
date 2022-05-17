@@ -28,12 +28,14 @@ class PostModel {
 
   //Users who successfully applied the post as their status
   int appliedOnStatusBy = 0;
-  //Users who successfullt downloaded the post.
+  //Users who successfully downloaded the post.
   int downloadedBy = 0;
-  int likes = 0;
+  //Popularity is totalViews + 3 * number of downloads + 2 * number of status applied
   int popularity = 0;
-  int todayClicks = 0;
-  int totalClicks = 0;
+  int todayViews = 0;
+  int totalViews = 0;
+  //This trend point algo is different from song trend point algo
+  //TrendPoint is todayClicks/totalClicks * 100
   int trendPoints = 0;
 
   //Types: Video, Image, Gif, etc
@@ -53,10 +55,9 @@ class PostModel {
     required this.linkedSongs,
     this.appliedOnStatusBy = 0,
     this.downloadedBy = 0,
-    this.likes = 0,
     this.popularity = 0,
-    this.totalClicks = 0,
-    this.todayClicks = 0,
+    this.totalViews = 0,
+    this.todayViews = 0,
     this.trendPoints = 0,
     this.type = 'Image',
     this.uploadedBy = 'Stavan Co.',
@@ -85,10 +86,9 @@ class PostModel {
       'linkedSongs': linkedSongs,
       'appliedOnStatusBy': appliedOnStatusBy,
       'downloadedBy': downloadedBy,
-      'likes': likes,
       'popularity': popularity,
-      'totalClicks': totalClicks,
-      'todayClicks': todayClicks,
+      'totalViews': totalViews,
+      'todayViews': todayViews,
       'trendPoints': trendPoints,
       'type': type,
       'uploadedBy': uploadedBy,
@@ -112,10 +112,9 @@ class PostModel {
         : [];
     appliedOnStatusBy = documentSnapshot['appliedOnStatusBy'];
     downloadedBy = documentSnapshot['downloadedBy'];
-    likes = documentSnapshot['likes'];
     popularity = documentSnapshot['popularity'];
-    totalClicks = documentSnapshot['totalClicks'];
-    todayClicks = documentSnapshot['todayClicks'];
+    totalViews = documentSnapshot['totalViews'];
+    todayViews = documentSnapshot['todayViews'];
     trendPoints = documentSnapshot['trendPoints'];
     type = documentSnapshot['type'];
     uploadedBy = documentSnapshot['uploadedBy'];

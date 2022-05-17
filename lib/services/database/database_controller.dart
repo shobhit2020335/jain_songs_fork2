@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/database/realtime_db_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
@@ -184,6 +185,43 @@ class DatabaseControllerForPosts extends DatabaseController {
       return isSuccess;
     } catch (e) {
       debugPrint('Error fetching posts from firestore: $e');
+      return false;
+    }
+  }
+
+  //Increases the views, popularity, trendpoints of posts when content of a posts is
+  //loaded on the screen before user.
+  Future<bool> changeViewsOfPosts(PostModel postModel) async {
+    try {
+      bool isSuccess =
+          await FirestoreHelperForPost().changeViewsOfPosts(postModel);
+      return isSuccess;
+    } catch (e) {
+      debugPrint('Error changing views of posts: $e');
+      return false;
+    }
+  }
+
+  //Increases the no of downloads, popularity of post after the download completion
+  Future<bool> changeDownloadsOfPosts(PostModel postModel) async {
+    try {
+      bool isSuccess =
+          await FirestoreHelperForPost().changeDownloadsOfPosts(postModel);
+      return isSuccess;
+    } catch (e) {
+      print('Error changing downloads of posts: $e');
+      return false;
+    }
+  }
+
+  //Increases the status count, popularity of post after whatsapp is opened
+  Future<bool> changeStatusAppliedCountOfPosts(PostModel postModel) async {
+    try {
+      bool isSuccess = await FirestoreHelperForPost()
+          .changeStatusAppliedCountOfPosts(postModel);
+      return isSuccess;
+    } catch (e) {
+      print('Error changing applied status count of posts: $e');
       return false;
     }
   }

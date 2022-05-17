@@ -99,6 +99,7 @@ class FireStoreHelper {
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
+  //It also updates the post releated daily updates
   Future<void> dailyUpdate(
       BuildContext context,
       Map<String, int> todayClicksMap,
@@ -122,6 +123,8 @@ class FireStoreHelper {
     }).catchError((error) {
       debugPrint('Error updating days.' + error);
     });
+
+    FirestoreHelperForPost().dailyUpdatePosts();
 
     await RealtimeDbHelper(
       Globals.firebaseApp,
@@ -492,6 +495,84 @@ class FireStoreHelper {
 class FirestoreHelperForPost extends FireStoreHelper {
   final CollectionReference postsCollection =
       FirebaseFirestore.instance.collection('posts');
+
+  Future<bool> changeViewsOfPosts(PostModel postModel) async {
+    try {
+      int todayViews = postModel.todayViews + 1;
+      int totalViews = postModel.totalViews + 1;
+
+      //Algo for trendPoints
+      double trendPoint = todayViews / totalViews;
+      int trendPoints = (trendPoint * 100).toInt();
+
+      await postsCollection.doc(postModel.code).update({
+        'todayViews': FieldValue.increment(1),
+        'totalViews': FieldValue.increment(1),
+        'popularity': FieldValue.increment(1),
+        'trendPoints': trendPoints,
+      });
+
+      postModel.todayViews = todayViews;
+      postModel.totalViews = totalViews;
+      postModel.trendPoints = trendPoints;
+      postModel.popularity += 1;
+
+      return true;
+    } catch (e) {
+      debugPrint('Error changing posts views in firestore: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeDownloadsOfPosts(PostModel postModel) async {
+    try {
+      await postsCollection.doc(postModel.code).update({
+        'downloadedBy': FieldValue.increment(1),
+        'popularity': FieldValue.increment(3),
+      });
+
+      postModel.downloadedBy += 1;
+      postModel.popularity += 3;
+      return true;
+    } catch (e) {
+      print('Error changing downloads in firestore: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeStatusAppliedCountOfPosts(PostModel postModel) async {
+    try {
+      await postsCollection.doc(postModel.code).update({
+        'appliedOnStatusBy': FieldValue.increment(1),
+        'popularity': FieldValue.increment(2),
+      });
+
+      postModel.appliedOnStatusBy += 1;
+      postModel.popularity += 2;
+      return true;
+    } catch (e) {
+      print('Error changing applied on status count in firestore: $e');
+      return false;
+    }
+  }
+
+  //TODO: Check this
+  Future<void> dailyUpdatePosts() async {
+    try {
+      var collection = await postsCollection.get();
+
+      for (var post in collection.docs) {
+        int newTrendPoints = (post['trendPoints'] / 2).toInt();
+
+        postsCollection.doc(post.id).update({
+          'todayViews': 0,
+          'trendPoints': newTrendPoints,
+        });
+      }
+    } catch (e) {
+      print('Error in daily update for posts');
+    }
+  }
 
   //TODO: Also find solution for playlist specific post fetching
   //Also try to reduce reads combining both the ways
