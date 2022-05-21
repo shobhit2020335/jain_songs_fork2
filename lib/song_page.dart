@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
+import 'package:jain_songs/screens/post_screens/post_for_status.dart';
 import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -512,8 +513,21 @@ class _SongPageState extends State<SongPage> {
                                         debugPrint(
                                             'Posts fetched successfully for a song');
 
-                                        await ConstWidget.showPostsForStatus(
-                                            context);
+                                        //                                 Navigator.push(
+                                        // context,
+                                        // PageRouteBuilder(
+                                        //   barrierDismissible: true,
+                                        //   opaque: false,
+                                        //   pageBuilder: (_, anim1, anim2) => MyDialog(),
+                                        // ),
+
+                                        PostForStatus()
+                                            .showPostsForStatus(context)
+                                            .then((value) {
+                                          if (Globals.isVideoAutoPlay) {
+                                            _youtubePlayerController?.play();
+                                          }
+                                        });
                                       } else {
                                         debugPrint(
                                             'Error fetching posts of a song or empty posts');
@@ -521,10 +535,9 @@ class _SongPageState extends State<SongPage> {
                                           context,
                                           'Error downloading status!',
                                         );
-                                      }
-
-                                      if (Globals.isVideoAutoPlay) {
-                                        _youtubePlayerController?.play();
+                                        if (Globals.isVideoAutoPlay) {
+                                          _youtubePlayerController?.play();
+                                        }
                                       }
                                     },
                                   ),
