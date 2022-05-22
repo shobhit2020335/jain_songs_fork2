@@ -29,7 +29,6 @@ class DatabaseController {
     if (isSuccess) {
       onSqlFetchComplete();
     } else {
-      //TODO: Add log here that sql se not fetching
       if (dbName == 'realtime') {
         isSuccess = await RealtimeDbHelper(
           Provider.of<FirebaseApp>(context, listen: false),
@@ -209,7 +208,7 @@ class DatabaseControllerForPosts extends DatabaseController {
           await FirestoreHelperForPost().changeDownloadsOfPosts(postModel);
       return isSuccess;
     } catch (e) {
-      print('Error changing downloads of posts: $e');
+      debugPrint('Error changing downloads of posts: $e');
       return false;
     }
   }
@@ -221,7 +220,7 @@ class DatabaseControllerForPosts extends DatabaseController {
           .changeStatusAppliedCountOfPosts(postModel);
       return isSuccess;
     } catch (e) {
-      print('Error changing applied status count of posts: $e');
+      debugPrint('Error changing applied status count of posts: $e');
       return false;
     }
   }

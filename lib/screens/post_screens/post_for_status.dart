@@ -51,12 +51,12 @@ class _PostForStatusState extends State<PostForStatus> {
     type = type.toLowerCase();
     if (type == 'video') {
       return BetterPlayer.network(
-        'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4',
+        ListFunctions.postsToShow[postNumber].url,
         betterPlayerConfiguration: _configuration,
       );
     } else if (type == 'image') {
       return CachedNetworkImage(
-        imageUrl: 'https://cdn.wallpapersafari.com/82/29/1iYQmj.jpg',
+        imageUrl: ListFunctions.postsToShow[postNumber].url,
         placeholder: (context, url) {
           debugPrint('Loading image');
           return const Center(

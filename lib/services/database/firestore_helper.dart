@@ -535,7 +535,7 @@ class FirestoreHelperForPost extends FireStoreHelper {
       postModel.popularity += 3;
       return true;
     } catch (e) {
-      print('Error changing downloads in firestore: $e');
+      debugPrint('Error changing downloads in firestore: $e');
       return false;
     }
   }
@@ -551,12 +551,12 @@ class FirestoreHelperForPost extends FireStoreHelper {
       postModel.popularity += 2;
       return true;
     } catch (e) {
-      print('Error changing applied on status count in firestore: $e');
+      debugPrint('Error changing applied on status count in firestore: $e');
       return false;
     }
   }
 
-  //TODO: Check this
+  //TODO: Check this, enabled but read and views are not stored when clicked
   Future<void> dailyUpdatePosts() async {
     try {
       var collection = await postsCollection.get();
@@ -570,7 +570,7 @@ class FirestoreHelperForPost extends FireStoreHelper {
         });
       }
     } catch (e) {
-      print('Error in daily update for posts');
+      debugPrint('Error in daily update for posts');
     }
   }
 
