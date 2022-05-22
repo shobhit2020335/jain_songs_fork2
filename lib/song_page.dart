@@ -513,21 +513,15 @@ class _SongPageState extends State<SongPage> {
                                         debugPrint(
                                             'Posts fetched successfully for a song');
 
-                                        //                                 Navigator.push(
-                                        // context,
-                                        // PageRouteBuilder(
-                                        //   barrierDismissible: true,
-                                        //   opaque: false,
-                                        //   pageBuilder: (_, anim1, anim2) => MyDialog(),
-                                        // ),
-
-                                        PostForStatus()
-                                            .showPostsForStatus(context)
-                                            .then((value) {
-                                          if (Globals.isVideoAutoPlay) {
-                                            _youtubePlayerController?.play();
-                                          }
-                                        });
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            barrierColor: Colors.black54,
+                                            opaque: false,
+                                            pageBuilder: (_, anim1, anim2) =>
+                                                const PostForStatus(),
+                                          ),
+                                        );
                                       } else {
                                         debugPrint(
                                             'Error fetching posts of a song or empty posts');
