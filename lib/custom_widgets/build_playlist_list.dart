@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/custom_widgets/build_playlistRow.dart';
+import 'package:jain_songs/custom_widgets/build_playlist_row.dart';
 import 'package:jain_songs/utilities/lists.dart';
 
 class BuildPlaylistList extends StatelessWidget {

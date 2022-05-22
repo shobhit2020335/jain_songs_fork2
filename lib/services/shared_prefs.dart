@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
@@ -63,7 +64,7 @@ class SharedPrefs {
   }
 
   static Future<void> setLastSyncTime(int lastSyncTime) async {
-    print('Updating last sync time to: $lastSyncTime');
+    debugPrint('Updating last sync time to: $lastSyncTime');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt(
       'lastSyncTime',

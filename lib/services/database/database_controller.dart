@@ -1,18 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
-import 'package:jain_songs/services/database/realtimeDb_helper.dart';
+import 'package:jain_songs/services/database/realtime_db_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:provider/provider.dart';
 import '../network_helper.dart';
-import '../sharedPrefs.dart';
+import '../shared_prefs.dart';
 
 class DatabaseController {
   //These are fetched from remote config of firebase.
-  //Variable to decide which database to use from Realtime and firestore for fetching songs.
+  //Variable to decide which database to use from realtime and firestore for fetching songs
   static String dbName = 'realtime';
   //Variable to decide which database to use for fetching songsData
   static String dbForSongsData = 'firestore';
@@ -27,7 +29,6 @@ class DatabaseController {
     if (isSuccess) {
       onSqlFetchComplete();
     } else {
-      //TODO: Add log here that sql se not fetching
       if (dbName == 'realtime') {
         isSuccess = await RealtimeDbHelper(
           Provider.of<FirebaseApp>(context, listen: false),
@@ -50,7 +51,7 @@ class DatabaseController {
   Future<bool> fetchSongsData(BuildContext context) async {
     bool isSuccess = false;
     if (dbForSongsData == 'realtime') {
-      print('Realtime se fetching songData');
+      debugPrint('Realtime se fetching songData');
       isSuccess = await RealtimeDbHelper(
         Globals.firebaseApp,
       ).fetchSongsData(context);
@@ -72,7 +73,7 @@ class DatabaseController {
         if (value) {
           SharedPrefs.setLastSyncTime(Globals.lastSongModifiedTime);
         } else {
-          print('Already synced or Error in syncing new changes: $value');
+          debugPrint('Already synced or Error in syncing new changes: $value');
         }
       });
     }
@@ -91,7 +92,7 @@ class DatabaseController {
       }
       return isSuccess;
     } catch (e) {
-      print('Error Syncing new changes: $e');
+      debugPrint('Error Syncing new changes: $e');
       return false;
     }
   }
@@ -121,7 +122,7 @@ class DatabaseController {
         await FireStoreHelper()
             .dailyUpdate(context, newTodayClicksMap, newTrendPointsMap);
       } catch (e) {
-        print('Error in daily update: $e');
+        debugPrint('Error in daily update: $e');
       }
     }
   }
@@ -136,7 +137,7 @@ class DatabaseController {
       ).changeClicks(currentSong);
       SQfliteHelper().changeClicks(currentSong);
     } else {
-      print('Error changing clicks');
+      debugPrint('Error changing clicks');
     }
   }
 
@@ -150,7 +151,7 @@ class DatabaseController {
       ).changeShare(currentSong);
       SQfliteHelper().changeShare(currentSong);
     } else {
-      print('Error changing share');
+      debugPrint('Error changing share');
     }
   }
 
@@ -165,5 +166,62 @@ class DatabaseController {
         ).changeLikes(context, currentSong, toAdd);
     isSuccess = isSuccess & await SQfliteHelper().changeLikes(currentSong);
     return isSuccess;
+  }
+}
+
+//This is database controller for the posts
+class DatabaseControllerForPosts extends DatabaseController {
+  //Fetches the post required for a particular song
+  Future<bool> fetchPostsOfSong(String songCode, String searchKeywords) async {
+    try {
+      bool isSuccess =
+          await FirestoreHelperForPost().fetchPostsOfSong(songCode);
+      if (isSuccess == false || ListFunctions.postsToShow.isEmpty) {
+        isSuccess =
+            await FirestoreHelperForPost().fetchRelatedPosts(searchKeywords);
+      }
+
+      return isSuccess;
+    } catch (e) {
+      debugPrint('Error fetching posts from firestore: $e');
+      return false;
+    }
+  }
+
+  //Increases the views, popularity, trendpoints of posts when content of a posts is
+  //loaded on the screen before user.
+  Future<bool> changeViewsOfPosts(PostModel postModel) async {
+    try {
+      bool isSuccess =
+          await FirestoreHelperForPost().changeViewsOfPosts(postModel);
+      return isSuccess;
+    } catch (e) {
+      debugPrint('Error changing views of posts: $e');
+      return false;
+    }
+  }
+
+  //Increases the no of downloads, popularity of post after the download completion
+  Future<bool> changeDownloadsOfPosts(PostModel postModel) async {
+    try {
+      bool isSuccess =
+          await FirestoreHelperForPost().changeDownloadsOfPosts(postModel);
+      return isSuccess;
+    } catch (e) {
+      debugPrint('Error changing downloads of posts: $e');
+      return false;
+    }
+  }
+
+  //Increases the status count, popularity of post after whatsapp is opened
+  Future<bool> changeStatusAppliedCountOfPosts(PostModel postModel) async {
+    try {
+      bool isSuccess = await FirestoreHelperForPost()
+          .changeStatusAppliedCountOfPosts(postModel);
+      return isSuccess;
+    } catch (e) {
+      debugPrint('Error changing applied status count of posts: $e');
+      return false;
+    }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/utilities/globals.dart';
 
 class DarkThemeProvider extends ChangeNotifier {

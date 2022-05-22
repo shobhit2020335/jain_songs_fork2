@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserBehaviourModel {
   String code = '';
-  String songCode;
-  String songName;
+  String songCode = '';
+  String songName = '';
   //This id can be user'sid, onesigal id or fcm id.
   String oneSignalId = '';
   String fcmToken = '';
@@ -14,9 +16,9 @@ class UserBehaviourModel {
   //Is the song liked by user.
   bool isLiked = false;
   //Songs listened before this song with same configuration.
-  int clickedAtRank;
+  int clickedAtRank = -1;
   //Position of song in list like: main list, playlist list or suggestion list.
-  int positionInList;
+  int positionInList = -1;
   DateTime? timeOfClick;
 
   UserBehaviourModel({
@@ -76,5 +78,40 @@ class UserBehaviourModel {
       'positionInList': positionInList,
       'timeOfClick': timeOfClick,
     };
+  }
+
+  UserBehaviourModel.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
+    try {
+      code = documentSnapshot['code'];
+      songCode = documentSnapshot['songCode'];
+      songName = documentSnapshot['songName'];
+      fcmToken = documentSnapshot['fcmToken'];
+      oneSignalId = documentSnapshot['oneSignalId'];
+      userSearched = documentSnapshot['userSearched'];
+      suggestionOpened = documentSnapshot['suggestionOpened'];
+      playlistOpened = documentSnapshot['playlistOpened'];
+      isLiked = documentSnapshot['isLiked'];
+      clickedAtRank = documentSnapshot['clickedAtRank'];
+      positionInList = documentSnapshot['positionInList'];
+      timeOfClick = documentSnapshot['timeOfClick'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              documentSnapshot['timeOfClick'].millisecondsSinceEpoch)
+          : null;
+    } catch (e) {
+      code = documentSnapshot['code'];
+      songCode = documentSnapshot['songCode'];
+      songName = documentSnapshot['songName'];
+      oneSignalId = documentSnapshot['userId'];
+      userSearched = documentSnapshot['userSearched'];
+      suggestionOpened = documentSnapshot['suggestionOpened'];
+      playlistOpened = documentSnapshot['playlistOpened'];
+      isLiked = documentSnapshot['isLiked'];
+      clickedAtRank = documentSnapshot['clickedAtRank'];
+      positionInList = documentSnapshot['positionInList'];
+      timeOfClick = documentSnapshot['timeOfClick'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              documentSnapshot['timeOfClick'].millisecondsSinceEpoch)
+          : null;
+    }
   }
 }

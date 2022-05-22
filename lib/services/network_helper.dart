@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:package_info/package_info.dart';
@@ -51,7 +52,7 @@ class NetworkHelper {
         return true;
       }
     } on SocketException catch (error) {
-      print('Net not connected due to: ' + error.toString());
+      debugPrint('Net not connected due to: ' + error.toString());
       return false;
     }
     return false;

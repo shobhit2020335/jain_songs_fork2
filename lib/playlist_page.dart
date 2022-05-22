@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:jain_songs/custom_widgets/buildRow.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/build_row.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'utilities/lists.dart';
 

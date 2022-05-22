@@ -5,6 +5,40 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ConstWidget {
+  //This card is shown in song page as a whatapp status button
+  static Widget statusCard({required void Function() onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Icon(
+              Icons.whatsapp_outlined,
+              color: Colors.white,
+            ),
+            Text(
+              'Whatsapp Status',
+              style: GoogleFonts.lato(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(),
+          ],
+        ),
+      ),
+    );
+  }
+
   static Future<void> showUpdateDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -30,7 +64,7 @@ class ConstWidget {
             TextButton(
               child: const Text('Update'),
               onPressed: () {
-                Services.launchPlayStore(Globals.appURL);
+                Services.launchPlayStore(Globals.getAppPlayStoreUrl());
               },
             ),
           ],
@@ -71,12 +105,13 @@ class ConstWidget {
     String message, {
     Toast toastLength = Toast.LENGTH_LONG,
     Color toastColor = Colors.indigo,
+    Color textColor = Colors.white,
   }) {
     Fluttertoast.showToast(
       msg: message,
       toastLength: toastLength,
       gravity: ToastGravity.SNACKBAR,
-      textColor: Colors.white,
+      textColor: textColor,
       backgroundColor: toastColor,
     );
   }

@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:jain_songs/main.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,12 +13,12 @@ class OneSignalNotification {
     //Sets the playerId used for sending notification.
     final status = await OneSignal.shared.getDeviceState();
     final String? playerId = status?.userId;
-    // print('Player Id: $playerId');
+    // debugPrint('Player Id: $playerId');
     SharedPrefs.setOneSignalPlayerId(playerId);
 
     // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-      print("Accepted permission: $accepted");
+      debugPrint("Permission for notification: $accepted");
     });
 
     OneSignal.shared.setNotificationWillShowInForegroundHandler(
@@ -26,7 +27,7 @@ class OneSignalNotification {
       // Display Notification, pass null param for not displaying the notification
       result.complete(result.notification);
 
-      print('One signal notification clicked now, foreground');
+      debugPrint('One signal notification clicked now, foreground');
       Map<String, dynamic> dataReceived = result.notification.additionalData!;
 
       if (dataReceived.containsKey('route') &&
@@ -43,7 +44,7 @@ class OneSignalNotification {
     OneSignal.shared.setNotificationOpenedHandler(
         (OSNotificationOpenedResult result) async {
       // Will be called whenever a notification is opened/button pressed.
-      print('One signal notification clicked now, background');
+      debugPrint('One signal notification clicked now, background');
 
       Map<String, dynamic> dataReceived = result.notification.additionalData!;
 
@@ -60,7 +61,7 @@ class OneSignalNotification {
 
     OneSignal.shared.setSubscriptionObserver((changes) async {
       String? playerId = changes.to.userId;
-      print('Player Id got for first time: $playerId');
+      debugPrint('Player Id got for first time: $playerId');
       SharedPrefs.setOneSignalPlayerId(playerId);
     });
   }

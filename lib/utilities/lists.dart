@@ -1,8 +1,9 @@
 //This file contains all list related function and data.
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
@@ -14,6 +15,14 @@ class ListFunctions {
   static List<SongDetails?> sortedSongList = [];
   static List<SongDetails?> listToShow = [];
   static Set<String?> songsVisited = {};
+  //Stores the codes songs whose posts are fetched fetched
+  static Set<String> postsFetchedForSongs = {};
+  //Stores the codes of the posts fetched;
+  static Set<String> postsFetched = {};
+  //All posts sorted by modified time
+  static List<PostModel> allPosts = [];
+  //List for the posts which are visible
+  static List<PostModel> postsToShow = [];
 
   //Lists for applying filters.
   static final List<Filters> filtersAll = [

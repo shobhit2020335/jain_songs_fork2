@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
-import 'custom_widgets/build_settingsList.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
+import 'custom_widgets/build_settings_list.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 Text(
-                  'v1.3.4',
+                  'v2.0.0',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                   ),

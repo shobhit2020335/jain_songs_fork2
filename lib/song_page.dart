@@ -2,10 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:jain_songs/ads/ad_manager.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
+import 'package:jain_songs/screens/post_screens/post_for_status.dart';
 import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -15,7 +14,7 @@ import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:jain_songs/youtube_player_configured/youtube_player_flutter.dart';
-import 'custom_widgets/constantWidgets.dart';
+import 'custom_widgets/constant_widgets.dart';
 import 'services/database/firestore_helper.dart';
 
 class SongPage extends StatefulWidget {
@@ -48,7 +47,6 @@ class _SongPageState extends State<SongPage> {
   SongDetails? currentSong;
   bool showProgress = true;
   Timer? _timerLink;
-  InterstitialAd? _interstitialAd;
 
   //Variable for suggestion, it initializes only when a song is opened from out.
   Suggester? suggester;
@@ -67,56 +65,6 @@ class _SongPageState extends State<SongPage> {
   YoutubePlayerController? _youtubePlayerController = YoutubePlayerController(
       initialVideoId:
           YoutubePlayer.convertUrlToId('https://youtu.be/fHrHhtbQU6w')!);
-
-  //This is for admob to understand the content in the app. Two more arguements
-  //are there but i have not updated them.
-  AdRequest adRequest = const AdRequest(
-    keywords: ['song', 'interstitial'],
-  );
-
-  Future<void> _createInterstitialAd() async {
-    await InterstitialAd.load(
-      //TODO: Change this to test when debugging and vice versa.
-      adUnitId: AdManager().songPageinterstitialId,
-      request: adRequest,
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (InterstitialAd ad) {
-          print('$ad Ad Loaded');
-          _interstitialAd = ad;
-          //show ad is called just after the ad is loaded.
-          _showInterstitialAd();
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          // print('Interstitial ad load failed: $error');
-          _interstitialAd = null;
-          //TODO: Can add recursive function to load ad again when failed,
-          //see admob flutter pub dev for this.
-        },
-      ),
-    );
-  }
-
-  void _showInterstitialAd() {
-    if (_interstitialAd == null) {
-      // print('Null interstital Ad while showing');
-      return;
-    }
-    //TODO: Can again load ad after it is dismissed or failed.
-    _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) =>
-          print('Ad onShowedFullScreenContent'),
-      onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad Ad onDismissedFullScreenContent');
-        ad.dispose();
-      },
-      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError e) {
-        print('$ad Ad onAdFailedFullScreenContent: $e');
-        ad.dispose();
-      },
-    );
-    _interstitialAd!.show();
-    _interstitialAd = null;
-  }
 
   //Stores the user behaviour of clicking, suggestoin, playlist, FCM, etc
   Future<void> _storeUserBehaviour() async {
@@ -161,12 +109,16 @@ class _SongPageState extends State<SongPage> {
     });
 
     //Stores the user behaviour
-    _storeUserBehaviour();
+    if (Globals.isDebugMode == false) {
+      _storeUserBehaviour();
+    }
 
     if (ListFunctions.songsVisited.contains(currentSong!.code) == false) {
       ListFunctions.songsVisited.add(currentSong!.code);
-      //XXX: Comment while debugging.
-      DatabaseController().changeClicks(context, currentSong!);
+
+      if (Globals.isDebugMode == false) {
+        DatabaseController().changeClicks(context, currentSong!);
+      }
     }
 
     langNo = 1;
@@ -186,9 +138,6 @@ class _SongPageState extends State<SongPage> {
   }
 
   Future<void> loadScreen() async {
-    //Below code is for admob interstitial ads.
-    _createInterstitialAd();
-
     if (currentSong!.youTubeLink!.length > 2) {
       NetworkHelper().checkNetworkConnection().then((value) {
         isLinkAvail = value;
@@ -291,9 +240,6 @@ class _SongPageState extends State<SongPage> {
     if (_youtubePlayerController != null) {
       _youtubePlayerController?.dispose();
     }
-    if (_interstitialAd != null) {
-      _interstitialAd?.dispose();
-    }
     if (_timerLink != null) {
       _timerLink?.cancel();
     }
@@ -308,7 +254,7 @@ class _SongPageState extends State<SongPage> {
       setState(() {});
       DatabaseController().changeLikes(context, currentSong!, -1).then((value) {
         if (value == false) {
-          print('Error changing likes');
+          debugPrint('Error changing likes');
           currentSong?.isLiked = true;
           currentSong?.likes = currentSong!.likes! + 1;
           currentSong?.popularity = currentSong!.popularity! + 1;
@@ -324,7 +270,7 @@ class _SongPageState extends State<SongPage> {
       setState(() {});
       DatabaseController().changeLikes(context, currentSong!, 1).then((value) {
         if (value == false) {
-          print('Error changing likes');
+          debugPrint('Error changing likes');
           currentSong?.isLiked = false;
           currentSong?.likes = currentSong!.likes! - 1;
           currentSong?.popularity = currentSong!.popularity! - 1;
@@ -520,6 +466,74 @@ class _SongPageState extends State<SongPage> {
                                       ),
                                       const SizedBox(),
                                     ],
+                                  ),
+                                  const SizedBox(height: 10),
+                                  //This is the button to open status posts
+                                  ConstWidget.statusCard(
+                                    onTap: () async {
+                                      //This is a loading dialog
+                                      showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return WillPopScope(
+                                              onWillPop: () async {
+                                                return true;
+                                              },
+                                              child: const AlertDialog(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                elevation: 0,
+                                                content: Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          });
+
+                                      //Then pauses the ongoing youtube song
+                                      _youtubePlayerController?.pause();
+
+                                      bool isSuccess =
+                                          await DatabaseControllerForPosts()
+                                              .fetchPostsOfSong(
+                                                  currentSong!.code!,
+                                                  currentSong!.searchKeywords!);
+
+                                      Navigator.of(context).pop();
+
+                                      if (isSuccess &&
+                                          ListFunctions
+                                              .postsToShow.isNotEmpty) {
+                                        debugPrint(
+                                            'Posts fetched successfully for a song');
+
+                                        Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            barrierColor: Colors.black54,
+                                            opaque: false,
+                                            pageBuilder: (_, anim1, anim2) =>
+                                                const PostForStatus(),
+                                          ),
+                                        );
+                                      } else {
+                                        debugPrint(
+                                            'Error fetching posts of a song or empty posts');
+                                        ConstWidget.showSimpleToast(
+                                          context,
+                                          'Error downloading status!',
+                                        );
+                                        if (Globals.isVideoAutoPlay) {
+                                          _youtubePlayerController?.play();
+                                        }
+                                      }
+                                    },
                                   ),
                                   const Divider(thickness: 1),
                                   Visibility(

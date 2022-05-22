@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,15 +30,15 @@ class SQfliteHelper {
             data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
 
         await File(path).writeAsBytes(bytes);
-        print('Database file copied from asset to internal storage');
+        debugPrint('Database file copied from asset to internal storage');
         isFileFound = true;
       } catch (e) {
-        print('Error copying database to internal Storage: $e');
+        debugPrint('Error copying database to internal Storage: $e');
         isFileFound = false;
       }
     } else {
       isFileFound = true;
-      print('Database file exists in internal storage');
+      debugPrint('Database file exists in internal storage');
     }
 
     database = await openDatabase(
@@ -45,16 +46,16 @@ class SQfliteHelper {
       //Creates the TABLE for first time.
       onCreate: (db, version) {
         if (isFileFound == false) {
-          print('Creating database because not found in internal storage');
+          debugPrint('Creating database because not found in internal storage');
           db.execute(SongDetails.createSongTable);
         }
       },
       onUpgrade: (db, oldVersion, newVerison) async {
         if (isFileFound == false) {
-          print('Creating database because it might be deleted');
+          debugPrint('Creating database because it might be deleted');
           await db.execute(SongDetails.createSongTable);
         } else if (isFileFound && newVerison > oldVersion) {
-          print('Deleting file and copying new file');
+          debugPrint('Deleting file and copying new file');
           await File(path).delete();
           try {
             ByteData data =
@@ -63,10 +64,10 @@ class SQfliteHelper {
                 data.buffer.asInt8List(data.offsetInBytes, data.lengthInBytes);
 
             await File(path).writeAsBytes(bytes);
-            print('Database file copied from asset to internal storage');
+            debugPrint('Database file copied from asset to internal storage');
             isFileFound = true;
           } catch (e) {
-            print('Error copying database to internal Storage: $e');
+            debugPrint('Error copying database to internal Storage: $e');
             isFileFound = false;
           }
         }
@@ -79,7 +80,7 @@ class SQfliteHelper {
   Future<void> deleteSong(String code) async {
     final db = database;
 
-    print('deleting song: $code');
+    debugPrint('deleting song: $code');
     db!.delete('songs', where: 'code = ?', whereArgs: [code]);
   }
 
@@ -90,7 +91,7 @@ class SQfliteHelper {
     final db = database;
 
     try {
-      print('upadting song in sqflite: ${currentSong['code']}');
+      debugPrint('upadting song in sqflite: ${currentSong['code']}');
       Timestamp? timestamp = currentSong['lastModifiedTime'];
       await db!.update(
         'songs',
@@ -119,7 +120,7 @@ class SQfliteHelper {
       );
       return true;
     } catch (e) {
-      print('Error updating song in SQflite: $e');
+      debugPrint('Error updating song in SQflite: $e');
       return false;
     }
   }
@@ -133,13 +134,13 @@ class SQfliteHelper {
           conflictAlgorithm: ConflictAlgorithm.replace);
 
       if (position <= 0) {
-        print('Couldnt insert song in SQflite, Position: $position');
+        debugPrint('Couldnt insert song in SQflite, Position: $position');
         return false;
       }
-      print('Song added in SQflite: ${song.code}');
+      debugPrint('Song added in SQflite: ${song.code}');
       return true;
     } catch (e) {
-      print('Error inserting song to SQflite: $e');
+      debugPrint('Error inserting song to SQflite: $e');
       return false;
     }
   }
@@ -152,7 +153,7 @@ class SQfliteHelper {
 
   Future<bool> fetchSongs() async {
     final Database? db = database;
-    print('Fetching Songs from sqlite');
+    debugPrint('Fetching Songs from sqlite');
 
     try {
       bool isSuccess = false;
@@ -162,7 +163,7 @@ class SQfliteHelper {
       isSuccess = await _readFetchedSongs(songs, ListFunctions.songList);
       return isSuccess;
     } catch (e) {
-      print('Error fetching songs from SQflite: $e');
+      debugPrint('Error fetching songs from SQflite: $e');
       return false;
     }
   }
@@ -219,7 +220,7 @@ class SQfliteHelper {
       }
       return true;
     } catch (e) {
-      print("error reading songs from sqlite: $e");
+      debugPrint("error reading songs from sqlite: $e");
       return false;
     }
   }
@@ -243,7 +244,7 @@ class SQfliteHelper {
       );
       return true;
     } catch (e) {
-      print('Error Updating clicks in SQflite: $e');
+      debugPrint('Error Updating clicks in SQflite: $e');
       return false;
     }
   }
@@ -262,7 +263,7 @@ class SQfliteHelper {
       );
       return true;
     } catch (e) {
-      print('Error updating likes in SQflite: $e');
+      debugPrint('Error updating likes in SQflite: $e');
       return false;
     }
   }
@@ -283,7 +284,7 @@ class SQfliteHelper {
       );
       return true;
     } catch (e) {
-      print('Error updating likes in SQflite: $e');
+      debugPrint('Error updating likes in SQflite: $e');
       return false;
     }
   }

@@ -2,13 +2,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
-import 'package:jain_songs/services/notification/FirebaseFCMManager.dart';
+import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/network_helper.dart';
-import 'package:jain_songs/services/database/realtimeDb_helper.dart';
-import 'package:jain_songs/services/sharedPrefs.dart';
+import 'package:jain_songs/services/database/realtime_db_helper.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/utilities/globals.dart';
@@ -28,7 +29,7 @@ class FireStoreHelper {
   //Error storing user search behaviour
   Future<bool> storeUserSearchBehaviour(
       UserBehaviourModel userBehaviour) async {
-    print('Storing user behaviour');
+    debugPrint('Storing user behaviour');
     try {
       String? fcmToken = await FirebaseFCMManager.getFCMToken();
       userBehaviour.setFCMToken(fcmToken);
@@ -43,7 +44,7 @@ class FireStoreHelper {
 
       return true;
     } catch (e) {
-      print('Error storing user search behaviour to firestore: $e');
+      debugPrint('Error storing user search behaviour to firestore: $e');
       return false;
     }
   }
@@ -73,7 +74,7 @@ class FireStoreHelper {
     try {
       await fetchRemoteConfigs();
     } catch (e) {
-      print('error fetching remote config: $e');
+      debugPrint('error fetching remote config: $e');
       Globals.welcomeMessage = 'Jai Jinendra';
       DatabaseController.dbName = 'firestore';
       DatabaseController.fromCache = false;
@@ -89,15 +90,16 @@ class FireStoreHelper {
       Timestamp timestamp = othersMap['lastSongModifiedTime'];
       Globals.lastSongModifiedTime = timestamp.millisecondsSinceEpoch;
     } catch (e) {
-      print(e);
+      debugPrint('Error fetching days and version: $e');
       Globals.fetchedDays = Globals.totalDays;
       Globals.fetchedVersion = Globals.appVersion;
     }
 
-    print(Globals.fetchedVersion);
+    debugPrint('Minimum app version required: ${Globals.fetchedVersion}');
   }
 
   //It updates the trending points when a new day appears and make todayClicks to 0.
+  //It also updates the post releated daily updates
   Future<void> dailyUpdate(
       BuildContext context,
       Map<String, int> todayClicksMap,
@@ -119,8 +121,10 @@ class FireStoreHelper {
       'totalDays': Globals.totalDays,
       'lastUpdated': lastUpdated,
     }).catchError((error) {
-      print('Error updating days.' + error);
+      debugPrint('Error updating days.' + error);
     });
+
+    FirestoreHelperForPost().dailyUpdatePosts();
 
     await RealtimeDbHelper(
       Globals.firebaseApp,
@@ -128,7 +132,7 @@ class FireStoreHelper {
   }
 
   Future<bool> fetchSongs() async {
-    print('Fetching songs from Firestore');
+    debugPrint('Fetching songs from Firestore');
     bool isSuccess = false;
     ListFunctions.songList.clear();
     QuerySnapshot songs;
@@ -155,7 +159,7 @@ class FireStoreHelper {
 
       isSuccess = await _readFetchedSongs(songs, ListFunctions.songList);
     } catch (e) {
-      print(e);
+      debugPrint('Error fetching songs from firestore: $e');
       return false;
     }
     return isSuccess;
@@ -215,7 +219,7 @@ class FireStoreHelper {
       }
       return true;
     } catch (e) {
-      print('Error in reading from firestore: $e');
+      debugPrint('Error in reading from firestore: $e');
       return false;
     }
   }
@@ -330,7 +334,7 @@ class FireStoreHelper {
       }
       return isSuccess;
     } catch (e) {
-      print('Error fetching songs data: $e');
+      debugPrint('Error fetching songs data: $e');
       return false;
     }
   }
@@ -349,7 +353,7 @@ class FireStoreHelper {
         songNotFound.add(key);
       });
 
-      print('Songs which are not found: $songNotFound');
+      debugPrint('Songs which are not found: $songNotFound');
       for (String code in songNotFound) {
         var song = await songs.doc(code).get();
         SongDetails currentSong = _readSingleSong(song, ListFunctions.songList);
@@ -363,7 +367,7 @@ class FireStoreHelper {
       }
       return true;
     } catch (e) {
-      print('Error fetching new songs: $e');
+      debugPrint('Error fetching new songs: $e');
       return false;
     }
   }
@@ -388,7 +392,7 @@ class FireStoreHelper {
       }
       return isSuccess;
     } catch (e) {
-      print('Error syncing new songs: $e');
+      debugPrint('Error syncing new songs: $e');
       return false;
     }
   }
@@ -441,7 +445,7 @@ class FireStoreHelper {
           currentSong.code!: FieldValue.increment(trendPointInc),
         }),
       ]);
-      print('All Futures runned');
+      debugPrint('All Futures runned');
       currentSong.todayClicks = currentSong.todayClicks! + 1;
       currentSong.totalClicks = currentSong.totalClicks! + 1;
       currentSong.popularity = currentSong.popularity! + 1;
@@ -449,7 +453,7 @@ class FireStoreHelper {
 
       return true;
     } catch (e) {
-      print(e);
+      debugPrint('Error changing clicks on firestore: $e');
       return false;
     }
   }
@@ -463,7 +467,7 @@ class FireStoreHelper {
       currentSong.share = currentSong.share! + 1;
       return true;
     } catch (e) {
-      print(e);
+      debugPrint('Error increasing shares of song: $e');
       return false;
     }
   }
@@ -482,8 +486,223 @@ class FireStoreHelper {
       SharedPrefs.setIsLiked(currentSong.code!, currentSong.isLiked);
       return true;
     } catch (e) {
-      print('Error updating likes in firestore: $e');
+      debugPrint('Error updating likes in firestore: $e');
       return false;
+    }
+  }
+}
+
+class FirestoreHelperForPost extends FireStoreHelper {
+  final CollectionReference postsCollection =
+      FirebaseFirestore.instance.collection('posts');
+
+  Future<bool> changeViewsOfPosts(PostModel postModel) async {
+    try {
+      int todayViews = postModel.todayViews + 1;
+      int totalViews = postModel.totalViews + 1;
+
+      //Algo for trendPoints
+      double trendPoint = todayViews / totalViews;
+      int trendPoints = (trendPoint * 100).toInt();
+
+      await postsCollection.doc(postModel.code).update({
+        'todayViews': FieldValue.increment(1),
+        'totalViews': FieldValue.increment(1),
+        'popularity': FieldValue.increment(1),
+        'trendPoints': trendPoints,
+      });
+
+      postModel.todayViews = todayViews;
+      postModel.totalViews = totalViews;
+      postModel.trendPoints = trendPoints;
+      postModel.popularity += 1;
+
+      return true;
+    } catch (e) {
+      debugPrint('Error changing posts views in firestore: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeDownloadsOfPosts(PostModel postModel) async {
+    try {
+      await postsCollection.doc(postModel.code).update({
+        'downloadedBy': FieldValue.increment(1),
+        'popularity': FieldValue.increment(3),
+      });
+
+      postModel.downloadedBy += 1;
+      postModel.popularity += 3;
+      return true;
+    } catch (e) {
+      debugPrint('Error changing downloads in firestore: $e');
+      return false;
+    }
+  }
+
+  Future<bool> changeStatusAppliedCountOfPosts(PostModel postModel) async {
+    try {
+      await postsCollection.doc(postModel.code).update({
+        'appliedOnStatusBy': FieldValue.increment(1),
+        'popularity': FieldValue.increment(2),
+      });
+
+      postModel.appliedOnStatusBy += 1;
+      postModel.popularity += 2;
+      return true;
+    } catch (e) {
+      debugPrint('Error changing applied on status count in firestore: $e');
+      return false;
+    }
+  }
+
+  //TODO: Check this, enabled but read and views are not stored when clicked
+  Future<void> dailyUpdatePosts() async {
+    try {
+      var collection = await postsCollection.get();
+
+      for (var post in collection.docs) {
+        int newTrendPoints = (post['trendPoints'] / 2).toInt();
+
+        postsCollection.doc(post.id).update({
+          'todayViews': 0,
+          'trendPoints': newTrendPoints,
+        });
+      }
+    } catch (e) {
+      debugPrint('Error in daily update for posts');
+    }
+  }
+
+  //TODO: Also find solution for playlist specific post fetching
+  //Also try to reduce reads combining both the ways
+  Future<bool> fetchPostsOfSong(String songCode) async {
+    debugPrint('Fetching posts of song: $songCode from firestore');
+    ListFunctions.postsToShow.clear();
+    QuerySnapshot posts;
+
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+
+      if (!ListFunctions.postsFetchedForSongs.contains(songCode)) {
+        if (DatabaseController.fromCache == false || isFirstOpen == null) {
+          if (isFirstOpen == null) {
+            SharedPrefs.setIsFirstOpen(false);
+          }
+          posts = await _firestore
+              .collection('posts')
+              .where('linkedSongs', arrayContains: songCode)
+              .get();
+        } else {
+          posts = await _firestore
+              .collection('posts')
+              .where('linkedSongs', arrayContains: songCode)
+              .get(const GetOptions(source: Source.cache));
+
+          if (posts.size == 0) {
+            posts = await _firestore
+                .collection('posts')
+                .where('linkedSongs', arrayContains: songCode)
+                .get();
+          }
+        }
+
+        for (var post in posts.docs) {
+          PostModel postModel = PostModel.fromDocumentSnapshot(post);
+          if (postModel.isAvailableForStatus) {
+            ListFunctions.postsToShow.add(postModel);
+          }
+          if (!ListFunctions.postsFetched.contains(postModel.code)) {
+            ListFunctions.allPosts.add(postModel);
+          }
+          ListFunctions.postsFetched.add(postModel.code);
+        }
+        ListFunctions.postsFetchedForSongs.add(songCode);
+      } else {
+        for (int i = 0; i < ListFunctions.allPosts.length; i++) {
+          if (ListFunctions.allPosts[i].linkedSongs!.contains(songCode) &&
+              ListFunctions.allPosts[i].isAvailableForStatus) {
+            ListFunctions.postsToShow.add(ListFunctions.allPosts[i]);
+          }
+        }
+      }
+
+      ListFunctions.postsToShow.sort(_trendComparison);
+
+      return true;
+    } catch (e) {
+      debugPrint('Error fetching posts of a song: $e');
+      return false;
+    }
+  }
+
+  //Fethces a other posts if a song does not have its specific post
+  //TODO: Now its fetching most popular posts. But it should be changed
+  //to fetch posts related to song code. Also the status must not be
+  //seen by the user in this session
+  Future<bool> fetchRelatedPosts(String keywords) async {
+    debugPrint('Fetching related post for song from firestore');
+    ListFunctions.postsToShow.clear();
+    QuerySnapshot posts;
+
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
+        posts = await _firestore
+            .collection('posts')
+            .orderBy('popularity', descending: true)
+            .limit(3)
+            .get();
+      } else {
+        posts = await _firestore
+            .collection('posts')
+            .orderBy('popularity', descending: true)
+            .limit(3)
+            .get(const GetOptions(source: Source.cache));
+        if (posts.size == 0) {
+          posts = await _firestore
+              .collection('posts')
+              .orderBy('popularity', descending: true)
+              .limit(3)
+              .get();
+        }
+      }
+
+      for (var post in posts.docs) {
+        PostModel postModel = PostModel.fromDocumentSnapshot(post);
+        if (postModel.isAvailableForStatus) {
+          ListFunctions.postsToShow.add(postModel);
+        }
+        if (!ListFunctions.postsFetched.contains(postModel.code)) {
+          ListFunctions.allPosts.add(postModel);
+        }
+        ListFunctions.postsFetched.add(postModel.code);
+      }
+
+      if (ListFunctions.postsToShow.isEmpty) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      debugPrint('Error fetching releated posts: $e');
+      return false;
+    }
+  }
+
+  int _trendComparison(PostModel? a, PostModel? b) {
+    final propertyA = a!.trendPoints;
+    final propertyB = b!.trendPoints;
+    if (propertyA < propertyB) {
+      return 1;
+    } else if (propertyA > propertyB) {
+      return -1;
+    } else {
+      return 0;
     }
   }
 }

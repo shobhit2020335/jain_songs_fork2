@@ -3,55 +3,104 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/services/admin/export_firestore.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final FirebaseApp app = await Firebase.initializeApp();
+  await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
 
-  AddSong currentSong = AddSong(app);
+  runApp(const MainTheme());
+
+  // AddSong currentSong = AddSong(app);
 
   // currentSong.deleteSuggestion('chalomanagangs C0ww80');
 
-  //Uncomment below to sync songData with original song values.
-  // await currentSong.rewriteSongsDataInFirebase();
+  // //Uncomment below to sync songData with original song values.
+  // // await currentSong.rewriteSongsDataInFirebase();
 
-  //This automatically creates searchKeywords from song details.
-  currentSong.mainSearchKeywords();
+  // //This automatically creates searchKeywords from song details.
+  // currentSong.mainSearchKeywords();
 
-  //Uncomment Below to add EXTRA searchkeywords in form of string.
-  currentSong.extraSearchKeywords('DWTS',
-      englishName: 'dandey waale tere sukriya',
-      hindiName: 'mohankheda rajendra suri',
-      originalSong: 'rajendar soori',
-      album: '',
-      tirthankar: '',
-      extra1: '',
-      extra2: '',
-      extra3: '');
-  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
-  // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
-  //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
-  //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
+  // //Uncomment Below to add EXTRA searchkeywords in form of string.
+  // currentSong.extraSearchKeywords('OJMP',
+  //     englishName: 'jay mahabir prabho',
+  //     hindiName: '',
+  //     originalSong: '',
+  //     album: '',
+  //     tirthankar: '',
+  //     extra1: '',
+  //     extra2: '',
+  //     extra3: '');
+  // //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
+  // // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
+  // //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
+  // //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 
-  //Uncomment below to add a new song.
-  await currentSong.addToFirestore().catchError((error) {
-    print('Error: ' + error);
-  });
-  print('Added song successfully');
+  // //Uncomment below to add a new song.
+  // await currentSong.addToFirestore().catchError((error) {
+  //   debugPrint('Error: ' + error);
+  // });
+  // debugPrint('Added song successfully');
 
-  //Uncomment below to add song in realtimeDB.
-  await currentSong.addToRealtimeDB().catchError((error) {
-    print('Error: ' + error);
-  }).then((value) {
-    print('Added song to realtimeDB successfully');
-  });
+  // //Uncomment below to add song in realtimeDB.
+  // await currentSong.addToRealtimeDB().catchError((error) {
+  //   debugPrint('Error: ' + error);
+  // }).then((value) {
+  //   debugPrint('Added song to realtimeDB successfully');
+  // });
 
-  //Comment below to stop adding songsData
-  await currentSong.addsongsDataInFirebase();
+  // //Comment below to stop adding songsData
+  // await currentSong.addsongsDataInFirebase();
+}
+
+class MainTheme extends StatefulWidget {
+  const MainTheme({Key? key}) : super(key: key);
+
+  @override
+  State<MainTheme> createState() => _MainThemeState();
+}
+
+class _MainThemeState extends State<MainTheme> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String userBehaviourJson = 'Pakau';
+    ExportFirestore exportFirestore = ExportFirestore();
+
+    return MaterialApp(
+      home: Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Row(
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    userBehaviourJson =
+                        await exportFirestore.getUserBehaviourToJson();
+                  },
+                  child: const Text('Fetch'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    await exportFirestore.storeInTextFile(userBehaviourJson);
+                  },
+                  child: const Text('Store'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class AddSong {
@@ -93,7 +142,7 @@ class AddSong {
 
   Future<void> deleteSuggestion(String uid) async {
     return suggestion.doc(uid).delete().then((value) {
-      print('Deleted Successfully');
+      debugPrint('Deleted Successfully');
     });
   }
 
@@ -237,9 +286,9 @@ class AddSong {
           .update({
         currentSongMap['code']: currentSongMap['trendPoints'],
       });
-      print('songData added successfully');
+      debugPrint('songData added successfully');
     } catch (e) {
-      print('Error writing songsData: $e');
+      debugPrint('Error writing songsData: $e');
     }
   }
 
@@ -318,9 +367,9 @@ class AddSong {
           .child('songsData')
           .child('trendPoints')
           .set(trendPointsMap);
-      print('Rewritten songsData successfully');
+      debugPrint('Rewritten songsData successfully');
     } catch (e) {
-      print('Error rewriting songsData: $e');
+      debugPrint('Error rewriting songsData: $e');
     }
   }
 }

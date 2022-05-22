@@ -32,7 +32,7 @@ class Suggester {
       level1 = {};
     } else {
       _currentStreakLevels[1] = level1;
-      // print('In cosnrutor' + '${_currentStreakLevels[1]}');
+      // debugPrint('In cosnrutor' + '${_currentStreakLevels[1]}');
       _previousStreakLevels[1] = level1;
     }
   }
@@ -54,17 +54,17 @@ class Suggester {
     _createStreakLevels(currentSong);
     _dropStreakValues(currentSong);
     _mergeStreakValues(currentSong);
-    // print(_currentStreakLevels);
+    // debugPrint(_currentStreakLevels);
     _populateLevel1List();
     _suggestFirstSong();
     suggestedSongs.add(level4Songs[0]);
-    // print('First Suggstion: ${suggestedSongs[0]!.songNameEnglish}');
+    // debugPrint('First Suggstion: ${suggestedSongs[0]!.songNameEnglish}');
     suggestedSongs.add(_suggestSecondSong());
     // suggestedSongs.add(level4Songs[0]);
-    // print('Second Suggstion: ${suggestedSongs[1]!.songNameEnglish}');
+    // debugPrint('Second Suggstion: ${suggestedSongs[1]!.songNameEnglish}');
     _suggestThirdSong();
     suggestedSongs.add(level4Songs[0]);
-    // print('Thrid Suggstion: ${suggestedSongs[2]!.songNameEnglish}');
+    // debugPrint('Thrid Suggstion: ${suggestedSongs[2]!.songNameEnglish}');
 
     //Clears the streak level 0 which contains what to exclude for previous song.
     //It does not show the suggestions which are previously shown for one time.
@@ -151,17 +151,17 @@ class Suggester {
     maxLevelPoint = level3Songs[0]!.level3;
     _populateLevel4List(maxLevelPoint);
 
-    // print('Level 2 songs');
+    // debugPrint('Level 2 songs');
     // for (int i = 0; i < level2Songs.length; i++) {
-    //   print(level2Songs[i].songNameEnglish);
+    //   debugPrint(level2Songs[i].songNameEnglish);
     // }
-    // print('Level 3 songs');
+    // debugPrint('Level 3 songs');
     // for (int i = 0; i < level3Songs.length; i++) {
-    //   print(level3Songs[i].songNameEnglish);
+    //   debugPrint(level3Songs[i].songNameEnglish);
     // }
-    // print('Level 4 songs');
+    // debugPrint('Level 4 songs');
     // for (int i = 0; i < level4Songs.length; i++) {
-    //   print(level4Songs[i].songNameEnglish);
+    //   debugPrint(level4Songs[i].songNameEnglish);
     // }
   }
 
@@ -173,7 +173,7 @@ class Suggester {
       }
     }
     level2Songs.sort(level2Comparison);
-    // print('Level2 list: ${level2Songs.length}');
+    // debugPrint('Level2 list: ${level2Songs.length}');
   }
 
   void _populateLevel3List(int maxLevelPoint) {
@@ -184,11 +184,11 @@ class Suggester {
       }
     }
     level3Songs.sort(level3Comparison);
-    // print('Level3 list: ${level3Songs.length}');
-    // print('Level 3 songs');
+    // debugPrint('Level3 list: ${level3Songs.length}');
+    // debugPrint('Level 3 songs');
     // for (int i = 0; i < level3Songs.length; i++) {
-    //   print(level3Songs[i].songNameEnglish);
-    //   print(level3Songs[i].level3);
+    //   debugPrint(level3Songs[i].songNameEnglish);
+    //   debugPrint(level3Songs[i].level3);
     // }
   }
 
@@ -200,7 +200,7 @@ class Suggester {
       }
     }
     level4Songs.sort(level4Comparison);
-    // print('Level4 list: ${level4Songs.length}');
+    // debugPrint('Level4 list: ${level4Songs.length}');
   }
 
   void _removeSuggestedSongFromAllList(int index) {
@@ -474,7 +474,7 @@ class Suggester {
       }
     }
     level1Songs.sort(level1Comparison);
-    // print('Level1 list: ${level1Songs.length}');
+    // debugPrint('Level1 list: ${level1Songs.length}');
   }
 
   //This creates the streak levels in fill it in previous streak levels map
@@ -483,7 +483,7 @@ class Suggester {
     String parameterValue = currentSong.category!.toLowerCase();
     parameterValue = removeSpecialChars(parameterValue);
     List<String> values = parameterValue.split(' ');
-    // print('In create streak values' + '${_currentStreakLevels[1]}');
+    // debugPrint('In create streak values' + '${_currentStreakLevels[1]}');
 
     void fillStreakValues() {
       for (var value in values) {

@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jain_songs/custom_widgets/constantWidgets.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
@@ -107,7 +107,7 @@ class _FormPageState extends State<FormPage> {
                     final source =
                         await Services.showImageSourceDialog(context);
                     if (source == null) {
-                      print('source null');
+                      debugPrint('source null');
                       return;
                     } else if (source == ImageSource.camera) {
                       Services.pickSingleImage(source).then((value) {
@@ -143,7 +143,7 @@ class _FormPageState extends State<FormPage> {
                     final source =
                         await Services.showImageSourceDialog(context);
                     if (source == null) {
-                      print('source null');
+                      debugPrint('source null');
                       return;
                     } else if (source == ImageSource.camera) {
                       Services.pickSingleImage(source).then((value) {
