@@ -111,54 +111,61 @@ class _PostForStatusState extends State<PostForStatus> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () async {
-                            _pageController.previousPage(
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.ease,
-                            );
+                        Visibility(
+                          visible: postNumber > 0,
+                          child: GestureDetector(
+                            onTap: () async {
+                              _pageController.previousPage(
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.ease,
+                              );
 
-                            NetworkHelper()
-                                .checkNetworkConnection()
-                                .then((isConnected) {
-                              if (!isConnected) {
-                                ConstWidget.showToast(
-                                  'No Internet Connection',
-                                  toastColor: Colors.red,
-                                  toastLength: Toast.LENGTH_SHORT,
-                                );
-                              }
-                            });
-                          },
-                          child: const Icon(
-                            Icons.arrow_circle_left_rounded,
-                            size: 40,
-                            color: Colors.white,
+                              NetworkHelper()
+                                  .checkNetworkConnection()
+                                  .then((isConnected) {
+                                if (!isConnected) {
+                                  ConstWidget.showToast(
+                                    'No Internet Connection',
+                                    toastColor: Colors.red,
+                                    toastLength: Toast.LENGTH_SHORT,
+                                  );
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.arrow_circle_left_rounded,
+                              size: 40,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            _pageController.nextPage(
-                              duration: const Duration(seconds: 1),
-                              curve: Curves.ease,
-                            );
+                        Visibility(
+                          visible:
+                              postNumber < ListFunctions.postsToShow.length - 1,
+                          child: GestureDetector(
+                            onTap: () async {
+                              _pageController.nextPage(
+                                duration: const Duration(seconds: 1),
+                                curve: Curves.ease,
+                              );
 
-                            NetworkHelper()
-                                .checkNetworkConnection()
-                                .then((isConnected) {
-                              if (!isConnected) {
-                                ConstWidget.showToast(
-                                  'No Internet Connection',
-                                  toastColor: Colors.red,
-                                  toastLength: Toast.LENGTH_SHORT,
-                                );
-                              }
-                            });
-                          },
-                          child: const Icon(
-                            Icons.arrow_circle_right_rounded,
-                            size: 40,
-                            color: Colors.white,
+                              NetworkHelper()
+                                  .checkNetworkConnection()
+                                  .then((isConnected) {
+                                if (!isConnected) {
+                                  ConstWidget.showToast(
+                                    'No Internet Connection',
+                                    toastColor: Colors.red,
+                                    toastLength: Toast.LENGTH_SHORT,
+                                  );
+                                }
+                              });
+                            },
+                            child: const Icon(
+                              Icons.arrow_circle_right_rounded,
+                              size: 40,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ],
@@ -219,7 +226,7 @@ class _PostForStatusState extends State<PostForStatus> {
                               debugPrint(
                                   'Error in applying status, try again!');
                               ConstWidget.showToast(
-                                'Error Applying Status!',
+                                'Error, Try Again!',
                                 toastColor: Colors.red,
                               );
                             } else {

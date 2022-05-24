@@ -3,11 +3,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:jain_songs/models/post_model.dart';
-import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class CloudStorage {
   final Reference _firebaseStorageReference = FirebaseStorage.instance.ref();
@@ -15,23 +13,21 @@ class CloudStorage {
   //Show the user info of downloading
   Future<bool> downloadPost(PostModel postModel) async {
     try {
-      bool isStoragePermissionGranted =
-          await Services.requestPermission(Permission.storage);
-
-      if (isStoragePermissionGranted == false) {
-        debugPrint('Permission not granted for storage');
-        return false;
-      }
-
       final postRef =
           _firebaseStorageReference.child('posts/${postModel.fileName}');
-      final appDocDir = await getExternalStorageDirectory();
-      await Directory(appDocDir!.path + '/' + 'posts')
+
+      //Gives the internal storage dierctory
+      Directory applicationInternalDirectory =
+          await getApplicationDocumentsDirectory();
+      //Create posts folder in the internal storage directory
+      await Directory(applicationInternalDirectory.path + '/' + 'posts')
           .create(recursive: true)
           .then((Directory directory) {
-        debugPrint('Path of New Dir: ' + directory.path);
+        debugPrint('Path of New Dir for posts: ${directory.path}');
       });
-      String filePath = join(appDocDir.path, 'posts/${postModel.fileName}');
+
+      String filePath = join(
+          applicationInternalDirectory.path, 'posts/${postModel.fileName}');
       final file = File(filePath);
 
       if (!await file.exists()) {
@@ -46,8 +42,10 @@ class CloudStorage {
       return true;
     } catch (e) {
       //Handles the corrupt file and deletes it.
-      final appDocDir = await getExternalStorageDirectory();
-      String filePath = join(appDocDir!.path, 'posts/${postModel.fileName}');
+      Directory applicationInternalDirectory =
+          await getApplicationDocumentsDirectory();
+      String filePath = join(
+          applicationInternalDirectory.path, 'posts/${postModel.fileName}');
       final file = File(filePath);
 
       if (await file.exists()) {

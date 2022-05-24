@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/shared_prefs.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../useful_functions.dart';
@@ -17,7 +20,7 @@ class SQfliteHelper {
     //First copying Database file from asset to internal storage.
     bool isFileFound = false;
 
-    //Constructing fiel path to copy database to
+    //Constructing field path to copy database to
     Directory? applicationDirectory = await getApplicationDocumentsDirectory();
     String path = join(applicationDirectory.path, 'songs_database.db');
 
@@ -39,6 +42,26 @@ class SQfliteHelper {
     } else {
       isFileFound = true;
       debugPrint('Database file exists in internal storage');
+
+      //Stores Database file copy in external storage while developing
+      if (Globals.isDebugMode) {
+        bool isStoragePermissionGranted =
+            await Services.requestPermission(Permission.storage);
+
+        if (isStoragePermissionGranted == false) {
+          debugPrint('Permission not granted for storage');
+        } else {
+          Directory? externalDirectory = await getExternalStorageDirectory();
+          String externalPath =
+              join(externalDirectory!.path, 'songs_database.db');
+          String internalPath =
+              join(applicationDirectory.path, 'songs_database.db');
+
+          File dbFile = File(internalPath);
+          await dbFile.copy(externalPath);
+          debugPrint('Database file copied to external storage');
+        }
+      }
     }
 
     database = await openDatabase(
