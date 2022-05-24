@@ -17,7 +17,7 @@ class SQfliteHelper {
     //First copying Database file from asset to internal storage.
     bool isFileFound = false;
 
-    //Constructing fiel path to copy database to
+    //Constructing field path to copy database to
     Directory? applicationDirectory = await getApplicationDocumentsDirectory();
     String path = join(applicationDirectory.path, 'songs_database.db');
 

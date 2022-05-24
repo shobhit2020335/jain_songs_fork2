@@ -34,6 +34,7 @@ class ExportFirestore {
 
   Future<void> storeInTextFile(String data) async {
     try {
+      //TODO: Add external sotrage permissions to use this.
       Directory? externalDirectory = await getExternalStorageDirectory();
       String path = join(externalDirectory!.path, 'user_behaviour.txt');
       File textFile = File(path);
