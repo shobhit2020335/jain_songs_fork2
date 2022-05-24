@@ -26,12 +26,6 @@ class CloudStorage {
         debugPrint('Path of New Dir for posts: ${directory.path}');
       });
 
-      // final appDocDir = await getExternalStorageDirectory();
-      // await Directory(appDocDir!.path + '/' + 'posts')
-      //     .create(recursive: true)
-      //     .then((Directory directory) {
-      //   debugPrint('Path of New Dir: ' + directory.path);
-      // });
       String filePath = join(
           applicationInternalDirectory.path, 'posts/${postModel.fileName}');
       final file = File(filePath);
@@ -57,7 +51,6 @@ class CloudStorage {
       if (await file.exists()) {
         debugPrint('Corrupt post file exist, deleting');
         await file.delete();
-        //TODO: Can add recursive function to this function here to try applying status again
       }
 
       debugPrint('Error in download post: $e');
