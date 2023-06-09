@@ -95,7 +95,7 @@ class Services {
   static Future<List<File>> pickMultipleImages() async {
     try {
       final images = await ImagePicker().pickMultiImage();
-      if (images == null || images.isEmpty) {
+      if (images.isEmpty) {
         return [];
       }
 

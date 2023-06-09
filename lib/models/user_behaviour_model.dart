@@ -80,6 +80,21 @@ class UserBehaviourModel {
     };
   }
 
+  Map<String, dynamic> toJson() => {
+        'code': code,
+        'songCode': songCode,
+        'songName': songName,
+        'fcmToken': fcmToken,
+        'oneSignalId': oneSignalId,
+        'userSearched': userSearched,
+        'suggestionOpened': suggestionOpened,
+        'playlistOpened': playlistOpened,
+        'isLiked': isLiked,
+        'clickedAtRank': clickedAtRank,
+        'positionInList': positionInList,
+        'timeOfClick': timeOfClick.toString(),
+      };
+
   UserBehaviourModel.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
     try {
       code = documentSnapshot['code'];

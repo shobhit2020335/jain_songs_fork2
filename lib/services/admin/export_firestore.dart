@@ -13,26 +13,63 @@ class ExportFirestore {
 
   List<UserBehaviourModel> allUserBehaviourList = [];
 
-  Future<String> getUserBehaviourToJson() async {
-    String jsonConverted = '';
+  //This functions also deletes the fetched data.
+  Future<String> getUserBehaviourToJson({int countOfDataToFetch = 10}) async {
+    try {
+      String jsonConverted = '';
+      allUserBehaviourList.clear();
 
-    QuerySnapshot querySnapshot;
-    querySnapshot =
-        await _firebaseFirestore.collection('userSearchBehaviour').get();
+      QuerySnapshot querySnapshot;
+      querySnapshot = await _firebaseFirestore
+          .collection('userSearchBehaviour')
+          .limit(countOfDataToFetch)
+          .get();
 
-    for (var query in querySnapshot.docs) {
-      UserBehaviourModel userBehaviour =
-          UserBehaviourModel.fromDocumentSnapshot(query);
+      debugPrint("Fetched $countOfDataToFetch datas");
 
-      allUserBehaviourList.add(userBehaviour);
-      jsonConverted += ', ' + jsonEncode(userBehaviour);
-      debugPrint('Json converted for a user behaviour query');
+      for (var query in querySnapshot.docs) {
+        UserBehaviourModel userBehaviour =
+            UserBehaviourModel.fromDocumentSnapshot(query);
+
+        allUserBehaviourList.add(userBehaviour);
+        jsonConverted += ', ' + jsonEncode(userBehaviour.toJson());
+        debugPrint('Json converted for a user behaviour query');
+      }
+
+      debugPrint(
+          'Deleting the $countOfDataToFetch datas fetched. Dont forget to store them in text file');
+
+      for (int i = 0; i < allUserBehaviourList.length; i++) {
+        bool isSuccess =
+            await deleteUserBehaviourData(allUserBehaviourList[i].code);
+        debugPrint('Delete of song ${i + 1}: $isSuccess');
+      }
+
+      return jsonConverted;
+    } catch (e) {
+      debugPrint('Error fetching and deleting user behaviour: $e');
+      return 'Error fetching data: $e';
     }
-
-    return jsonConverted;
   }
 
-  Future<void> storeInTextFile(String data) async {
+  //Deletes the user behavoiur data one by one
+  Future<bool> deleteUserBehaviourData(String code) async {
+    bool isSuccess = true;
+
+    try {
+      await _firebaseFirestore
+          .collection('userSearchBehaviour')
+          .doc(code)
+          .delete();
+    } catch (e) {
+      print('Error deleting the data: $e');
+      isSuccess = false;
+    }
+
+    return isSuccess;
+  }
+
+  Future<String> storeInTextFile(String data) async {
     try {
       //TODO: Add external sotrage permissions to use this.
       Directory? externalDirectory = await getExternalStorageDirectory();
@@ -40,8 +77,10 @@ class ExportFirestore {
       File textFile = File(path);
       await textFile.writeAsString(data);
       debugPrint('successfully stored data as text file');
+      return 'Storing success: $path';
     } catch (e) {
       debugPrint('Error storing text in file: $e');
+      return 'Error storing: $e';
     }
   }
 
