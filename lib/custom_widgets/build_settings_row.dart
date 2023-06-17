@@ -67,6 +67,7 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
         onTap: () {
           if (widget.settingsDetails.isSetting == false) {
             if (widget.settingsDetails.title == 'Feedback & Support') {
+              //TODO: v2.0.2 Test if send email is wokring or not.
               Services.sendEmail();
             } else {
               Navigator.push(

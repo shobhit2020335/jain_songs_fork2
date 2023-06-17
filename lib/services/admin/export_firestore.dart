@@ -84,13 +84,15 @@ class ExportFirestore {
     }
   }
 
+  //Not used anyhwere for now.
   void sendEmail(String emailBody) async {
     String subject = 'User Behaviour Data';
     String email = 'stavan.co.j@gmail.com';
 
-    var url = 'mailto:$email?subject=$subject&body=$emailBody';
-    if (await canLaunch(url)) {
-      await launch(url);
+    String url = 'mailto:$email?subject=$subject&body=$emailBody';
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }

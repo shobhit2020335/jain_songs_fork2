@@ -5,7 +5,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -111,24 +110,10 @@ class Services {
     }
   }
 
-  static void launchURL(BuildContext context, String url) async {
-    if (await canLaunch(url)) {
-      ConstWidget.showSimpleToast(
-        context,
-        'Starting YouTube!',
-      );
-      await launch(url);
-    } else {
-      ConstWidget.showSimpleToast(
-        context,
-        'Could not launch the song!',
-      );
-    }
-  }
-
   static void launchPlayStore(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       FirebaseCrashlytics.instance.log('Error on clicking update in dialog');
     }
@@ -155,9 +140,10 @@ class Services {
 
     String body =
         '${androidInfo.id}\n${androidInfo.fingerprint}\n${androidInfo.brand}\n${androidInfo.device}\n${androidInfo.manufacturer}\n${androidInfo.model}\n${androidInfo.version.sdkInt}\n}';
-    var url = 'mailto:$email?subject=$subject&body=$body';
-    if (await canLaunch(url)) {
-      await launch(url);
+    String url = 'mailto:$email?subject=$subject&body=$body';
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }
