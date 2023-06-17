@@ -737,7 +737,8 @@ class _SongPageState extends State<SongPage> {
         ),
         title: Text(
           '${suggester!.suggestedSongs[index]!.songNameEnglish}',
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          //TODO: v2.0.2 test if size is perfect
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           suggester!.suggestedSongs[index]!.songInfo,

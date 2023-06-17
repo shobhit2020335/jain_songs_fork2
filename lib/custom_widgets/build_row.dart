@@ -38,7 +38,8 @@ class _BuildRowState extends State<BuildRow> {
       child: ListTile(
         title: Text(
           currentSong.songNameEnglish!,
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          //TODO: v2.0.2 test if size is perfect
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           currentSong.songInfo,

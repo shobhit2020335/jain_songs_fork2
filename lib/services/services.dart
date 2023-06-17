@@ -48,7 +48,7 @@ class Services {
               leading: const Icon(Icons.camera_alt_rounded),
               title: Text(
                 'Camera',
-                style: Theme.of(context).primaryTextTheme.bodyText1,
+                style: Theme.of(context).primaryTextTheme.bodyLarge,
               ),
               onTap: () {
                 debugPrint('onTap');
@@ -59,7 +59,8 @@ class Services {
               leading: const Icon(Icons.image_rounded),
               title: Text(
                 'Gallery (Select multiple images)',
-                style: Theme.of(context).primaryTextTheme.bodyText1,
+                //TODO: v2.0.2 test if size is perfect
+                style: Theme.of(context).primaryTextTheme.bodyLarge,
               ),
               onTap: () {
                 return Navigator.of(context).pop(ImageSource.gallery);

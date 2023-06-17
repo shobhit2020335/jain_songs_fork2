@@ -19,7 +19,8 @@ class BuildPlaylistRow extends StatelessWidget {
         ),
         title: Text(
           playlistDetails!.title,
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          //TODO: v2.0.2 test if size is perfect.
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           playlistDetails!.subtitle,

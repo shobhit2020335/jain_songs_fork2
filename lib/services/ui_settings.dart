@@ -70,12 +70,12 @@ class UISettings {
           fontWeight: FontWeight.bold,
         ),
         //Used as title text for all list tiles.
-        bodyText1: GoogleFonts.raleway(
+        bodyLarge: GoogleFonts.raleway(
           color: isDarkTheme ? Colors.white : Colors.black,
           fontWeight: FontWeight.w600,
         ),
         //Used in Lyrics widget
-        bodyText2: GoogleFonts.raleway(
+        bodyMedium: GoogleFonts.raleway(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w500,

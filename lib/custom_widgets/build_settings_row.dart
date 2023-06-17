@@ -51,7 +51,8 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
       child: ListTile(
         title: Text(
           widget.settingsDetails.title,
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          //TODO: v2.0.2 test if size is perfect
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           widget.settingsDetails.subtitle,
