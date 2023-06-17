@@ -1,5 +1,5 @@
 import 'dart:io';
-// import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
@@ -35,16 +35,18 @@ class NetworkHelper {
     }
   }
 
-  // Future<bool> checkConnectionMode() async {
-  //   var connectivityResult = await (Connectivity().checkConnectivity());
-  //   if (connectivityResult == ConnectivityResult.mobile) {
-  //     return true;
-  //   } else if (connectivityResult == ConnectivityResult.wifi) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+  //This function check if we are on wifi or mobile data.
+  //It is currently not used anywhere.
+  Future<bool> checkConnectionMode() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   Future<bool> checkNetworkConnection() async {
     try {
