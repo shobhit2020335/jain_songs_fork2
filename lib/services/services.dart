@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -147,24 +148,13 @@ class Services {
     String subject = 'Feedback and Support: ';
     String email = 'stavan.co.j@gmail.com';
 
-    // // Code to get system info for android.
-    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    // debugPrint('Running on ${androidInfo.model}');
+    // Code to get system info for android.
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    debugPrint('Running on ${androidInfo.model}');
 
-    String body = '\n\n\nDO NOT DELETE \n{';
-    // androidInfo.androidId +
-    // '\n' +
-    // androidInfo.brand +
-    // '\n' +
-    // androidInfo.device +
-    // '\n' +
-    // androidInfo.manufacturer +
-    // '\n' +
-    // androidInfo.model +
-    // '\n' +
-    // androidInfo.version.sdkInt.toString() +
-    // '\n}';
+    String body =
+        '${androidInfo.id}\n${androidInfo.fingerprint}\n${androidInfo.brand}\n${androidInfo.device}\n${androidInfo.manufacturer}\n${androidInfo.model}\n${androidInfo.version.sdkInt}\n}';
     var url = 'mailto:$email?subject=$subject&body=$body';
     if (await canLaunch(url)) {
       await launch(url);
