@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     FirebaseDynamicLinkService.retrieveDynamicLink(context);
     OneSignalNotification().initOneSignal();
 
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     FirebaseFCMManager.handleFCMRecieved(context);
 
@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     searchController.clear();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     if (_timerLink != null) {
       _timerLink!.cancel();
     }

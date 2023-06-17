@@ -64,10 +64,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
-import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/provider/dark_theme_provider.dart';
 import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/services/ui_settings.dart';
@@ -96,15 +94,6 @@ void main() async {
   //Persistence for Realtime Database
   FirebaseDatabase.instance.setPersistenceEnabled(true);
   FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100000000);
-
-  //Below is flutter local notification
-  var initializationSettingsAndroid =
-      const AndroidInitializationSettings('icon_notification');
-  var initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-  FirebaseFCMManager.flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
 
   //Sets the dark theme and autoplay settings from Shared prefs
   await Globals.setGlobals();

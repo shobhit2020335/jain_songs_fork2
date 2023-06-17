@@ -8,7 +8,7 @@ import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:device_info/device_info.dart';
+// import 'package:device_info/device_info.dart';
 
 class Services {
   static String urlBeforeCode =
@@ -147,24 +147,24 @@ class Services {
     String subject = 'Feedback and Support: ';
     String email = 'stavan.co.j@gmail.com';
 
-    // Code to get system info for android.
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    debugPrint('Running on ${androidInfo.model}');
+    // // Code to get system info for android.
+    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    // AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    // debugPrint('Running on ${androidInfo.model}');
 
-    String body = '\n\n\nDO NOT DELETE \n{' +
-        androidInfo.androidId +
-        '\n' +
-        androidInfo.brand +
-        '\n' +
-        androidInfo.device +
-        '\n' +
-        androidInfo.manufacturer +
-        '\n' +
-        androidInfo.model +
-        '\n' +
-        androidInfo.version.sdkInt.toString() +
-        '\n}';
+    String body = '\n\n\nDO NOT DELETE \n{';
+    // androidInfo.androidId +
+    // '\n' +
+    // androidInfo.brand +
+    // '\n' +
+    // androidInfo.device +
+    // '\n' +
+    // androidInfo.manufacturer +
+    // '\n' +
+    // androidInfo.model +
+    // '\n' +
+    // androidInfo.version.sdkInt.toString() +
+    // '\n}';
     var url = 'mailto:$email?subject=$subject&body=$body';
     if (await canLaunch(url)) {
       await launch(url);

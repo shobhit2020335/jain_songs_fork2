@@ -21,7 +21,7 @@ class ConstWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Icon(
-              Icons.whatsapp_outlined,
+              Icons.whatshot_outlined,
               color: Colors.white,
             ),
             Text(

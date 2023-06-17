@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/information_page.dart';
@@ -8,7 +7,6 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class BuildSettingsRow extends StatefulWidget {
   final SettingsDetails settingsDetails;
@@ -71,9 +69,6 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
             if (widget.settingsDetails.title == 'Feedback & Support') {
               Services.sendEmail();
             } else {
-              if (Platform.isAndroid) {
-                WebView.platform = SurfaceAndroidWebView();
-              }
               Navigator.push(
                 context,
                 MaterialPageRoute(

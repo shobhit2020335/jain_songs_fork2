@@ -4,8 +4,18 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class InformationPage extends StatelessWidget {
   final SettingsDetails settingsDetails;
+  final WebViewController webViewController = WebViewController();
 
-  const InformationPage(this.settingsDetails, {Key? key}) : super(key: key);
+  InformationPage(this.settingsDetails, {Key? key}) : super(key: key) {
+    String uri;
+    if (settingsDetails.title == 'About') {
+      uri = 'https://stavancoj.wixsite.com/website/about';
+    } else {
+      uri = 'https://stavancoj.wixsite.com/website/privacypolicy';
+    }
+
+    webViewController.loadRequest(Uri.parse(uri));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +23,11 @@ class InformationPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(settingsDetails.title),
       ),
+      //TODO: Test this, as this is changed
       body: SafeArea(
-        child: settingsDetails.title == 'About'
-            ? const WebView(
-                initialUrl: 'https://stavancoj.wixsite.com/website/about',
-              )
-            : const WebView(
-                initialUrl:
-                    'https://stavancoj.wixsite.com/website/privacypolicy',
-              ),
+        child: WebViewWidget(
+          controller: webViewController,
+        ),
         //Uncomment Below to create typed informationpage rather than webpage.
         // child: SingleChildScrollView(
         //   child: Container(
