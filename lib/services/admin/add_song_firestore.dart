@@ -113,6 +113,7 @@ class AddSong {
   }
 
   void mainSearchKeywords() {
+    // ignore: prefer_interpolation_to_compose_strings
     searchKeywords = searchKeywords +
         currentSongMap['language'] +
         ' ' +
@@ -139,8 +140,8 @@ class AddSong {
     String extra2 = '',
     String extra3 = '',
   }) {
-    searchKeywords =
-        searchKeywords.toLowerCase() + ' ' + englishName + ' ' + hindiName;
+    searchKeywords = '${searchKeywords.toLowerCase()} $englishName $hindiName';
+    // ignore: prefer_interpolation_to_compose_strings
     searchKeywords = searchKeywords +
         ' ' +
         currentSongMap['songNameHindi'] +
@@ -165,7 +166,7 @@ class AddSong {
     searchKeywords = "";
     for (int i = 0; i < searchWordsList.length; i++) {
       if (searchWordsList[i].isNotEmpty) {
-        searchKeywords += ' ' + searchWordsList[i];
+        searchKeywords += ' ${searchWordsList[i]}';
       }
     }
     currentSongMap['searchKeywords'] = searchKeywords;
@@ -442,7 +443,8 @@ class _MainThemeState extends State<MainTheme> {
                         ),
                         Text(
                           debugLog,
-                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.black),
                         ),
                       ],
                     ),

@@ -55,7 +55,7 @@ class NetworkHelper {
         return true;
       }
     } on SocketException catch (error) {
-      debugPrint('Net not connected due to: ' + error.toString());
+      debugPrint('Net not connected due to: ${error.toString()}');
       return false;
     }
     return false;

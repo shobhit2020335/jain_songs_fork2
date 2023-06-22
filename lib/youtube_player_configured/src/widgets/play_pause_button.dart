@@ -24,7 +24,7 @@ class PlayPauseButton extends StatefulWidget {
   });
 
   @override
-  _PlayPauseButtonState createState() => _PlayPauseButtonState();
+  State<PlayPauseButton> createState() => _PlayPauseButtonState();
 }
 
 class _PlayPauseButtonState extends State<PlayPauseButton>
@@ -73,12 +73,12 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
 
   @override
   Widget build(BuildContext context) {
-    final _playerState = _controller.value.playerState;
+    final playerState = _controller.value.playerState;
     if ((!_controller.flags.autoPlay && _controller.value.isReady) ||
-        _playerState == PlayerState.playing ||
-        _playerState == PlayerState.paused) {
+        playerState == PlayerState.playing ||
+        playerState == PlayerState.paused) {
       return Visibility(
-        visible: _playerState == PlayerState.cued ||
+        visible: playerState == PlayerState.cued ||
             !_controller.value.isPlaying ||
             _controller.value.isControlsVisible,
         child: Material(

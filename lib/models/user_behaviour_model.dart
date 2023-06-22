@@ -38,12 +38,12 @@ class UserBehaviourModel {
 
     code = songCode;
     if (userSearched != null) {
-      code += '_' + userSearched!.trim().toLowerCase();
+      code += '_${userSearched!.trim().toLowerCase()}';
     }
     if (playlistOpened != null) {
-      code += '_' + playlistOpened!.trim().toLowerCase();
+      code += '_${playlistOpened!.trim().toLowerCase()}';
     }
-    code += '_' + timeOfClick!.millisecondsSinceEpoch.toString();
+    code += '_${timeOfClick!.millisecondsSinceEpoch}';
   }
 
   void setOneSignalId(String? id) {

@@ -94,12 +94,12 @@ class _FormPageState extends State<FormPage> {
                 ),
                 Text(
                   'Suggest us some songs.',
-                  style: Theme.of(context).primaryTextTheme.headline4,
+                  style: Theme.of(context).primaryTextTheme.headlineMedium,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
-                  style: Theme.of(context).primaryTextTheme.headline5,
+                  style: Theme.of(context).primaryTextTheme.headlineSmall,
                 ),
                 const SizedBox(height: 25),
                 InkWell(
@@ -167,7 +167,7 @@ class _FormPageState extends State<FormPage> {
                     images.isEmpty
                         ? 'Upload Lyrics Image'
                         : '${images.length} images selected',
-                    style: Theme.of(context).primaryTextTheme.subtitle2,
+                    style: Theme.of(context).primaryTextTheme.titleSmall,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -238,7 +238,7 @@ class _FormPageState extends State<FormPage> {
                     child: Center(
                       child: Text(
                         'Submit',
-                        style: Theme.of(context).primaryTextTheme.headline6,
+                        style: Theme.of(context).primaryTextTheme.titleLarge,
                       ),
                     ),
                   ),

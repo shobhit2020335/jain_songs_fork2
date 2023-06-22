@@ -32,7 +32,7 @@ class ExportFirestore {
             UserBehaviourModel.fromDocumentSnapshot(query);
 
         allUserBehaviourList.add(userBehaviour);
-        jsonConverted += ', ' + jsonEncode(userBehaviour.toJson());
+        jsonConverted += ', ${jsonEncode(userBehaviour.toJson())}';
         debugPrint('Json converted for a user behaviour query');
       }
 
@@ -62,7 +62,7 @@ class ExportFirestore {
           .doc(code)
           .delete();
     } catch (e) {
-      print('Error deleting the data: $e');
+      debugPrint('Error deleting the data: $e');
       isSuccess = false;
     }
 

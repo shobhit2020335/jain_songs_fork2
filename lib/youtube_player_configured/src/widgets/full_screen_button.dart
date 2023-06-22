@@ -23,7 +23,7 @@ class FullScreenButton extends StatefulWidget {
   });
 
   @override
-  _FullScreenButtonState createState() => _FullScreenButtonState();
+  State<FullScreenButton> createState() => _FullScreenButtonState();
 }
 
 class _FullScreenButtonState extends State<FullScreenButton> {

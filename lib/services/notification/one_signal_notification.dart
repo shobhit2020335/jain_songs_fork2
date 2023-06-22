@@ -37,7 +37,8 @@ class OneSignalNotification {
           'code': dataReceived['code'],
         });
       } else if (dataReceived.containsKey('deeplink')) {
-        launch(dataReceived['deeplink']);
+        Uri uri = Uri.parse(dataReceived['deeplink']);
+        launchUrl(uri);
       }
     });
 
@@ -55,7 +56,8 @@ class OneSignalNotification {
           'code': dataReceived['code'],
         });
       } else if (dataReceived.containsKey('deeplink')) {
-        launch(dataReceived['deeplink']);
+        Uri uri = Uri.parse(dataReceived['deeplink']);
+        launchUrl(uri);
       }
     });
 

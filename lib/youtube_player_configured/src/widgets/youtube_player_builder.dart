@@ -29,7 +29,7 @@ class YoutubePlayerBuilder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YoutubePlayerBuilderState createState() => _YoutubePlayerBuilderState();
+  State<YoutubePlayerBuilder> createState() => _YoutubePlayerBuilderState();
 }
 
 class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
@@ -50,7 +50,9 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
 
   @override
   void didChangeMetrics() {
-    final physicalSize = SchedulerBinding.instance.window.physicalSize;
+    //TODO: v2.0.2 test this
+    final physicalSize =
+        SchedulerBinding.instance.platformDispatcher.views.first.physicalSize;
     final controller = widget.player.controller;
     if (physicalSize != null && physicalSize.width > physicalSize.height) {
       controller.updateValue(controller.value.copyWith(isFullScreen: true));
@@ -67,7 +69,7 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
 
   @override
   Widget build(BuildContext context) {
-    final _player = Container(
+    final player = Container(
       key: playerKey,
       child: WillPopScope(
         onWillPop: () async {
@@ -81,10 +83,10 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
         child: widget.player,
       ),
     );
-    final child = widget.builder(context, _player);
+    final child = widget.builder(context, player);
     return OrientationBuilder(
       builder: (context, orientation) =>
-          orientation == Orientation.portrait ? child : _player,
+          orientation == Orientation.portrait ? child : player,
     );
   }
 }

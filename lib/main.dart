@@ -152,7 +152,7 @@ class _MainThemeState extends State<MainTheme> {
                 return MaterialPageRoute(builder: (context) {
                   return SongPage(
                     codeFromDynamicLink: args['code'],
-                    suggestionStreak: '-1' + args['code'],
+                    suggestionStreak: "-1 ${args['code']}",
                     postitionInList: -1,
                   );
                 });

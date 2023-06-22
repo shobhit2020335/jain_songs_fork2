@@ -85,7 +85,7 @@ class _SongPageState extends State<SongPage> {
       }
 
       for (int i = 0; i < widget.suggester!.suggestedSongs.length; i++) {
-        suggestionOpened += ' ' + widget.suggester!.suggestedSongs[i]!.code!;
+        suggestionOpened += ' ${widget.suggester!.suggestedSongs[i]!.code!}';
       }
     }
 
@@ -301,7 +301,7 @@ class _SongPageState extends State<SongPage> {
                   return SongPage(
                     currentSong: suggester!.suggestedSongs[0],
                     suggester: suggester,
-                    suggestionStreak: widget.suggestionStreak + '1',
+                    suggestionStreak: '${widget.suggestionStreak}1',
                     postitionInList: -1,
                   );
                 }),
@@ -345,7 +345,7 @@ class _SongPageState extends State<SongPage> {
                                   '${currentSong!.songNameEnglish}',
                                   style: Theme.of(context)
                                       .primaryTextTheme
-                                      .headline2,
+                                      .displayMedium,
                                 ),
                               ),
                               subtitle: InkWell(
@@ -390,7 +390,7 @@ class _SongPageState extends State<SongPage> {
                                           linkInfo,
                                           style: Theme.of(context)
                                               .primaryTextTheme
-                                              .subtitle2,
+                                              .titleSmall,
                                         ),
                                   const SizedBox(height: 10),
                                   Row(
@@ -686,7 +686,7 @@ class _SongPageState extends State<SongPage> {
             return SongPage(
               currentSong: suggester!.suggestedSongs[index],
               suggester: suggester,
-              suggestionStreak: widget.suggestionStreak + '${index + 1}',
+              suggestionStreak: '${widget.suggestionStreak}${index + 1}',
               postitionInList: index,
             );
           }),

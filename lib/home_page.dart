@@ -186,8 +186,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           showProgress = false;
         });
       }).catchError((onError) {
-        FirebaseCrashlytics.instance
-            .log('home_page/_filterDialog(): ' + onError.toString());
+        FirebaseCrashlytics.instance.log('home_page/_filterDialog(): $onError');
 
         ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
         ConstWidget.showSimpleToast(
@@ -211,8 +210,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           showProgress = false;
         });
       }).catchError((onError) {
-        FirebaseCrashlytics.instance
-            .log('home_page/_filterDialog(): ' + onError.toString());
+        FirebaseCrashlytics.instance.log('home_page/_filterDialog(): $onError');
         ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
         ConstWidget.showSimpleToast(
           context,

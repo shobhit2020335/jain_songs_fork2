@@ -66,7 +66,7 @@ class ProgressBar extends StatefulWidget {
   });
 
   @override
-  _ProgressBarState createState() {
+  State<ProgressBar> createState() {
     return _ProgressBarState();
   }
 }
@@ -251,14 +251,14 @@ class _ProgressBarPainter extends CustomPainter {
     handlePaint.color = Colors.transparent;
     canvas.drawCircle(progressPoint, centerY, handlePaint);
 
-    final _handleColor = colors?.handleColor ?? themeData.colorScheme.secondary;
+    final handleColor = colors?.handleColor ?? themeData.colorScheme.secondary;
 
     if (touchDown) {
-      handlePaint.color = _handleColor.withOpacity(0.4);
+      handlePaint.color = handleColor.withOpacity(0.4);
       canvas.drawCircle(progressPoint, handleRadius * 3, handlePaint);
     }
 
-    handlePaint.color = _handleColor;
+    handlePaint.color = handleColor;
     canvas.drawCircle(progressPoint, handleRadius, handlePaint);
   }
 }

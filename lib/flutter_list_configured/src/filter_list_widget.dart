@@ -323,8 +323,11 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'All',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontSize: 20, color: widget.allResetButonColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -354,8 +357,11 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       alignment: Alignment.center,
                       child: Text(
                         'Reset',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontSize: 20, color: widget.allResetButonColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -368,8 +374,12 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                     child: Center(
                       child: Text(
                         'Apply',
-                        style: Theme.of(context).textTheme.headline5!.copyWith(
-                            fontSize: 20, color: widget.applyButonTextColor),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontSize: 20,
+                                color: widget.applyButonTextColor),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -12,7 +12,9 @@ class FirebaseFCMManager {
   static Future onLocalNotificationTap(String? payload) async {
     if (routeFromNotification != null) {
       if (routeFromNotification == 'deeplink') {
-        launch(codeFromNotification!);
+        //TODO: v2.0.2 check this
+        Uri uri = Uri.parse(codeFromNotification!);
+        launchUrl(uri);
       } else {
         // debugPrint('Before push named code recieved = $codeFromNotification');
         Navigator.pushNamed(contextForNotiTap, '/$routeFromNotification',
@@ -61,7 +63,8 @@ class FirebaseFCMManager {
 
         if (message.data['deeplink'] != null) {
           debugPrint(message.data['deeplink']);
-          launch(message.data['deeplink']);
+          Uri uri = Uri.parse(message.data['deeplink']);
+          launchUrl(uri);
         } else if (message.data['route'] != null) {
           debugPrint(
               'Before push named code recieved = ${message.data['code']}');
@@ -71,10 +74,8 @@ class FirebaseFCMManager {
         }
       }
     }).onError((dynamic error, stackTrace) {
-      debugPrint('Error in terminated FCM. error: ' +
-          error +
-          'stackTrace: ' +
-          stackTrace.toString());
+      debugPrint(
+          '${'Error in terminated FCM. error: $error'}stackTrace: $stackTrace');
     });
 
     // //FCM code for opening Notification when app is in foreground.
@@ -132,7 +133,8 @@ class FirebaseFCMManager {
       if (message != null) {
         if (message.data['deeplink'] != null) {
           debugPrint(message.data['deeplink']);
-          launch(message.data['deeplink']);
+          Uri uri = Uri.parse(message.data['deeplink']);
+          launchUrl(uri);
         } else if (message.data['route'] != null) {
           debugPrint(
               'Before push named code recieved = ${message.data['code']}');
@@ -142,10 +144,8 @@ class FirebaseFCMManager {
         }
       }
     }).onError((error, stackTrace) {
-      debugPrint('Error in background FCM. error: ' +
-          error +
-          'stackTrace: ' +
-          stackTrace.toString());
+      debugPrint(
+          '${'Error in background FCM. error: $error'}stackTrace: $stackTrace');
     });
   }
 }

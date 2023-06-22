@@ -18,7 +18,7 @@ class CurrentPosition extends StatefulWidget {
   CurrentPosition({this.controller});
 
   @override
-  _CurrentPositionState createState() => _CurrentPositionState();
+  State<CurrentPosition> createState() => _CurrentPositionState();
 }
 
 class _CurrentPositionState extends State<CurrentPosition> {
@@ -75,7 +75,7 @@ class RemainingDuration extends StatefulWidget {
   RemainingDuration({this.controller});
 
   @override
-  _RemainingDurationState createState() => _RemainingDurationState();
+  State<RemainingDuration> createState() => _RemainingDurationState();
 }
 
 class _RemainingDurationState extends State<RemainingDuration> {

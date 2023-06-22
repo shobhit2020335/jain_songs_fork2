@@ -78,19 +78,19 @@ class ListFunctions {
       for (int i = 0; i < l; i++) {
         if (filtersSelected[i].category == 'genre') {
           genreSelected.add(filtersSelected[i].name.toLowerCase());
-          userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
+          userFilters.genre = "${userFilters.genre} ${filtersSelected[i].name}";
         } else if (filtersSelected[i].category == 'tirthankar') {
           tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
           userFilters.tirthankar =
-              userFilters.tirthankar + " " + filtersSelected[i].name;
+              "${userFilters.tirthankar} ${filtersSelected[i].name}";
         } else if (filtersSelected[i].category == 'category') {
           categorySelected.add(filtersSelected[i].name.toLowerCase());
           userFilters.category =
-              userFilters.category + " " + filtersSelected[i].name;
+              "${userFilters.category} ${filtersSelected[i].name}";
         } else if (filtersSelected[i].category == 'language') {
           languageSelected.add(filtersSelected[i].name.toLowerCase());
           userFilters.language =
-              userFilters.language + " " + filtersSelected[i].name;
+              "${userFilters.language} ${filtersSelected[i].name}";
         }
       }
 
@@ -343,7 +343,7 @@ class ListFunctions {
       subtitle: 'Paryushan Mahaparv Playlist',
       playlistTag: 'paryushan',
       playlistTagType: 'genre',
-      leadIcon: FontAwesomeIcons.pray,
+      leadIcon: FontAwesomeIcons.personPraying,
       iconSize: 32,
       color: Colors.teal,
     ),
@@ -400,7 +400,7 @@ class ListFunctions {
       subtitle: 'Neminath and Girnar Bhajans',
       playlistTag: 'neminath',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.pink[300],
     ),
     PlaylistDetails(
@@ -409,7 +409,7 @@ class ListFunctions {
       subtitle: 'Parasnath Bhajans',
       playlistTag: 'parshwanath',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.green,
     ),
     PlaylistDetails(
@@ -418,7 +418,7 @@ class ListFunctions {
       subtitle: 'Mahaveer Swami Bhajans',
       playlistTag: 'mahavir',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.amber,
     ),
     PlaylistDetails(
@@ -427,7 +427,7 @@ class ListFunctions {
       subtitle: 'Rishabh dev Bhajans',
       playlistTag: 'adinath',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.redAccent,
     ),
     PlaylistDetails(
@@ -436,7 +436,7 @@ class ListFunctions {
       subtitle: 'Nakoda Bhairav Bhajans',
       playlistTag: 'nakoda',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.blue,
     ),
   ];
