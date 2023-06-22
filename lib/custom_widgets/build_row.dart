@@ -23,7 +23,7 @@ class BuildRow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BuildRowState createState() => _BuildRowState();
+  State<BuildRow> createState() => _BuildRowState();
 }
 
 class _BuildRowState extends State<BuildRow> {

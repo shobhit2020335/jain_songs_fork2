@@ -25,24 +25,24 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
       widget.settingsDetails.dependentValue = themeChange.isDarkTheme;
     }
 
-    void _toggleAutoPlay(bool newValue) {
+    void toggleAutoPlay(bool newValue) {
       Globals.isVideoAutoPlay = !Globals.isVideoAutoPlay;
       widget.settingsDetails.dependentValue = Globals.isVideoAutoPlay;
       SharedPrefs.setIsAutoplayVideo(Globals.isVideoAutoPlay);
       setState(() {});
     }
 
-    void _toggleDarkMode(bool newValue) {
+    void toggleDarkMode(bool newValue) {
       widget.settingsDetails.dependentValue = newValue;
       themeChange.setIsDarkTheme(newValue);
       setState(() {});
     }
 
-    void _toggleSetting(bool newValue) {
+    void toggleSetting(bool newValue) {
       if (widget.settingsDetails.title.toLowerCase().contains('autoplay')) {
-        _toggleAutoPlay(Globals.isVideoAutoPlay);
+        toggleAutoPlay(Globals.isVideoAutoPlay);
       } else if (widget.settingsDetails.title.toLowerCase().contains('dark')) {
-        _toggleDarkMode(newValue);
+        toggleDarkMode(newValue);
       }
     }
 
@@ -61,7 +61,7 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
         trailing: widget.settingsDetails.isSetting
             ? Switch(
                 value: widget.settingsDetails.dependentValue,
-                onChanged: _toggleSetting,
+                onChanged: toggleSetting,
                 activeColor: ConstWidget.signatureColors(),
               )
             : null,
@@ -81,7 +81,7 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
               );
             }
           } else {
-            _toggleSetting(widget.settingsDetails.dependentValue);
+            toggleSetting(widget.settingsDetails.dependentValue);
           }
         },
       ),

@@ -29,7 +29,7 @@ class RawYoutubePlayer extends StatefulWidget {
   });
 
   @override
-  _RawYoutubePlayerState createState() => _RawYoutubePlayerState();
+  State<RawYoutubePlayer> createState() => _RawYoutubePlayerState();
 }
 
 class _RawYoutubePlayerState extends State<RawYoutubePlayer>

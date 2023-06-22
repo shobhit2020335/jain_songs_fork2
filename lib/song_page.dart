@@ -40,7 +40,7 @@ class SongPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SongPageState createState() => _SongPageState();
+  State<SongPage> createState() => _SongPageState();
 }
 
 class _SongPageState extends State<SongPage> {

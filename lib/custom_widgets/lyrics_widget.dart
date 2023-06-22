@@ -11,7 +11,7 @@ class LyricsWidget extends StatelessWidget {
     String formatted = '';
     for (int i = 0; i < lyrics!.length; i++) {
       if (lyrics![i] == '\\' && lyrics![i + 1] == 'n') {
-        formatted = formatted + '\n';
+        formatted = '$formatted\n';
         i = i + 1;
       } else {
         formatted = formatted + lyrics![i];
@@ -23,7 +23,7 @@ class LyricsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '\n' + escapeCharacterIncluded(),
+      '\n${escapeCharacterIncluded()}',
       textAlign: TextAlign.center,
       //TODO: v2.0.2 test if size is perfect
       style: Theme.of(context).primaryTextTheme.bodyMedium,

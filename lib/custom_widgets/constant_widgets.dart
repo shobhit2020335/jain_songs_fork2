@@ -46,9 +46,9 @@ class ConstWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Update Available'),
-          content: SingleChildScrollView(
+          content: const SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
+              children: <Widget>[
                 Text(
                   'Newer Version of app is available.',
                   style: TextStyle(color: Colors.grey),

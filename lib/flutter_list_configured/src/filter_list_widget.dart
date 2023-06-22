@@ -58,7 +58,7 @@ class FilterListWidget extends StatefulWidget {
   final Function(List<Filters>)? onAllButtonClick;
 
   @override
-  _FilterListWidgetState createState() => _FilterListWidgetState();
+  State<FilterListWidget> createState() => _FilterListWidgetState();
 }
 
 class _FilterListWidgetState extends State<FilterListWidget> {

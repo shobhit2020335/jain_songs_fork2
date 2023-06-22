@@ -187,7 +187,7 @@ class YoutubePlayer extends StatefulWidget {
           : 'https://i3.ytimg.com/vi/$videoId/$quality.jpg';
 
   @override
-  _YoutubePlayerState createState() => _YoutubePlayerState();
+  State<YoutubePlayer> createState() => _YoutubePlayerState();
 }
 
 class _YoutubePlayerState extends State<YoutubePlayer> {
