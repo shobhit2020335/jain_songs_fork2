@@ -3,11 +3,6 @@ buildscript {
         // ...
         maven { url 'https://plugins.gradle.org/m2/' } // OneSignal
     }
-    dependencies {
-        // ...
-        // OneSignal-Gradle-Plugin
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.14.0'
-    }
 }
 
 
@@ -40,8 +35,6 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
-//OneSignal
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 def keystoreProperties = new Properties()
 def keystorePropertiesFile = rootProject.file("key.properties")
