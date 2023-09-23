@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../utils/duration_formatter.dart';
@@ -16,7 +18,7 @@ class CurrentPosition extends StatefulWidget {
   CurrentPosition({this.controller});
 
   @override
-  _CurrentPositionState createState() => _CurrentPositionState();
+  State<CurrentPosition> createState() => _CurrentPositionState();
 }
 
 class _CurrentPositionState extends State<CurrentPosition> {
@@ -73,7 +75,7 @@ class RemainingDuration extends StatefulWidget {
   RemainingDuration({this.controller});
 
   @override
-  _RemainingDurationState createState() => _RemainingDurationState();
+  State<RemainingDuration> createState() => _RemainingDurationState();
 }
 
 class _RemainingDurationState extends State<RemainingDuration> {

@@ -1,138 +1,179 @@
-//TODO: Change firestore caching way.
-//TODO: Admob has changed its dependency. Change it.
-//TODO: Store suggestions data.
-//TODO Add custom notification sound
-//TODO: RSJ, neminath and vicky D parekh playlist
-//TODO: Store as much data of user you can.
-//TODO Playlist banner of RSJ, Vicky, Etc
-//TODO: Adhyatmik category, Song category not in filter but suggestion. chaturmas, see Relatime DB.
-//TODO: Increase time of loading in dynamic linking.
-//TODO: CHeck searchify.
-//TODO: popular famous sorting.
-//TODO: People can report song if its incorrect.
-//TODO: Change UI acc to manu.
-//TODO: speaking jai jinendra
-//TODO: Streaming audio.
-//TODO: Paryushan related images.
-//TODO: Bhakti Special contains popular songs.
-//TODO: New tirthankar, categories.
+//Bugs
+//TODO: Bug in daily update for syncing song.
+//TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
+
+//Logging and crashlytics
+//TODO: Add crashlytics for sql
+//TODO: Firebase performance removed. Add it.
+
+//Notification, deeplinking and sharing
+//TODO: Automatically change timer time for dynamic link by taking average user time of opening.
+//TODO: fetch song faster by any means or fetch particular song in dynamic link
+//TODO: Add rating and review in app
+//TODO: Add custom notification sound
+
+//Searching
+//TODO: Priority of tirhtnkar, etc in saearching
+//TODO: Detect filter from search and apply it on top
+//TODO: Searching does not work properly when refreshing is going on
+//TODO: Consider less points for words smaller than 3 length in searchify.
+//TODO: in searching consider keyboard
+//TODO: Find similar words algorithm when searching and search found is empty, see searchEmpty page to get idea
+//TODO: remove special characters in search
 //TODO: Jain Dict
+//TODO: popular, trending sorting.
+
+//Playlist
+//TODO: Playlist on home page.
+//TODO: Change playlist colors.
+//TODO: On Clicking subtitle open specific playlist of it.
+//TODO: Searching inside playlist.
+//TODO: user can make playlist
+
+//Suggestions
+//TODO: Upgrade suggestion to give song which user want to hear. not just mahavir and same
+//TODO: Suggester dict for adinth adeshwar, latest new, stavan bhajan
+
+//Content
+//TODO: Kannada
+
+//New Enhancement
+//TODO: different ads than interstitial ads (native ads).
+//TODO: User can chat with me.
+//TODO: edit song lyrics for users
+//TODO: Request lyrics
+//TODO: Streaming audio.
 //TODO: set Rigtone option.
 //TODO: Stavan for web
-//TODO: Whatsapp Status
-//TODO: searching bug- after searching and opening song then pressing back then again searching causes bug.
 //TODO: Subscripition
-//TODO: In App rating
-//TODO: starting playback time.
-//TODO: Playlist Banner in front page.
-//TODO: Searching inside playlists.
-//TODO: youTube miniplayer- Make beautiful
-//TODO: different ads than banner ads (native ads).
-//TODO: provider(State management)
 //TODO: Audio Player
 //TODO: TensorFlow (Recommendations)
 //TODO: zoom/size
-//TODO: Dark mode
 //TODO: Karaoke
-//TODO: playlist list to be square.
-//TODO: user can make playlist
 //TODO: IOS
+
+//UI
+//TODO: getx(State management)
+//TODO: Splash screen
+//TODO: Playlist Banner in front page.
+//TODO: playlist list to be square
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter/services.dart';
 import 'package:jain_songs/playlist_page.dart';
-import 'package:jain_songs/services/FirebaseFCMManager.dart';
-import 'package:jain_songs/services/uisettings.dart';
+import 'package:jain_songs/services/database/sqflite_helper.dart';
+import 'package:jain_songs/services/provider/dark_theme_provider.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
+import 'package:jain_songs/services/ui_settings.dart';
 import 'package:jain_songs/song_page.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
-import 'ads/ad_manager.dart';
+import 'package:provider/provider.dart';
 import 'home_page.dart';
 
 //This is used by OneSignal to open page.
-final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  Globals.firebaseApp = await Firebase.initializeApp();
 
   //Firebase Anonymous signIn.
-  userCredential = await FirebaseAuth.instance.signInAnonymously();
-  FirebaseFirestore.instance.settings = Settings(
+  Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
+
+  //SQflite initialization
+  await SQfliteHelper.initializeSQflite();
+
+  //Persistenace for Firestore
+  FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true, cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
+  //Persistence for Realtime Database
+  FirebaseDatabase.instance.setPersistenceEnabled(true);
+  FirebaseDatabase.instance.setPersistenceCacheSizeBytes(100000000);
 
-  //Below is flutter local notification
-  var initializationSettingsAndroid =
-      new AndroidInitializationSettings('icon_notification');
-  var initializationSettings =
-      new InitializationSettings(android: initializationSettingsAndroid);
-  FirebaseFCMManager.flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: FirebaseFCMManager.onLocalNotificationTap);
+  //Sets the dark theme and autoplay settings from Shared prefs
+  await Globals.setGlobals();
 
-  MobileAds.instance.initialize();
-  runApp(MainTheme());
-  secureScreen();
-  //Initialising AdMob.
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
 
-  songsVisited.clear();
+  runApp(const MainTheme());
+
+  if (Globals.isDebugMode == false) {
+    UISettings.secureScreen();
+  }
+
+  ListFunctions.songsVisited.clear();
 }
 
-class MainTheme extends StatelessWidget {
+class MainTheme extends StatefulWidget {
+  const MainTheme({Key? key}) : super(key: key);
+
+  @override
+  State<MainTheme> createState() => _MainThemeState();
+}
+
+class _MainThemeState extends State<MainTheme> {
+  //Provider class made in provider folder.
+  DarkThemeProvider themeProvider = DarkThemeProvider();
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentAppTheme();
+  }
+
+  void getCurrentAppTheme() async {
+    bool value = await SharedPrefs.getIsDarkTheme();
+    await themeProvider.setIsDarkTheme(value);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      onGenerateRoute: (settings) {
-        if (settings.name == '/song') {
-          final Map<String, dynamic>? args =
-              settings.arguments as Map<String, dynamic>?;
-
-          return MaterialPageRoute(builder: (context) {
-            return SongPage(
-              codeFromDynamicLink: args!['code'],
-            );
-          });
-        } else if (settings.name == '/playlist') {
-          final Map<String, dynamic>? args =
-              settings.arguments as Map<String, dynamic>?;
-
-          return MaterialPageRoute(builder: (context) {
-            return PlaylistPage(
-              playlistCode: args!['code'],
-            );
-          });
-        }
-        // assert(false, 'Need to implement ${settings.name}');
-        return null;
+    return ChangeNotifierProvider(
+      create: (_) {
+        return themeProvider;
       },
-      theme: ThemeData(
-        primaryColor: Colors.white,
-        appBarTheme: AppBarTheme(
-          //Changes the color of icons on AppBars
-          iconTheme: IconThemeData(
-            color: Color(0xFF212323),
-          ),
-        ),
-        primaryTextTheme: TextTheme(
-          //changes color of AppBar title
-          headline6: GoogleFonts.raleway(
-            color: Color(0xFF212323),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        accentColor: Colors.white,
-        textTheme: TextTheme(
-          //changes color of expansion tile when closed
-          subtitle1: TextStyle(color: Colors.white),
-          bodyText2: TextStyle(color: Colors.white),
-        ),
+      child: Consumer<DarkThemeProvider>(
+        builder: (BuildContext context, value, Widget? child) {
+          return MaterialApp(
+            navigatorKey: navigatorKey,
+            onGenerateRoute: (settings) {
+              if (settings.name == '/song') {
+                final Map<String, dynamic> args =
+                    settings.arguments as Map<String, dynamic>;
+
+                return MaterialPageRoute(builder: (context) {
+                  return SongPage(
+                    codeFromDynamicLink: args['code'],
+                    suggestionStreak: "-1 ${args['code']}",
+                    postitionInList: -1,
+                  );
+                });
+              } else if (settings.name == '/playlist') {
+                final Map<String, dynamic>? args =
+                    settings.arguments as Map<String, dynamic>?;
+
+                return MaterialPageRoute(builder: (context) {
+                  return PlaylistPage(
+                    playlistCode: args!['code'],
+                  );
+                });
+              }
+              // assert(false, 'Need to implement ${settings.name}');
+              return null;
+            },
+            theme: UISettings.themeData(themeProvider.isDarkTheme, context),
+            home: const HomePage(),
+          );
+        },
       ),
-      home: HomePage(),
     );
   }
 }

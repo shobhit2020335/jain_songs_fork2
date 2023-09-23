@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 
 import '../enums/player_state.dart';
@@ -22,7 +24,7 @@ class PlayPauseButton extends StatefulWidget {
   });
 
   @override
-  _PlayPauseButtonState createState() => _PlayPauseButtonState();
+  State<PlayPauseButton> createState() => _PlayPauseButtonState();
 }
 
 class _PlayPauseButtonState extends State<PlayPauseButton>
@@ -71,12 +73,12 @@ class _PlayPauseButtonState extends State<PlayPauseButton>
 
   @override
   Widget build(BuildContext context) {
-    final _playerState = _controller.value.playerState;
+    final playerState = _controller.value.playerState;
     if ((!_controller.flags.autoPlay && _controller.value.isReady) ||
-        _playerState == PlayerState.playing ||
-        _playerState == PlayerState.paused) {
+        playerState == PlayerState.playing ||
+        playerState == PlayerState.paused) {
       return Visibility(
-        visible: _playerState == PlayerState.cued ||
+        visible: playerState == PlayerState.cued ||
             !_controller.value.isPlaying ||
             _controller.value.isControlsVisible,
         child: Material(

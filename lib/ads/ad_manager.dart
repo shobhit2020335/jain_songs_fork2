@@ -7,19 +7,19 @@ class AdManager {
     } else if (Platform.isIOS) {
       return "Not yet defined";
     } else {
-      throw new UnsupportedError("Unsupported Platform");
+      throw UnsupportedError("Unsupported Platform");
     }
   }
 
   String get settingsNavigationBannerId {
     if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/6300978111";
-      //TODO: Uncomment below to see original ads. Above is test ad
-      //return "ca-app-pub-1265975785443681/5970047796";
+      // return "ca-app-pub-3940256099942544/6300978111";
+      //Uncomment below to see original ads. Above is test ad
+      return "ca-app-pub-1265975785443681/5970047796";
     } else if (Platform.isIOS) {
       return "Not yet defined";
     } else {
-      throw new UnsupportedError("Unsupported Platform");
+      throw UnsupportedError("Unsupported Platform");
     }
   }
 
@@ -29,7 +29,7 @@ class AdManager {
     } else if (Platform.isIOS) {
       return "Not yet defined";
     } else {
-      throw new UnsupportedError("Unsupported Platform");
+      throw UnsupportedError("Unsupported Platform");
     }
   }
 

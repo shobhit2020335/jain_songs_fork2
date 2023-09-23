@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../enums/playback_rate.dart';
@@ -24,7 +26,7 @@ class PlaybackSpeedButton extends StatefulWidget {
   });
 
   @override
-  _PlaybackSpeedButtonState createState() => _PlaybackSpeedButtonState();
+  State<PlaybackSpeedButton> createState() => _PlaybackSpeedButtonState();
 }
 
 class _PlaybackSpeedButtonState extends State<PlaybackSpeedButton> {
@@ -50,10 +52,6 @@ class _PlaybackSpeedButtonState extends State<PlaybackSpeedButton> {
   Widget build(BuildContext context) {
     return PopupMenuButton<double>(
       onSelected: _controller.setPlaybackRate,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
-        child: widget.icon,
-      ),
       tooltip: 'PlayBack Rate',
       itemBuilder: (context) => [
         _popUpItem('2.0x', PlaybackRate.twice),
@@ -65,14 +63,18 @@ class _PlaybackSpeedButtonState extends State<PlaybackSpeedButton> {
         _popUpItem('0.5x', PlaybackRate.half),
         _popUpItem('0.25x', PlaybackRate.quarter),
       ],
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+        child: widget.icon,
+      ),
     );
   }
 
   PopupMenuEntry<double> _popUpItem(String text, double rate) {
     return CheckedPopupMenuItem(
       checked: _controller.value.playbackRate == rate,
-      child: Text(text),
       value: rate,
+      child: Text(text),
     );
   }
 }

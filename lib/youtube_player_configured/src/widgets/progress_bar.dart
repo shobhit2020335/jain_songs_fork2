@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 
 import '../utils/youtube_player_controller.dart';
@@ -64,7 +66,7 @@ class ProgressBar extends StatefulWidget {
   });
 
   @override
-  _ProgressBarState createState() {
+  State<ProgressBar> createState() {
     return _ProgressBarState();
   }
 }
@@ -105,11 +107,11 @@ class _ProgressBarState extends State<ProgressBar> {
   }
 
   void positionListener() {
-    var _totalDuration = _controller.metadata.duration.inMilliseconds;
-    if (mounted && !_totalDuration.isNaN && _totalDuration != 0) {
+    var totalDuration = _controller.metadata.duration.inMilliseconds;
+    if (mounted && !totalDuration.isNaN && totalDuration != 0) {
       setState(() {
         _playedValue =
-            _controller.value.position.inMilliseconds / _totalDuration;
+            _controller.value.position.inMilliseconds / totalDuration;
         _bufferedValue = _controller.value.buffered;
       });
     }
@@ -234,14 +236,14 @@ class _ProgressBarPainter extends CustomPainter {
     final secondProgressPoint =
         Offset(barLength * bufferedValue + handleRadius, centerY);
 
-    paint.color =
-        colors?.backgroundColor ?? themeData.accentColor.withOpacity(0.38);
+    paint.color = colors?.backgroundColor ??
+        themeData.colorScheme.secondary.withOpacity(0.38);
     canvas.drawLine(startPoint, endPoint, paint);
 
     paint.color = colors?.bufferedColor ?? Colors.white70;
     canvas.drawLine(startPoint, secondProgressPoint, paint);
 
-    paint.color = colors?.playedColor ?? themeData.accentColor;
+    paint.color = colors?.playedColor ?? themeData.colorScheme.secondary;
     canvas.drawLine(startPoint, progressPoint, paint);
 
     final handlePaint = Paint()..isAntiAlias = true;
@@ -249,14 +251,14 @@ class _ProgressBarPainter extends CustomPainter {
     handlePaint.color = Colors.transparent;
     canvas.drawCircle(progressPoint, centerY, handlePaint);
 
-    final _handleColor = colors?.handleColor ?? themeData.accentColor;
+    final handleColor = colors?.handleColor ?? themeData.colorScheme.secondary;
 
     if (touchDown) {
-      handlePaint.color = _handleColor.withOpacity(0.4);
+      handlePaint.color = handleColor.withOpacity(0.4);
       canvas.drawCircle(progressPoint, handleRadius * 3, handlePaint);
     }
 
-    handlePaint.color = _handleColor;
+    handlePaint.color = handleColor;
     canvas.drawCircle(progressPoint, handleRadius, handlePaint);
   }
 }

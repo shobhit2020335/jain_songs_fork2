@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import '../utils/youtube_player_controller.dart';
@@ -23,7 +25,7 @@ class LiveBottomBar extends StatefulWidget {
   });
 
   @override
-  _LiveBottomBarState createState() => _LiveBottomBarState();
+  State<LiveBottomBar> createState() => _LiveBottomBarState();
 }
 
 class _LiveBottomBarState extends State<LiveBottomBar> {
@@ -79,6 +81,9 @@ class _LiveBottomBarState extends State<LiveBottomBar> {
           CurrentPosition(),
           Expanded(
             child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+              ),
               child: Slider(
                 value: _currentSliderPosition,
                 onChanged: (value) {
@@ -92,9 +97,6 @@ class _LiveBottomBarState extends State<LiveBottomBar> {
                 },
                 activeColor: widget.liveUIColor,
                 inactiveColor: Colors.transparent,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
               ),
             ),
           ),

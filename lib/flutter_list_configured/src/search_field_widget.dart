@@ -16,15 +16,17 @@ class SearchFieldWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
             color: searchFieldBackgroundColor),
         child: TextField(
           onChanged: onChanged,
-          style: TextStyle(fontSize: 18, color: Colors.black87),
+          style: TextStyle(
+              fontSize: 18, color: Theme.of(context).primaryColorLight),
           decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: Colors.black38),
+            prefixIcon: Icon(Icons.search,
+                color: Theme.of(context).appBarTheme.iconTheme?.color),
             hintText: searchFieldHintText,
             border: InputBorder.none,
           ),

@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, prefer_const_constructors, sized_box_for_whitespace
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -32,7 +34,7 @@ class TouchShutter extends StatefulWidget {
   });
 
   @override
-  _TouchShutterState createState() => _TouchShutterState();
+  State<TouchShutter> createState() => _TouchShutterState();
 }
 
 class _TouchShutterState extends State<TouchShutter> {

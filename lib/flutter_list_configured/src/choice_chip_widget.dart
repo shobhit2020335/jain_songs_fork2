@@ -16,7 +16,7 @@ class ChoicechipWidget extends StatelessWidget {
   final bool? selected;
   final Function(bool)? onSelected;
   final Color? selectedTextColor;
-  final Color? /*?*/ unselectedTextColor;
+  final Color? unselectedTextColor;
   final Color? unselectedTextBackgroundColor;
   final Color? selectedTextBackgroundColor;
 
@@ -34,8 +34,7 @@ class ChoicechipWidget extends StatelessWidget {
           label: Text(
             '$text',
             style: TextStyle(
-                color:
-                    selected! ? selectedTextColor : unselectedTextColor),
+                color: selected! ? selectedTextColor : unselectedTextColor),
           ),
           selected: selected!,
           onSelected: onSelected),
