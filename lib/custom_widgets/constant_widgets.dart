@@ -11,7 +11,7 @@ class ConstWidget {
       onTap: onTap,
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.green,
+          color: Color(0xFF717075),
           borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
@@ -20,12 +20,11 @@ class ConstWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Icon(
-              Icons.whatshot_outlined,
-              color: Colors.white,
+            Image.asset(
+              'images/almanac_of_wisdom_icon.png',
             ),
             Text(
-              'Whatsapp Status',
+              'Read Blogs, Article & More',
               style: GoogleFonts.lato(
                 color: Colors.white,
                 fontSize: 15,

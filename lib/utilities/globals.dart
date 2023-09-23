@@ -35,7 +35,10 @@ class Globals {
     });
   }
 
-  static String getAppPlayStoreUrl() {
+  static String getAppPlayStoreUrl({String appName = "Stavan"}) {
+    if (appName == "Almanac Of Wisdom") {
+      return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.almanac_of_wisdom';
+    }
     return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
   }
 }

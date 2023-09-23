@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
-import 'package:jain_songs/screens/post_screens/post_for_status.dart';
 import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -470,69 +469,11 @@ class _SongPageState extends State<SongPage> {
                                   const SizedBox(height: 10),
                                   //This is the button to open status posts
                                   ConstWidget.statusCard(
-                                    onTap: () async {
-                                      //This is a loading dialog
-                                      showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return WillPopScope(
-                                              onWillPop: () async {
-                                                return true;
-                                              },
-                                              child: const AlertDialog(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                elevation: 0,
-                                                content: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          });
-
-                                      //Then pauses the ongoing youtube song
-                                      _youtubePlayerController?.pause();
-
-                                      bool isSuccess =
-                                          await DatabaseControllerForPosts()
-                                              .fetchPostsOfSong(
-                                                  currentSong!.code!,
-                                                  currentSong!.searchKeywords!);
-
-                                      Navigator.of(context).pop();
-
-                                      if (isSuccess &&
-                                          ListFunctions
-                                              .postsToShow.isNotEmpty) {
-                                        debugPrint(
-                                            'Posts fetched successfully for a song');
-
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            barrierColor: Colors.black54,
-                                            opaque: false,
-                                            pageBuilder: (_, anim1, anim2) =>
-                                                const PostForStatus(),
-                                          ),
-                                        );
-                                      } else {
-                                        debugPrint(
-                                            'Error fetching posts of a song or empty posts');
-                                        ConstWidget.showSimpleToast(
-                                          context,
-                                          'Error downloading status!',
-                                        );
-                                        if (Globals.isVideoAutoPlay) {
-                                          _youtubePlayerController?.play();
-                                        }
-                                      }
+                                    onTap: () {
+                                      Services.launchPlayStore(
+                                        Globals.getAppPlayStoreUrl(
+                                            appName: "Almanac Of Wisdom"),
+                                      );
                                     },
                                   ),
                                   const Divider(thickness: 1),
