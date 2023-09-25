@@ -20,8 +20,11 @@ class ConstWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(
-              'images/almanac_of_wisdom_icon.png',
+            CircleAvatar(
+              radius: 25,
+              child: Image.asset(
+                'images/almanac_of_wisdom_icon.png',
+              ),
             ),
             Text(
               'Read Blogs, Article & More',

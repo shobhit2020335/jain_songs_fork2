@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 Text(
-                  'v2.0.1',
+                  'v2.1.0',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                   ),
