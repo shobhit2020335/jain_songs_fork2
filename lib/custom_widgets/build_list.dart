@@ -20,37 +20,23 @@ class BuildList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        if (homePageBottomBannerAd != null)
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SafeArea(
-              child: SizedBox(
-                width: homePageBottomBannerAd!.size.width.toDouble(),
-                height: homePageBottomBannerAd!.size.height.toDouble(),
-                child: AdWidget(ad: homePageBottomBannerAd!),
-              ),
-            ),
-          ),
-        ListView.builder(
-          controller: scrollController,
-          itemCount: ListFunctions.listToShow.length + 1,
-          itemBuilder: (context, i) {
-            if (i == ListFunctions.listToShow.length) {
-              return SearchEmpty(searchController);
-            } else {
-              return BuildRow(
-                ListFunctions.listToShow[i],
-                color: colorRowIcon,
-                userSearched: searchController.text,
-                positionInList: i,
-              );
-            }
-          },
-        ),
-      ],
+    return ListView.builder(
+      controller: scrollController,
+      itemCount: ListFunctions.listToShow.length + 1,
+      itemBuilder: (context, i) {
+        if (i == ListFunctions.listToShow.length ||
+            ListFunctions.listToShow.isEmpty) {
+          return SearchEmpty(searchController);
+        } else {
+          return BuildRow(
+            ListFunctions.listToShow[i],
+            color: colorRowIcon,
+            userSearched: searchController.text,
+            positionInList: i,
+            listBannerAd: homePageBottomBannerAd,
+          );
+        }
+      },
     );
   }
 }
