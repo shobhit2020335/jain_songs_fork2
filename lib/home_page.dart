@@ -52,7 +52,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
 
-  BannerAd? _homePageBottomBannerAd;
+  NativeAd? _homeListNativeLowFloorAd;
+  NativeAd? _homeListNativeMediumFloorAd;
+  NativeAd? _homeListNativeHighFloorAd;
 
   void _searchAppBarUi() {
     if (showProgress == false) {
@@ -101,16 +103,42 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     FirebaseFCMManager.handleFCMRecieved(context);
 
-    AdmobHelper(isTestAd: false).loadHomePageBottomBannerAd(onAdLoaded: (ad) {
-      debugPrint("Home page Bottom banner ad loaded");
+    AdmobHelper(isTestAd: false).loadHomeListNativeLowFloorAd(onAdLoaded: (ad) {
+      debugPrint("Home list native low floor ad loaded");
       setState(() {
-        _homePageBottomBannerAd = ad as BannerAd;
+        _homeListNativeLowFloorAd = ad as NativeAd;
       });
     }, onAdFailedToLoaded: (ad, err) {
-      debugPrint("Home page Bottom banner ad loading Failed: $err");
+      debugPrint("Home list native low floor ad loading Failed: $err");
       ad.dispose();
     }, onAdClicked: (ad) {
-      debugPrint("Home page bottom banner ad clicked");
+      debugPrint("Home list native low floor ad clicked");
+    });
+
+    AdmobHelper(isTestAd: false).loadHomeListNativeMediumFloorAd(
+        onAdLoaded: (ad) {
+      debugPrint("Home list native medium floor ad loaded");
+      setState(() {
+        _homeListNativeMediumFloorAd = ad as NativeAd;
+      });
+    }, onAdFailedToLoaded: (ad, err) {
+      debugPrint("Home list native medium floor ad loading Failed: $err");
+      ad.dispose();
+    }, onAdClicked: (ad) {
+      debugPrint("Home list native medium floor ad clicked");
+    });
+
+    AdmobHelper(isTestAd: false).loadHomeListNativeHighFloorAd(
+        onAdLoaded: (ad) {
+      debugPrint("Home list native high floor ad loaded");
+      setState(() {
+        _homeListNativeHighFloorAd = ad as NativeAd;
+      });
+    }, onAdFailedToLoaded: (ad, err) {
+      debugPrint("Home list native high floor ad loading Failed: $err");
+      ad.dispose();
+    }, onAdClicked: (ad) {
+      debugPrint("Home list native high floor ad clicked");
     });
 
     speechToText.initialize(onError: (error) {
@@ -253,7 +281,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     searchController.clear();
-    _homePageBottomBannerAd!.dispose();
+    _homeListNativeLowFloorAd!.dispose();
+    _homeListNativeMediumFloorAd!.dispose();
+    _homeListNativeHighFloorAd!.dispose();
     WidgetsBinding.instance.removeObserver(this);
     if (_timerLink != null) {
       _timerLink!.cancel();
@@ -464,7 +494,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             : BuildList(
                 scrollController: listScrollController,
                 searchController: searchController,
-                homePageBottomBannerAd: _homePageBottomBannerAd,
+                homeListNativeLowFloorAd: _homeListNativeLowFloorAd,
+                homeListNativeMediumFloorAd: _homeListNativeMediumFloorAd,
+                homeListNativeHighFloorAd: _homeListNativeHighFloorAd,
               ),
         const FormPage(),
         const BuildPlaylistList(),

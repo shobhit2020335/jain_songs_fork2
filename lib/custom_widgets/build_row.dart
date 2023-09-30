@@ -13,7 +13,9 @@ class BuildRow extends StatefulWidget {
   final PlaylistDetails? playlist;
   final String? userSearched;
   final int positionInList;
-  final BannerAd? listBannerAd;
+  final NativeAd? listNativeLowFloorAd;
+  final NativeAd? listNativeMediumFloorAd;
+  final NativeAd? listNativeHighFloorAd;
 
   const BuildRow(
     this.currentSong, {
@@ -22,7 +24,9 @@ class BuildRow extends StatefulWidget {
     this.playlist,
     this.userSearched,
     required this.positionInList,
-    this.listBannerAd,
+    this.listNativeLowFloorAd,
+    this.listNativeMediumFloorAd,
+    this.listNativeHighFloorAd,
   }) : super(key: key);
 
   @override
@@ -38,11 +42,47 @@ class _BuildRowState extends State<BuildRow> {
 
     return Column(
       children: [
-        if (widget.listBannerAd != null && widget.positionInList % 11 == 1)
-          SizedBox(
-            width: widget.listBannerAd!.size.width.toDouble(),
-            height: widget.listBannerAd!.size.height.toDouble(),
-            child: AdWidget(ad: widget.listBannerAd!),
+        if (widget.listNativeHighFloorAd != null &&
+            widget.positionInList % 5 == 1 &&
+            (widget.positionInList ~/ 5) % 3 == 2)
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: 320,
+              minHeight: 90,
+              maxHeight: 90,
+              maxWidth: 400,
+            ),
+            child: AdWidget(
+              ad: widget.listNativeHighFloorAd!,
+            ),
+          ),
+        if (widget.listNativeMediumFloorAd != null &&
+            widget.positionInList % 5 == 1 &&
+            (widget.positionInList ~/ 5) % 3 == 0)
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: 320,
+              minHeight: 90,
+              maxHeight: 90,
+              maxWidth: 400,
+            ),
+            child: AdWidget(
+              ad: widget.listNativeMediumFloorAd!,
+            ),
+          ),
+        if (widget.listNativeLowFloorAd != null &&
+            widget.positionInList % 5 == 1 &&
+            (widget.positionInList ~/ 5) % 3 == 1)
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              minWidth: 320,
+              minHeight: 90,
+              maxHeight: 90,
+              maxWidth: 400,
+            ),
+            child: AdWidget(
+              ad: widget.listNativeLowFloorAd!,
+            ),
           ),
         ListTileTheme(
           style: ListTileStyle.drawer,

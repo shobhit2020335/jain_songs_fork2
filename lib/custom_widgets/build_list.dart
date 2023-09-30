@@ -8,14 +8,18 @@ class BuildList extends StatelessWidget {
   final Color colorRowIcon;
   final ScrollController? scrollController;
   final TextEditingController searchController;
-  final BannerAd? homePageBottomBannerAd;
+  final NativeAd? homeListNativeLowFloorAd;
+  final NativeAd? homeListNativeMediumFloorAd;
+  final NativeAd? homeListNativeHighFloorAd;
 
   const BuildList({
     Key? key,
     this.colorRowIcon = Colors.grey,
     this.scrollController,
     required this.searchController,
-    this.homePageBottomBannerAd,
+    this.homeListNativeLowFloorAd,
+    this.homeListNativeMediumFloorAd,
+    this.homeListNativeHighFloorAd,
   }) : super(key: key);
 
   @override
@@ -33,7 +37,9 @@ class BuildList extends StatelessWidget {
             color: colorRowIcon,
             userSearched: searchController.text,
             positionInList: i,
-            listBannerAd: homePageBottomBannerAd,
+            listNativeLowFloorAd: homeListNativeLowFloorAd,
+            listNativeMediumFloorAd: homeListNativeMediumFloorAd,
+            listNativeHighFloorAd: homeListNativeHighFloorAd,
           );
         }
       },
