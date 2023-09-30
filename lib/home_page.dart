@@ -4,12 +4,10 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/custom_widgets/build_list.dart';
 import 'package:jain_songs/custom_widgets/build_playlist_list.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/form_page.dart';
-import 'package:jain_songs/services/ads/admob_helper.dart';
 import 'package:jain_songs/services/notification/firebase_dynamic_link_service.dart';
 import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/searchify.dart';
@@ -51,10 +49,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
-
-  NativeAd? _homeListNativeLowFloorAd;
-  NativeAd? _homeListNativeMediumFloorAd;
-  NativeAd? _homeListNativeHighFloorAd;
 
   void _searchAppBarUi() {
     if (showProgress == false) {
@@ -98,48 +92,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
     FirebaseDynamicLinkService.retrieveDynamicLink(context);
+    // OneSignalNotification().initOneSignal();
 
     WidgetsBinding.instance.addObserver(this);
 
     FirebaseFCMManager.handleFCMRecieved(context);
 
-    AdmobHelper(isTestAd: false).loadHomeListNativeLowFloorAd(onAdLoaded: (ad) {
-      debugPrint("Home list native low floor ad loaded");
-      setState(() {
-        _homeListNativeLowFloorAd = ad as NativeAd;
-      });
-    }, onAdFailedToLoaded: (ad, err) {
-      debugPrint("Home list native low floor ad loading Failed: $err");
-      ad.dispose();
-    }, onAdClicked: (ad) {
-      debugPrint("Home list native low floor ad clicked");
-    });
-
-    AdmobHelper(isTestAd: false).loadHomeListNativeMediumFloorAd(
-        onAdLoaded: (ad) {
-      debugPrint("Home list native medium floor ad loaded");
-      setState(() {
-        _homeListNativeMediumFloorAd = ad as NativeAd;
-      });
-    }, onAdFailedToLoaded: (ad, err) {
-      debugPrint("Home list native medium floor ad loading Failed: $err");
-      ad.dispose();
-    }, onAdClicked: (ad) {
-      debugPrint("Home list native medium floor ad clicked");
-    });
-
-    AdmobHelper(isTestAd: false).loadHomeListNativeHighFloorAd(
-        onAdLoaded: (ad) {
-      debugPrint("Home list native high floor ad loaded");
-      setState(() {
-        _homeListNativeHighFloorAd = ad as NativeAd;
-      });
-    }, onAdFailedToLoaded: (ad, err) {
-      debugPrint("Home list native high floor ad loading Failed: $err");
-      ad.dispose();
-    }, onAdClicked: (ad) {
-      debugPrint("Home list native high floor ad clicked");
-    });
+    // AdManager.initializeFBAds();
 
     speechToText.initialize(onError: (error) {
       setState(() {
@@ -281,9 +240,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     searchController.clear();
-    _homeListNativeLowFloorAd!.dispose();
-    _homeListNativeMediumFloorAd!.dispose();
-    _homeListNativeHighFloorAd!.dispose();
     WidgetsBinding.instance.removeObserver(this);
     if (_timerLink != null) {
       _timerLink!.cancel();
@@ -494,9 +450,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             : BuildList(
                 scrollController: listScrollController,
                 searchController: searchController,
-                homeListNativeLowFloorAd: _homeListNativeLowFloorAd,
-                homeListNativeMediumFloorAd: _homeListNativeMediumFloorAd,
-                homeListNativeHighFloorAd: _homeListNativeHighFloorAd,
               ),
         const FormPage(),
         const BuildPlaylistList(),

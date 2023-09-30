@@ -65,7 +65,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jain_songs/playlist_page.dart';
-import 'package:jain_songs/services/ads/admob_helper.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/provider/dark_theme_provider.dart';
 import 'package:jain_songs/services/shared_prefs.dart';
@@ -82,7 +81,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Globals.firebaseApp = await Firebase.initializeApp();
-  AdmobHelper().initAdmob();
 
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();

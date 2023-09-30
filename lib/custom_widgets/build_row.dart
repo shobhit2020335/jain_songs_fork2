@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -13,9 +12,6 @@ class BuildRow extends StatefulWidget {
   final PlaylistDetails? playlist;
   final String? userSearched;
   final int positionInList;
-  final NativeAd? listNativeLowFloorAd;
-  final NativeAd? listNativeMediumFloorAd;
-  final NativeAd? listNativeHighFloorAd;
 
   const BuildRow(
     this.currentSong, {
@@ -24,9 +20,6 @@ class BuildRow extends StatefulWidget {
     this.playlist,
     this.userSearched,
     required this.positionInList,
-    this.listNativeLowFloorAd,
-    this.listNativeMediumFloorAd,
-    this.listNativeHighFloorAd,
   }) : super(key: key);
 
   @override
@@ -40,126 +33,80 @@ class _BuildRowState extends State<BuildRow> {
     String isFromPlaylist = widget.playlist != null ? '1' : '0';
     SongDetails currentSong = widget.currentSong!;
 
-    return Column(
-      children: [
-        if (widget.listNativeHighFloorAd != null &&
-            widget.positionInList % 5 == 1 &&
-            (widget.positionInList ~/ 5) % 3 == 2)
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              minWidth: 320,
-              minHeight: 90,
-              maxHeight: 90,
-              maxWidth: 400,
+    return ListTileTheme(
+      style: ListTileStyle.drawer,
+      child: ListTile(
+        title: Text(
+          currentSong.songNameEnglish!,
+          //TODO: v2.0.2 test if size is perfect
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
+        ),
+        subtitle: Text(
+          currentSong.songInfo,
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: IconButton(
+            icon: Icon(
+              currentSong.isLiked == true
+                  ? FontAwesomeIcons.solidHeart
+                  : FontAwesomeIcons.heart,
+              color: widget.color,
             ),
-            child: AdWidget(
-              ad: widget.listNativeHighFloorAd!,
-            ),
-          ),
-        if (widget.listNativeMediumFloorAd != null &&
-            widget.positionInList % 5 == 1 &&
-            (widget.positionInList ~/ 5) % 3 == 0)
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              minWidth: 320,
-              minHeight: 90,
-              maxHeight: 90,
-              maxWidth: 400,
-            ),
-            child: AdWidget(
-              ad: widget.listNativeMediumFloorAd!,
-            ),
-          ),
-        if (widget.listNativeLowFloorAd != null &&
-            widget.positionInList % 5 == 1 &&
-            (widget.positionInList ~/ 5) % 3 == 1)
-          ConstrainedBox(
-            constraints: const BoxConstraints(
-              minWidth: 320,
-              minHeight: 90,
-              maxHeight: 90,
-              maxWidth: 400,
-            ),
-            child: AdWidget(
-              ad: widget.listNativeLowFloorAd!,
-            ),
-          ),
-        ListTileTheme(
-          style: ListTileStyle.drawer,
-          child: ListTile(
-            title: Text(
-              currentSong.songNameEnglish!,
-              //TODO: v2.0.2 test if size is perfect
-              style: Theme.of(context).primaryTextTheme.bodyLarge,
-            ),
-            subtitle: Text(
-              currentSong.songInfo,
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: IconButton(
-                icon: Icon(
-                  currentSong.isLiked == true
-                      ? FontAwesomeIcons.solidHeart
-                      : FontAwesomeIcons.heart,
-                  color: widget.color,
-                ),
-                onPressed: () async {
-                  if (currentSong.isLiked == true) {
-                    currentSong.isLiked = false;
-                    currentSong.likes = currentSong.likes! - 1;
-                    currentSong.popularity = currentSong.popularity! - 1;
-                    setState(() {});
-                    DatabaseController()
-                        .changeLikes(context, currentSong, -1)
-                        .then((value) {
-                      if (value == false) {
-                        debugPrint('Error changing likes');
-                        currentSong.isLiked = true;
-                        currentSong.likes = currentSong.likes! + 1;
-                        currentSong.popularity = currentSong.popularity! + 1;
-                        ConstWidget.showSimpleToast(
-                            context, 'Error Disliking song! Try again');
-                      }
-                      setState(() {});
-                    });
-                  } else {
+            onPressed: () async {
+              if (currentSong.isLiked == true) {
+                currentSong.isLiked = false;
+                currentSong.likes = currentSong.likes! - 1;
+                currentSong.popularity = currentSong.popularity! - 1;
+                setState(() {});
+                DatabaseController()
+                    .changeLikes(context, currentSong, -1)
+                    .then((value) {
+                  if (value == false) {
+                    debugPrint('Error changing likes');
                     currentSong.isLiked = true;
                     currentSong.likes = currentSong.likes! + 1;
                     currentSong.popularity = currentSong.popularity! + 1;
-                    setState(() {});
-                    DatabaseController()
-                        .changeLikes(context, currentSong, 1)
-                        .then((value) {
-                      if (value == false) {
-                        debugPrint('Error changing likes');
-                        currentSong.isLiked = false;
-                        currentSong.likes = currentSong.likes! - 1;
-                        currentSong.popularity = currentSong.popularity! - 1;
-                        ConstWidget.showSimpleToast(
-                            context, 'Error Liking song! Try again');
-                      }
-                      setState(() {});
-                    });
+                    ConstWidget.showSimpleToast(
+                        context, 'Error Disliking song! Try again');
                   }
-                }),
-            onTap: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return SongPage(
-                    currentSong: currentSong,
-                    playlist: widget.playlist,
-                    suggestionStreak: isFromPlaylist + currentSong.code!,
-                    userSearched: widget.userSearched,
-                    postitionInList: widget.positionInList,
-                  );
-                }),
+                  setState(() {});
+                });
+              } else {
+                currentSong.isLiked = true;
+                currentSong.likes = currentSong.likes! + 1;
+                currentSong.popularity = currentSong.popularity! + 1;
+                setState(() {});
+                DatabaseController()
+                    .changeLikes(context, currentSong, 1)
+                    .then((value) {
+                  if (value == false) {
+                    debugPrint('Error changing likes');
+                    currentSong.isLiked = false;
+                    currentSong.likes = currentSong.likes! - 1;
+                    currentSong.popularity = currentSong.popularity! - 1;
+                    ConstWidget.showSimpleToast(
+                        context, 'Error Liking song! Try again');
+                  }
+                  setState(() {});
+                });
+              }
+            }),
+        onTap: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return SongPage(
+                currentSong: currentSong,
+                playlist: widget.playlist,
+                suggestionStreak: isFromPlaylist + currentSong.code!,
+                userSearched: widget.userSearched,
+                postitionInList: widget.positionInList,
               );
-              setState(() {});
-            },
-          ),
-        ),
-      ],
+            }),
+          );
+          setState(() {});
+        },
+      ),
     );
   }
 }

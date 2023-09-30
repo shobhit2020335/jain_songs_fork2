@@ -68,6 +68,10 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="high_importance_channel" 
         />
+        <!-- Icon color for One Signal-->
+        <meta-data 
+            android:name="com.onesignal.NotificationAccentColor.DEFAULT"
+            android:value="FF3F51B5" />
         <!-- Set custom default icon. This is used when no icon is set for incoming notification messages. -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
@@ -76,9 +80,5 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-            <!-- Admob -->
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1265975785443681~2810280418"/>
     </application>
 </manifest>
