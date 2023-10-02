@@ -15,7 +15,7 @@ class Globals {
       DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
 
   //TODO: update app version for new app.
-  static const double appVersion = 2.01;
+  static const double appVersion = 2.10;
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
@@ -25,7 +25,7 @@ class Globals {
   //varible which sets whether to autoplay videos/songs or not.
   static bool isVideoAutoPlay = true;
   //Variable which sets whether dark mode is on or off.
-  static bool isDarkTheme = true;
+  static bool isDarkTheme = false;
 
   //Set user settings when app is started.
   static Future<void> setGlobals() async {
@@ -35,7 +35,10 @@ class Globals {
     });
   }
 
-  static String getAppPlayStoreUrl() {
+  static String getAppPlayStoreUrl({String appName = "Stavan"}) {
+    if (appName == "Almanac Of Wisdom") {
+      return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.almanac_of_wisdom';
+    }
     return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
   }
 }

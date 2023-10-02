@@ -121,7 +121,7 @@ class FireStoreHelper {
       'totalDays': Globals.totalDays,
       'lastUpdated': lastUpdated,
     }).catchError((error) {
-      debugPrint('Error updating days.' + error);
+      debugPrint('Error updating days $error');
     });
 
     FirestoreHelperForPost().dailyUpdatePosts();
@@ -404,7 +404,7 @@ class FireStoreHelper {
 
     for (int i = 0; i < images.length; i++) {
       String imageURL = await CloudStorage()
-          .uploadSuggestionImage(images[0], '${i + 1}' + suggestionUID);
+          .uploadSuggestionImage(images[0], '${i + 1}$suggestionUID');
       songSuggestion.addImagesLink(imageURL);
     }
 

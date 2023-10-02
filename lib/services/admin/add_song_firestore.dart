@@ -4,12 +4,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/admin/export_firestore.dart';
+import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/globals.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // ignore: unused_local_variable
+  FirebaseApp app = await Firebase.initializeApp();
   //Firebase Anonymous signIn.
   Globals.userCredential = await FirebaseAuth.instance.signInAnonymously();
 
@@ -22,85 +25,42 @@ void main() async {
   // //Uncomment below to sync songData with original song values.
   // // await currentSong.rewriteSongsDataInFirebase();
 
-  // //This automatically creates searchKeywords from song details.
+  //This automatically creates searchKeywords from song details.
   // currentSong.mainSearchKeywords();
 
-  // //Uncomment Below to add EXTRA searchkeywords in form of string.
-  // currentSong.extraSearchKeywords('OJMP',
-  //     englishName: 'jay mahabir prabho',
-  //     hindiName: '',
-  //     originalSong: '',
+  /////////////// UPLOAD AACG FIRST ////////////////////
+  //Uncomment Below to add EXTRA searchkeywords in form of string.
+  // currentSong.extraSearchKeywords('AACG',
+  //     englishName:
+  //         /////////////// UPLOAD AACG FIRST ////////////////////
+  //         'aatmodhare aatmadare aatmadhare aatamodhare aatmoddhhare aatmoddhare aatmodhhare',
+  //     hindiName: 'chala chale gya gayi gyi gyo gayo',
+  //     originalSong: 'diksa dikhsa',
   //     album: '',
   //     tirthankar: '',
   //     extra1: '',
   //     extra2: '',
   //     extra3: '');
-  // //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
-  // // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
-  // //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
-  // //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
+  //पारसनाथ पार्श्वनाथ महावीर दीक्षा शांती नाथ जनम कल्याणक दादा अदीश्वर् स्तोत्र નેમિનાથ नेमिनाथ
+  // pajushan parushan paryusan pajyushan bhairav parasnath parshwanath
+  //शत्रुंजय shatrunjay siddhgiri siddhagiri पालीताना पालीताणा Bhikshu Swami Bikshu swami भिक्षू Varsitap parna
+  //महावीर जनम कल्याणक mahavir jayanti mahavir janam kalyanak mahaveer janma kalyanak
 
-  // //Uncomment below to add a new song.
+  //Uncomment below to add a new song.
   // await currentSong.addToFirestore().catchError((error) {
   //   debugPrint('Error: ' + error);
   // });
   // debugPrint('Added song successfully');
 
-  // //Uncomment below to add song in realtimeDB.
+  //Uncomment below to add song in realtimeDB.
   // await currentSong.addToRealtimeDB().catchError((error) {
   //   debugPrint('Error: ' + error);
   // }).then((value) {
   //   debugPrint('Added song to realtimeDB successfully');
   // });
 
-  // //Comment below to stop adding songsData
+  //Uncomment below to add songsData
   // await currentSong.addsongsDataInFirebase();
-}
-
-class MainTheme extends StatefulWidget {
-  const MainTheme({Key? key}) : super(key: key);
-
-  @override
-  State<MainTheme> createState() => _MainThemeState();
-}
-
-class _MainThemeState extends State<MainTheme> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    String userBehaviourJson = 'Pakau';
-    ExportFirestore exportFirestore = ExportFirestore();
-
-    return MaterialApp(
-      home: Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Row(
-              children: [
-                TextButton(
-                  onPressed: () async {
-                    userBehaviourJson =
-                        await exportFirestore.getUserBehaviourToJson();
-                  },
-                  child: const Text('Fetch'),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    await exportFirestore.storeInTextFile(userBehaviourJson);
-                  },
-                  child: const Text('Store'),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class AddSong {
@@ -109,29 +69,30 @@ class AddSong {
   AddSong(this.app);
 
   Map<String, dynamic> currentSongMap = {
-    'code': 'DWTS',
+    'code': 'AACG',
     'album': '',
+    /////////////// UPLOAD AACG FIRST ////////////////////
     'aaa': 'valid',
-    'category': 'Song',
-    'genre': 'Latest',
+    'category': 'Song | Stavan',
+    'genre': 'Diksha | Latest',
     'gujaratiLyrics': '',
-    'language': 'Hindi',
+    'language': 'Gujarati',
     'likes': 0,
-    'lyrics':
-        'Mere Sar Pe Hath Tera\nDarne Ki Mujhko Kya Baat Hai\nMujhko Kisiki Zarurat Hi Kya\nTu Jo Mere Ab Saath Hai\nMain Bhatka Tha\nAndheron Mein\nTune Ujaala Kiya\nO Dande Waale Tera Shukriya -2\n\nMeri Har Kami\nTu Hi to Jaane\nMera Har Karam\nTu Hi Pehchaane\nTere Naam Ka\nHi Kha Raha Hu Main\nTere Liye\nLikhta Hu Gaane\nJo Karta Gungaan Tera\nTu Uski Naiyya Paar Kare\nParas Raj Ye Vinti Kare\nTu Sangh Ka Uddhaar Kare\nMain Jab Jab Bhi\nLadkhadaya Hoon\nTune Sambhaal Liya\nO Dande Wale Tera Shukriya \n\nTera Har Karam Jo Mujhpe Hua Hai\nMeri Zindagi Ko Khushiyon Ne Chhuaa Hai\nHaar Ke Bhi Ab Main Jeet Jaata Hoon\nTeri Hi Duaa Ka Asar Aisa Hua Hai\nTeri Bhakti Ki Shakti Mein Jo\nJaadu Hai Wo Aur Kahan\nTere Kadmon Mein Aake Gire\nJo Ghumke Aaye Saara Jahan\nMeri Duniya Mein Aakar Ke\nTune Sambhal Liya\n',
-    'englishLyrics': '',
+    'lyrics': '',
+    'englishLyrics':
+        'એ આત્મોદ્ધારે ચાલી ગયા,\nજોડી રહ્યા એ ગુરુકુળવાસ,\nએ સંસાર આખો છોડી રહ્યાં...\nપ્રિય માત-તાત સંતાન છોડી.... એ આત્મોદ્ધારે…\n\nકેસર રૂડા છંટાયા,\nછાબો ભરાઇ એની...\nવર્ષોથી સેવેલા સપના,\nસાકાર કરાવો અહીં...\nપ્રભુ આણમાં પળપળ રહી,\nગુર્વાજ્ઞા પાળે અહોભાવે,\nએ આત્મોદ્ધારે….\n\nવિધિ સુંદર નંદિની, સંસાર નિકંદીની,\nજુઓ ધારા સદીઓની, હરપળ આનંદીની,\nમુંડાયું એનું મન, બન્યા હવે શ્રમણ,\nપામ્યા સંયમ જીવન, કરશે સાધના ઉજ્જવળ...\nપ્રભુ આણમાં….\n\nનામની કામના ખૂંચે, ગુરુ કેશને લૂંચે,\nભાવ એના ચડે ઊંચે, ગુરુ નિશ્રા ના મુંચે,\nઅરે! એના સત્વથી,હૈંયા સૌના હરશે (હર્ષે),\nજિનાગમ શ્રુત પામી, એ જયન્ત પદ વરશે...\nપ્રભુ આણમાં….\n',
     'originalSong': '',
     'popularity': 0,
-    'production': 'Bhakti Bhavna',
+    'production': 'मधुकर સંસ્કાર GYANAYATAN',
     'share': 0,
-    'singer': 'Rishabh Sambhav Jain (RSJ)',
-    'songNameEnglish': 'Dande Wale Tera Shukriya',
-    'songNameHindi': 'डंडे वाले तेरा शुक्रिया',
-    'tirthankar': 'Rajendrasuri',
+    'singer': 'Manan Sanghvi',
+    'songNameEnglish': 'Ae Aatmoddhare Chali Gaya',
+    'songNameHindi': 'आ आत्मोद्धारे चली गया',
+    'tirthankar': '',
     'totalClicks': 0,
     'todayClicks': 0,
     'trendPoints': 0.0,
-    'youTubeLink': 'https://youtu.be/ZlLEUCL218I',
+    'youTubeLink': 'https://youtu.be/0WtNHe7fXc0',
   };
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   CollectionReference songs = FirebaseFirestore.instance.collection('songs');
@@ -151,6 +112,7 @@ class AddSong {
   }
 
   void mainSearchKeywords() {
+    // ignore: prefer_interpolation_to_compose_strings
     searchKeywords = searchKeywords +
         currentSongMap['language'] +
         ' ' +
@@ -177,8 +139,8 @@ class AddSong {
     String extra2 = '',
     String extra3 = '',
   }) {
-    searchKeywords =
-        searchKeywords.toLowerCase() + ' ' + englishName + ' ' + hindiName;
+    searchKeywords = '${searchKeywords.toLowerCase()} $englishName $hindiName';
+    // ignore: prefer_interpolation_to_compose_strings
     searchKeywords = searchKeywords +
         ' ' +
         currentSongMap['songNameHindi'] +
@@ -203,7 +165,7 @@ class AddSong {
     searchKeywords = "";
     for (int i = 0; i < searchWordsList.length; i++) {
       if (searchWordsList[i].isNotEmpty) {
-        searchKeywords += ' ' + searchWordsList[i];
+        searchKeywords += ' ${searchWordsList[i]}';
       }
     }
     currentSongMap['searchKeywords'] = searchKeywords;
@@ -371,5 +333,124 @@ class AddSong {
     } catch (e) {
       debugPrint('Error rewriting songsData: $e');
     }
+  }
+}
+
+class MainTheme extends StatefulWidget {
+  const MainTheme({Key? key}) : super(key: key);
+
+  @override
+  State<MainTheme> createState() => _MainThemeState();
+}
+
+class _MainThemeState extends State<MainTheme> {
+  var countController = TextEditingController();
+  int countOfDataToFetch = 10;
+  String userBehaviourJson =
+      'Dead text to see if its storing the text file in phone';
+  String debugLog = 'No logs';
+  ExportFirestore exportFirestore = ExportFirestore();
+  bool showProgress = false;
+
+  @override
+  void initState() {
+    super.initState();
+    countController.text = countOfDataToFetch.toString();
+  }
+
+  @override
+  void dispose() {
+    countController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: SafeArea(
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Center(
+              child: showProgress
+                  ? const CircularProgressIndicator()
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextField(
+                          controller: countController,
+                          onChanged: (value) {
+                            countOfDataToFetch = int.parse(value);
+                          },
+                          keyboardType: TextInputType.number,
+                          style: const TextStyle(fontSize: 16),
+                          decoration: const InputDecoration(
+                            hintText: 'Count of Data to fetch',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            setState(() {
+                              showProgress = true;
+                            });
+                            debugLog = 'fetching';
+                            userBehaviourJson =
+                                await exportFirestore.getUserBehaviourToJson(
+                                    countOfDataToFetch: countOfDataToFetch);
+                            debugLog = 'Fetched and Deleted';
+                            setState(() {
+                              showProgress = false;
+                            });
+                          },
+                          child: const Text('Fetch'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            bool isStoragePermissionGranted =
+                                await Services.requestPermission(
+                                    Permission.storage);
+
+                            if (isStoragePermissionGranted) {
+                              setState(() {
+                                showProgress = true;
+                              });
+
+                              // ConstWidget.showSimpleToast(
+                              //     context, 'Storage permission granted');
+
+                              debugLog = await exportFirestore
+                                  .storeInTextFile(userBehaviourJson);
+
+                              setState(() {
+                                showProgress = false;
+                              });
+
+                              // ConstWidget.showSimpleToast(context, status);
+                            } else {
+                              debugPrint('Storage permission not granted');
+                              debugLog = 'Storage permission denied';
+                            }
+                          },
+                          child: const Text('Store'),
+                        ),
+                        Text(
+                          debugLog,
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.black),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

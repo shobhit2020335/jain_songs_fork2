@@ -14,7 +14,7 @@ class PlaylistPage extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PlaylistPageState createState() => _PlaylistPageState();
+  State<PlaylistPage> createState() => _PlaylistPageState();
 }
 
 class _PlaylistPageState extends State<PlaylistPage> {
@@ -88,18 +88,6 @@ class _PlaylistPageState extends State<PlaylistPage> {
             expandedHeight: 200,
             elevation: 20,
             flexibleSpace: Container(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 15),
-                    Text(
-                      currentPlaylist != null ? currentPlaylist!.title : '',
-                      style: Theme.of(context).primaryTextTheme.headline3,
-                    ),
-                  ],
-                ),
-              ),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
@@ -109,6 +97,18 @@ class _PlaylistPageState extends State<PlaylistPage> {
                     currentPlaylist != null
                         ? currentPlaylist!.color!
                         : Colors.white,
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 15),
+                    Text(
+                      currentPlaylist != null ? currentPlaylist!.title : '',
+                      style: Theme.of(context).primaryTextTheme.displaySmall,
+                    ),
                   ],
                 ),
               ),
@@ -141,8 +141,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         height: 70,
                       ),
                       Text(
-                        'Songs loading...\nLike songs to save them in your Favourites playlist.',
-                        style: Theme.of(context).primaryTextTheme.subtitle2,
+                        'No songs liked by you!',
+                        style: Theme.of(context).primaryTextTheme.titleSmall,
                       ),
                     ],
                   );

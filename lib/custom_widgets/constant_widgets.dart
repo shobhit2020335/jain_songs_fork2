@@ -1,38 +1,64 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:jain_songs/utilities/lists.dart';
 
 class ConstWidget {
   //This card is shown in song page as a whatapp status button
-  static Widget statusCard({required void Function() onTap}) {
+  static Widget statusCard() {
+    int advertisementNumber =
+        Random().nextInt(ListFunctions.advertisementList.length);
+
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        Services.launchURL(
+          ListFunctions.advertisementList[advertisementNumber].companyURL,
+        );
+      },
       child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.indigo),
+          color: ListFunctions
+              .advertisementList[advertisementNumber].backgroundColor,
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Icon(
-              Icons.whatsapp_outlined,
-              color: Colors.white,
+            Image(
+              image: AssetImage(
+                ListFunctions.advertisementList[advertisementNumber].icon,
+              ),
+              width:
+                  ListFunctions.advertisementList[advertisementNumber].iconSize,
+              height:
+                  ListFunctions.advertisementList[advertisementNumber].iconSize,
+              color: ListFunctions
+                  .advertisementList[advertisementNumber].iconColor,
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
             ),
             Text(
-              'Whatsapp Status',
+              ListFunctions.advertisementList[advertisementNumber].title,
               style: GoogleFonts.lato(
-                color: Colors.white,
+                color: ListFunctions
+                    .advertisementList[advertisementNumber].textColor,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: ListFunctions
+                  .advertisementList[advertisementNumber].textColor,
+              size: 20,
+            )
           ],
         ),
       ),
@@ -44,30 +70,33 @@ class ConstWidget {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Update Available'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text(
-                  'Newer Version of app is available.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  'Press update to update the app now.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: const Text('Update Available'),
+            content: const SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Newer Version of app is available.',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Text(
+                    'Press update button.',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Update'),
+                onPressed: () {
+                  Services.launchURL(Globals.getAppPlayStoreUrl());
+                },
+              ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Update'),
-              onPressed: () {
-                Services.launchPlayStore(Globals.getAppPlayStoreUrl());
-              },
-            ),
-          ],
         );
       },
     );

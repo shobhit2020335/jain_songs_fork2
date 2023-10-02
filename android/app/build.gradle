@@ -3,15 +3,9 @@ buildscript {
         // ...
         maven { url 'https://plugins.gradle.org/m2/' } // OneSignal
     }
-    dependencies {
-        // ...
-        // OneSignal-Gradle-Plugin
-        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.10, 0.99.99]'
-    }
 }
 
-//OneSignal
-apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -28,12 +22,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '17'
+    flutterVersionCode = '19'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2.0.1'
+    flutterVersionName = '2.1.0'
 }
 
 apply plugin: 'com.android.application'
@@ -53,7 +47,7 @@ android {
         disable 'InvalidPackage'
         checkReleaseBuilds false
     }
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     lintOptions {
         disable 'InvalidPackage'
@@ -62,7 +56,7 @@ android {
     defaultConfig {
         applicationId "com.JainDevelopers.jain_songs"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -85,7 +79,6 @@ android {
          release {
              signingConfig signingConfigs.release
              minifyEnabled true
-             useProguard true
 
              proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
          }
@@ -97,7 +90,6 @@ flutter {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
     maven {
         url 'https://maven.google.com'
@@ -106,13 +98,13 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-perf:19.0.10'
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.google.android.gms:play-services-ads:19.6.0'
-    implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'com.google.ads.mediation:facebook:6.3.0.1'
+    implementation 'com.google.firebase:firebase-perf:20.3.2'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.android.gms:play-services-ads:22.1.0'
+    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'com.google.ads.mediation:facebook:6.14.0.0'
 }

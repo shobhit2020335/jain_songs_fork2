@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables
+// ignore_for_file: unnecessary_import, use_key_in_widget_constructors, prefer_const_constructors_in_immutables, annotate_overrides, overridden_fields
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -29,7 +29,7 @@ class RawYoutubePlayer extends StatefulWidget {
   });
 
   @override
-  _RawYoutubePlayerState createState() => _RawYoutubePlayerState();
+  State<RawYoutubePlayer> createState() => _RawYoutubePlayerState();
 }
 
 class _RawYoutubePlayerState extends State<RawYoutubePlayer>
@@ -42,12 +42,12 @@ class _RawYoutubePlayerState extends State<RawYoutubePlayer>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

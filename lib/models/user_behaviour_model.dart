@@ -38,12 +38,12 @@ class UserBehaviourModel {
 
     code = songCode;
     if (userSearched != null) {
-      code += '_' + userSearched!.trim().toLowerCase();
+      code += '_${userSearched!.trim().toLowerCase()}';
     }
     if (playlistOpened != null) {
-      code += '_' + playlistOpened!.trim().toLowerCase();
+      code += '_${playlistOpened!.trim().toLowerCase()}';
     }
-    code += '_' + timeOfClick!.millisecondsSinceEpoch.toString();
+    code += '_${timeOfClick!.millisecondsSinceEpoch}';
   }
 
   void setOneSignalId(String? id) {
@@ -79,6 +79,21 @@ class UserBehaviourModel {
       'timeOfClick': timeOfClick,
     };
   }
+
+  Map<String, dynamic> toJson() => {
+        'code': code,
+        'songCode': songCode,
+        'songName': songName,
+        'fcmToken': fcmToken,
+        'oneSignalId': oneSignalId,
+        'userSearched': userSearched,
+        'suggestionOpened': suggestionOpened,
+        'playlistOpened': playlistOpened,
+        'isLiked': isLiked,
+        'clickedAtRank': clickedAtRank,
+        'positionInList': positionInList,
+        'timeOfClick': timeOfClick.toString(),
+      };
 
   UserBehaviourModel.fromDocumentSnapshot(DocumentSnapshot documentSnapshot) {
     try {

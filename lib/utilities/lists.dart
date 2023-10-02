@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/models/advertisement_model.dart';
 import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -23,6 +24,50 @@ class ListFunctions {
   static List<PostModel> allPosts = [];
   //List for the posts which are visible
   static List<PostModel> postsToShow = [];
+
+  ///Advertisement list which is shown in the song page screen
+  static List<AdvertisementModel> advertisementList = [
+    AdvertisementModel(
+      advertisementId: 'ritesh',
+      companyName: 'Ritesh Sarees & Kurtis',
+      companyURL: 'https://www.instagram.com/ritesh_saree_kurtis/',
+      title: 'Shop for Sarees & Kurtis',
+      icon: 'images/rs_logo.png',
+      backgroundColor: Colors.black,
+    ),
+    AdvertisementModel(
+      advertisementId: 'almanac_of_wisdom',
+      companyName: 'Almanac Of Wisdom',
+      companyURL:
+          'https://play.google.com/store/apps/details?id=com.JainDevelopers.almanac_of_wisdom',
+      title: 'Read Blogs, Article & More',
+      icon: 'images/almanac_of_wisdom_icon_transparent.png',
+      backgroundColor: Colors.white,
+      textColor: Colors.indigo,
+    ),
+    AdvertisementModel(
+      advertisementId: 'stavan_co_buymeacoffee',
+      companyName: 'Stavan Co.',
+      companyURL: 'https://www.buymeacoffee.com/stavan',
+      title: 'Donate us to improve this app!',
+      icon: 'images/Logo.png',
+      iconColor: Colors.indigo,
+      backgroundColor: Colors.white,
+      textColor: Colors.indigo,
+      iconSize: 35,
+    ),
+    AdvertisementModel(
+      advertisementId: 'codealarm_jobs',
+      companyName: 'CodeAlarm',
+      companyURL:
+          'https://play.google.com/store/apps/details?id=com.pixamentory.codealarm',
+      title: 'Prepare your career towards tech world!',
+      icon: 'images/codealarm_logo.png',
+      backgroundColor: const Color(0xFF181923),
+      textColor: Colors.white,
+      iconSize: 40,
+    ),
+  ];
 
   //Lists for applying filters.
   static final List<Filters> filtersAll = [
@@ -78,19 +123,19 @@ class ListFunctions {
       for (int i = 0; i < l; i++) {
         if (filtersSelected[i].category == 'genre') {
           genreSelected.add(filtersSelected[i].name.toLowerCase());
-          userFilters.genre = userFilters.genre + " " + filtersSelected[i].name;
+          userFilters.genre = "${userFilters.genre} ${filtersSelected[i].name}";
         } else if (filtersSelected[i].category == 'tirthankar') {
           tirthankarSelected.add(filtersSelected[i].name.toLowerCase());
           userFilters.tirthankar =
-              userFilters.tirthankar + " " + filtersSelected[i].name;
+              "${userFilters.tirthankar} ${filtersSelected[i].name}";
         } else if (filtersSelected[i].category == 'category') {
           categorySelected.add(filtersSelected[i].name.toLowerCase());
           userFilters.category =
-              userFilters.category + " " + filtersSelected[i].name;
+              "${userFilters.category} ${filtersSelected[i].name}";
         } else if (filtersSelected[i].category == 'language') {
           languageSelected.add(filtersSelected[i].name.toLowerCase());
           userFilters.language =
-              userFilters.language + " " + filtersSelected[i].name;
+              "${userFilters.language} ${filtersSelected[i].name}";
         }
       }
 
@@ -343,7 +388,7 @@ class ListFunctions {
       subtitle: 'Paryushan Mahaparv Playlist',
       playlistTag: 'paryushan',
       playlistTagType: 'genre',
-      leadIcon: FontAwesomeIcons.pray,
+      leadIcon: FontAwesomeIcons.personPraying,
       iconSize: 32,
       color: Colors.teal,
     ),
@@ -400,7 +445,7 @@ class ListFunctions {
       subtitle: 'Neminath and Girnar Bhajans',
       playlistTag: 'neminath',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.pink[300],
     ),
     PlaylistDetails(
@@ -409,7 +454,7 @@ class ListFunctions {
       subtitle: 'Parasnath Bhajans',
       playlistTag: 'parshwanath',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.green,
     ),
     PlaylistDetails(
@@ -418,7 +463,7 @@ class ListFunctions {
       subtitle: 'Mahaveer Swami Bhajans',
       playlistTag: 'mahavir',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.amber,
     ),
     PlaylistDetails(
@@ -427,7 +472,7 @@ class ListFunctions {
       subtitle: 'Rishabh dev Bhajans',
       playlistTag: 'adinath',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.redAccent,
     ),
     PlaylistDetails(
@@ -436,7 +481,7 @@ class ListFunctions {
       subtitle: 'Nakoda Bhairav Bhajans',
       playlistTag: 'nakoda',
       playlistTagType: 'tirthankar',
-      leadIcon: FontAwesomeIcons.prayingHands,
+      leadIcon: FontAwesomeIcons.handsPraying,
       color: Colors.blue,
     ),
   ];

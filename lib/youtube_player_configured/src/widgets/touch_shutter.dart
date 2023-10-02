@@ -34,7 +34,7 @@ class TouchShutter extends StatefulWidget {
   });
 
   @override
-  _TouchShutterState createState() => _TouchShutterState();
+  State<TouchShutter> createState() => _TouchShutterState();
 }
 
 class _TouchShutterState extends State<TouchShutter> {

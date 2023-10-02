@@ -1,14 +1,14 @@
 import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:device_info/device_info.dart';
+// import 'package:device_info/device_info.dart';
 
 class Services {
   static String urlBeforeCode =
@@ -48,7 +48,7 @@ class Services {
               leading: const Icon(Icons.camera_alt_rounded),
               title: Text(
                 'Camera',
-                style: Theme.of(context).primaryTextTheme.bodyText1,
+                style: Theme.of(context).primaryTextTheme.bodyLarge,
               ),
               onTap: () {
                 debugPrint('onTap');
@@ -59,7 +59,7 @@ class Services {
               leading: const Icon(Icons.image_rounded),
               title: Text(
                 'Gallery (Select multiple images)',
-                style: Theme.of(context).primaryTextTheme.bodyText1,
+                style: Theme.of(context).primaryTextTheme.bodyLarge,
               ),
               onTap: () {
                 return Navigator.of(context).pop(ImageSource.gallery);
@@ -95,7 +95,7 @@ class Services {
   static Future<List<File>> pickMultipleImages() async {
     try {
       final images = await ImagePicker().pickMultiImage();
-      if (images == null || images.isEmpty) {
+      if (images.isEmpty) {
         return [];
       }
 
@@ -110,24 +110,10 @@ class Services {
     }
   }
 
-  static void launchURL(BuildContext context, String url) async {
-    if (await canLaunch(url)) {
-      ConstWidget.showSimpleToast(
-        context,
-        'Starting YouTube!',
-      );
-      await launch(url);
-    } else {
-      ConstWidget.showSimpleToast(
-        context,
-        'Could not launch the song!',
-      );
-    }
-  }
-
-  static void launchPlayStore(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+  static void launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       FirebaseCrashlytics.instance.log('Error on clicking update in dialog');
     }
@@ -144,7 +130,7 @@ class Services {
   }
 
   static void sendEmail() async {
-    String subject = 'Feedback and Support: ';
+    String subject = '';
     String email = 'stavan.co.j@gmail.com';
 
     // Code to get system info for android.
@@ -152,22 +138,14 @@ class Services {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     debugPrint('Running on ${androidInfo.model}');
 
-    String body = '\n\n\nDO NOT DELETE \n{' +
-        androidInfo.androidId +
-        '\n' +
-        androidInfo.brand +
-        '\n' +
-        androidInfo.device +
-        '\n' +
-        androidInfo.manufacturer +
-        '\n' +
-        androidInfo.model +
-        '\n' +
-        androidInfo.version.sdkInt.toString() +
-        '\n}';
-    var url = 'mailto:$email?subject=$subject&body=$body';
-    if (await canLaunch(url)) {
-      await launch(url);
+    //Body and subject are not send with feedback for now. TODO: Need to store
+    //the users data from somewhere else.
+    // String body =
+    //     '${androidInfo.id}\n${androidInfo.fingerprint}\n${androidInfo.brand}\n${androidInfo.device}\n${androidInfo.manufacturer}\n${androidInfo.model}\n${androidInfo.version.sdkInt}\n}';
+    String url = 'mailto:$email?subject=$subject';
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }

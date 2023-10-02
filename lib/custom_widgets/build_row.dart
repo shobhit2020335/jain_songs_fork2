@@ -23,7 +23,7 @@ class BuildRow extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BuildRowState createState() => _BuildRowState();
+  State<BuildRow> createState() => _BuildRowState();
 }
 
 class _BuildRowState extends State<BuildRow> {
@@ -38,7 +38,7 @@ class _BuildRowState extends State<BuildRow> {
       child: ListTile(
         title: Text(
           currentSong.songNameEnglish!,
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           currentSong.songInfo,

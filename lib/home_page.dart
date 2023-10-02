@@ -10,7 +10,6 @@ import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/notification/firebase_dynamic_link_service.dart';
 import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
-import 'package:jain_songs/services/notification/one_signal_notification.dart';
 import 'package:jain_songs/services/searchify.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
@@ -26,7 +25,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
@@ -93,9 +92,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     FirebaseDynamicLinkService.retrieveInitialDynamicLink(context);
     FirebaseDynamicLinkService.retrieveDynamicLink(context);
-    OneSignalNotification().initOneSignal();
+    // OneSignalNotification().initOneSignal();
 
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     FirebaseFCMManager.handleFCMRecieved(context);
 
@@ -184,8 +183,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           showProgress = false;
         });
       }).catchError((onError) {
-        FirebaseCrashlytics.instance
-            .log('home_page/_filterDialog(): ' + onError.toString());
+        FirebaseCrashlytics.instance.log('home_page/_filterDialog(): $onError');
 
         ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
         ConstWidget.showSimpleToast(
@@ -209,8 +207,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           showProgress = false;
         });
       }).catchError((onError) {
-        FirebaseCrashlytics.instance
-            .log('home_page/_filterDialog(): ' + onError.toString());
+        FirebaseCrashlytics.instance.log('home_page/_filterDialog(): $onError');
         ListFunctions.listToShow = List.from(ListFunctions.sortedSongList);
         ConstWidget.showSimpleToast(
           context,
@@ -241,7 +238,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void dispose() {
     searchController.clear();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     if (_timerLink != null) {
       _timerLink!.cancel();
     }
@@ -439,6 +436,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               getSongs('', false);
               searchController.clear();
               searchOrCrossIcon = const Icon(Icons.search);
+              listScrollController.animateTo(
+                listScrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 2000),
+                curve: Curves.fastOutSlowIn,
+              );
             }
           });
         },

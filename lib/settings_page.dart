@@ -7,7 +7,7 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
                 Text(
-                  'v2.0.1',
+                  'v2.1.0',
                   style: TextStyle(
                     color: Theme.of(context).primaryColor,
                   ),

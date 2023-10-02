@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/utilities/globals.dart';
-import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class NetworkHelper {
   NetworkHelper();
@@ -16,6 +16,7 @@ class NetworkHelper {
   }
 
   //Package_info is used to get the information about the app name and version.
+  //It is not used anywhere. Dont know where it was used previously.
   Future<String> getPackageInfo(String appInfoName) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String appName = packageInfo.appName;
@@ -34,8 +35,10 @@ class NetworkHelper {
     }
   }
 
+  //This function check if we are on wifi or mobile data.
+  //It is currently not used anywhere.
   Future<bool> checkConnectionMode() async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
+    final connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
       return true;
     } else if (connectivityResult == ConnectivityResult.wifi) {
@@ -52,7 +55,7 @@ class NetworkHelper {
         return true;
       }
     } on SocketException catch (error) {
-      debugPrint('Net not connected due to: ' + error.toString());
+      debugPrint('Net not connected due to: ${error.toString()}');
       return false;
     }
     return false;

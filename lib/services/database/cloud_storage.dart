@@ -20,7 +20,7 @@ class CloudStorage {
       Directory applicationInternalDirectory =
           await getApplicationDocumentsDirectory();
       //Create posts folder in the internal storage directory
-      await Directory(applicationInternalDirectory.path + '/' + 'posts')
+      await Directory('${applicationInternalDirectory.path}/posts')
           .create(recursive: true)
           .then((Directory directory) {
         debugPrint('Path of New Dir for posts: ${directory.path}');

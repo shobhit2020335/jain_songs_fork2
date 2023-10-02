@@ -11,7 +11,7 @@ class SharedPrefs {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? value = prefs.getBool('isDarkTheme');
     if (value == null) {
-      return true;
+      return false;
     }
     return value;
   }

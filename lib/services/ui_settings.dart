@@ -15,7 +15,7 @@ class UISettings {
       //Used in bottom navigation, back button
       primaryColorLight: isDarkTheme ? Colors.white : const Color(0xFF212323),
       //Used in circle avatar of logo
-      primaryColorDark: isDarkTheme ? Colors.indigo : Colors.blue[200],
+      primaryColorDark: isDarkTheme ? Colors.indigo : Colors.white,
       //appBar theme
       appBarTheme: AppBarTheme(
         //Changes the color of icons on AppBars
@@ -37,51 +37,51 @@ class UISettings {
         color: isDarkTheme ? Colors.grey[850] : Colors.white,
       ),
       primaryTextTheme: TextTheme(
-        headline1: GoogleFonts.raleway(
+        displayLarge: GoogleFonts.raleway(
           color: Colors.green,
           fontWeight: FontWeight.bold,
         ),
         //Headline for song title in song page
-        headline2: GoogleFonts.lato(
+        displayMedium: GoogleFonts.lato(
           color: isDarkTheme ? Colors.white : Colors.black,
           fontSize: 20,
         ),
         //Heading for playlist pages
-        headline3: GoogleFonts.raleway(
+        displaySmall: GoogleFonts.raleway(
           fontSize: 20,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
         //Used in form page heading: Suggest us some songs
-        headline4: GoogleFonts.raleway(
+        headlineMedium: GoogleFonts.raleway(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: isDarkTheme ? Colors.white : Colors.black,
         ),
         //Used in smaller heading: in form page below suggest songs
-        headline5: GoogleFonts.raleway(
+        headlineSmall: GoogleFonts.raleway(
           fontSize: 14,
           color: isDarkTheme ? Colors.white : Colors.black,
         ),
         //Used in button texts
-        headline6: const TextStyle(
+        titleLarge: const TextStyle(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.bold,
         ),
         //Used as title text for all list tiles.
-        bodyText1: GoogleFonts.raleway(
+        bodyLarge: GoogleFonts.raleway(
           color: isDarkTheme ? Colors.white : Colors.black,
           fontWeight: FontWeight.w600,
         ),
         //Used in Lyrics widget
-        bodyText2: GoogleFonts.raleway(
+        bodyMedium: GoogleFonts.raleway(
           color: Colors.white,
           fontSize: 20,
           fontWeight: FontWeight.w500,
         ),
         //Used in: upload lyrics image, no internet avaliable, songs loading.
-        subtitle2: const TextStyle(
+        titleSmall: const TextStyle(
           color: Colors.grey,
           fontWeight: FontWeight.w400,
           fontSize: 16,

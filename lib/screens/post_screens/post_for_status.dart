@@ -243,11 +243,11 @@ class _PostForStatusState extends State<PostForStatus> {
                           ),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 10),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
+                            children: [
                               Icon(
-                                Icons.whatsapp_outlined,
+                                Icons.whatshot_outlined,
                                 color: Colors.white,
                               ),
                               Text(

@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
-import 'package:jain_songs/screens/post_screens/post_for_status.dart';
 import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
@@ -40,7 +39,7 @@ class SongPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _SongPageState createState() => _SongPageState();
+  State<SongPage> createState() => _SongPageState();
 }
 
 class _SongPageState extends State<SongPage> {
@@ -85,7 +84,7 @@ class _SongPageState extends State<SongPage> {
       }
 
       for (int i = 0; i < widget.suggester!.suggestedSongs.length; i++) {
-        suggestionOpened += ' ' + widget.suggester!.suggestedSongs[i]!.code!;
+        suggestionOpened += ' ${widget.suggester!.suggestedSongs[i]!.code!}';
       }
     }
 
@@ -301,7 +300,7 @@ class _SongPageState extends State<SongPage> {
                   return SongPage(
                     currentSong: suggester!.suggestedSongs[0],
                     suggester: suggester,
-                    suggestionStreak: widget.suggestionStreak + '1',
+                    suggestionStreak: '${widget.suggestionStreak}1',
                     postitionInList: -1,
                   );
                 }),
@@ -345,7 +344,7 @@ class _SongPageState extends State<SongPage> {
                                   '${currentSong!.songNameEnglish}',
                                   style: Theme.of(context)
                                       .primaryTextTheme
-                                      .headline2,
+                                      .displayMedium,
                                 ),
                               ),
                               subtitle: InkWell(
@@ -390,7 +389,7 @@ class _SongPageState extends State<SongPage> {
                                           linkInfo,
                                           style: Theme.of(context)
                                               .primaryTextTheme
-                                              .subtitle2,
+                                              .titleSmall,
                                         ),
                                   const SizedBox(height: 10),
                                   Row(
@@ -467,74 +466,10 @@ class _SongPageState extends State<SongPage> {
                                       const SizedBox(),
                                     ],
                                   ),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
                                   //This is the button to open status posts
-                                  ConstWidget.statusCard(
-                                    onTap: () async {
-                                      //This is a loading dialog
-                                      showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return WillPopScope(
-                                              onWillPop: () async {
-                                                return true;
-                                              },
-                                              child: const AlertDialog(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                elevation: 0,
-                                                content: Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          });
-
-                                      //Then pauses the ongoing youtube song
-                                      _youtubePlayerController?.pause();
-
-                                      bool isSuccess =
-                                          await DatabaseControllerForPosts()
-                                              .fetchPostsOfSong(
-                                                  currentSong!.code!,
-                                                  currentSong!.searchKeywords!);
-
-                                      Navigator.of(context).pop();
-
-                                      if (isSuccess &&
-                                          ListFunctions
-                                              .postsToShow.isNotEmpty) {
-                                        debugPrint(
-                                            'Posts fetched successfully for a song');
-
-                                        Navigator.push(
-                                          context,
-                                          PageRouteBuilder(
-                                            barrierColor: Colors.black54,
-                                            opaque: false,
-                                            pageBuilder: (_, anim1, anim2) =>
-                                                const PostForStatus(),
-                                          ),
-                                        );
-                                      } else {
-                                        debugPrint(
-                                            'Error fetching posts of a song or empty posts');
-                                        ConstWidget.showSimpleToast(
-                                          context,
-                                          'Error downloading status!',
-                                        );
-                                        if (Globals.isVideoAutoPlay) {
-                                          _youtubePlayerController?.play();
-                                        }
-                                      }
-                                    },
-                                  ),
+                                  ConstWidget.statusCard(),
+                                  const SizedBox(height: 10),
                                   const Divider(thickness: 1),
                                   Visibility(
                                     visible:
@@ -686,7 +621,7 @@ class _SongPageState extends State<SongPage> {
             return SongPage(
               currentSong: suggester!.suggestedSongs[index],
               suggester: suggester,
-              suggestionStreak: widget.suggestionStreak + '${index + 1}',
+              suggestionStreak: '${widget.suggestionStreak}${index + 1}',
               postitionInList: index,
             );
           }),
@@ -737,7 +672,7 @@ class _SongPageState extends State<SongPage> {
         ),
         title: Text(
           '${suggester!.suggestedSongs[index]!.songNameEnglish}',
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           suggester!.suggestedSongs[index]!.songInfo,

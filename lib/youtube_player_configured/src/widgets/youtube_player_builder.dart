@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +29,7 @@ class YoutubePlayerBuilder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _YoutubePlayerBuilderState createState() => _YoutubePlayerBuilderState();
+  State<YoutubePlayerBuilder> createState() => _YoutubePlayerBuilderState();
 }
 
 class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
@@ -37,18 +39,19 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   @override
   void didChangeMetrics() {
-    final physicalSize = SchedulerBinding.instance?.window.physicalSize;
+    final physicalSize =
+        SchedulerBinding.instance.platformDispatcher.views.first.physicalSize;
     final controller = widget.player.controller;
     if (physicalSize != null && physicalSize.width > physicalSize.height) {
       controller.updateValue(controller.value.copyWith(isFullScreen: true));
@@ -65,7 +68,7 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
 
   @override
   Widget build(BuildContext context) {
-    final _player = Container(
+    final player = Container(
       key: playerKey,
       child: WillPopScope(
         onWillPop: () async {
@@ -79,10 +82,10 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
         child: widget.player,
       ),
     );
-    final child = widget.builder(context, _player);
+    final child = widget.builder(context, player);
     return OrientationBuilder(
       builder: (context, orientation) =>
-          orientation == Orientation.portrait ? child : _player,
+          orientation == Orientation.portrait ? child : player,
     );
   }
 }

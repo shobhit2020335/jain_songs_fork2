@@ -46,13 +46,11 @@ class FirebaseDynamicLinkService {
   //Retrieve dynamic link from stream when in foreground/background
   static Future<void> retrieveDynamicLink(BuildContext context) async {
     _dynamicLinks.onLink.listen((data) {
-      final Uri? deepLink = data.link;
-      if (deepLink != null) {
-        Navigator.pushNamed(context, '/${deepLink.queryParameters['route']}',
-            arguments: {
-              'code': deepLink.queryParameters['code'],
-            });
-      }
+      final Uri deepLink = data.link;
+      Navigator.pushNamed(context, '/${deepLink.queryParameters['route']}',
+          arguments: {
+            'code': deepLink.queryParameters['code'],
+          });
     }).onError((error) {
       debugPrint('Error in retireve dynamic link foregroun/backgroun: $error');
     });

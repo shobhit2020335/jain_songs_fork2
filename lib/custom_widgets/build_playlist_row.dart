@@ -19,7 +19,7 @@ class BuildPlaylistRow extends StatelessWidget {
         ),
         title: Text(
           playlistDetails!.title,
-          style: Theme.of(context).primaryTextTheme.bodyText1,
+          style: Theme.of(context).primaryTextTheme.bodyLarge,
         ),
         subtitle: Text(
           playlistDetails!.subtitle,

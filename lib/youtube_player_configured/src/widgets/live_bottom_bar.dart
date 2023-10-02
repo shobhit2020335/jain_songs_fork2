@@ -25,7 +25,7 @@ class LiveBottomBar extends StatefulWidget {
   });
 
   @override
-  _LiveBottomBarState createState() => _LiveBottomBarState();
+  State<LiveBottomBar> createState() => _LiveBottomBarState();
 }
 
 class _LiveBottomBarState extends State<LiveBottomBar> {
@@ -81,6 +81,9 @@ class _LiveBottomBarState extends State<LiveBottomBar> {
           CurrentPosition(),
           Expanded(
             child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+              ),
               child: Slider(
                 value: _currentSliderPosition,
                 onChanged: (value) {
@@ -94,9 +97,6 @@ class _LiveBottomBarState extends State<LiveBottomBar> {
                 },
                 activeColor: widget.liveUIColor,
                 inactiveColor: Colors.transparent,
-              ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
               ),
             ),
           ),
