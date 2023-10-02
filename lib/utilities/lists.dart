@@ -56,6 +56,17 @@ class ListFunctions {
       textColor: Colors.indigo,
       iconSize: 35,
     ),
+    AdvertisementModel(
+      advertisementId: 'codealarm_jobs',
+      companyName: 'CodeAlarm',
+      companyURL:
+          'https://play.google.com/store/apps/details?id=com.pixamentory.codealarm',
+      title: 'Prepare your career towards tech world!',
+      icon: 'images/codealarm_logo.png',
+      backgroundColor: const Color(0xFF181923),
+      textColor: Colors.white,
+      iconSize: 40,
+    ),
   ];
 
   //Lists for applying filters.
