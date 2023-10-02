@@ -88,7 +88,6 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                     padding: const EdgeInsets.only(top: 5),
                     child: Text(
                       '${_selectedTextList.length} selected items',
-                      //TODO: v2.0.2 test if size is perfect
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),

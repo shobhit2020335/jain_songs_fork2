@@ -50,7 +50,6 @@ class _YoutubePlayerBuilderState extends State<YoutubePlayerBuilder>
 
   @override
   void didChangeMetrics() {
-    //TODO: v2.0.2 test this
     final physicalSize =
         SchedulerBinding.instance.platformDispatcher.views.first.physicalSize;
     final controller = widget.player.controller;

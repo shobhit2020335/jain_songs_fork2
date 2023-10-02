@@ -12,7 +12,6 @@ class FirebaseFCMManager {
   static Future onLocalNotificationTap(String? payload) async {
     if (routeFromNotification != null) {
       if (routeFromNotification == 'deeplink') {
-        //TODO: v2.0.2 check this
         Uri uri = Uri.parse(codeFromNotification!);
         launchUrl(uri);
       } else {

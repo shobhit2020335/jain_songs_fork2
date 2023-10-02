@@ -142,8 +142,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       await NetworkHelper().changeDateAndVersion();
       if (Globals.fetchedVersion! > Globals.appVersion) {
         setState(() {
-          //TODO: v2.0.2 check if version is less then its working or not.
-          //TODO: v2.0.2 also check if url clicked is working or not.
           ConstWidget.showUpdateDialog(context);
         });
       } else {

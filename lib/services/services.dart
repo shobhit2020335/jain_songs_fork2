@@ -59,7 +59,6 @@ class Services {
               leading: const Icon(Icons.image_rounded),
               title: Text(
                 'Gallery (Select multiple images)',
-                //TODO: v2.0.2 test if size is perfect
                 style: Theme.of(context).primaryTextTheme.bodyLarge,
               ),
               onTap: () {
@@ -131,7 +130,7 @@ class Services {
   }
 
   static void sendEmail() async {
-    String subject = 'Feedback and Support: ';
+    String subject = '';
     String email = 'stavan.co.j@gmail.com';
 
     // Code to get system info for android.
@@ -139,9 +138,11 @@ class Services {
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     debugPrint('Running on ${androidInfo.model}');
 
-    String body =
-        '${androidInfo.id}\n${androidInfo.fingerprint}\n${androidInfo.brand}\n${androidInfo.device}\n${androidInfo.manufacturer}\n${androidInfo.model}\n${androidInfo.version.sdkInt}\n}';
-    String url = 'mailto:$email?subject=$subject&body=$body';
+    //Body and subject are not send with feedback for now. TODO: Need to store
+    //the users data from somewhere else.
+    // String body =
+    //     '${androidInfo.id}\n${androidInfo.fingerprint}\n${androidInfo.brand}\n${androidInfo.device}\n${androidInfo.manufacturer}\n${androidInfo.model}\n${androidInfo.version.sdkInt}\n}';
+    String url = 'mailto:$email?subject=$subject';
     Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);

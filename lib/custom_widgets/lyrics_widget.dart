@@ -25,7 +25,6 @@ class LyricsWidget extends StatelessWidget {
     return Text(
       '\n${escapeCharacterIncluded()}',
       textAlign: TextAlign.center,
-      //TODO: v2.0.2 test if size is perfect
       style: Theme.of(context).primaryTextTheme.bodyMedium,
     );
   }

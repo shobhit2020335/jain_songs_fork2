@@ -70,30 +70,33 @@ class ConstWidget {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Update Available'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  'Newer Version of app is available.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                Text(
-                  'Press update to update the app now.',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            title: const Text('Update Available'),
+            content: const SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    'Newer Version of app is available.',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Text(
+                    'Press update button.',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
             ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Update'),
+                onPressed: () {
+                  Services.launchURL(Globals.getAppPlayStoreUrl());
+                },
+              ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Update'),
-              onPressed: () {
-                Services.launchURL(Globals.getAppPlayStoreUrl());
-              },
-            ),
-          ],
         );
       },
     );
