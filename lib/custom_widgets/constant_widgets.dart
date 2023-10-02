@@ -1,40 +1,65 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:jain_songs/utilities/lists.dart';
 
 class ConstWidget {
   //This card is shown in song page as a whatapp status button
-  static Widget statusCard({required void Function() onTap}) {
+  static Widget statusCard() {
+    int advertisementNumber =
+        Random().nextInt(ListFunctions.advertisementList.length);
+
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        Services.launchURL(
+          ListFunctions.advertisementList[advertisementNumber].companyURL,
+        );
+      },
       child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF717075),
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.indigo),
+          color: ListFunctions
+              .advertisementList[advertisementNumber].backgroundColor,
+          borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CircleAvatar(
-              radius: 25,
-              child: Image.asset(
-                'images/almanac_of_wisdom_icon.png',
+            Image(
+              image: AssetImage(
+                ListFunctions.advertisementList[advertisementNumber].icon,
               ),
+              width:
+                  ListFunctions.advertisementList[advertisementNumber].iconSize,
+              height:
+                  ListFunctions.advertisementList[advertisementNumber].iconSize,
+              color: ListFunctions
+                  .advertisementList[advertisementNumber].iconColor,
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.center,
             ),
             Text(
-              'Read Blogs, Article & More',
+              ListFunctions.advertisementList[advertisementNumber].title,
               style: GoogleFonts.lato(
-                color: Colors.white,
+                color: ListFunctions
+                    .advertisementList[advertisementNumber].textColor,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: ListFunctions
+                  .advertisementList[advertisementNumber].textColor,
+              size: 20,
+            )
           ],
         ),
       ),
@@ -66,7 +91,7 @@ class ConstWidget {
             TextButton(
               child: const Text('Update'),
               onPressed: () {
-                Services.launchPlayStore(Globals.getAppPlayStoreUrl());
+                Services.launchURL(Globals.getAppPlayStoreUrl());
               },
             ),
           ],

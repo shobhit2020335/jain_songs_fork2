@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
+import 'package:jain_songs/models/advertisement_model.dart';
 import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -23,6 +24,39 @@ class ListFunctions {
   static List<PostModel> allPosts = [];
   //List for the posts which are visible
   static List<PostModel> postsToShow = [];
+
+  ///Advertisement list which is shown in the song page screen
+  static List<AdvertisementModel> advertisementList = [
+    AdvertisementModel(
+      advertisementId: 'ritesh',
+      companyName: 'Ritesh Sarees & Kurtis',
+      companyURL: 'https://www.instagram.com/ritesh_saree_kurtis/',
+      title: 'Shop for Sarees & Kurtis',
+      icon: 'images/rs_logo.png',
+      backgroundColor: Colors.black,
+    ),
+    AdvertisementModel(
+      advertisementId: 'almanac_of_wisdom',
+      companyName: 'Almanac Of Wisdom',
+      companyURL:
+          'https://play.google.com/store/apps/details?id=com.JainDevelopers.almanac_of_wisdom',
+      title: 'Read Blogs, Article & More',
+      icon: 'images/almanac_of_wisdom_icon_transparent.png',
+      backgroundColor: Colors.white,
+      textColor: Colors.indigo,
+    ),
+    AdvertisementModel(
+      advertisementId: 'stavan_co_buymeacoffee',
+      companyName: 'Stavan Co.',
+      companyURL: 'https://www.buymeacoffee.com/stavan',
+      title: 'Donate us to improve this app!',
+      icon: 'images/Logo.png',
+      iconColor: Colors.indigo,
+      backgroundColor: Colors.white,
+      textColor: Colors.indigo,
+      iconSize: 35,
+    ),
+  ];
 
   //Lists for applying filters.
   static final List<Filters> filtersAll = [

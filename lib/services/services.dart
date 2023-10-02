@@ -111,7 +111,7 @@ class Services {
     }
   }
 
-  static void launchPlayStore(String url) async {
+  static void launchURL(String url) async {
     Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);

@@ -466,16 +466,10 @@ class _SongPageState extends State<SongPage> {
                                       const SizedBox(),
                                     ],
                                   ),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 20),
                                   //This is the button to open status posts
-                                  ConstWidget.statusCard(
-                                    onTap: () {
-                                      Services.launchPlayStore(
-                                        Globals.getAppPlayStoreUrl(
-                                            appName: "Almanac Of Wisdom"),
-                                      );
-                                    },
-                                  ),
+                                  ConstWidget.statusCard(),
+                                  const SizedBox(height: 10),
                                   const Divider(thickness: 1),
                                   Visibility(
                                     visible:
