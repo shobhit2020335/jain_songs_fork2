@@ -438,6 +438,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               getSongs('', false);
               searchController.clear();
               searchOrCrossIcon = const Icon(Icons.search);
+              listScrollController.animateTo(
+                listScrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 2000),
+                curve: Curves.fastOutSlowIn,
+              );
             }
           });
         },

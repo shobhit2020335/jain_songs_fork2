@@ -15,7 +15,7 @@ class UISettings {
       //Used in bottom navigation, back button
       primaryColorLight: isDarkTheme ? Colors.white : const Color(0xFF212323),
       //Used in circle avatar of logo
-      primaryColorDark: isDarkTheme ? Colors.indigo : Colors.blue[200],
+      primaryColorDark: isDarkTheme ? Colors.indigo : Colors.white,
       //appBar theme
       appBarTheme: AppBarTheme(
         //Changes the color of icons on AppBars

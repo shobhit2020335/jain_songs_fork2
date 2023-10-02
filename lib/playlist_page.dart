@@ -141,7 +141,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         height: 70,
                       ),
                       Text(
-                        'Songs loading...\nLike songs to save them in your Favourites playlist.',
+                        'No songs liked by you!',
                         style: Theme.of(context).primaryTextTheme.titleSmall,
                       ),
                     ],
