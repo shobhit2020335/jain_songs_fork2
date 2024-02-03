@@ -41,5 +41,25 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>whatsapp</string>
+			</array>
+		</dict>
+	</array>
+
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This application needs the speech recognition permission</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This application needs to access your microphone</string>
+	<key>FLTEnableImpeller</key>
+    <false />
 </dict>
 </plist>

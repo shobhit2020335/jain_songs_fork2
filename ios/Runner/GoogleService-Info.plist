@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>456042169963-aeb161lttc08fau688sabrsd78qbqfml.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAs9Z0dq9IeoqlZN1z-s3YTPiHo9oT0rI0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>456042169963</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.JainDevelopers.jainSongs</string>
+	<key>PROJECT_ID</key>
+	<string>jain-songs-29c85</string>
+	<key>STORAGE_BUCKET</key>
+	<string>jain-songs-29c85.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:456042169963:ios:ba7c24b030a1780447932e</string>
+	<key>DATABASE_URL</key>
+	<string>https://jain-songs-29c85.firebaseio.com</string>
+</dict>
+</plist>

@@ -31,8 +31,8 @@ class FireStoreHelper {
       UserBehaviourModel userBehaviour) async {
     debugPrint('Storing user behaviour');
     try {
-      String? fcmToken = await FirebaseFCMManager.getFCMToken();
-      userBehaviour.setFCMToken(fcmToken);
+      // String? fcmToken = await FirebaseFCMManager.getFCMToken();
+      // userBehaviour.setFCMToken(fcmToken);
       String? playerId = await SharedPrefs.getOneSignalPlayerId();
       userBehaviour.setOneSignalId(playerId);
 
@@ -408,8 +408,8 @@ class FireStoreHelper {
       songSuggestion.addImagesLink(imageURL);
     }
 
-    String? fcmToken = await FirebaseFCMManager.getFCMToken();
-    songSuggestion.setFCMToken(fcmToken);
+    // String? fcmToken = await FirebaseFCMManager.getFCMToken();
+    // songSuggestion.setFCMToken(fcmToken);
 
     String? playerId = await SharedPrefs.getOneSignalPlayerId();
     songSuggestion.setOneSignalPlayerId(playerId);

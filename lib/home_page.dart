@@ -96,7 +96,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
     WidgetsBinding.instance.addObserver(this);
 
-    FirebaseFCMManager.handleFCMRecieved(context);
+    // FirebaseFCMManager.handleFCMRecieved(context);
 
     // AdManager.initializeFBAds();
 

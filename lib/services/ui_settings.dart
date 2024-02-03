@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+// import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class UISettings {
   //This method disables taking ss and srec.
-  static Future<void> secureScreen() async {
-    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-  }
+  // static Future<void> secureScreen() async {
+  //   await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  // }
 
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
     return ThemeData(
