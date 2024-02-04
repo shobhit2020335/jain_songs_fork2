@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:ecommerce_major_project/features/home/screens/home_screen.dart';
+import 'package:ecommerce_major_project/main.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -17,6 +19,7 @@ import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -31,6 +34,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   var searchController = TextEditingController();
   final ScrollController listScrollController = ScrollController();
+  late SharedPreferences sharedPreferences;
   int _currentIndex = 0;
   Timer? _timerLink;
 
@@ -130,6 +134,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
   //Searching has flag = false.
   void getSongs(String? query, bool flag) async {
+    sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       showProgress = true;
     });
@@ -454,7 +459,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 scrollController: listScrollController,
                 searchController: searchController,
               ),
-        const FormPage(),
+        // const FormPage(),
+        StavanStore(
+          sharedPreferences: sharedPreferences,
+        ),
         const BuildPlaylistList(),
         const SettingsPage(),
       ][_currentIndex],
