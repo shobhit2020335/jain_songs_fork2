@@ -8,6 +8,8 @@ import 'package:jain_songs/custom_widgets/build_list.dart';
 import 'package:jain_songs/custom_widgets/build_playlist_list.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/form_page.dart';
+import 'package:jain_songs/locator.dart';
+import 'package:jain_songs/services/event_logging/analytics_service.dart';
 import 'package:jain_songs/services/notification/firebase_dynamic_link_service.dart';
 import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/searchify.dart';
@@ -49,6 +51,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   SpeechToText speechToText = SpeechToText();
   bool isListening = false;
+  final AnalyticsService _analyticsService = locator<AnalyticsService>();
 
   void _searchAppBarUi() {
     if (showProgress == false) {
@@ -423,14 +426,26 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             _currentIndex = index;
             if (index == 1) {
               appBarTitle = const Text('');
+              _analyticsService
+                  .track(eventName: 'BottomTabButtonClicked', properties: {
+                'name': 'eshop',
+              });
             } else if (index == 2) {
               appBarTitle = const Text(
                 'Playlists',
               );
+              _analyticsService
+                  .track(eventName: 'BottomTabButtonClicked', properties: {
+                'name': 'Playlists',
+              });
             } else if (index == 3) {
               appBarTitle = const Text(
                 'Settings and More',
               );
+              _analyticsService
+                  .track(eventName: 'BottomTabButtonClicked', properties: {
+                'name': 'Settings and More',
+              });
             } else {
               appBarTitle = ConstWidget.mainAppTitle();
               getSongs('', false);
@@ -441,6 +456,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 duration: const Duration(milliseconds: 2000),
                 curve: Curves.fastOutSlowIn,
               );
+              _analyticsService
+                  .track(eventName: 'BottomTabButtonClicked', properties: {
+                'name': 'Songs',
+              });
             }
           });
         },

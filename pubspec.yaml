@@ -48,6 +48,8 @@ dependencies:
   sqflite: ^2.0.0+4
   url_launcher: ^6.0.3
   webview_flutter: ^4.2.1
+  mixpanel_flutter: ^2.2.0
+  get_it: ^7.6.7
 
 dev_dependencies:
   flutter_test:

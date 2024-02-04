@@ -64,6 +64,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:jain_songs/locator.dart';
 import 'package:jain_songs/playlist_page.dart';
 import 'package:jain_songs/services/database/sqflite_helper.dart';
 import 'package:jain_songs/services/provider/dark_theme_provider.dart';
@@ -102,7 +103,7 @@ void main() async {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
-
+  await initializeLocator();
   runApp(const MainTheme());
 
   if (Globals.isDebugMode == false) {
