@@ -277,8 +277,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: main
-      resolved-ref: ca1580645ce6a48d146b1c7caa248bb8ad8889db
+      ref: dd670e008982442e3e74bac63151a6dd34e9c648
+      resolved-ref: dd670e008982442e3e74bac63151a6dd34e9c648
       url: "https://github.com/Hirdesh2101/eshop-layer.git"
     source: git
     version: "1.0.0+1"

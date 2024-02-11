@@ -51,7 +51,7 @@ dependencies:
   ecommerce_major_project:
     git:
       url: https://github.com/Hirdesh2101/eshop-layer.git
-      ref: main
+      ref: dd670e008982442e3e74bac63151a6dd34e9c648
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +70,7 @@ flutter:
   assets:
     - images/
     - assets/songs_database.db
+    - shorebird.yaml
 
   uses-material-design: true
   fonts:

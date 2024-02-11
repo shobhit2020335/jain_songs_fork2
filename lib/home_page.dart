@@ -427,7 +427,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           setState(() {
             _currentIndex = index;
             if (index == 1) {
-              appBarTitle = const Text('');
+              appBarTitle = const Text('Stavan Store');
             } else if (index == 2) {
               appBarTitle = const Text(
                 'Playlists',
