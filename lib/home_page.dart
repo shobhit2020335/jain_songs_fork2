@@ -4,16 +4,13 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jain_songs/custom_widgets/build_list.dart';
-import 'package:jain_songs/custom_widgets/build_playlist_list.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
-import 'package:jain_songs/form_page.dart';
 import 'package:jain_songs/services/notification/firebase_dynamic_link_service.dart';
 import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/searchify.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
-import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
@@ -22,7 +19,8 @@ import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key, required this.child}) : super(key: key);
+  final Widget child;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -260,6 +258,41 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     debugPrint('Refresh Complete');
   }
 
+  void onTap(int index) {
+    switch (index) {
+      case 0:
+        return context.go('/songs');
+      case 1:
+        return context.go('/recommend');
+      case 2:
+        return context.go('/playlist');
+      case 3:
+        return context.go('/info');
+    }
+    _currentIndex = index;
+    if (index == 1) {
+      appBarTitle = const Text('');
+    } else if (index == 2) {
+      appBarTitle = const Text(
+        'Playlists',
+      );
+    } else if (index == 3) {
+      appBarTitle = const Text(
+        'Settings and More',
+      );
+    } else {
+      appBarTitle = ConstWidget.mainAppTitle();
+      getSongs('', false);
+      searchController.clear();
+      searchOrCrossIcon = const Icon(Icons.search);
+      listScrollController.animateTo(
+        listScrollController.position.minScrollExtent,
+        duration: const Duration(milliseconds: 2000),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -418,46 +451,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         activeIndex: _currentIndex,
         gapLocation: GapLocation.none,
         notchSmoothness: NotchSmoothness.smoothEdge,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-            if (index == 1) {
-              appBarTitle = const Text('');
-            } else if (index == 2) {
-              appBarTitle = const Text(
-                'Playlists',
-              );
-            } else if (index == 3) {
-              appBarTitle = const Text(
-                'Settings and More',
-              );
-            } else {
-              appBarTitle = ConstWidget.mainAppTitle();
-              getSongs('', false);
-              searchController.clear();
-              searchOrCrossIcon = const Icon(Icons.search);
-              listScrollController.animateTo(
-                listScrollController.position.minScrollExtent,
-                duration: const Duration(milliseconds: 2000),
-                curve: Curves.fastOutSlowIn,
-              );
-            }
-          });
-        },
+        onTap: onTap,
       ),
-      body: <Widget>[
-        showProgress
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : BuildList(
-                scrollController: listScrollController,
-                searchController: searchController,
-              ),
-        const FormPage(),
-        const BuildPlaylistList(),
-        const SettingsPage(),
-      ][_currentIndex],
+      body: widget.child,
     );
   }
 }

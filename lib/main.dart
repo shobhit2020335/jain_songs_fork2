@@ -59,6 +59,7 @@
 //TODO: playlist list to be square
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feature_resolver/resolver.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -103,7 +104,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
-  runApp(const MainTheme());
+  // runApp(const MainTheme());
 
   if (Globals.isDebugMode == false) {
     UISettings.secureScreen();
@@ -113,7 +114,8 @@ void main() async {
 }
 
 class MainTheme extends StatefulWidget {
-  const MainTheme({Key? key}) : super(key: key);
+  MainTheme({Key? key, required this.routes}) : super(key: key);
+  List<RouterModule> routes;
 
   @override
   State<MainTheme> createState() => _MainThemeState();

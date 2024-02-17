@@ -1,0 +1,12 @@
+name: feature_resolver
+description: Resolver for app.
+publish_to: none
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  injection_module:
+    path: ../injection
+  router_module:
+    path: ../router
