@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jain_songs/playlist_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 
 class BuildPlaylistRow extends StatelessWidget {
@@ -28,13 +28,8 @@ class BuildPlaylistRow extends StatelessWidget {
           Icons.arrow_forward_ios,
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  PlaylistPage(currentPlaylist: playlistDetails),
-            ),
-          );
+          context.go('/v2/allplaylist/${playlistDetails!.title}',
+              extra: playlistDetails);
         },
       ),
     );

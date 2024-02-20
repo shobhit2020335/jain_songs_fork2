@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class Services {
               ),
               onTap: () {
                 debugPrint('onTap');
-                return Navigator.of(context).pop(ImageSource.camera);
+                return context.pop(ImageSource.camera);
               },
             ),
             ListTile(
@@ -62,7 +63,7 @@ class Services {
                 style: Theme.of(context).primaryTextTheme.bodyLarge,
               ),
               onTap: () {
-                return Navigator.of(context).pop(ImageSource.gallery);
+                return context.pop(ImageSource.gallery);
               },
             ),
           ],

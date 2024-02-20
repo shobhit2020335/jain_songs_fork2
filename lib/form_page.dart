@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/services.dart';
+import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
 import 'services/network_helper.dart';
 
@@ -57,193 +58,215 @@ class _FormPageState extends State<FormPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
-        },
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 28,
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      child: ConstWidget.showLogo(),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      'स्तवन',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Pacifico',
+    return Scaffold(
+      appBar: AppBar(
+        shadowColor: Theme.of(context).primaryColor,
+        title: const Text('Stavan Store'),
+        centerTitle: true,
+        leading: Transform.scale(
+          scale: 0.5,
+          child: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                ConstWidget.showToast(Globals.welcomeMessage);
+              },
+              child: Image.asset(
+                'images/Logo.png',
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 28,
+                        backgroundColor: Theme.of(context).primaryColorDark,
+                        child: ConstWidget.showLogo(),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Suggest us some songs.',
-                  style: Theme.of(context).primaryTextTheme.headlineMedium,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
-                  style: Theme.of(context).primaryTextTheme.headlineSmall,
-                ),
-                const SizedBox(height: 25),
-                InkWell(
-                  onTap: () async {
-                    final source =
-                        await Services.showImageSourceDialog(context);
-                    if (source == null) {
-                      debugPrint('source null');
-                      return;
-                    } else if (source == ImageSource.camera) {
-                      Services.pickSingleImage(source).then((value) {
-                        setState(() {
-                          if (value != null) {
-                            images.add(value);
-                          }
-                        });
-                      });
-                    } else {
-                      Services.pickMultipleImages().then((value) {
-                        setState(() {
-                          images = value;
-                        });
-                      });
-                    }
-                  },
-                  child: images.isNotEmpty
-                      ? Image.file(
-                          images[0],
-                          width: 100,
-                          height: 100,
-                        )
-                      : Icon(
-                          Icons.cloud_upload_rounded,
-                          color: ConstWidget.signatureColors(),
-                          size: 50,
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'स्तवन',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Pacifico',
                         ),
-                ),
-                const SizedBox(height: 8),
-                InkWell(
-                  onTap: () async {
-                    final source =
-                        await Services.showImageSourceDialog(context);
-                    if (source == null) {
-                      debugPrint('source null');
-                      return;
-                    } else if (source == ImageSource.camera) {
-                      Services.pickSingleImage(source).then((value) {
-                        setState(() {
-                          if (value != null) {
-                            images.clear();
-                            images.add(value);
-                          }
-                        });
-                      });
-                    } else {
-                      Services.pickMultipleImages().then((value) {
-                        setState(() {
-                          images.clear();
-                          images = value;
-                        });
-                      });
-                    }
-                  },
-                  child: Text(
-                    images.isEmpty
-                        ? 'Upload Lyrics Image'
-                        : '${images.length} images selected',
-                    style: Theme.of(context).primaryTextTheme.titleSmall,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(height: 20),
-                formFieldTitle('Song Title'),
-                const SizedBox(height: 7),
-                formTextField(null,
-                    hint: 'Song title', editingController: songController),
-                const SizedBox(height: 20),
-                formFieldTitle('Other Details'),
-                const SizedBox(height: 7),
-                formTextField(
-                  null,
-                  hint:
-                      'Link of Lyrics or Youtube video. Other song information',
-                  editingController: otherController,
-                ),
-                const SizedBox(height: 30),
-                TextButton(
-                  onPressed: () async {
-                    SongSuggestions currentSongSuggestion = SongSuggestions(
-                      songController.text,
-                      otherController.text,
-                    );
-
-                    bool isInternetConnected =
-                        await NetworkHelper().checkNetworkConnection();
-                    if ((currentSongSuggestion.songSuggestionMap['songName'] ==
-                            null ||
-                        currentSongSuggestion.songSuggestionMap['songName'] ==
-                            '' ||
-                        currentSongSuggestion
-                                .songSuggestionMap['songName'].length <
-                            2)) {
-                      ConstWidget.showSimpleToast(
-                        context,
-                        'Please fill up the Song Title',
-                      );
-                    } else if (isInternetConnected == false) {
-                      ConstWidget.showSimpleToast(
-                        context,
-                        'No Internet Connection!',
-                      );
-                    } else {
-                      if (images.isNotEmpty) {
-                        ConstWidget.showSimpleToast(
-                            context, 'Uploading Images....');
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    'Suggest us some songs.',
+                    style: Theme.of(context).primaryTextTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Thank You for suggesting a new song! Credit of the song will be given to you once the song is uploaded.',
+                    style: Theme.of(context).primaryTextTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 25),
+                  InkWell(
+                    onTap: () async {
+                      final source =
+                          await Services.showImageSourceDialog(context);
+                      if (source == null) {
+                        debugPrint('source null');
+                        return;
+                      } else if (source == ImageSource.camera) {
+                        Services.pickSingleImage(source).then((value) {
+                          setState(() {
+                            if (value != null) {
+                              images.add(value);
+                            }
+                          });
+                        });
+                      } else {
+                        Services.pickMultipleImages().then((value) {
+                          setState(() {
+                            images = value;
+                          });
+                        });
                       }
-                      await FireStoreHelper()
-                          .addSuggestions(currentSongSuggestion, images);
-
-                      songController.clear();
-                      otherController.clear();
-                      images = [];
-                      setState(() {});
-                      ConstWidget.showSimpleToast(
-                        context,
-                        'ThankYou for suggesting! Song will be updated soon.',
-                      );
-                    }
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: ConstWidget.signatureColors(),
+                    },
+                    child: images.isNotEmpty
+                        ? Image.file(
+                            images[0],
+                            width: 100,
+                            height: 100,
+                          )
+                        : Icon(
+                            Icons.cloud_upload_rounded,
+                            color: ConstWidget.signatureColors(),
+                            size: 50,
+                          ),
+                  ),
+                  const SizedBox(height: 8),
+                  InkWell(
+                    onTap: () async {
+                      final source =
+                          await Services.showImageSourceDialog(context);
+                      if (source == null) {
+                        debugPrint('source null');
+                        return;
+                      } else if (source == ImageSource.camera) {
+                        Services.pickSingleImage(source).then((value) {
+                          setState(() {
+                            if (value != null) {
+                              images.clear();
+                              images.add(value);
+                            }
+                          });
+                        });
+                      } else {
+                        Services.pickMultipleImages().then((value) {
+                          setState(() {
+                            images.clear();
+                            images = value;
+                          });
+                        });
+                      }
+                    },
+                    child: Text(
+                      images.isEmpty
+                          ? 'Upload Lyrics Image'
+                          : '${images.length} images selected',
+                      style: Theme.of(context).primaryTextTheme.titleSmall,
                     ),
-                    width: 250,
-                    height: 57,
-                    child: Center(
-                      child: Text(
-                        'Submit',
-                        style: Theme.of(context).primaryTextTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 20),
+                  formFieldTitle('Song Title'),
+                  const SizedBox(height: 7),
+                  formTextField(null,
+                      hint: 'Song title', editingController: songController),
+                  const SizedBox(height: 20),
+                  formFieldTitle('Other Details'),
+                  const SizedBox(height: 7),
+                  formTextField(
+                    null,
+                    hint:
+                        'Link of Lyrics or Youtube video. Other song information',
+                    editingController: otherController,
+                  ),
+                  const SizedBox(height: 30),
+                  TextButton(
+                    onPressed: () async {
+                      SongSuggestions currentSongSuggestion = SongSuggestions(
+                        songController.text,
+                        otherController.text,
+                      );
+
+                      bool isInternetConnected =
+                          await NetworkHelper().checkNetworkConnection();
+                      if ((currentSongSuggestion
+                                  .songSuggestionMap['songName'] ==
+                              null ||
+                          currentSongSuggestion.songSuggestionMap['songName'] ==
+                              '' ||
+                          currentSongSuggestion
+                                  .songSuggestionMap['songName'].length <
+                              2)) {
+                        ConstWidget.showSimpleToast(
+                          context,
+                          'Please fill up the Song Title',
+                        );
+                      } else if (isInternetConnected == false) {
+                        ConstWidget.showSimpleToast(
+                          context,
+                          'No Internet Connection!',
+                        );
+                      } else {
+                        if (images.isNotEmpty) {
+                          ConstWidget.showSimpleToast(
+                              context, 'Uploading Images....');
+                        }
+                        await FireStoreHelper()
+                            .addSuggestions(currentSongSuggestion, images);
+
+                        songController.clear();
+                        otherController.clear();
+                        images = [];
+                        setState(() {});
+                        ConstWidget.showSimpleToast(
+                          context,
+                          'ThankYou for suggesting! Song will be updated soon.',
+                        );
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: ConstWidget.signatureColors(),
+                      ),
+                      width: 250,
+                      height: 57,
+                      child: Center(
+                        child: Text(
+                          'Submit',
+                          style: Theme.of(context).primaryTextTheme.titleLarge,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
@@ -179,7 +180,7 @@ class _PostForStatusState extends State<PostForStatus> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pop();
+                          context.pop();
                         },
                         child: Container(
                           decoration: const BoxDecoration(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
-import 'package:jain_songs/information_page.dart';
 import 'package:jain_songs/services/provider/dark_theme_provider.dart';
 import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/utilities/globals.dart';
@@ -70,14 +70,7 @@ class _BuildSettingsRowState extends State<BuildSettingsRow> {
               //TODO: v2.0.2 Test if send email is wokring or not.
               Services.sendEmail();
             } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => InformationPage(
-                    widget.settingsDetails,
-                  ),
-                ),
-              );
+              context.go('/v2/info/about', extra: widget.settingsDetails);
             }
           } else {
             toggleSetting(widget.settingsDetails.dependentValue);

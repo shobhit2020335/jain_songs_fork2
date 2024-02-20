@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
+import 'package:jain_songs/song_details_router_object.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
-import '../song_page.dart';
 
 class BuildRow extends StatefulWidget {
   final SongDetails? currentSong;
@@ -91,21 +92,23 @@ class _BuildRowState extends State<BuildRow> {
               }
             }),
         onTap: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return SongPage(
+          String currentPath = getCurrentPathWithoutQuery(context);
+          context.push(currentPath,
+              extra: SongDetailsObject(
                 currentSong: currentSong,
                 playlist: widget.playlist,
                 suggestionStreak: isFromPlaylist + currentSong.code!,
                 userSearched: widget.userSearched,
                 postitionInList: widget.positionInList,
-              );
-            }),
-          );
-          setState(() {});
+              ));
         },
       ),
     );
   }
+}
+
+String getCurrentPathWithoutQuery(BuildContext context) {
+  String currentPath = GoRouterState.of(context).uri.toString();
+  Uri uri = Uri.parse(currentPath);
+  return Uri(path: "${uri.path}/songDetails", query: uri.query).toString();
 }

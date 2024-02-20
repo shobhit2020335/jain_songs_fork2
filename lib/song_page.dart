@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/lyrics_widget.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
@@ -8,6 +9,7 @@ import 'package:jain_songs/services/suggester.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/network_helper.dart';
+import 'package:jain_songs/song_details_router_object.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -199,7 +201,7 @@ class _SongPageState extends State<SongPage> {
               'Song not found. Restart the App to load the new song and then try again.',
               duration: 5,
             );
-            Navigator.of(context).pop();
+            context.pop();
           } else {
             loadScreen();
           }
@@ -219,14 +221,14 @@ class _SongPageState extends State<SongPage> {
                   'Song not found. Restart the App to load the new song and then try again.',
                   duration: 5,
                 );
-                Navigator.of(context).pop();
+                context.pop();
               } else {
                 loadScreen();
               }
             } else {
               ConstWidget.showSimpleToast(
                   context, 'Internet connection might be slow!');
-              Navigator.of(context).pop();
+              context.pop();
             }
           });
         }
@@ -294,17 +296,13 @@ class _SongPageState extends State<SongPage> {
                 duration: 7);
             _timerLink?.cancel();
             _timerLink = Timer(const Duration(milliseconds: 8000), () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) {
-                  return SongPage(
+              context.pushReplacement("/v2/songDetails",
+                  extra: SongDetailsObject(
                     currentSong: suggester!.suggestedSongs[0],
                     suggester: suggester,
                     suggestionStreak: '${widget.suggestionStreak}1',
                     postitionInList: -1,
-                  );
-                }),
-              );
+                  ));
             });
           },
         ),
@@ -322,7 +320,7 @@ class _SongPageState extends State<SongPage> {
                             ListTile(
                               leading: InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  context.pop();
                                 },
                                 child: Icon(
                                   Icons.arrow_back_ios_new_rounded,
@@ -615,17 +613,13 @@ class _SongPageState extends State<SongPage> {
   Widget suggestionBuilder(int index) {
     return InkWell(
       onTap: () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) {
-            return SongPage(
+        return context.pushReplacement("/v2/songDetails",
+            extra: SongDetailsObject(
               currentSong: suggester!.suggestedSongs[index],
               suggester: suggester,
               suggestionStreak: '${widget.suggestionStreak}${index + 1}',
               postitionInList: index,
-            );
-          }),
-        );
+            ));
       },
       child: ListTile(
         leading: ClipRRect(

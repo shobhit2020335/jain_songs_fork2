@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jain_songs/custom_widgets/build_row.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -47,7 +48,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
         return null;
       });
       if (currentPlaylist == null) {
-        Navigator.of(context).pop();
+        context.pop();
       } else {
         _timerLink = Timer(const Duration(milliseconds: 5000), () {
           if (ListFunctions.songList.isNotEmpty) {
@@ -60,7 +61,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
               } else {
                 ConstWidget.showSimpleToast(
                     context, 'Internet connection might be slow! Try again.');
-                Navigator.of(context).pop();
+                context.pop();
               }
             });
           }

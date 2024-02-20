@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jain_songs/flutter_list_configured/src/search_field_widget.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import '../filters.dart';
@@ -217,7 +218,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                   child: InkWell(
                     borderRadius: const BorderRadius.all(Radius.circular(30)),
                     onTap: () {
-                      Navigator.pop(context, null);
+                      context.pop(null);
                     },
                     child: Container(
                       height: 25,
@@ -348,7 +349,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       if (widget.onResetButtonClick != null) {
                         widget.onResetButtonClick!(_selectedTextList);
                       } else {
-                        Navigator.pop(context, _selectedTextList);
+                        context.pop(_selectedTextList);
                       }
                     },
                     child: Container(
@@ -386,7 +387,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       if (widget.onApplyButtonClick != null) {
                         widget.onApplyButtonClick!(_selectedTextList);
                       } else {
-                        Navigator.pop(context, _selectedTextList);
+                        context.pop(_selectedTextList);
                       }
                     },
                   )
