@@ -134,15 +134,31 @@ class Services {
     String email = 'stavan.co.j@gmail.com';
 
     // Code to get system info for android.
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    debugPrint('Running on ${androidInfo.model}');
+    // DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    // dynamic info;
+    // if (Platform.isAndroid) {
+    //   info = await deviceInfo.androidInfo;
+    // } else if (Platform.isIOS) {
+    //   info = await deviceInfo.iosInfo;
+    // }
+    // debugPrint('Running on ${info.model}');
 
     //Body and subject are not send with feedback for now. TODO: Need to store
     //the users data from somewhere else.
     // String body =
     //     '${androidInfo.id}\n${androidInfo.fingerprint}\n${androidInfo.brand}\n${androidInfo.device}\n${androidInfo.manufacturer}\n${androidInfo.model}\n${androidInfo.version.sdkInt}\n}';
     String url = 'mailto:$email?subject=$subject';
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static void rateApp() async {
+    String url =
+        'https://apps.apple.com/in/app/stavan-jain-songs-with-lyrics/id6478548364';
     Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);

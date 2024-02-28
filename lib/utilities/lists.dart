@@ -338,8 +338,8 @@ class ListFunctions {
       subtitle: 'Legal Information & Privacy Policies',
     ),
     SettingsDetails(
-      title: 'Feedback & Support',
-      subtitle: 'Suggest us or get help from us.',
+      title: 'Rate Us & Review',
+      subtitle: 'We value your feedback.',
     ),
   ];
 
