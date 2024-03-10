@@ -466,9 +466,10 @@ class _SongPageState extends State<SongPage> {
                                       const SizedBox(),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
+                                  //To remove for ios
+                                  // const SizedBox(height: 20),
                                   //This is the button to open status posts
-                                  ConstWidget.statusCard(),
+                                  // ConstWidget.statusCard(),
                                   const SizedBox(height: 10),
                                   const Divider(thickness: 1),
                                   Visibility(

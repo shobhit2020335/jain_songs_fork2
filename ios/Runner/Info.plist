@@ -56,13 +56,13 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Stavan needs to access the Photo Library to upload song.</string>
+    <string>$(PRODUCT_NAME) needs Photo Library access for getting suggestions! We will use the images to add new songs.</string>
 	 <key>NSCameraUsageDescription</key>
-    <string>Stavan needs to access the camera to upload song.</string>
+    <string>$(PRODUCT_NAME) needs Camera access for getting suggestions! We will use the images to add new songs.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This application needs the speech recognition permission</string>
+	<string>$(PRODUCT_NAME) needs Speech recognition permission for searching content using speech to text. The voice is not recorded or stored.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>This application needs to access your microphone</string>
+	<string>$(PRODUCT_NAME) needs microphone to search content using speech to text. The voice is not recorded or stored.</string>
 	<key>FLTEnableImpeller</key>
     <false />
 	<key>CADisableMinimumFrameDurationOnPhone</key>
