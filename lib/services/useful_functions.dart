@@ -1,3 +1,41 @@
+class UsefulFunction {
+  static String toCamelCase(String input) {
+    String output = '';
+    List<String> list = input.split(' ');
+
+    for (int i = 0; i < list.length; i++) {
+      String temp = list[i].replaceFirst(list[i][0], list[i][0].toUpperCase());
+      output += temp;
+      output += ' ';
+    }
+    return output;
+  }
+
+  static String convertTimeTo24HourFormat(String timeIn12Hour) {
+    List<String> splitList = timeIn12Hour.split(' ');
+    String meridiem = splitList[1];
+    String time = splitList[0];
+    List<String> timeSplit = time.split(':');
+    int hour = int.parse(timeSplit[0]);
+    String hourString = hour.toString();
+
+    if (meridiem == 'PM' && hour != 12) {
+      hour += 12;
+      hourString = hour.toString();
+    } else if (meridiem == 'AM' && hour == 12) {
+      hour = 0;
+      hourString = '00';
+    } else if (hour < 10) {
+      hourString = '0$hour';
+    }
+
+    timeSplit[0] = hourString;
+    time = timeSplit.join(':');
+
+    return time;
+  }
+}
+
 String removeWhiteSpaces(String input) {
   return input.replaceAll(' ', '');
 }

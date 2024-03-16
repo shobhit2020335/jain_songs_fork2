@@ -1,12 +1,79 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
+import 'package:jain_songs/services/services.dart';
+import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class NetworkHelper {
   NetworkHelper();
+
+  //This fetches the sunrise and sunset timings from API with lat and long data
+  Future<Map<String, DateTime>?> fetchAstronomyData(BuildContext context,
+      {DateTime? dateTime}) async {
+    try {
+      bool isInternetConnected = await checkNetworkConnection();
+
+      if (!isInternetConnected && context.mounted) {
+        ConstWidget.showSimpleToast(
+            context, 'Please check your internet connection!');
+      }
+
+      var (double latitude, double longitude) =
+          await Services.fetchLatitudeLongitudeData();
+
+      dateTime ??= DateTime.now();
+
+      final dio = Dio();
+      Response response = await dio.get(
+        'https://api.sunrisesunset.io/json',
+        queryParameters: {
+          'lat': latitude,
+          'lng': longitude,
+          'timezone': 'IST',
+          'date': DateFormat('yyyy-MM-dd')
+              .parse(dateTime.toString())
+              .toString()
+              .split(' ')[0]
+        },
+      );
+
+      Map<String, dynamic> astronomyResponse = (response.data
+          as Map<String, dynamic>)['results'] as Map<String, dynamic>;
+
+      String sunriseTimeString = UsefulFunction.convertTimeTo24HourFormat(
+          astronomyResponse['sunrise']);
+      DateTime sunriseDateTime =
+          DateTime.parse(astronomyResponse['date'] + ' ' + sunriseTimeString);
+
+      String sunsetTimeString =
+          UsefulFunction.convertTimeTo24HourFormat(astronomyResponse['sunset']);
+      DateTime sunsetDateTime =
+          DateTime.parse(astronomyResponse['date'] + ' ' + sunsetTimeString);
+
+      Map<String, DateTime> astronomyData = {};
+      astronomyData['date'] = DateTime.now();
+      astronomyData['sunrise'] = sunriseDateTime;
+      astronomyData['sunset'] = sunsetDateTime;
+      astronomyData['navkarsi'] =
+          sunriseDateTime.add(const Duration(minutes: 48));
+      astronomyData['porsi'] = sunriseDateTime.add(const Duration(hours: 3));
+      astronomyData['sadhporsi'] =
+          sunriseDateTime.add(const Duration(hours: 4, minutes: 30));
+      astronomyData['chovihar'] =
+          sunsetDateTime.add(const Duration(minutes: -48));
+
+      return astronomyData;
+    } catch (e) {
+      debugPrint("Error fetching astronomy data: $e");
+      return null;
+    }
+  }
 
   Future<void> changeDateAndVersion() async {
     Globals.todayDate = DateTime.now();
