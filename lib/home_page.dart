@@ -44,8 +44,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Icon searchOrCrossIcon = const Icon(Icons.search);
   Icon astronomyIcon = Icon(
-    Icons.wb_sunny,
-    size: 28,
+    FontAwesomeIcons.handsPraying,
+    size: 20,
     color: ConstWidget.signatureColors(value: 0),
   );
 
@@ -392,9 +392,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 Visibility(
                   visible: _currentIndex == 0,
                   child: GestureDetector(
-                    child: astronomyIcon,
+                    child: const Icon(
+                      Icons.calendar_month_rounded,
+                      color: Colors.indigo,
+                    ),
                     onTap: () async {
-                      await AstronomyBottomSheet(context).show();
+                      await showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        isDismissible: true,
+                        isScrollControlled: true,
+                        builder: (_) => AstronomyBottomSheet(context),
+                      );
                     },
                   ),
                 ),
