@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   animated_bottom_navigation_bar: ^1.2.0
   animated_text_kit: ^4.2.2
-  better_player: ^0.0.82
   cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.7.1
@@ -40,6 +39,7 @@ dependencies:
   google_fonts: ^4.0.4
   image_picker: ^1.0.4
   intl: ^0.19.0
+  just_audio: ^0.9.36
   package_info_plus: ^3.1.2
   path: any
   path_provider: ^2.0.3
