@@ -29,6 +29,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   };
   DateTime? selectedDateTime;
   bool showProgress = true;
+  bool isAnimatedOnce = false;
 
   //Fetches the data and shows loading
   Future<void> fetchData() async {
@@ -173,60 +174,72 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (content, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () async {
-                              String? information = await NetworkHelper()
-                                  .fetchDetailsForAstronomy(
-                                      context,
-                                      astronomyData!.keys.toList()[index + 3],
-                                      '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute}');
-                              print(information);
-                              if (information != null &&
-                                  information.isNotEmpty &&
-                                  context.mounted) {
-                                showDialog(
-                                  context: context,
-                                  barrierColor: Colors.black87,
-                                  builder: (_) {
-                                    return Container(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          AnimatedTextKit(
-                                            isRepeatingAnimation: false,
-                                            animatedTexts: [
-                                              TyperAnimatedText(
+                      return InkWell(
+                        onTap: () async {
+                          if (showProgress == false) {
+                            String? information = await NetworkHelper()
+                                .fetchDetailsForAstronomy(
+                                    context,
+                                    astronomyData!.keys.toList()[index + 3],
+                                    '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute}');
+                            if (information != null &&
+                                information.isNotEmpty &&
+                                context.mounted) {
+                              await showDialog(
+                                context: context,
+                                barrierColor: Colors.black87,
+                                builder: (_) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        isAnimatedOnce
+                                            ? Text(
                                                 information,
-                                                textStyle: GoogleFonts.lato(
+                                                style: GoogleFonts.lato(
                                                   color: Colors.white,
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.bold,
                                                 ),
+                                              )
+                                            : AnimatedTextKit(
+                                                isRepeatingAnimation: false,
+                                                animatedTexts: [
+                                                  TyperAnimatedText(
+                                                    information,
+                                                    textStyle: GoogleFonts.lato(
+                                                      color: Colors.white,
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
+                                        const SizedBox(height: 30),
+                                        Text(
+                                          'Touch anywhere to exit!',
+                                          style: GoogleFonts.lato(
+                                            color: Colors.red,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          const SizedBox(height: 30),
-                                          Text(
-                                            'Touch anywhere to exit!',
-                                            style: GoogleFonts.lato(
-                                              color: Colors.red,
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                            child: Row(
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                              isAnimatedOnce = true;
+                            }
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
                               children: [
                                 showProgress
                                     ? SkeletonAnimation(
@@ -276,19 +289,22 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 ),
                               ],
                             ),
-                          ),
-                          CircleAvatar(
-                            radius: 16,
-                            backgroundColor: ConstWidget.signatureColors(),
-                            child: const Center(
-                              child: Icon(
-                                Icons.play_arrow_rounded,
-                                color: Colors.white,
-                                size: 18,
+                            InkWell(
+                              onTap: () {},
+                              child: CircleAvatar(
+                                radius: 16,
+                                backgroundColor: ConstWidget.signatureColors(),
+                                child: const Center(
+                                  child: Icon(
+                                    Icons.play_arrow_rounded,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       );
                     },
                     separatorBuilder: (content, index) {
