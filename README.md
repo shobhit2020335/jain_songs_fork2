@@ -10,8 +10,8 @@ Available on **Playstore & AppStore**:
 
 Previews:
 
-<img src="https://github.com/ErR0rpj/jain_songs/assets/48293372/9cd49149-8f07-4232-85ca-602fe349fa23" width="20%" height="20%"></img>
 <img src="https://github.com/ErR0rpj/jain_songs/assets/48293372/41200fc5-010f-4cb5-af02-e44d002a4472" width="20%" height="20%"></img>
+<img src="https://github.com/ErR0rpj/jain_songs/assets/48293372/9cd49149-8f07-4232-85ca-602fe349fa23" width="20%" height="20%"></img>
 <img src="https://github.com/ErR0rpj/jain_songs/assets/48293372/0ba52136-4457-47ea-ba47-db98e8907f7b" width="20%" height="20%"></img>
 <img src="https://github.com/ErR0rpj/jain_songs/assets/48293372/f8b220ff-cb74-48de-906e-045d22db4406" width="20%" height="20%"></img>
 
