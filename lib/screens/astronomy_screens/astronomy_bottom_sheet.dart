@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
@@ -27,6 +28,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     'sadhporsi': null,
     'chovihar': null,
   };
+
   DateTime? selectedDateTime;
   bool showProgress = true;
   bool isAnimatedOnce = false;
@@ -50,6 +52,27 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     super.initState();
     selectedDateTime ??= DateTime.now();
     fetchData();
+    initializeList();
+    audioPlayer = AudioPlayer();
+  }
+
+  List<bool> isPlayingList = [];
+
+  void initializeList() {
+    isPlayingList = List.generate(
+      (astronomyData != null && astronomyData!.length > 3)
+          ? astronomyData!.length - 3
+          : 0,
+      (index) => false,
+    );
+  }
+
+  late AudioPlayer audioPlayer;
+
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -290,13 +313,36 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                               ],
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                setState(() {
+                                  // Toggle the play state for the corresponding item
+                                  isPlayingList[index] = !isPlayingList[index];
+                                });
+                                if (isPlayingList[index]) {
+                                  String url =
+                                      'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
+                                  await audioPlayer.play(UrlSource(url));
+                                } else {
+                                  audioPlayer.pause();
+                                }
+
+                                // if (audioPlayer.state == PlayerState.playing) {
+                                //   audioPlayer.pause();
+                                // } else {
+                                //   String url =
+                                //       'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
+                                //   await audioPlayer.play(UrlSource(url));
+                                // }
+                                // setState(() {});
+                              },
                               child: CircleAvatar(
                                 radius: 16,
                                 backgroundColor: ConstWidget.signatureColors(),
-                                child: const Center(
+                                child: Center(
                                   child: Icon(
-                                    Icons.play_arrow_rounded,
+                                    isPlayingList[index]
+                                        ? Icons.pause
+                                        : Icons.play_arrow_rounded,
                                     color: Colors.white,
                                     size: 18,
                                   ),
