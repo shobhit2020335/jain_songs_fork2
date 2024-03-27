@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +59,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   }
 
   List<bool> isPlayingList = [];
+  List<AudioPlayer> audioPlayers = [];
 
   void initializeList() {
     isPlayingList = List.generate(
@@ -65,13 +68,22 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
           : 0,
       (index) => false,
     );
+
+    // audioPlayers=List.generate(
+    //   (astronomyData != null && astronomyData!.length > 3)
+    //       ? astronomyData!.length - 3
+    //       : 0,
+    //       (index) => AudioPlayer(),
+    // );
   }
 
   late AudioPlayer audioPlayer;
 
+  // void disposeAudioPlayers(){}
   @override
   void dispose() {
     audioPlayer.dispose();
+    // audioPlayers.
     super.dispose();
   }
 
@@ -122,61 +134,170 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                      children: [
-                        Image.asset(
-                          'images/sunrise.png',
-                          height: 40,
-                        ),
-                        showProgress
-                            ? SkeletonAnimation(
-                                shimmerDuration: 1300,
-                                child: Container(
-                                  height: 12,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[300],
+                    GestureDetector(
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          barrierColor: Colors.black87,
+                          builder: (_) {
+                            return Container(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'images/cat.gif',
+                                    height: 200,
                                   ),
-                                  margin: const EdgeInsets.only(top: 5),
-                                ),
-                              )
-                            : Text(
-                                '${astronomyData!.values.toList()[1]?.hour}:${astronomyData!.values.toList()[1]?.minute}',
-                                style: GoogleFonts.lato(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  isAnimatedOnce
+                                      ? Text(
+                                          'information',
+                                          style: GoogleFonts.lato(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : AnimatedTextKit(
+                                          isRepeatingAnimation: false,
+                                          animatedTexts: [
+                                            TyperAnimatedText(
+                                              'information',
+                                              textStyle: GoogleFonts.lato(
+                                                color: Colors.white,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                  const SizedBox(height: 30),
+                                  Text(
+                                    'Touch anywhere to exit!',
+                                    style: GoogleFonts.lato(
+                                      color: Colors.red,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                      ],
+                            );
+                          },
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'images/sunrise.png',
+                            height: 40,
+                          ),
+                          showProgress
+                              ? SkeletonAnimation(
+                                  shimmerDuration: 1300,
+                                  child: Container(
+                                    height: 12,
+                                    width: 45,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                    ),
+                                    margin: const EdgeInsets.only(top: 5),
+                                  ),
+                                )
+                              : Text(
+                                  '${astronomyData!.values.toList()[1]?.hour}:${astronomyData!.values.toList()[1]?.minute}',
+                                  style: GoogleFonts.lato(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Image.asset(
-                          'images/sunset.png',
-                          height: 40,
-                        ),
-                        showProgress
-                            ? SkeletonAnimation(
-                                shimmerDuration: 1300,
-                                child: Container(
-                                  height: 12,
-                                  width: 45,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[300],
+                    GestureDetector(
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          barrierColor: Colors.black87,
+                          builder: (_) {
+                            return Container(
+                              padding: const EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'images/cat.gif',
+                                    height: 200,
                                   ),
-                                  margin: const EdgeInsets.only(top: 5),
-                                ),
-                              )
-                            : Text(
-                                '${astronomyData!.values.toList()[2]?.hour}:${astronomyData!.values.toList()[2]?.minute}',
-                                style: GoogleFonts.lato(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  isAnimatedOnce
+                                      ? Text(
+                                          'information',
+                                          style: GoogleFonts.lato(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : AnimatedTextKit(
+                                          isRepeatingAnimation: false,
+                                          animatedTexts: [
+                                            TyperAnimatedText(
+                                              'information',
+                                              textStyle: GoogleFonts.lato(
+                                                color: Colors.white,
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                  const SizedBox(height: 30),
+                                  Text(
+                                    'Touch anywhere to exit!',
+                                    style: GoogleFonts.lato(
+                                      color: Colors.red,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                      ],
+                            );
+                          },
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'images/sunset.png',
+                            height: 40,
+                          ),
+                          showProgress
+                              ? SkeletonAnimation(
+                                  shimmerDuration: 1300,
+                                  child: Container(
+                                    height: 12,
+                                    width: 45,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                    ),
+                                    margin: const EdgeInsets.only(top: 5),
+                                  ),
+                                )
+                              : Text(
+                                  '${astronomyData!.values.toList()[2]?.hour}:${astronomyData!.values.toList()[2]?.minute}',
+                                  style: GoogleFonts.lato(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -312,39 +433,116 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 ),
                               ],
                             ),
+                            // InkWell(
+                            //   onTap: () async {
+                            //     setState(() {
+                            //       // Toggle the play state for the corresponding item
+                            //       isPlayingList[index] = !isPlayingList[index];
+                            //     });
+                            //     if (isPlayingList[index]) {
+                            //       String url =
+                            //           'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
+                            //       await audioPlayer.play(UrlSource(url));
+                            //     } else {
+                            //       audioPlayer.pause();
+                            //     }
+                            //
+                            //     // if (audioPlayer.state == PlayerState.playing) {
+                            //     //   audioPlayer.pause();
+                            //     // } else {
+                            //     //   String url =
+                            //     //       'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
+                            //     //   await audioPlayer.play(UrlSource(url));
+                            //     // }
+                            //     // setState(() {});
+                            //   },
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.all(10.0),
+                            //     child: CircleAvatar(
+                            //       radius: 16,
+                            //       backgroundColor:
+                            //           ConstWidget.signatureColors(),
+                            //       child: Center(
+                            //         child: Icon(
+                            //           isPlayingList[index]
+                            //               ? Icons.pause
+                            //               : Icons.play_arrow_rounded,
+                            //           color: Colors.white,
+                            //           size: 18,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // )
+
                             InkWell(
+                              // onTap: () async {
+                              //   setState(() {
+                              //     // If the clicked item is already playing, pause it
+                              //     if (currentlyPlayingIndex == index) {
+                              //       audioPlayer.pause();
+                              //       currentlyPlayingIndex =
+                              //           null; // No item is playing
+                              //     } else {
+                              //       // If another item is playing, pause it
+                              //       if (currentlyPlayingIndex != null) {
+                              //         audioPlayer.pause();
+                              //       }
+                              //       // Start playing the new item's audio
+                              //       String url = audioUrls[
+                              //           index]; // Get the URL for the clicked item
+                              //       audioPlayer.play(UrlSource(url));
+                              //       currentlyPlayingIndex =
+                              //           index; // Update the currently playing item's index
+                              //     }
+                              //   });
+                              // },
                               onTap: () async {
-                                setState(() {
-                                  // Toggle the play state for the corresponding item
-                                  isPlayingList[index] = !isPlayingList[index];
-                                });
-                                if (isPlayingList[index]) {
-                                  String url =
-                                      'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
-                                  await audioPlayer.play(UrlSource(url));
-                                } else {
-                                  audioPlayer.pause();
+                                // Perform asynchronous operations here
+                                Duration? currentPosition;
+                                if (currentlyPlayingIndex != null) {
+                                  currentPosition =
+                                      await audioPlayer.getCurrentPosition();
+                                  playbackPositions[currentlyPlayingIndex!] =
+                                      currentPosition ?? Duration.zero;
+                                  await audioPlayer.pause();
                                 }
 
-                                // if (audioPlayer.state == PlayerState.playing) {
-                                //   audioPlayer.pause();
-                                // } else {
-                                //   String url =
-                                //       'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
-                                //   await audioPlayer.play(UrlSource(url));
-                                // }
-                                // setState(() {});
+                                setState(() {
+                                  if (currentlyPlayingIndex == index) {
+                                    currentlyPlayingIndex =
+                                        null; // No item is playing
+                                  } else {
+                                    // Start playing the new item's audio
+                                    String url = audioUrls[
+                                        index]; // Get the URL for the clicked item
+                                    // Resume playback from the last playback position if available
+                                    Duration? lastPosition =
+                                        playbackPositions[index];
+                                    if (lastPosition != null) {
+                                      audioPlayer.seek(lastPosition);
+                                    }
+                                    audioPlayer.play(UrlSource(url));
+                                    currentlyPlayingIndex =
+                                        index; // Update the currently playing item's index
+                                  }
+                                });
                               },
-                              child: CircleAvatar(
-                                radius: 16,
-                                backgroundColor: ConstWidget.signatureColors(),
-                                child: Center(
-                                  child: Icon(
-                                    isPlayingList[index]
-                                        ? Icons.pause
-                                        : Icons.play_arrow_rounded,
-                                    color: Colors.white,
-                                    size: 18,
+
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: CircleAvatar(
+                                  radius: 16,
+                                  backgroundColor:
+                                      ConstWidget.signatureColors(),
+                                  child: Center(
+                                    child: Icon(
+                                      currentlyPlayingIndex == index
+                                          ? Icons.pause
+                                          : Icons.play_arrow_rounded,
+                                      color: Colors.white,
+                                      size: 18,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -468,4 +666,15 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
       ),
     );
   }
+
+  int? currentlyPlayingIndex;
+
+  Map<int, Duration> playbackPositions = {};
+  List<String> audioUrls = [
+    'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3',
+    'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
+    'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
+    'https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.mp3'
+    // Add more URLs as needed
+  ];
 }
