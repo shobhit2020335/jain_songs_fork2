@@ -80,15 +80,13 @@ class NetworkHelper {
     print('Fetching details for the astronomy: $astronomy');
     try {
       if (astronomy == 'navkarsi') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink anything until 48 minutes after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio (Navkarsi Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
+        return "Here's what to do during Navkarsi:\n1. Don't eat or drink anything until 48 minutes after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio (Navkarsi Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
       } else if (astronomy == 'porsi') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink anything until 3 hours after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio ($astronomy Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
+        return "Here's what to do during Porsi:\n1. Don't eat or drink anything until 3 hours after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio (Porsi Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
       } else if (astronomy == 'sadhporsi') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink anything until 4 hours & 30 minutes after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio ($astronomy Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
-      } else if (astronomy == 'chovihar') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink until tomorrow's Navkarsi.\n2. Sit at one place.\n3. Listen to the audio (Chovihar Pachhkhan).\n4. Follow Navkarsi steps tomorrow.";
+        return "Here's what to do during Sadhporsi:\n1. Don't eat or drink anything until 4 hours & 30 minutes after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio (Sadhporsi Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
       }
-      return null;
+       return null;
     } catch (e) {
       print("Error fetching astronomy data:$e");
       return null;
