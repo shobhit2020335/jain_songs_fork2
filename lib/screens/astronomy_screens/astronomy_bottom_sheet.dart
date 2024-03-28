@@ -7,8 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/services.dart';
-import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/globals.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
 class AstronomyBottomSheet extends StatefulWidget {
@@ -21,19 +21,18 @@ class AstronomyBottomSheet extends StatefulWidget {
 }
 
 class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
-  Map<String, DateTime?>? astronomyData = {
+  Map<String, DateTime?>? sunriseSunsetData = {
     'date': null,
     'sunrise': null,
     'sunset': null,
-    'navkarsi': null,
-    'porsi': null,
-    'sadhporsi': null,
-    'chovihar': null,
   };
 
   DateTime? selectedDateTime;
   bool showProgress = true;
   bool isAnimatedOnce = false;
+
+  int? currentlyPlayingIndex;
+  Map<int, Duration> playbackPositions = {};
 
   //Fetches the data and shows loading
   Future<void> fetchData() async {
@@ -41,8 +40,16 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
       showProgress = true;
     });
 
-    astronomyData = await NetworkHelper()
+    sunriseSunsetData = await NetworkHelper()
         .fetchAstronomyData(context, dateTime: selectedDateTime);
+
+    if (sunriseSunsetData == null || sunriseSunsetData!.isEmpty) {
+      // ignore: use_build_context_synchronously
+      ConstWidget.showSimpleToast(
+          context, "Error getting data. Try again later!");
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+    }
 
     setState(() {
       showProgress = false;
@@ -54,36 +61,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     super.initState();
     selectedDateTime ??= DateTime.now();
     fetchData();
-    initializeList();
     audioPlayer = AudioPlayer();
-  }
-
-  List<bool> isPlayingList = [];
-  List<AudioPlayer> audioPlayers = [];
-
-  void initializeList() {
-    isPlayingList = List.generate(
-      (astronomyData != null && astronomyData!.length > 3)
-          ? astronomyData!.length - 3
-          : 0,
-      (index) => false,
-    );
-
-    // audioPlayers=List.generate(
-    //   (astronomyData != null && astronomyData!.length > 3)
-    //       ? astronomyData!.length - 3
-    //       : 0,
-    //       (index) => AudioPlayer(),
-    // );
   }
 
   late AudioPlayer audioPlayer;
 
-  // void disposeAudioPlayers(){}
   @override
   void dispose() {
     audioPlayer.dispose();
-    // audioPlayers.
     super.dispose();
   }
 
@@ -205,7 +190,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   ),
                                 )
                               : Text(
-                                  '${astronomyData!.values.toList()[1]?.hour}:${astronomyData!.values.toList()[1]?.minute}',
+                                  '${sunriseSunsetData!.values.toList()[1]?.hour}:${sunriseSunsetData!.values.toList()[1]?.minute}',
                                   style: GoogleFonts.lato(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -230,7 +215,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     'images/cat.gif',
                                     height: 200,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   ),
                                   isAnimatedOnce
@@ -289,7 +274,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   ),
                                 )
                               : Text(
-                                  '${astronomyData!.values.toList()[2]?.hour}:${astronomyData!.values.toList()[2]?.minute}',
+                                  '${sunriseSunsetData!.values.toList()[2]?.hour}:${sunriseSunsetData!.values.toList()[2]?.minute}',
                                   style: GoogleFonts.lato(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -321,13 +306,8 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                       return InkWell(
                         onTap: () async {
                           if (showProgress == false) {
-                            String? information = await NetworkHelper()
-                                .fetchDetailsForAstronomy(
-                                    context,
-                                    astronomyData!.keys.toList()[index + 3],
-                                    '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute}');
-                            if (information != null &&
-                                information.isNotEmpty &&
+                            if (ListFunctions
+                                    .pachchhkhanList[index].steps.isNotEmpty &&
                                 context.mounted) {
                               await showDialog(
                                 context: context,
@@ -341,7 +321,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       children: [
                                         isAnimatedOnce
                                             ? Text(
-                                                information,
+                                                ListFunctions
+                                                    .pachchhkhanList[index]
+                                                    .steps,
                                                 style: GoogleFonts.lato(
                                                   color: Colors.white,
                                                   fontSize: 13,
@@ -352,7 +334,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 isRepeatingAnimation: false,
                                                 animatedTexts: [
                                                   TyperAnimatedText(
-                                                    information,
+                                                    ListFunctions
+                                                        .pachchhkhanList[index]
+                                                        .steps,
                                                     textStyle: GoogleFonts.lato(
                                                       color: Colors.white,
                                                       fontSize: 13,
@@ -413,7 +397,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                         child: FittedBox(
                                           fit: BoxFit.scaleDown,
                                           child: Text(
-                                            '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute}',
+                                            '${ListFunctions.pachchhkhanList[index].dateTimeOfOccurrence!.hour}:${ListFunctions.pachchhkhanList[index].dateTimeOfOccurrence!.minute}',
                                             style: GoogleFonts.lato(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -423,8 +407,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       ),
                                 const SizedBox(width: 5),
                                 Text(
-                                  UsefulFunction.toCamelCase(
-                                      astronomyData!.keys.toList()[index + 3]),
+                                  ListFunctions.pachchhkhanList[index].name,
                                   style: GoogleFonts.lato(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -433,115 +416,59 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 ),
                               ],
                             ),
-                            // InkWell(
-                            //   onTap: () async {
-                            //     setState(() {
-                            //       // Toggle the play state for the corresponding item
-                            //       isPlayingList[index] = !isPlayingList[index];
-                            //     });
-                            //     if (isPlayingList[index]) {
-                            //       String url =
-                            //           'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
-                            //       await audioPlayer.play(UrlSource(url));
-                            //     } else {
-                            //       audioPlayer.pause();
-                            //     }
-                            //
-                            //     // if (audioPlayer.state == PlayerState.playing) {
-                            //     //   audioPlayer.pause();
-                            //     // } else {
-                            //     //   String url =
-                            //     //       'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3';
-                            //     //   await audioPlayer.play(UrlSource(url));
-                            //     // }
-                            //     // setState(() {});
-                            //   },
-                            //   child: Padding(
-                            //     padding: const EdgeInsets.all(10.0),
-                            //     child: CircleAvatar(
-                            //       radius: 16,
-                            //       backgroundColor:
-                            //           ConstWidget.signatureColors(),
-                            //       child: Center(
-                            //         child: Icon(
-                            //           isPlayingList[index]
-                            //               ? Icons.pause
-                            //               : Icons.play_arrow_rounded,
-                            //           color: Colors.white,
-                            //           size: 18,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // )
-
-                            InkWell(
-                              // onTap: () async {
-                              //   setState(() {
-                              //     // If the clicked item is already playing, pause it
-                              //     if (currentlyPlayingIndex == index) {
-                              //       audioPlayer.pause();
-                              //       currentlyPlayingIndex =
-                              //           null; // No item is playing
-                              //     } else {
-                              //       // If another item is playing, pause it
-                              //       if (currentlyPlayingIndex != null) {
-                              //         audioPlayer.pause();
-                              //       }
-                              //       // Start playing the new item's audio
-                              //       String url = audioUrls[
-                              //           index]; // Get the URL for the clicked item
-                              //       audioPlayer.play(UrlSource(url));
-                              //       currentlyPlayingIndex =
-                              //           index; // Update the currently playing item's index
-                              //     }
-                              //   });
-                              // },
-                              onTap: () async {
-                                // Perform asynchronous operations here
-                                Duration? currentPosition;
-                                if (currentlyPlayingIndex != null) {
-                                  currentPosition =
-                                      await audioPlayer.getCurrentPosition();
-                                  playbackPositions[currentlyPlayingIndex!] =
-                                      currentPosition ?? Duration.zero;
-                                  await audioPlayer.pause();
-                                }
-
-                                setState(() {
-                                  if (currentlyPlayingIndex == index) {
-                                    currentlyPlayingIndex =
-                                        null; // No item is playing
-                                  } else {
-                                    // Start playing the new item's audio
-                                    String url = audioUrls[
-                                        index]; // Get the URL for the clicked item
-                                    // Resume playback from the last playback position if available
-                                    Duration? lastPosition =
-                                        playbackPositions[index];
-                                    if (lastPosition != null) {
-                                      audioPlayer.seek(lastPosition);
-                                    }
-                                    audioPlayer.play(UrlSource(url));
-                                    currentlyPlayingIndex =
-                                        index; // Update the currently playing item's index
+                            Visibility(
+                              visible: ListFunctions
+                                          .pachchhkhanList[index].mp3Links !=
+                                      null &&
+                                  ListFunctions.pachchhkhanList[index].mp3Links!
+                                      .isNotEmpty,
+                              child: InkWell(
+                                onTap: () async {
+                                  // Perform asynchronous operations here
+                                  Duration? currentPosition;
+                                  if (currentlyPlayingIndex != null) {
+                                    currentPosition =
+                                        await audioPlayer.getCurrentPosition();
+                                    playbackPositions[currentlyPlayingIndex!] =
+                                        currentPosition ?? Duration.zero;
+                                    await audioPlayer.pause();
                                   }
-                                });
-                              },
 
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: CircleAvatar(
-                                  radius: 16,
-                                  backgroundColor:
-                                      ConstWidget.signatureColors(),
-                                  child: Center(
-                                    child: Icon(
-                                      currentlyPlayingIndex == index
-                                          ? Icons.pause
-                                          : Icons.play_arrow_rounded,
-                                      color: Colors.white,
-                                      size: 18,
+                                  setState(() {
+                                    if (currentlyPlayingIndex == index) {
+                                      currentlyPlayingIndex =
+                                          null; // No item is playing
+                                    } else {
+                                      // Start playing the new item's audio
+                                      String url = ListFunctions
+                                              .pachchhkhanList[index].mp3Links![
+                                          0]; // Get the URL for the clicked item
+                                      // Resume playback from the last playback position if available
+                                      Duration? lastPosition =
+                                          playbackPositions[index];
+                                      if (lastPosition != null) {
+                                        audioPlayer.seek(lastPosition);
+                                      }
+                                      audioPlayer.play(UrlSource(url));
+                                      currentlyPlayingIndex =
+                                          index; // Update the currently playing item's index
+                                    }
+                                  });
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: CircleAvatar(
+                                    radius: 16,
+                                    backgroundColor:
+                                        ConstWidget.signatureColors(),
+                                    child: Center(
+                                      child: Icon(
+                                        currentlyPlayingIndex == index
+                                            ? Icons.pause
+                                            : Icons.play_arrow_rounded,
+                                        color: Colors.white,
+                                        size: 18,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -554,10 +481,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     separatorBuilder: (content, index) {
                       return const SizedBox(height: 5);
                     },
-                    itemCount:
-                        (astronomyData != null && astronomyData!.length > 3)
-                            ? astronomyData!.length - 3
-                            : 0,
+                    itemCount: ListFunctions.pachchhkhanList.length,
                   ),
                 ),
                 const SizedBox(height: 5),
@@ -666,15 +590,4 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
       ),
     );
   }
-
-  int? currentlyPlayingIndex;
-
-  Map<int, Duration> playbackPositions = {};
-  List<String> audioUrls = [
-    'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Kangaroo_MusiQue_-_The_Neverwritten_Role_Playing_Game.mp3',
-    'https://commondatastorage.googleapis.com/codeskulptor-demos/DDR_assets/Sevish_-__nbsp_.mp3',
-    'https://codeskulptor-demos.commondatastorage.googleapis.com/pang/paza-moduless.mp3',
-    'https://commondatastorage.googleapis.com/codeskulptor-assets/sounddogs/thrust.mp3'
-    // Add more URLs as needed
-  ];
 }

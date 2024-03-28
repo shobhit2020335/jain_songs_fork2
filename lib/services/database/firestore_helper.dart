@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jain_songs/models/pachchhkhan_model.dart';
 import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/models/user_behaviour_model.dart';
 import 'package:jain_songs/services/database/cloud_storage.dart';
@@ -25,6 +26,75 @@ class FireStoreHelper {
       FirebaseFirestore.instance.collection('songs');
   final CollectionReference suggestions =
       FirebaseFirestore.instance.collection('suggestions');
+
+  ///Fetches the pachchhkhans from firestore or from firestore cache if said from
+  ///remote config.
+  Future<bool> fetchPachchhkhans() async {
+    debugPrint('Fetching pachchhkhans from Firestore');
+    bool isSuccess = false;
+    ListFunctions.pachchhkhanList.clear();
+    QuerySnapshot pachchhkhans;
+
+    try {
+      bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+
+      if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
+        pachchhkhans = await _firestore.collection('pachchhkhans').get();
+      } else {
+        pachchhkhans = await _firestore
+            .collection('pachchhkhans')
+            .get(const GetOptions(source: Source.cache));
+        if (pachchhkhans.size == 0) {
+          pachchhkhans = await _firestore.collection('pachchhkhans').get();
+        }
+      }
+      if (pachchhkhans.size == 0) {
+        return false;
+      }
+
+      isSuccess = await _readFetchedPachchhkhans(
+          pachchhkhans, ListFunctions.pachchhkhanList);
+    } catch (e) {
+      debugPrint('Error fetching pachchhkhans from firestore: $e');
+      return false;
+    }
+    return isSuccess;
+  }
+
+  Future<bool> _readFetchedPachchhkhans(
+      QuerySnapshot pachchhkhans, List<PachchhkhanModel> listToAdd) async {
+    try {
+      for (var pachchhkhan in pachchhkhans.docs) {
+        Map<String, dynamic> currentPachchhkhan =
+            pachchhkhan.data() as Map<String, dynamic>;
+
+        PachchhkhanModel currentPachchhkhanModel = PachchhkhanModel(
+          id: currentPachchhkhan['id'],
+          name: currentPachchhkhan['name'],
+          categoryName: currentPachchhkhan['categoryName'],
+          additionSecondsInSunrise:
+              currentPachchhkhan['additionSecondsInSunrise'] as int,
+          additionSecondsInSunset:
+              currentPachchhkhan['additionSecondsInSunset'] as int,
+          steps: currentPachchhkhan['steps'],
+          mp3Links: currentPachchhkhan['mp3Links'] != null
+              ? List<String>.from(currentPachchhkhan['mp3Links'])
+              : [],
+        );
+
+        listToAdd.add(
+          currentPachchhkhanModel,
+        );
+      }
+      return true;
+    } catch (e) {
+      debugPrint('Error in reading from firestore: $e');
+      return false;
+    }
+  }
 
   //Error storing user search behaviour
   Future<bool> storeUserSearchBehaviour(

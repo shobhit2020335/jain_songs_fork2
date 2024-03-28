@@ -11,7 +11,22 @@ class PachchhkhanModel {
   final String steps;
   //It has audio links in chronological order of listening in a day.
   List<String>? mp3Links = [];
-  DateTime? lastModifiedTime;
+
+  //Local varibles, not stored in firebase.
+  //This is calculated after the sunrise and sunset data.
+  DateTime? dateTimeOfOccurrence;
+
+  ///Sets the date time occurrence as per the given +/-
+  void setDateTimeOfOccurrence(
+      {required DateTime sunriseDateTime, required DateTime sunsetDateTime}) {
+    if (additionSecondsInSunrise != 0) {
+      dateTimeOfOccurrence =
+          sunriseDateTime.add(Duration(seconds: additionSecondsInSunrise));
+    } else if (additionSecondsInSunset != 0) {
+      dateTimeOfOccurrence =
+          sunsetDateTime.add(Duration(seconds: additionSecondsInSunset));
+    }
+  }
 
   PachchhkhanModel({
     required this.id,
@@ -21,9 +36,7 @@ class PachchhkhanModel {
     this.additionSecondsInSunset = 0,
     this.steps = '',
     this.mp3Links,
-    this.lastModifiedTime,
   }) {
     mp3Links ??= [];
-    lastModifiedTime ??= DateTime.now();
   }
 }
