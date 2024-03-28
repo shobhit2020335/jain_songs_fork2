@@ -24,6 +24,8 @@
     <application
         android:name="${applicationName}"
         android:label="Stavan"
+        android:usesCleartextTraffic="true"
+        android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity

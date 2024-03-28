@@ -53,6 +53,7 @@ dependencies:
   sqflite: ^2.0.0+4
   url_launcher: ^6.0.3
   webview_flutter: ^4.2.1
+  audioplayers: ^5.2.1
 
 dev_dependencies:
   flutter_test:
