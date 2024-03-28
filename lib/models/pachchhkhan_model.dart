@@ -8,7 +8,7 @@ class PachchhkhanModel {
   final int additionSecondsInSunrise;
   //Mostly -
   final int additionSecondsInSunset;
-  final String steps;
+  String steps;
   //It has audio links in chronological order of listening in a day.
   List<String>? mp3Links = [];
 
@@ -26,6 +26,11 @@ class PachchhkhanModel {
       dateTimeOfOccurrence =
           sunsetDateTime.add(Duration(seconds: additionSecondsInSunset));
     }
+
+    if (dateTimeOfOccurrence != null) {
+      steps = steps.replaceAll('HH:MM',
+          '${dateTimeOfOccurrence!.hour}:${dateTimeOfOccurrence!.minute}');
+    }
   }
 
   PachchhkhanModel({
@@ -38,5 +43,6 @@ class PachchhkhanModel {
     this.mp3Links,
   }) {
     mp3Links ??= [];
+    steps = steps.replaceAll('\\n', '\n');
   }
 }
