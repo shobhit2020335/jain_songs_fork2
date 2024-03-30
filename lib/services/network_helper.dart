@@ -26,6 +26,18 @@ class NetworkHelper {
             context, 'Please check your internet connection!');
       }
 
+      if (ListFunctions.pachchhkhanList.isEmpty && context.mounted) {
+        bool isSuccess = await DatabaseController().fetchPachchhkhans(context);
+        if (isSuccess == false) {
+          print("Data fetching issue from database for pachchhkhan");
+          throw ("check internet and try again!");
+        }
+      }
+
+      for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
+        ListFunctions.pachchhkhanList[i].initAudioPlayer();
+      }
+
       var (double latitude, double longitude) =
           await Services.fetchLatitudeLongitudeData();
 
@@ -63,14 +75,6 @@ class NetworkHelper {
       sunriseSunsetData['sunrise'] = sunriseDateTime;
       sunriseSunsetData['sunset'] = sunsetDateTime;
 
-      if (ListFunctions.pachchhkhanList.isEmpty && context.mounted) {
-        bool isSuccess = await DatabaseController().fetchPachchhkhans(context);
-        if (isSuccess == false) {
-          print("Data fetching issue from database for pachchhkhan");
-          throw ("check internet and try again!");
-        }
-      }
-
       for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
         ListFunctions.pachchhkhanList[i].setDateTimeOfOccurrence(
             sunriseDateTime: sunriseDateTime, sunsetDateTime: sunsetDateTime);
@@ -79,7 +83,7 @@ class NetworkHelper {
       return sunriseSunsetData;
     } catch (e) {
       debugPrint("Error fetching astronomy data: $e");
-      return null;
+      return Future.error(e);
     }
   }
 

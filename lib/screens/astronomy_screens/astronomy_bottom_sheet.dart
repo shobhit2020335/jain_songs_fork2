@@ -32,28 +32,40 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   bool isAnimatedOnce = false;
 
   int? currentlyPlayingIndex;
-  Map<int, Duration> playbackPositions = {};
 
   //Fetches the data and shows loading
   Future<void> fetchData() async {
-    setState(() {
-      showProgress = true;
-    });
+    try {
+      setState(() {
+        showProgress = true;
+      });
 
-    sunriseSunsetData = await NetworkHelper()
-        .fetchAstronomyData(context, dateTime: selectedDateTime);
+      sunriseSunsetData = await NetworkHelper()
+          .fetchAstronomyData(context, dateTime: selectedDateTime);
 
-    if (sunriseSunsetData == null || sunriseSunsetData!.isEmpty) {
+      if (sunriseSunsetData == null || sunriseSunsetData!.isEmpty) {
+        // ignore: use_build_context_synchronously
+        ConstWidget.showSimpleToast(
+            context, "Error getting data. Try again later!");
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pop();
+      }
+
+      setState(() {
+        showProgress = false;
+      });
+    } catch (e) {
       // ignore: use_build_context_synchronously
-      ConstWidget.showSimpleToast(
-          context, "Error getting data. Try again later!");
+      ConstWidget.showSimpleToast(context, "Error: $e");
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     }
+  }
 
-    setState(() {
-      showProgress = false;
-    });
+  Future<void> disposeAudioPlayers() async {
+    for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
+      ListFunctions.pachchhkhanList[i].disposeAudioPlayer();
+    }
   }
 
   @override
@@ -61,14 +73,11 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     super.initState();
     selectedDateTime ??= DateTime.now();
     fetchData();
-    audioPlayer = AudioPlayer();
   }
-
-  late AudioPlayer audioPlayer;
 
   @override
   void dispose() {
-    audioPlayer.dispose();
+    disposeAudioPlayers();
     super.dispose();
   }
 
@@ -427,11 +436,18 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   // Perform asynchronous operations here
                                   Duration? currentPosition;
                                   if (currentlyPlayingIndex != null) {
-                                    currentPosition =
-                                        await audioPlayer.getCurrentPosition();
-                                    playbackPositions[currentlyPlayingIndex!] =
+                                    currentPosition = await ListFunctions
+                                        .pachchhkhanList[currentlyPlayingIndex!]
+                                        .audioPlayer
+                                        ?.getCurrentPosition();
+                                    ListFunctions
+                                            .pachchhkhanList[currentlyPlayingIndex!]
+                                            .lastPlayedPosition =
                                         currentPosition ?? Duration.zero;
-                                    await audioPlayer.pause();
+                                    await ListFunctions
+                                        .pachchhkhanList[currentlyPlayingIndex!]
+                                        .audioPlayer
+                                        ?.pause();
                                   }
 
                                   setState(() {
@@ -439,19 +455,22 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       currentlyPlayingIndex =
                                           null; // No item is playing
                                     } else {
-                                      // Start playing the new item's audio
-                                      String url = ListFunctions
-                                              .pachchhkhanList[index].mp3Links![
-                                          0]; // Get the URL for the clicked item
                                       // Resume playback from the last playback position if available
-                                      Duration? lastPosition =
-                                          playbackPositions[index];
-                                      if (lastPosition != null) {
-                                        audioPlayer.seek(lastPosition);
-                                      }
-                                      audioPlayer.play(UrlSource(url));
-                                      currentlyPlayingIndex =
-                                          index; // Update the currently playing item's index
+                                      Duration lastPosition = ListFunctions
+                                          .pachchhkhanList[index]
+                                          .lastPlayedPosition;
+
+                                      ListFunctions
+                                          .pachchhkhanList[index].audioPlayer
+                                          ?.play(
+                                        UrlSource(ListFunctions
+                                            .pachchhkhanList[index]
+                                            .mp3Links![0]),
+                                        position: lastPosition,
+                                      );
+
+                                      // Update the currently playing item's index
+                                      currentlyPlayingIndex = index;
                                     }
                                   });
                                 },

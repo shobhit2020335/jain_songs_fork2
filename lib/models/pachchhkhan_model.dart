@@ -1,3 +1,5 @@
+import 'package:audioplayers/audioplayers.dart';
+
 class PachchhkhanModel {
   final String id;
   final String name;
@@ -15,6 +17,8 @@ class PachchhkhanModel {
   //Local varibles, not stored in firebase.
   //This is calculated after the sunrise and sunset data.
   DateTime? dateTimeOfOccurrence;
+  AudioPlayer? audioPlayer;
+  Duration lastPlayedPosition = Duration.zero;
 
   ///Sets the date time occurrence as per the given +/-
   void setDateTimeOfOccurrence(
@@ -30,6 +34,20 @@ class PachchhkhanModel {
     if (dateTimeOfOccurrence != null) {
       steps = steps.replaceAll('HH:MM',
           '${dateTimeOfOccurrence!.hour}:${dateTimeOfOccurrence!.minute}');
+    }
+  }
+
+  void initAudioPlayer() async {
+    lastPlayedPosition = Duration.zero;
+    if (mp3Links != null && mp3Links!.isNotEmpty) {
+      audioPlayer = AudioPlayer();
+      audioPlayer!.setSourceUrl(mp3Links![0]);
+    }
+  }
+
+  void disposeAudioPlayer() async {
+    if (audioPlayer != null) {
+      audioPlayer?.dispose();
     }
   }
 
