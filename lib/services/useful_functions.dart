@@ -1,4 +1,20 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 class UsefulFunction {
+  static String getFormattedTime(int hour, int minute) {
+    TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
+    return _formatTime(timeOfDay);
+  }
+
+  static String _formatTime(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    final time = DateTime(
+        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    final formatter = DateFormat('hh:mm a');
+    return formatter.format(time);
+  }
+
   static String toCamelCase(String input) {
     String output = '';
     List<String> list = input.split(' ');

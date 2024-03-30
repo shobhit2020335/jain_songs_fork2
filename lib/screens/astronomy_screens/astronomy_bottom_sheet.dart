@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/services.dart';
@@ -111,8 +109,8 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
               children: [
                 Container(
                   color: UISettings.themeData(Globals.isDarkTheme, context)
-                      .progressIndicatorTheme.color,
-                  // color: UISettings.themeData(Globals.isDarkTheme, context).primaryColorDark,
+                      .progressIndicatorTheme
+                      .color,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -207,12 +205,13 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   ),
                                 )
                               : Text(
-                                  getFormattedTime(
-                                      sunriseSunsetData!.values.toList()[1]!.hour,
+                                  UsefulFunction.getFormattedTime(
+                                      sunriseSunsetData!.values
+                                          .toList()[1]!
+                                          .hour,
                                       sunriseSunsetData!.values
                                           .toList()[1]!
                                           .minute),
-
                                   style: GoogleFonts.lato(
                                     color: UISettings.themeData(
                                             Globals.isDarkTheme, context)
@@ -298,8 +297,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   ),
                                 )
                               : Text(
-                                  getFormattedTime(
-                                      sunriseSunsetData!.values.toList()[2]!.hour,
+                                  UsefulFunction.getFormattedTime(
+                                      sunriseSunsetData!.values
+                                          .toList()[2]!
+                                          .hour,
                                       sunriseSunsetData!.values
                                           .toList()[2]!
                                           .minute),
@@ -427,10 +428,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                         height: 50,
                                         child: Center(
                                           child: Text(
-                                            getFormattedTime(
-                                                ListFunctions.pachchhkhanList[index].dateTimeOfOccurrence!
+                                            UsefulFunction.getFormattedTime(
+                                                ListFunctions
+                                                    .pachchhkhanList[index]
+                                                    .dateTimeOfOccurrence!
                                                     .hour,
-                                                ListFunctions.pachchhkhanList[index].dateTimeOfOccurrence!
+                                                ListFunctions
+                                                    .pachchhkhanList[index]
+                                                    .dateTimeOfOccurrence!
                                                     .minute),
                                             style: GoogleFonts.lato(
                                               color: Colors.white,
@@ -547,46 +552,37 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 const SizedBox(height: 20),
                 InkWell(
                   onTap: () async {
-                    bool connected = await _checkInternetConnectivity();
-
-                    if (connected) {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDateTime,
-                        firstDate: DateTime(2024, 1, 1),
-                        lastDate: DateTime(2030, 12, 31),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
-                                primary: ConstWidget.signatureColors()!,
-                              ),
-                              textButtonTheme: TextButtonThemeData(
-                                style: TextButton.styleFrom(
-                                  foregroundColor:
-                                      ConstWidget.signatureColors()!,
-                                ),
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: selectedDateTime,
+                      firstDate: DateTime(2024, 1, 1),
+                      lastDate: DateTime(2030, 12, 31),
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: ColorScheme.light(
+                              primary: ConstWidget.signatureColors()!,
+                            ),
+                            textButtonTheme: TextButtonThemeData(
+                              style: TextButton.styleFrom(
+                                foregroundColor: ConstWidget.signatureColors()!,
                               ),
                             ),
-                            child: child!,
-                          );
-                        },
-                      );
+                          ),
+                          child: child!,
+                        );
+                      },
+                    );
 
-                      if (pickedDate != null && context.mounted) {
-                        selectedDateTime = pickedDate;
-                        fetchData();
-                      }
-                    } else {
-                      ConstWidget.showSimpleToast(
-                          context, 'Please check your internet connection',
-                          duration: 2);
+                    if (pickedDate != null && context.mounted) {
+                      selectedDateTime = pickedDate;
+                      fetchData();
                     }
                   },
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.indigo,
-                      borderRadius: const BorderRadius.all(
+                      borderRadius: BorderRadius.all(
                         Radius.circular(14),
                       ),
                     ),
@@ -645,18 +641,5 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
         ),
       ),
     );
-  }
-
-  String getFormattedTime(int hour, int minute) {
-    TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
-    return _formatTime(timeOfDay);
-  }
-
-  String _formatTime(TimeOfDay timeOfDay) {
-    final now = DateTime.now();
-    final time = DateTime(
-        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
-    final formatter = DateFormat('hh:mm a');
-    return formatter.format(time);
   }
 }
