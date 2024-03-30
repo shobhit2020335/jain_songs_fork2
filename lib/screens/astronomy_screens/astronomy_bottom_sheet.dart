@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/network_helper.dart';
 import 'package:jain_songs/services/services.dart';
+import 'package:jain_songs/services/ui_settings.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:skeleton_text/skeleton_text.dart';
@@ -100,7 +103,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
-              color: Colors.grey[50]!,
+              color: UISettings.themeData(Globals.isDarkTheme, context)
+                  .progressIndicatorTheme
+                  .color,
             ),
             padding: const EdgeInsets.only(
               top: 15,
@@ -111,7 +116,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
             child: Column(
               children: [
                 Container(
-                  color: Colors.white,
+                  color: UISettings.themeData(Globals.isDarkTheme, context)
+                      .progressIndicatorTheme.color,
+                  // color: UISettings.themeData(Globals.isDarkTheme, context).primaryColorDark,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -146,7 +153,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    'images/cat.gif',
+                                    'images/sunrise.png',
                                     height: 200,
                                   ),
                                   isAnimatedOnce
@@ -191,6 +198,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                           Image.asset(
                             'images/sunrise.png',
                             height: 40,
+                            // color: UISettings.themeData(Globals.isDarkTheme, context).primaryColorLight,
                           ),
                           showProgress
                               ? SkeletonAnimation(
@@ -205,9 +213,16 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   ),
                                 )
                               : Text(
-                                  '${astronomyData!.values.toList()[1]?.hour}:${astronomyData!.values.toList()[1]?.minute}',
+                                  getFormattedTime(
+                                      astronomyData!.values.toList()[1]!.hour,
+                                      astronomyData!.values
+                                          .toList()[1]!
+                                          .minute),
+                                  // '${astronomyData!.values.toList()[1]?.hour}:${astronomyData!.values.toList()[1]?.minute} AM',
                                   style: GoogleFonts.lato(
-                                    color: Colors.black,
+                                    color: UISettings.themeData(
+                                            Globals.isDarkTheme, context)
+                                        .primaryColorLight,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -227,7 +242,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    'images/cat.gif',
+                                    'images/sunset.png',
                                     height: 200,
                                   ),
                                   SizedBox(
@@ -289,9 +304,16 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                   ),
                                 )
                               : Text(
-                                  '${astronomyData!.values.toList()[2]?.hour}:${astronomyData!.values.toList()[2]?.minute}',
+                                  getFormattedTime(
+                                      astronomyData!.values.toList()[2]!.hour,
+                                      astronomyData!.values
+                                          .toList()[2]!
+                                          .minute),
+                                  // '${astronomyData!.values.toList()[2]?.hour}:${astronomyData!.values.toList()[2]?.minute}',
                                   style: GoogleFonts.lato(
-                                    color: Colors.black,
+                                    color: UISettings.themeData(
+                                            Globals.isDarkTheme, context)
+                                        .primaryColorLight,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -306,7 +328,8 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: UISettings.themeData(Globals.isDarkTheme, context)
+                        .backgroundColor,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(12),
                     ),
@@ -325,7 +348,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 .fetchDetailsForAstronomy(
                                     context,
                                     astronomyData!.keys.toList()[index + 3],
-                                    '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute}');
+                                    getFormattedTime(
+                                        astronomyData!.values
+                                            .toList()[index + 3]!
+                                            .hour,
+                                        astronomyData!.values
+                                            .toList()[index + 3]!
+                                            .minute));
+                            // '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute} AM');
                             if (information != null &&
                                 information.isNotEmpty &&
                                 context.mounted) {
@@ -408,25 +438,34 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             Radius.circular(14),
                                           ),
                                         ),
-                                        width: 50,
+                                        width: 80,
                                         height: 50,
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
+                                        child: Center(
                                           child: Text(
-                                            '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute}',
+                                            getFormattedTime(
+                                                astronomyData!.values
+                                                    .toList()[index + 3]!
+                                                    .hour,
+                                                astronomyData!.values
+                                                    .toList()[index + 3]!
+                                                    .minute),
+                                            // '${astronomyData!.values.toList()[index + 3]?.hour}:${astronomyData!.values.toList()[index + 3]?.minute} AM',
                                             style: GoogleFonts.lato(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
+                                              fontSize: 14,
                                             ),
                                           ),
                                         ),
                                       ),
-                                const SizedBox(width: 5),
+                                const SizedBox(width: 10),
                                 Text(
                                   UsefulFunction.toCamelCase(
                                       astronomyData!.keys.toList()[index + 3]),
                                   style: GoogleFonts.lato(
-                                    color: Colors.black,
+                                    color: UISettings.themeData(
+                                            Globals.isDarkTheme, context)
+                                        .primaryColorLight,
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -576,36 +615,45 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 const SizedBox(height: 20),
                 InkWell(
                   onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDateTime,
-                      firstDate: DateTime(2024, 1, 1),
-                      lastDate: DateTime(2030, 12, 31),
-                      builder: (context, child) {
-                        return Theme(
-                          data: Theme.of(context).copyWith(
-                            colorScheme: ColorScheme.light(
-                              primary: ConstWidget.signatureColors()!,
-                            ),
-                            textButtonTheme: TextButtonThemeData(
-                              style: TextButton.styleFrom(
-                                foregroundColor: ConstWidget.signatureColors()!,
+                    bool connected = await _checkInternetConnectivity();
+
+                    if (connected) {
+                      DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDateTime,
+                        firstDate: DateTime(2024, 1, 1),
+                        lastDate: DateTime(2030, 12, 31),
+                        builder: (context, child) {
+                          return Theme(
+                            data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: ConstWidget.signatureColors()!,
+                              ),
+                              textButtonTheme: TextButtonThemeData(
+                                style: TextButton.styleFrom(
+                                  foregroundColor:
+                                      ConstWidget.signatureColors()!,
+                                ),
                               ),
                             ),
-                          ),
-                          child: child!,
-                        );
-                      },
-                    );
+                            child: child!,
+                          );
+                        },
+                      );
 
-                    if (pickedDate != null && context.mounted) {
-                      selectedDateTime = pickedDate;
-                      fetchData();
+                      if (pickedDate != null && context.mounted) {
+                        selectedDateTime = pickedDate;
+                        fetchData();
+                      }
+                    } else {
+                      ConstWidget.showSimpleToast(
+                          context, 'Please check your internet connection',
+                          duration: 2);
                     }
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: ConstWidget.signatureColors()!,
+                      color: Colors.indigo,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(14),
                       ),
@@ -667,7 +715,28 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     );
   }
 
+  String getFormattedTime(int hour, int minute) {
+    TimeOfDay timeOfDay = TimeOfDay(hour: hour, minute: minute);
+    return _formatTime(timeOfDay);
+  }
+
+  String _formatTime(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    final time = DateTime(
+        now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+    final formatter = DateFormat('hh:mm a');
+    return formatter.format(time);
+  }
+
   int? currentlyPlayingIndex;
+
+  Future<bool> _checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      return false;
+    }
+    return true;
+  }
 
   Map<int, Duration> playbackPositions = {};
   List<String> audioUrls = [
