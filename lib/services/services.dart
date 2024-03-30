@@ -23,14 +23,9 @@ class Services {
     LocationPermission permission;
 
     try {
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        //Need to request the user to enable location. Need to think of an UI.
-        return Future.error("Location services are disabled");
-      }
-
       permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.unableToDetermine) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
           return Future.error("Location permission request denied");
@@ -40,7 +35,20 @@ class Services {
         return Future.error("Location permissions are denied forever");
       }
 
-      Position position = await Geolocator.getCurrentPosition();
+      Position? position = await Geolocator.getLastKnownPosition();
+      if (position == null) {
+        serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (!serviceEnabled) {
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied ||
+              permission == LocationPermission.deniedForever ||
+              permission == LocationPermission.unableToDetermine) {
+            return Future.error("Location services are not enabled!");
+          }
+        }
+        position = await Geolocator.getCurrentPosition();
+      }
+
       double latitude = position.latitude;
       double longitude = position.longitude;
 

@@ -116,8 +116,6 @@ class ConstWidget {
       return Colors.green;
     } else if (value == 3) {
       return Colors.redAccent;
-    } else if (value == 4) {
-      return const Color(0xFF3861F6);
     } else {
       return Colors.indigo;
     }

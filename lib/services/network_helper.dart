@@ -4,10 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
+import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/services/useful_functions.dart';
 import 'package:jain_songs/utilities/globals.dart';
+import 'package:jain_songs/utilities/lists.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class NetworkHelper {
@@ -22,6 +24,18 @@ class NetworkHelper {
       if (!isInternetConnected && context.mounted) {
         ConstWidget.showSimpleToast(
             context, 'Please check your internet connection!');
+      }
+
+      if (ListFunctions.pachchhkhanList.isEmpty && context.mounted) {
+        bool isSuccess = await DatabaseController().fetchPachchhkhans(context);
+        if (isSuccess == false) {
+          print("Data fetching issue from database for pachchhkhan");
+          throw ("check internet and try again!");
+        }
+      }
+
+      for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
+        ListFunctions.pachchhkhanList[i].initAudioPlayer();
       }
 
       var (double latitude, double longitude) =
@@ -56,42 +70,20 @@ class NetworkHelper {
       DateTime sunsetDateTime =
           DateTime.parse(astronomyResponse['date'] + ' ' + sunsetTimeString);
 
-      Map<String, DateTime> astronomyData = {};
-      astronomyData['date'] = DateTime.now();
-      astronomyData['sunrise'] = sunriseDateTime;
-      astronomyData['sunset'] = sunsetDateTime;
-      astronomyData['navkarsi'] =
-          sunriseDateTime.add(const Duration(minutes: 48));
-      astronomyData['porsi'] = sunriseDateTime.add(const Duration(hours: 3));
-      astronomyData['sadhporsi'] =
-          sunriseDateTime.add(const Duration(hours: 4, minutes: 30));
-      astronomyData['chovihar'] =
-          sunsetDateTime.add(const Duration(minutes: -48));
+      Map<String, DateTime> sunriseSunsetData = {};
+      sunriseSunsetData['date'] = DateTime.now();
+      sunriseSunsetData['sunrise'] = sunriseDateTime;
+      sunriseSunsetData['sunset'] = sunsetDateTime;
 
-      return astronomyData;
+      for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
+        ListFunctions.pachchhkhanList[i].setDateTimeOfOccurrence(
+            sunriseDateTime: sunriseDateTime, sunsetDateTime: sunsetDateTime);
+      }
+
+      return sunriseSunsetData;
     } catch (e) {
       debugPrint("Error fetching astronomy data: $e");
-      return null;
-    }
-  }
-
-  Future<String?> fetchDetailsForAstronomy(
-      BuildContext context, String astronomy, String time) async {
-    print('Fetching details for the astronomy: $astronomy');
-    try {
-      if (astronomy == 'navkarsi') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink anything until 48 minutes after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio (Navkarsi Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
-      } else if (astronomy == 'porsi') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink anything until 3 hours after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio ($astronomy Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
-      } else if (astronomy == 'sadhporsi') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink anything until 4 hours & 30 minutes after sunrise. You can eat after $time.\n2. Sit at one place.\n3. Listen to the audio ($astronomy Pachhkhan).\n4. Fold your hands.\n5. Recite 'Navkar Mantra' three times.\n6. Take food or water.";
-      } else if (astronomy == 'chovihar') {
-        return "Here's what to do during $astronomy:\n1. Don't eat or drink until tomorrow's Navkarsi.\n2. Sit at one place.\n3. Listen to the audio (Chovihar Pachhkhan).\n4. Follow Navkarsi steps tomorrow.";
-      }
-      return null;
-    } catch (e) {
-      print("Error fetching astronomy data:$e");
-      return null;
+      return Future.error(e);
     }
   }
 
