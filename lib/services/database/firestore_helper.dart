@@ -211,7 +211,6 @@ class FireStoreHelper {
       bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
 
       if (DatabaseController.fromCache == false || isFirstOpen == null) {
-
         songs = await _firestore.collection('songs').get();
       } else {
         songs = await _firestore
