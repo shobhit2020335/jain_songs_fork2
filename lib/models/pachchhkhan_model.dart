@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:jain_songs/services/useful_functions.dart';
 
 class PachchhkhanModel {
   final String id;
@@ -32,11 +33,14 @@ class PachchhkhanModel {
     }
 
     if (dateTimeOfOccurrence != null) {
-      steps = steps.replaceAll('HH:MM',
-          '${dateTimeOfOccurrence!.hour}:${dateTimeOfOccurrence!.minute}');
+      steps = steps.replaceAll(
+          'HH:MM',
+          UsefulFunction.getFormattedTime(
+              dateTimeOfOccurrence!.hour, dateTimeOfOccurrence!.minute));
     }
   }
 
+  ///Initializes the audio players for each of the Audios.
   void initAudioPlayer() async {
     lastPlayedPosition = Duration.zero;
     if (mp3Links != null && mp3Links!.isNotEmpty) {
@@ -45,6 +49,7 @@ class PachchhkhanModel {
     }
   }
 
+  ///Disposes the audio player.
   void disposeAudioPlayer() async {
     if (audioPlayer != null) {
       audioPlayer?.dispose();
