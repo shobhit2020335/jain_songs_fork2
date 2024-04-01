@@ -21,6 +21,13 @@ class DatabaseController {
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
 
+  //This function fetch all the pachchhkhans calls firestore only if data is not in sql
+  Future<bool> fetchPachchhkhans(BuildContext context) async {
+    bool isSuccess = false;
+    isSuccess = await FireStoreHelper().fetchPachchhkhans();
+    return isSuccess;
+  }
+
   //The function SQL fetch complete is called only if data is fetched from SQl.
   Future<bool> fetchSongs(BuildContext context,
       {required Function() onSqlFetchComplete}) async {

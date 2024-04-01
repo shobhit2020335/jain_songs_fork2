@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path/path.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,48 @@ class Services {
       'https://stavan.page.link/?link=https://stavan.com/song?route%3Dsong%26code%3D';
   static String urlAfterCode =
       '&apn=com.JainDevelopers.jain_songs&amv=4&st=Stavan+-+Jain+Bhajan+with+Lyrics&sd=Listen+to+Jain+stavan+along+with+lyrics.&si=https://pbs.twimg.com/media/EfXqpDHUwAAVQHa.jpg';
+
+  //This fetches the lat and long data from the location. It can be coarse or precise.
+  static Future<(double, double)> fetchLatitudeLongitudeData() async {
+    bool serviceEnabled = false;
+    LocationPermission permission;
+
+    try {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.unableToDetermine) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          return Future.error("Location permission request denied");
+        }
+      }
+      if (permission == LocationPermission.deniedForever) {
+        return Future.error("Location permissions are denied forever");
+      }
+
+      Position? position = await Geolocator.getLastKnownPosition();
+      if (position == null) {
+        serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (!serviceEnabled) {
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied ||
+              permission == LocationPermission.deniedForever ||
+              permission == LocationPermission.unableToDetermine) {
+            return Future.error("Location services are not enabled!");
+          }
+        }
+        position = await Geolocator.getCurrentPosition();
+      }
+
+      double latitude = position.latitude;
+      double longitude = position.longitude;
+
+      return (latitude, longitude);
+    } catch (e) {
+      debugPrint("Error fetching latitude and longitude from location: $e");
+      return Future.error("Error fetching location: $e");
+    }
+  }
 
   //Asks for permission to user.
   static Future<bool> requestPermission(Permission permission) async {

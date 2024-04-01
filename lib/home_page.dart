@@ -8,15 +8,18 @@ import 'package:jain_songs/custom_widgets/build_list.dart';
 import 'package:jain_songs/custom_widgets/build_playlist_list.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/form_page.dart';
+import 'package:jain_songs/screens/astronomy_screens/astronomy_bottom_sheet.dart';
 import 'package:jain_songs/services/notification/firebase_dynamic_link_service.dart';
 import 'package:jain_songs/services/notification/firebase_fcm_manager.dart';
 import 'package:jain_songs/services/searchify.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
+import 'package:jain_songs/services/shared_prefs.dart';
 import 'package:jain_songs/settings_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/song_suggestions.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'flutter_list_configured/filter_list.dart';
 import 'services/network_helper.dart';
@@ -42,9 +45,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget appBarTitle = ConstWidget.mainAppTitle();
 
   Icon searchOrCrossIcon = const Icon(Icons.search);
-  Icon filterIcon = Icon(
-    Icons.filter_list_alt,
-    color: ConstWidget.signatureColors(),
+  Icon astronomyIcon = Icon(
+    FontAwesomeIcons.handsPraying,
+    size: 20,
+    color: ConstWidget.signatureColors(value: 0),
   );
 
   SpeechToText speechToText = SpeechToText();
@@ -125,7 +129,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         FireStoreHelper().addSuggestions(currentSongSuggestion, []);
       }
     });
+
+    SharedPrefs.getIsFirstOpen().then((isFirstOpen) {
+      if (isFirstOpen == null) {
+        WidgetsBinding.instance.addPostFrameCallback(
+            (_) => ShowCaseWidget.of(context).startShowCase([tutorial_key1]));
+
+        SharedPrefs.setIsFirstOpen(false);
+      }
+    });
   }
+
+  final tutorial_key1 = GlobalKey();
 
   //Here flag determines whether the user is searching within the list or he is querying the whole list for first time.
   //Searching has flag = false.
@@ -279,6 +294,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           child: Builder(
             builder: (context) => GestureDetector(
               onTap: () {
+                // ShowCaseWidget.of(context).startShowCase([tutorial_key1]); click to see tutorial
+
                 listScrollController.animateTo(
                   listScrollController.position.minScrollExtent,
                   duration: const Duration(milliseconds: 2000),
@@ -389,11 +406,65 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 SizedBox(width: MediaQuery.of(context).size.width / 25),
                 Visibility(
                   visible: _currentIndex == 0,
-                  child: GestureDetector(
-                    child: filterIcon,
-                    onTap: () {
-                      _filterDialog();
+                  child: Showcase(
+                    key: tutorial_key1,
+                    // title: 'Pachchhkhan',
+                    // targetShapeBorder: CircleBorder(eccentricity:1),
+
+                    tooltipBackgroundColor: Colors.indigo,
+
+                    targetShapeBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    targetBorderRadius: BorderRadius.circular(6),
+                    description: 'Pachchhkhan',
+                    titleTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
+                    titleAlignment: TextAlign.center,
+                    descriptionAlignment: TextAlign.center,
+                    tooltipBorderRadius: BorderRadius.circular(12),
+                    // blurValue: ,
+
+                    showArrow: true,
+                    tooltipPosition: TooltipPosition.bottom,
+                    textColor: Colors.white,
+                    onTargetClick: () async {
+                      await showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        isDismissible: true,
+                        isScrollControlled: true,
+                        builder: (_) => AstronomyBottomSheet(context),
+                      );
                     },
+                    disposeOnTap: true,
+                    onToolTipClick: () async {
+                      await showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.transparent,
+                        isDismissible: true,
+                        isScrollControlled: true,
+                        builder: (_) => AstronomyBottomSheet(context),
+                      );
+                    },
+                    child: GestureDetector(
+                      child: const Icon(
+                        Icons.calendar_month_rounded,
+                        color: Colors.indigo,
+                      ),
+                      onTap: () async {
+                        await showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          isDismissible: true,
+                          isScrollControlled: true,
+                          builder: (_) => AstronomyBottomSheet(context),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(width: MediaQuery.of(context).size.width / 25),

@@ -73,6 +73,7 @@ import 'package:jain_songs/song_page.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'home_page.dart';
 
 //This is used by OneSignal to open page.
@@ -143,35 +144,36 @@ class _MainThemeState extends State<MainTheme> {
       child: Consumer<DarkThemeProvider>(
         builder: (BuildContext context, value, Widget? child) {
           return MaterialApp(
-            navigatorKey: navigatorKey,
-            onGenerateRoute: (settings) {
-              if (settings.name == '/song') {
-                final Map<String, dynamic> args =
-                    settings.arguments as Map<String, dynamic>;
+              navigatorKey: navigatorKey,
+              onGenerateRoute: (settings) {
+                if (settings.name == '/song') {
+                  final Map<String, dynamic> args =
+                      settings.arguments as Map<String, dynamic>;
 
-                return MaterialPageRoute(builder: (context) {
-                  return SongPage(
-                    codeFromDynamicLink: args['code'],
-                    suggestionStreak: "-1 ${args['code']}",
-                    postitionInList: -1,
-                  );
-                });
-              } else if (settings.name == '/playlist') {
-                final Map<String, dynamic>? args =
-                    settings.arguments as Map<String, dynamic>?;
+                  return MaterialPageRoute(builder: (context) {
+                    return SongPage(
+                      codeFromDynamicLink: args['code'],
+                      suggestionStreak: "-1 ${args['code']}",
+                      postitionInList: -1,
+                    );
+                  });
+                } else if (settings.name == '/playlist') {
+                  final Map<String, dynamic>? args =
+                      settings.arguments as Map<String, dynamic>?;
 
-                return MaterialPageRoute(builder: (context) {
-                  return PlaylistPage(
-                    playlistCode: args!['code'],
-                  );
-                });
-              }
-              // assert(false, 'Need to implement ${settings.name}');
-              return null;
-            },
-            theme: UISettings.themeData(themeProvider.isDarkTheme, context),
-            home: const HomePage(),
-          );
+                  return MaterialPageRoute(builder: (context) {
+                    return PlaylistPage(
+                      playlistCode: args!['code'],
+                    );
+                  });
+                }
+                // assert(false, 'Need to implement ${settings.name}');
+                return null;
+              },
+              theme: UISettings.themeData(themeProvider.isDarkTheme, context),
+              home: ShowCaseWidget(builder: Builder(builder: (context) {
+                return  const HomePage();
+              })));
         },
       ),
     );

@@ -4,7 +4,7 @@ import 'package:jain_songs/services/shared_prefs.dart';
 
 class Globals {
   //TODO: Make debug mode false when releasing
-  static const bool isDebugMode = false;
+  static const bool isDebugMode = true;
 
   static final DateTime startDate = DateTime(2020, 12, 23);
   static late DateTime todayDate;
@@ -41,4 +41,19 @@ class Globals {
     }
     return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
   }
+
+  static Map<int, String> monthMapping = {
+    1: 'Janurary',
+    2: 'February',
+    3: 'March',
+    4: 'April',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December',
+  };
 }

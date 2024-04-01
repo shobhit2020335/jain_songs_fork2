@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/flutter_list_configured/filters.dart';
 import 'package:jain_songs/models/advertisement_model.dart';
+import 'package:jain_songs/models/pachchhkhan_model.dart';
 import 'package:jain_songs/models/post_model.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
@@ -11,6 +12,10 @@ import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
 class ListFunctions {
+  //Contains all the pachchhkhans data.
+  static List<PachchhkhanModel> pachchhkhanList = [];
+  static List<bool> isAudioLoading = [false,false,false];
+
   //Contains all the songs in alphabetical order.
   static List<SongDetails?> songList = [];
   static List<SongDetails?> sortedSongList = [];
