@@ -145,31 +145,23 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    'images/sunrise.png',
-                                    height: 200,
+                                    'images/sunrise_white.png',
+                                    height: 120,
                                   ),
-                                  isAnimatedOnce
-                                      ? Text(
-                                          'information',
-                                          style: GoogleFonts.lato(
-                                            color: Colors.white,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      : AnimatedTextKit(
-                                          isRepeatingAnimation: false,
-                                          animatedTexts: [
-                                            TyperAnimatedText(
-                                              'information',
-                                              textStyle: GoogleFonts.lato(
-                                                color: Colors.white,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                  Text(
+                                    UsefulFunction.getFormattedTime(
+                                        sunriseSunsetData!.values
+                                            .toList()[1]!
+                                            .hour,
+                                        sunriseSunsetData!.values
+                                            .toList()[1]!
+                                            .minute),
+                                    style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   const SizedBox(height: 30),
                                   Text(
                                     'Touch anywhere to exit!',
@@ -187,11 +179,16 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                       },
                       child: Column(
                         children: [
-                          Image.asset(
-                            'images/sunrise.png',
-                            height: 40,
-                            // color: UISettings.themeData(Globals.isDarkTheme, context).primaryColorLight,
-                          ),
+                          Globals.isDarkTheme
+                              ? Image.asset(
+                                  'images/sunrise_white.png',
+                                  height: 40,
+                                  // color: UISettings.themeData(Globals.isDarkTheme, context).primaryColorLight,
+                                )
+                              : Image.asset(
+                                  'images/sunrise.png',
+                                  height: 40,
+                                ),
                           showProgress
                               ? SkeletonAnimation(
                                   shimmerDuration: 1300,
@@ -235,34 +232,26 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    'images/sunset.png',
-                                    height: 200,
+                                    'images/sunset_white.png',
+                                    height: 120,
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  isAnimatedOnce
-                                      ? Text(
-                                          'information',
-                                          style: GoogleFonts.lato(
-                                            color: Colors.white,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      : AnimatedTextKit(
-                                          isRepeatingAnimation: false,
-                                          animatedTexts: [
-                                            TyperAnimatedText(
-                                              'information',
-                                              textStyle: GoogleFonts.lato(
-                                                color: Colors.white,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                  Text(
+                                    UsefulFunction.getFormattedTime(
+                                        sunriseSunsetData!.values
+                                            .toList()[2]!
+                                            .hour,
+                                        sunriseSunsetData!.values
+                                            .toList()[2]!
+                                            .minute),
+                                    style: GoogleFonts.lato(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   const SizedBox(height: 30),
                                   Text(
                                     'Touch anywhere to exit!',
@@ -280,10 +269,15 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                       },
                       child: Column(
                         children: [
-                          Image.asset(
-                            'images/sunset.png',
-                            height: 40,
-                          ),
+                          Globals.isDarkTheme
+                              ? Image.asset(
+                                  'images/sunset_white.png',
+                                  height: 40,
+                                )
+                              : Image.asset(
+                                  'images/sunset.png',
+                                  height: 40,
+                                ),
                           showProgress
                               ? SkeletonAnimation(
                                   shimmerDuration: 1300,
@@ -351,33 +345,33 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        isAnimatedOnce
-                                            ? Text(
-                                                ListFunctions
-                                                    .pachchhkhanList[index]
-                                                    .steps,
-                                                style: GoogleFonts.lato(
-                                                  color: Colors.white,
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              )
-                                            : AnimatedTextKit(
-                                                isRepeatingAnimation: false,
-                                                animatedTexts: [
-                                                  TyperAnimatedText(
-                                                    ListFunctions
-                                                        .pachchhkhanList[index]
-                                                        .steps,
-                                                    textStyle: GoogleFonts.lato(
-                                                      color: Colors.white,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                        // isAnimatedOnce
+                                        //     ?
+                                        Text(
+                                          ListFunctions
+                                              .pachchhkhanList[index].steps,
+                                          style: GoogleFonts.lato(
+                                            color: Colors.white,
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        //     : AnimatedTextKit(
+                                        //   isRepeatingAnimation: false,
+                                        //   animatedTexts: [
+                                        //     TyperAnimatedText(
+                                        //       ListFunctions
+                                        //           .pachchhkhanList[index]
+                                        //           .steps,
+                                        //       textStyle: GoogleFonts.lato(
+                                        //         color: Colors.white,
+                                        //         fontSize: 13,
+                                        //         fontWeight:
+                                        //         FontWeight.bold,
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
                                         const SizedBox(height: 30),
                                         Text(
                                           'Touch anywhere to exit!',
@@ -464,64 +458,253 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       null &&
                                   ListFunctions.pachchhkhanList[index].mp3Links!
                                       .isNotEmpty,
-                              child: InkWell(
+                              child:
+
+                                  //     InkWell(
+                                  //   onTap: () async {
+                                  //     // Perform asynchronous operations here
+                                  //     Duration? currentPosition;
+                                  //     if (currentlyPlayingIndex != null) {
+                                  //       currentPosition = await ListFunctions
+                                  //           .pachchhkhanList[currentlyPlayingIndex!]
+                                  //           .audioPlayer
+                                  //           ?.getCurrentPosition();
+                                  //       ListFunctions
+                                  //               .pachchhkhanList[currentlyPlayingIndex!]
+                                  //               .lastPlayedPosition =
+                                  //           currentPosition ?? Duration.zero;
+                                  //       await ListFunctions
+                                  //           .pachchhkhanList[currentlyPlayingIndex!]
+                                  //           .audioPlayer
+                                  //           ?.pause();
+                                  //     }
+                                  //
+                                  //     setState(() {
+                                  //       if (currentlyPlayingIndex == index) {
+                                  //         currentlyPlayingIndex =
+                                  //             null; // No item is playing
+                                  //       } else {
+                                  //         // Resume playback from the last playback position if available
+                                  //         Duration lastPosition = ListFunctions
+                                  //             .pachchhkhanList[index]
+                                  //             .lastPlayedPosition;
+                                  //
+                                  //         ListFunctions
+                                  //             .pachchhkhanList[index].audioPlayer
+                                  //             ?.play(
+                                  //           UrlSource(ListFunctions
+                                  //               .pachchhkhanList[index]
+                                  //               .mp3Links![0]),
+                                  //           position: lastPosition,
+                                  //         );
+                                  //
+                                  //         // Update the currently playing item's index
+                                  //         currentlyPlayingIndex = index;
+                                  //         ListFunctions.pachchhkhanList[index]
+                                  //             .audioPlayer?.onPlayerComplete
+                                  //             .listen((event) {
+                                  //           setState(() {
+                                  //             currentlyPlayingIndex = null;
+                                  //           });
+                                  //         });
+                                  //       }
+                                  //     });
+                                  //   },
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.all(10.0),
+                                  //     child: Row(
+                                  //       children: [
+                                  //         CircleAvatar(
+                                  //           radius: 16,
+                                  //           backgroundColor:
+                                  //               ConstWidget.signatureColors(),
+                                  //           child: Center(
+                                  //             child: Icon(
+                                  //               currentlyPlayingIndex == index
+                                  //                   ? Icons.pause
+                                  //                   : Icons.play_arrow_rounded,
+                                  //               color: Colors.white,
+                                  //               size: 18,
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         if (currentlyPlayingIndex ==
+                                  //             index) // Render stop button only if this audio is playing
+                                  //           SizedBox(width: 10),
+                                  //         if (currentlyPlayingIndex == index)
+                                  //           InkWell(
+                                  //             onTap: () async {
+                                  //               // Stop audio playback
+                                  //               await ListFunctions
+                                  //                   .pachchhkhanList[index]
+                                  //                   .audioPlayer
+                                  //                   ?.stop();
+                                  //
+                                  //               // Update state to reflect that no item is playing
+                                  //               setState(() {
+                                  //                 currentlyPlayingIndex = null;
+                                  //               });
+                                  //             },
+                                  //             child: CircleAvatar(
+                                  //               radius: 16,
+                                  //               backgroundColor:
+                                  //                   ConstWidget.signatureColors(),
+                                  //               child: Center(
+                                  //                 child: Icon(
+                                  //                   Icons.stop,
+                                  //                   color: Colors.white,
+                                  //                   size: 18,
+                                  //                 ),
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+
+                                  InkWell(
                                 onTap: () async {
                                   // Perform asynchronous operations here
-                                  Duration? currentPosition;
-                                  if (currentlyPlayingIndex != null) {
-                                    currentPosition = await ListFunctions
-                                        .pachchhkhanList[currentlyPlayingIndex!]
-                                        .audioPlayer
-                                        ?.getCurrentPosition();
-                                    ListFunctions
-                                            .pachchhkhanList[currentlyPlayingIndex!]
-                                            .lastPlayedPosition =
-                                        currentPosition ?? Duration.zero;
-                                    await ListFunctions
-                                        .pachchhkhanList[currentlyPlayingIndex!]
-                                        .audioPlayer
-                                        ?.pause();
-                                  }
-
-                                  setState(() {
-                                    if (currentlyPlayingIndex == index) {
-                                      currentlyPlayingIndex =
-                                          null; // No item is playing
-                                    } else {
-                                      // Resume playback from the last playback position if available
-                                      Duration lastPosition = ListFunctions
-                                          .pachchhkhanList[index]
-                                          .lastPlayedPosition;
-
+                                  if (await NetworkHelper()
+                                      .checkNetworkConnection()) {
+                                    Duration? currentPosition;
+                                    if (currentlyPlayingIndex != null) {
+                                      currentPosition = await ListFunctions
+                                          .pachchhkhanList[
+                                              currentlyPlayingIndex!]
+                                          .audioPlayer
+                                          ?.getCurrentPosition();
                                       ListFunctions
-                                          .pachchhkhanList[index].audioPlayer
-                                          ?.play(
-                                        UrlSource(ListFunctions
-                                            .pachchhkhanList[index]
-                                            .mp3Links![0]),
-                                        position: lastPosition,
-                                      );
-
-                                      // Update the currently playing item's index
-                                      currentlyPlayingIndex = index;
+                                              .pachchhkhanList[
+                                                  currentlyPlayingIndex!]
+                                              .lastPlayedPosition =
+                                          currentPosition ?? Duration.zero;
+                                      await ListFunctions
+                                          .pachchhkhanList[
+                                              currentlyPlayingIndex!]
+                                          .audioPlayer
+                                          ?.pause();
                                     }
-                                  });
+
+                                    setState(() {
+                                      if (currentlyPlayingIndex == index) {
+                                        currentlyPlayingIndex =
+                                            null; // No item is playing
+                                      } else {
+                                        ListFunctions.isAudioLoading[index] =
+                                            true;
+                                        Duration lastPosition = ListFunctions
+                                            .pachchhkhanList[index]
+                                            .lastPlayedPosition;
+
+                                        ListFunctions
+                                            .pachchhkhanList[index].audioPlayer
+                                            ?.play(
+                                          UrlSource(ListFunctions
+                                              .pachchhkhanList[index]
+                                              .mp3Links![0]),
+                                          position: lastPosition,
+                                        );
+
+                                        currentlyPlayingIndex = index;
+                                        ListFunctions.pachchhkhanList[index]
+                                            .audioPlayer?.onPlayerComplete
+                                            .listen((event) {
+                                          setState(() {
+                                            currentlyPlayingIndex = null;
+                                          });
+                                        });
+
+                                        ListFunctions.pachchhkhanList[index]
+                                            .audioPlayer?.onPlayerStateChanged
+                                            .listen((state) {
+                                          if (state == PlayerState.playing ||
+                                              state == PlayerState.paused) {
+                                            setState(() {
+                                              ListFunctions
+                                                      .isAudioLoading[index] =
+                                                  false;
+                                            });
+                                          }
+                                        });
+                                      }
+                                    });
+                                  } else {
+                                    // ConstWidget.showSimpleToast(context,
+                                    //     "Please check your internet connection");
+                                    ConstWidget.showToast(
+                                        "Please check your internet connection");
+                                  }
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
-                                  child: CircleAvatar(
-                                    radius: 16,
-                                    backgroundColor:
-                                        ConstWidget.signatureColors(),
-                                    child: Center(
-                                      child: Icon(
-                                        currentlyPlayingIndex == index
-                                            ? Icons.pause
-                                            : Icons.play_arrow_rounded,
-                                        color: Colors.white,
-                                        size: 18,
+                                  child: Row(
+                                    children: [
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 16,
+                                            backgroundColor:
+                                                ConstWidget.signatureColors(),
+                                            child: Center(
+                                              child: Icon(
+                                                currentlyPlayingIndex ==
+                                                            index &&
+                                                        !ListFunctions
+                                                                .isAudioLoading[
+                                                            index]
+                                                    ? Icons.pause
+                                                    : Icons.play_arrow_rounded,
+                                                color: Colors.white,
+                                                size: 18,
+                                              ),
+                                            ),
+                                          ),
+                                          if (ListFunctions
+                                              .isAudioLoading[index])
+                                            CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2,
+                                              // valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
+                                            ),
+                                        ],
                                       ),
-                                    ),
+                                      if (currentlyPlayingIndex == index &&
+                                          !ListFunctions.isAudioLoading[index])
+                                        SizedBox(width: 10),
+                                      if (currentlyPlayingIndex == index &&
+                                          !ListFunctions.isAudioLoading[index])
+                                        InkWell(
+                                          onTap: () async {
+                                            // Stop audio playback
+                                            await ListFunctions
+                                                .pachchhkhanList[index]
+                                                .audioPlayer
+                                                ?.stop();
+                                            ListFunctions.pachchhkhanList[index]
+                                                    .lastPlayedPosition =
+                                                Duration(
+                                                    seconds: 0, minutes: 0);
+                                            setState(() {
+                                              currentlyPlayingIndex = null;
+                                            });
+                                          },
+                                          child: CircleAvatar(
+                                            radius: 16,
+                                            backgroundColor:
+                                                ConstWidget.signatureColors(),
+                                            child: Center(
+                                              child: Icon(
+                                                Icons.stop,
+                                                color: Colors.white,
+                                                size: 18,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -575,8 +758,13 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     );
 
                     if (pickedDate != null && context.mounted) {
-                      selectedDateTime = pickedDate;
-                      fetchData();
+                      if (await NetworkHelper().checkConnectionMode()) {
+                        selectedDateTime = pickedDate;
+                        fetchData();
+                      } else {
+                        ConstWidget.showToast(
+                            "Please check your internet connection");
+                      }
                     }
                   },
                   child: Container(
