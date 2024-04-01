@@ -14,6 +14,8 @@ import 'package:jain_songs/utilities/song_details.dart';
 class ListFunctions {
   //Contains all the pachchhkhans data.
   static List<PachchhkhanModel> pachchhkhanList = [];
+  static List<bool> isAudioLoading = [false,false,false];
+
   //Contains all the songs in alphabetical order.
   static List<SongDetails?> songList = [];
   static List<SongDetails?> sortedSongList = [];
