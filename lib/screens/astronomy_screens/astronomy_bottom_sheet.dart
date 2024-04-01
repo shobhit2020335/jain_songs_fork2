@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -148,6 +147,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     'images/sunrise_white.png',
                                     height: 120,
                                   ),
+                                  const SizedBox(height: 20),
                                   Text(
                                     UsefulFunction.getFormattedTime(
                                         sunriseSunsetData!.values
@@ -158,7 +158,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             .minute),
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -248,7 +248,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             .minute),
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -345,8 +345,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        // isAnimatedOnce
-                                        //     ?
                                         Text(
                                           ListFunctions
                                               .pachchhkhanList[index].steps,
@@ -356,22 +354,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        //     : AnimatedTextKit(
-                                        //   isRepeatingAnimation: false,
-                                        //   animatedTexts: [
-                                        //     TyperAnimatedText(
-                                        //       ListFunctions
-                                        //           .pachchhkhanList[index]
-                                        //           .steps,
-                                        //       textStyle: GoogleFonts.lato(
-                                        //         color: Colors.white,
-                                        //         fontSize: 13,
-                                        //         fontWeight:
-                                        //         FontWeight.bold,
-                                        //       ),
-                                        //     ),
-                                        //   ],
-                                        // ),
                                         const SizedBox(height: 30),
                                         Text(
                                           'Touch anywhere to exit!',
@@ -441,7 +423,8 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       ),
                                 const SizedBox(width: 10),
                                 Text(
-                                  ListFunctions.pachchhkhanList[index].name,
+                                  UsefulFunction.toCamelCase(ListFunctions
+                                      .pachchhkhanList[index].name),
                                   style: GoogleFonts.lato(
                                     color: UISettings.themeData(
                                             Globals.isDarkTheme, context)
@@ -458,112 +441,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       null &&
                                   ListFunctions.pachchhkhanList[index].mp3Links!
                                       .isNotEmpty,
-                              child:
-
-                                  //     InkWell(
-                                  //   onTap: () async {
-                                  //     // Perform asynchronous operations here
-                                  //     Duration? currentPosition;
-                                  //     if (currentlyPlayingIndex != null) {
-                                  //       currentPosition = await ListFunctions
-                                  //           .pachchhkhanList[currentlyPlayingIndex!]
-                                  //           .audioPlayer
-                                  //           ?.getCurrentPosition();
-                                  //       ListFunctions
-                                  //               .pachchhkhanList[currentlyPlayingIndex!]
-                                  //               .lastPlayedPosition =
-                                  //           currentPosition ?? Duration.zero;
-                                  //       await ListFunctions
-                                  //           .pachchhkhanList[currentlyPlayingIndex!]
-                                  //           .audioPlayer
-                                  //           ?.pause();
-                                  //     }
-                                  //
-                                  //     setState(() {
-                                  //       if (currentlyPlayingIndex == index) {
-                                  //         currentlyPlayingIndex =
-                                  //             null; // No item is playing
-                                  //       } else {
-                                  //         // Resume playback from the last playback position if available
-                                  //         Duration lastPosition = ListFunctions
-                                  //             .pachchhkhanList[index]
-                                  //             .lastPlayedPosition;
-                                  //
-                                  //         ListFunctions
-                                  //             .pachchhkhanList[index].audioPlayer
-                                  //             ?.play(
-                                  //           UrlSource(ListFunctions
-                                  //               .pachchhkhanList[index]
-                                  //               .mp3Links![0]),
-                                  //           position: lastPosition,
-                                  //         );
-                                  //
-                                  //         // Update the currently playing item's index
-                                  //         currentlyPlayingIndex = index;
-                                  //         ListFunctions.pachchhkhanList[index]
-                                  //             .audioPlayer?.onPlayerComplete
-                                  //             .listen((event) {
-                                  //           setState(() {
-                                  //             currentlyPlayingIndex = null;
-                                  //           });
-                                  //         });
-                                  //       }
-                                  //     });
-                                  //   },
-                                  //   child: Padding(
-                                  //     padding: const EdgeInsets.all(10.0),
-                                  //     child: Row(
-                                  //       children: [
-                                  //         CircleAvatar(
-                                  //           radius: 16,
-                                  //           backgroundColor:
-                                  //               ConstWidget.signatureColors(),
-                                  //           child: Center(
-                                  //             child: Icon(
-                                  //               currentlyPlayingIndex == index
-                                  //                   ? Icons.pause
-                                  //                   : Icons.play_arrow_rounded,
-                                  //               color: Colors.white,
-                                  //               size: 18,
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         if (currentlyPlayingIndex ==
-                                  //             index) // Render stop button only if this audio is playing
-                                  //           SizedBox(width: 10),
-                                  //         if (currentlyPlayingIndex == index)
-                                  //           InkWell(
-                                  //             onTap: () async {
-                                  //               // Stop audio playback
-                                  //               await ListFunctions
-                                  //                   .pachchhkhanList[index]
-                                  //                   .audioPlayer
-                                  //                   ?.stop();
-                                  //
-                                  //               // Update state to reflect that no item is playing
-                                  //               setState(() {
-                                  //                 currentlyPlayingIndex = null;
-                                  //               });
-                                  //             },
-                                  //             child: CircleAvatar(
-                                  //               radius: 16,
-                                  //               backgroundColor:
-                                  //                   ConstWidget.signatureColors(),
-                                  //               child: Center(
-                                  //                 child: Icon(
-                                  //                   Icons.stop,
-                                  //                   color: Colors.white,
-                                  //                   size: 18,
-                                  //                 ),
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // ),
-
-                                  InkWell(
+                              child: InkWell(
                                 onTap: () async {
                                   // Perform asynchronous operations here
                                   if (await NetworkHelper()
@@ -631,10 +509,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                       }
                                     });
                                   } else {
-                                    // ConstWidget.showSimpleToast(context,
-                                    //     "Please check your internet connection");
                                     ConstWidget.showToast(
-                                        "Please check your internet connection");
+                                      "Please check your internet connection!",
+                                    );
                                   }
                                 },
                                 child: Padding(
@@ -664,16 +541,15 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                           ),
                                           if (ListFunctions
                                               .isAudioLoading[index])
-                                            CircularProgressIndicator(
+                                            const CircularProgressIndicator(
                                               color: Colors.white,
                                               strokeWidth: 2,
-                                              // valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
                                             ),
                                         ],
                                       ),
                                       if (currentlyPlayingIndex == index &&
                                           !ListFunctions.isAudioLoading[index])
-                                        SizedBox(width: 10),
+                                        const SizedBox(width: 10),
                                       if (currentlyPlayingIndex == index &&
                                           !ListFunctions.isAudioLoading[index])
                                         InkWell(
@@ -682,11 +558,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             await ListFunctions
                                                 .pachchhkhanList[index]
                                                 .audioPlayer
-                                                ?.stop();
+                                                ?.pause();
                                             ListFunctions.pachchhkhanList[index]
                                                     .lastPlayedPosition =
-                                                Duration(
-                                                    seconds: 0, minutes: 0);
+                                                Duration.zero;
                                             setState(() {
                                               currentlyPlayingIndex = null;
                                             });
@@ -695,7 +570,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             radius: 16,
                                             backgroundColor:
                                                 ConstWidget.signatureColors(),
-                                            child: Center(
+                                            child: const Center(
                                               child: Icon(
                                                 Icons.stop,
                                                 color: Colors.white,
