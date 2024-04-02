@@ -30,7 +30,6 @@
 .pub-cache/
 .pub/
 /build/
-/android/app/google-services.json
 
 #private
 /android/key.properties
