@@ -15,7 +15,7 @@ class Globals {
       DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
 
   //TODO: update app version for new app.
-  static const double appVersion = 2.10;
+  static const double appVersion = 2.20;
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
@@ -41,4 +41,19 @@ class Globals {
     }
     return 'https://play.google.com/store/apps/details?id=com.JainDevelopers.jain_songs';
   }
+
+  static Map<int, String> monthMapping = {
+    1: 'Janurary',
+    2: 'February',
+    3: 'March',
+    4: 'April',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December',
+  };
 }

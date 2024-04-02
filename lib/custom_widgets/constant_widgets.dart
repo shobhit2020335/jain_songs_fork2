@@ -107,7 +107,7 @@ class ConstWidget {
     size: 20,
   );
 
-  static Color? signatureColors({int value = 4}) {
+  static Color? signatureColors({int value = 5}) {
     if (value == 0) {
       return Colors.amber;
     } else if (value == 1) {
@@ -136,13 +136,23 @@ class ConstWidget {
     Color toastColor = Colors.indigo,
     Color textColor = Colors.white,
   }) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: toastLength,
-      gravity: ToastGravity.SNACKBAR,
-      textColor: textColor,
-      backgroundColor: toastColor,
-    );
+    if (message.toLowerCase().contains("internet")) {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: toastLength,
+        gravity: ToastGravity.SNACKBAR,
+        textColor: textColor,
+        backgroundColor: Colors.red,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: toastLength,
+        gravity: ToastGravity.SNACKBAR,
+        textColor: textColor,
+        backgroundColor: toastColor,
+      );
+    }
   }
 
   static void showSimpleToast(BuildContext context, String message,
