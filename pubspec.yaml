@@ -2,7 +2,7 @@ name: jain_songs
 description: Contains Jain Bhajans
 
 publish_to: "none"
-version: 2.2.0+20
+version: 2.3.0+20
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
