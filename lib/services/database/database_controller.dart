@@ -16,8 +16,10 @@ class DatabaseController {
   //These are fetched from remote config of firebase.
   //Variable to decide which database to use from realtime and firestore for fetching songs
   static String dbName = 'realtime';
+
   //Variable to decide which database to use for fetching songsData
   static String dbForSongsData = 'firestore';
+
   //Variable to decide whether to recieve data from cache or not.
   static bool fromCache = false;
 
@@ -49,6 +51,11 @@ class DatabaseController {
           ).fetchSongs();
         }
       }
+    }
+
+    bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
+    if (isFirstOpen == null && isSuccess) {
+      SharedPrefs.setIsFirstOpen(false);
     }
     return isSuccess;
   }

@@ -126,6 +126,7 @@ class FireStoreHelper {
         fetchTimeout: const Duration(seconds: 4)));
     await remoteConfig.fetchAndActivate();
     Globals.welcomeMessage = remoteConfig.getString('welcome_message');
+    Globals.pachhkhan_showcase = remoteConfig.getString('pachhkhan_showcase');
     DatabaseController.fromCache = remoteConfig.getBool('from_cache');
     DatabaseController.dbName = remoteConfig.getString('db_name');
     DatabaseController.dbForSongsData =
@@ -209,8 +210,12 @@ class FireStoreHelper {
 
     try {
       bool? isFirstOpen = await SharedPrefs.getIsFirstOpen();
-
       if (DatabaseController.fromCache == false || isFirstOpen == null) {
+        if (isFirstOpen == null) {
+          SharedPrefs.setIsFirstOpen(false);
+        }
+        songs = await _firestore.collection('songs').get();
+      } else if (DatabaseController.fromCache == false) {
         songs = await _firestore.collection('songs').get();
       } else {
         songs = await _firestore

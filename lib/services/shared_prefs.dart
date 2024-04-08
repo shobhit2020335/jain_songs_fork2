@@ -77,4 +77,18 @@ class SharedPrefs {
     int? lastSyncTime = prefs.getInt('lastSyncTime');
     return lastSyncTime;
   }
+  static Future<void> setTutorialCount(int count) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt(
+      'tutorialCount',
+      count,
+    );
+  }
+
+  static Future<int?> getTutorialCount() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? count = prefs.getInt('tutorialCount');
+    return count;
+  }
 }

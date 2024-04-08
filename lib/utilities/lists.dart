@@ -14,21 +14,45 @@ import 'package:jain_songs/utilities/song_details.dart';
 class ListFunctions {
   //Contains all the pachchhkhans data.
   static List<PachchhkhanModel> pachchhkhanList = [];
-  static List<bool> isAudioLoading = [false,false,false];
+  static List<PachchhkhanModel> morningList = [];
+  static List<PachchhkhanModel> tapList = [];
+  static List<PachchhkhanModel> eveningList = [];
+  static List<bool> morningAudioLoading = [];
+  static List<bool> tapAudioLoading = [];
+  static List<bool> eveningAudioLoading = [];
 
   //Contains all the songs in alphabetical order.
   static List<SongDetails?> songList = [];
   static List<SongDetails?> sortedSongList = [];
   static List<SongDetails?> listToShow = [];
   static Set<String?> songsVisited = {};
+
   //Stores the codes songs whose posts are fetched fetched
   static Set<String> postsFetchedForSongs = {};
+
   //Stores the codes of the posts fetched;
   static Set<String> postsFetched = {};
+
   //All posts sorted by modified time
   static List<PostModel> allPosts = [];
+
   //List for the posts which are visible
   static List<PostModel> postsToShow = [];
+
+  static void pauseOtherCategories(String category) {
+    switch (category) {
+      case 'Morning':
+        tapAudioLoading.fillRange(0, tapAudioLoading.length, false);
+        eveningAudioLoading.fillRange(0, eveningAudioLoading.length, false);
+
+      case 'Tap':
+        morningAudioLoading.fillRange(0, morningAudioLoading.length, false);
+        eveningAudioLoading.fillRange(0, eveningAudioLoading.length, false);
+      case 'Evening':
+        morningAudioLoading.fillRange(0, morningAudioLoading.length, false);
+        tapAudioLoading.fillRange(0, tapAudioLoading.length, false);
+    }
+  }
 
   ///Advertisement list which is shown in the song page screen
   static List<AdvertisementModel> advertisementList = [
