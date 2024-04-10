@@ -115,7 +115,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     return formattedDate;
   }
 
-
   // String formatDate(DateTime dateTime) {
   //   // Format the date
   //   String formattedDate = DateFormat('dd MMM, yyyy').format(dateTime);
@@ -143,6 +142,43 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     for (int i = 0; i < ListFunctions.morningList.length; i++) {
       ListFunctions.morningList[i].disposeAudioPlayer();
     }
+  }
+
+  void pauseOtherCategories(String category) {
+    print('pause other called');
+    print('category : $category');
+
+    switch (category) {
+      case 'Morning':
+        for (PachchhkhanModel model in ListFunctions.tapList) {
+          model.audioPlayer!.pause();
+        }
+        for (PachchhkhanModel model in ListFunctions.eveningList) {
+          model.audioPlayer!.pause();
+        }
+        currentlyPlayingIndex1 = null;
+        currentlyPlayingIndex2 = null;
+
+      case 'Tap':
+        for (PachchhkhanModel model in ListFunctions.morningList) {
+          model.audioPlayer!.pause();
+        }
+        for (PachchhkhanModel model in ListFunctions.eveningList) {
+          model.audioPlayer!.pause();
+        }
+        currentlyPlayingIndex = null;
+        currentlyPlayingIndex2 = null;
+      case 'Evening':
+        for (PachchhkhanModel model in ListFunctions.tapList) {
+          model.audioPlayer!.pause();
+        }
+        for (PachchhkhanModel model in ListFunctions.morningList) {
+          model.audioPlayer!.pause();
+        }
+        currentlyPlayingIndex1 = null;
+        currentlyPlayingIndex = null;
+    }
+    setState(() {});
   }
 
   // void initializeLists() {
@@ -220,8 +256,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                         height: 0,
                         thickness: 1,
                       ),
-                      if(selectedDateTime!=null)
-                      Text(formatDate(selectedDateTime!),style: TextStyle(fontSize: 14,color: Colors.grey,fontWeight: FontWeight.bold),)
+                      if (selectedDateTime != null)
+                        Text(
+                          formatDate(selectedDateTime!),
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
+                        )
                     ],
                   ),
                 ),
@@ -463,8 +505,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     ),
                   ),
                   child: isMorningOpen
-                      ?
-                  ListView.separated(
+                      ? ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (content, index) {
@@ -630,9 +671,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                               currentlyPlayingIndex =
                                                   null; // No item is playing
                                             } else {
+                                              pauseOtherCategories('Morning');
                                               ListFunctions.morningAudioLoading[
                                                   index] = true;
-                                              ListFunctions.pauseOtherCategories('Morning');
+
                                               Duration lastPosition =
                                                   ListFunctions
                                                       .morningList[index]
@@ -1068,6 +1110,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                               currentlyPlayingIndex1 =
                                                   null; // No item is playing
                                             } else {
+                                              pauseOtherCategories('Tap');
                                               ListFunctions
                                                       .tapAudioLoading[index] =
                                                   true;
@@ -1502,6 +1545,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 index) {
                                               currentlyPlayingIndex2 = null;
                                             } else {
+                                              pauseOtherCategories('Evening');
                                               ListFunctions.eveningAudioLoading[
                                                   index] = true;
                                               Duration lastPosition =

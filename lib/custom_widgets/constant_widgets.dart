@@ -8,6 +8,7 @@ import 'package:jain_songs/utilities/lists.dart';
 
 class ConstWidget {
   //This card is shown in song page as a whatapp status button
+  // add dynamic banner
   static Widget statusCard() {
     int advertisementNumber =
         Random().nextInt(ListFunctions.advertisementList.length);

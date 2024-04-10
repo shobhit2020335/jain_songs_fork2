@@ -2,10 +2,10 @@ class SongDetails {
   //ADD the new variable in table creation too.
   String aaa;
   String? album;
-  String? category;
+  String? category;  //** latest, bhakti, stotra(open pachhkhan icon color amber)
   String? code;
   String? englishLyrics;
-  String? genre;
+  String? genre; //** tapasya, diksha, paryushan
   String? gujaratiLyrics;
   String? language;
   int? likes;
@@ -18,7 +18,7 @@ class SongDetails {
   String? singer;
   String? songNameEnglish;
   String? songNameHindi;
-  String? tirthankar;
+  String? tirthankar; //** last 5
   int? todayClicks;
   int? totalClicks;
   double? trendPoints;

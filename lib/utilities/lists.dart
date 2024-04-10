@@ -39,20 +39,6 @@ class ListFunctions {
   //List for the posts which are visible
   static List<PostModel> postsToShow = [];
 
-  static void pauseOtherCategories(String category) {
-    switch (category) {
-      case 'Morning':
-        tapAudioLoading.fillRange(0, tapAudioLoading.length, false);
-        eveningAudioLoading.fillRange(0, eveningAudioLoading.length, false);
-
-      case 'Tap':
-        morningAudioLoading.fillRange(0, morningAudioLoading.length, false);
-        eveningAudioLoading.fillRange(0, eveningAudioLoading.length, false);
-      case 'Evening':
-        morningAudioLoading.fillRange(0, morningAudioLoading.length, false);
-        tapAudioLoading.fillRange(0, tapAudioLoading.length, false);
-    }
-  }
 
   ///Advertisement list which is shown in the song page screen
   static List<AdvertisementModel> advertisementList = [
