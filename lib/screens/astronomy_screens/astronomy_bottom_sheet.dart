@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -286,6 +285,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     'images/sunrise_white.png',
                                     height: 120,
                                   ),
+                                  const SizedBox(height: 20),
                                   Text(
                                     UsefulFunction.getFormattedTime(
                                         sunriseSunsetData!.values
@@ -296,7 +296,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             .minute),
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -386,7 +386,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             .minute),
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

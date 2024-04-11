@@ -4,7 +4,7 @@ import 'package:jain_songs/services/shared_prefs.dart';
 
 class Globals {
   //TODO: Make debug mode false when releasing
-  static const bool isDebugMode = true;
+  static const bool isDebugMode = false;
 
   static final DateTime startDate = DateTime(2020, 12, 23);
   static late DateTime todayDate;
@@ -17,7 +17,7 @@ class Globals {
       DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
 
   //TODO: update app version for new app.
-  static const double appVersion = 2.20;
+  static const double appVersion = 2.30;
   static double? fetchedVersion;
   //Anonymous user's variable.
   static UserCredential? userCredential;
