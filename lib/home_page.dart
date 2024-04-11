@@ -130,13 +130,18 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       }
     });
 
-    SharedPrefs.getIsFirstOpen().then((isFirstOpen) {
-      if (isFirstOpen == null) {
+    SharedPrefs.getTutorialCount().then((count) {
+      if (count == null || count == 0) {
         WidgetsBinding.instance.addPostFrameCallback(
             (_) => ShowCaseWidget.of(context).startShowCase([tutorial_key1]));
-
-        SharedPrefs.setIsFirstOpen(false);
       }
+      int x = 0;
+      if (count == null) {
+        x = 1;
+      } else {
+        x = count + 1;
+      }
+      SharedPrefs.setTutorialCount(x);
     });
   }
 
@@ -437,7 +442,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         backgroundColor: Colors.transparent,
                         isDismissible: true,
                         isScrollControlled: true,
-                        builder: (_) => AstronomyBottomSheet(context),
+                        builder: (_) => Container(
+                          constraints: BoxConstraints(
+                              maxHeight: MediaQuery.of(context).size.height *
+                                  0.9), // Adjust the value as needed
+                          child: AstronomyBottomSheet(context),
+                        ),
                       );
                     },
                     disposeOnTap: true,
@@ -447,7 +457,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         backgroundColor: Colors.transparent,
                         isDismissible: true,
                         isScrollControlled: true,
-                        builder: (_) => AstronomyBottomSheet(context),
+                        builder: (_) => Container(
+                          constraints: BoxConstraints(
+                              maxHeight: MediaQuery.of(context).size.height *
+                                  0.9), // Adjust the value as needed
+                          child: AstronomyBottomSheet(context),
+                        ),
                       );
                     },
                     child: GestureDetector(
@@ -461,7 +476,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           backgroundColor: Colors.transparent,
                           isDismissible: true,
                           isScrollControlled: true,
-                          builder: (_) => AstronomyBottomSheet(context),
+                          builder: (_) => Container(
+                            constraints: BoxConstraints(
+                                maxHeight:
+                                    MediaQuery.of(context).size.height * 0.9),
+                            // Adjust the value as needed
+                            child: AstronomyBottomSheet(context),
+                          ),
                         );
                       },
                     ),

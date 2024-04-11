@@ -117,6 +117,8 @@ class RealtimeDbHelper {
         }
 
         songSnapshot = await database.child('songs').get();
+      } else if (DatabaseController.fromCache == false) {
+        songSnapshot = await database.child('songs').get();
       } else {
         debugPrint('From cache');
         DatabaseEvent event = await database.child('songs').once();

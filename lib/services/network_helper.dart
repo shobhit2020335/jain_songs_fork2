@@ -11,6 +11,8 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../models/pachchhkhan_model.dart';
+
 class NetworkHelper {
   NetworkHelper();
 
@@ -73,10 +75,31 @@ class NetworkHelper {
       sunriseSunsetData['sunrise'] = sunriseDateTime;
       sunriseSunsetData['sunset'] = sunsetDateTime;
 
+      ListFunctions.morningList.clear();
+      ListFunctions.tapList.clear();
+      ListFunctions.eveningList.clear();
+
       for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
         ListFunctions.pachchhkhanList[i].setDateTimeOfOccurrence(
             sunriseDateTime: sunriseDateTime, sunsetDateTime: sunsetDateTime);
+        PachchhkhanModel model = ListFunctions.pachchhkhanList[i];
+        String cat = model.categoryName;
+        if (cat == 'Morning') {
+          ListFunctions.morningList.add(model);
+        } else if (cat == 'Tap') {
+          ListFunctions.tapList.add(model);
+        } else {
+          ListFunctions.eveningList.add(model);
+        }
       }
+
+
+        ListFunctions.morningAudioLoading =
+            List.generate(ListFunctions.morningList.length, (index) => false);
+       ListFunctions.tapAudioLoading =
+            List.generate(ListFunctions.tapList.length, (index) => false);
+       ListFunctions.eveningAudioLoading =
+            List.generate(ListFunctions.eveningList.length, (index) => false);
 
       return sunriseSunsetData;
     } catch (e) {

@@ -11,6 +11,8 @@ class Globals {
   static int totalDays = 1;
   static int? fetchedDays = 1;
   static String welcomeMessage = 'Jai Jinendra';
+
+  static String pachhkhan_showcase='';
   static int lastSongModifiedTime =
       DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;
 
