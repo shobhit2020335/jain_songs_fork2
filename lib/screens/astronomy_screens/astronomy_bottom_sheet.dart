@@ -114,29 +114,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     return formattedDate;
   }
 
-  // String formatDate(DateTime dateTime) {
-  //   // Format the date
-  //   String formattedDate = DateFormat('dd MMM, yyyy').format(dateTime);
-  //   // Add the suffix to the day
-  //   formattedDate = '${dateTime.day}${_addSuffix(dateTime.day)} $formattedDate';
-  //   return formattedDate;
-  // }
-
-  // String _addSuffix(int day) {
-  //   if (day >= 11 && day <= 13) {
-  //     return 'th';
-  //   }
-  //   switch (day % 10) {
-  //     case 1:
-  //       return 'st';
-  //     case 2:
-  //       return 'nd';
-  //     case 3:
-  //       return 'rd';
-  //     default:
-  //       return 'th';
-  //   }
-  // }
   Future<void> disposeAudioPlayers() async {
     for (int i = 0; i < ListFunctions.morningList.length; i++) {
       ListFunctions.morningList[i].disposeAudioPlayer();
@@ -180,29 +157,12 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     setState(() {});
   }
 
-  // void initializeLists() {
-  //
-  //   for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
-  //     PachchhkhanModel model = ListFunctions.pachchhkhanList[i];
-  //     String cat = model.categoryName;
-  //     if (cat == 'Morning') {
-  //       morningList.add(model);
-  //     } else if (cat == 'Tap') {
-  //       tapList.add(model);
-  //     } else {
-  //       eveningList.add(model);
-  //     }
-  //   }
-  //   setState(() {});
-  // }
-
   @override
   void initState() {
     super.initState();
     selectedDateTime ??= DateTime.now();
     fetchData();
     initializeTime();
-    // initializeLists();
   }
 
   @override
@@ -258,7 +218,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                       if (selectedDateTime != null)
                         Text(
                           formatDate(selectedDateTime!),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
                               fontWeight: FontWeight.bold),
@@ -461,10 +421,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     },
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Morning',
                               style: TextStyle(
@@ -480,7 +439,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: Transform.rotate(
                               angle: -1.57, // 90 degrees in radians
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
                                 size: 20,
@@ -616,7 +575,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                             fontSize: 14,
                                                           ),
                                                         )
-                                                      : Text('hi'),
+                                                      : const Text('hi'),
                                                 ),
                                               ),
                                       const SizedBox(width: 10),
@@ -751,7 +710,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 ),
                                                 if (ListFunctions
                                                     .morningAudioLoading[index])
-                                                  CircularProgressIndicator(
+                                                  const CircularProgressIndicator(
                                                     color: Colors.white,
                                                     strokeWidth: 2,
                                                     // valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
@@ -762,7 +721,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                     index &&
                                                 !ListFunctions
                                                     .morningAudioLoading[index])
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                             if (currentlyPlayingIndex ==
                                                     index &&
                                                 !ListFunctions
@@ -778,7 +737,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   ListFunctions
                                                           .morningList[index]
                                                           .lastPlayedPosition =
-                                                      Duration(
+                                                      const Duration(
                                                           seconds: 0,
                                                           minutes: 0);
                                                   setState(() {
@@ -790,7 +749,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   radius: 16,
                                                   backgroundColor: ConstWidget
                                                       .signatureColors(),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.stop,
                                                       color: Colors.white,
@@ -877,7 +836,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     horizontal: 15.0),
                                 child: Transform.rotate(
                                   angle: 1.57, // 90 degrees in radians
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.grey,
                                     size: 20,
@@ -900,10 +859,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     },
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Tap',
                               style: TextStyle(
@@ -919,7 +877,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: Transform.rotate(
                               angle: -1.57, // 90 degrees in radians
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
                                 size: 20,
@@ -1055,7 +1013,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                             fontSize: 14,
                                                           ),
                                                         )
-                                                      : Text('hi'),
+                                                      : const Text('hi'),
                                                 ),
                                               ),
                                       const SizedBox(width: 10),
@@ -1187,7 +1145,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 ),
                                                 if (ListFunctions
                                                     .tapAudioLoading[index])
-                                                  CircularProgressIndicator(
+                                                  const CircularProgressIndicator(
                                                     color: Colors.white,
                                                     strokeWidth: 2,
                                                   ),
@@ -1197,7 +1155,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                     index &&
                                                 !ListFunctions
                                                     .tapAudioLoading[index])
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                             if (currentlyPlayingIndex1 ==
                                                     index &&
                                                 !ListFunctions
@@ -1212,7 +1170,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                       ?.stop();
                                                   ListFunctions.tapList[index]
                                                           .lastPlayedPosition =
-                                                      Duration(
+                                                      const Duration(
                                                           seconds: 0,
                                                           minutes: 0);
                                                   setState(() {
@@ -1224,7 +1182,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   radius: 16,
                                                   backgroundColor: ConstWidget
                                                       .signatureColors(),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.stop,
                                                       color: Colors.white,
@@ -1315,7 +1273,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     horizontal: 15.0),
                                 child: Transform.rotate(
                                   angle: 1.57, // 90 degrees in radians
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.grey,
                                     size: 20,
@@ -1339,10 +1297,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     },
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Evening',
                               style: TextStyle(
@@ -1358,7 +1315,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: Transform.rotate(
                               angle: -1.57, // 90 degrees in radians
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
                                 size: 20,
@@ -1492,7 +1449,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                             fontSize: 14,
                                                           ),
                                                         )
-                                                      : Text('hi'),
+                                                      : const Text('hi'),
                                                 ),
                                               ),
                                       const SizedBox(width: 10),
@@ -1622,7 +1579,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 ),
                                                 if (ListFunctions
                                                     .eveningAudioLoading[index])
-                                                  CircularProgressIndicator(
+                                                  const CircularProgressIndicator(
                                                     color: Colors.white,
                                                     strokeWidth: 2,
                                                   ),
@@ -1632,7 +1589,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                     index &&
                                                 !ListFunctions
                                                     .eveningAudioLoading[index])
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                             if (currentlyPlayingIndex2 ==
                                                     index &&
                                                 !ListFunctions
@@ -1647,7 +1604,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   ListFunctions
                                                           .eveningList[index]
                                                           .lastPlayedPosition =
-                                                      Duration(
+                                                      const Duration(
                                                           seconds: 0,
                                                           minutes: 0);
                                                   setState(() {
@@ -1659,7 +1616,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   radius: 16,
                                                   backgroundColor: ConstWidget
                                                       .signatureColors(),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.stop,
                                                       color: Colors.white,
@@ -1746,7 +1703,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     horizontal: 15.0),
                                 child: Transform.rotate(
                                   angle: 1.57, // 90 degrees in radians
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.grey,
                                     size: 20,
