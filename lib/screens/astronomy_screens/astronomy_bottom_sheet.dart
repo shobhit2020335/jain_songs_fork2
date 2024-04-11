@@ -184,6 +184,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
+              border: Border.all(color: Colors.indigo),
               color: UISettings.themeData(Globals.isDarkTheme, context)
                   .progressIndicatorTheme
                   .color,
@@ -203,12 +204,35 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Pachhkhan',
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: Theme.of(context).primaryColorLight,
+                              size: 20,
+                            ),
+                          ),
+                          Text(
+                            'Pachhkhan',
+                            style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: UISettings.themeData(
+                                    Globals.isDarkTheme, context)
+                                .progressIndicatorTheme
+                                .color,
+                            size: 20,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
                       const Divider(
