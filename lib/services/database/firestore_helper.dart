@@ -126,7 +126,7 @@ class FireStoreHelper {
         fetchTimeout: const Duration(seconds: 4)));
     await remoteConfig.fetchAndActivate();
     Globals.welcomeMessage = remoteConfig.getString('welcome_message');
-    Globals.pachhkhan_showcase = remoteConfig.getString('pachhkhan_showcase');
+
     DatabaseController.fromCache = remoteConfig.getBool('from_cache');
     DatabaseController.dbName = remoteConfig.getString('db_name');
     DatabaseController.dbForSongsData =

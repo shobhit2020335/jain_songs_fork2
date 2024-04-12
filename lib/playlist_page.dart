@@ -10,6 +10,7 @@ class PlaylistPage extends StatefulWidget {
   //Below Variable is recieved when page is opened from Dynamic link or FCM.
   final String? playlistCode;
 
+
   const PlaylistPage({Key? key, this.currentPlaylist, this.playlistCode})
       : super(key: key);
 

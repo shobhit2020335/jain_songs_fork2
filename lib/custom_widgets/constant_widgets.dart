@@ -5,25 +5,125 @@ import 'package:jain_songs/services/services.dart';
 import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/utilities/lists.dart';
+import 'package:jain_songs/utilities/playlist_details.dart';
+import 'package:path/path.dart';
+
+import '../playlist_page.dart';
+import '../screens/astronomy_screens/astronomy_bottom_sheet.dart';
+import '../youtube_player_configured/src/utils/youtube_player_controller.dart';
 
 class ConstWidget {
   //This card is shown in song page as a whatapp status button
   // add dynamic banner
-  static Widget statusCard() {
+
+  static Widget buildPlaylistCard(
+    // show ad if return null
+
+    //priority :
+    // category stotra- open pachhkhan
+    //liked - favourites
+    // ongoing
+    //ad
+    String? category,
+    String? genre,
+    String? tirthankar,
+    BuildContext context,
+    bool isLiked,
+    YoutubePlayerController controller,
+  ) {
+    print('category is $category, $genre, $tirthankar');
+
+    if (category != null &&
+        category.isNotEmpty &&
+        category.toLowerCase().contains('stotra')) {
+      List<PlaylistDetails?> stotraPlaylist = ListFunctions.playlistList
+          .where((PlaylistDetails? playlist) =>
+              playlist!.playlistTag.toLowerCase() == 'stotra')
+          .toList();
+      return statusCard(stotraPlaylist.isNotEmpty ? stotraPlaylist.first : null,
+          context, controller);
+    } else if (isLiked) {
+      List<PlaylistDetails?> favouritesPlaylist = ListFunctions.playlistList
+          .where((PlaylistDetails? playlist) =>
+              playlist!.playlistTag.toLowerCase() == 'favourites')
+          .toList();
+      return statusCard(
+          favouritesPlaylist.isNotEmpty ? favouritesPlaylist.first : null,
+          context,
+          controller);
+    }
+
+    List<PlaylistDetails?> filteredPlaylists =
+        ListFunctions.playlistList.where((PlaylistDetails? playlist) {
+      String tag = playlist!.playlistTag.toLowerCase();
+      return (category != null &&
+              category.isNotEmpty &&
+              category.toLowerCase().contains(tag.toLowerCase())) ||
+          (genre != null &&
+              genre.isNotEmpty &&
+              genre.toLowerCase().contains(tag.toLowerCase())) ||
+          (tirthankar != null &&
+              tirthankar.isNotEmpty &&
+              tirthankar.toLowerCase().contains(tag.toLowerCase()));
+    }).toList();
+
+    PlaylistDetails? matchedPlaylist =
+        filteredPlaylists.isNotEmpty ? filteredPlaylists.first : null;
+
+    return statusCard(matchedPlaylist, context, controller);
+  }
+
+  static Widget statusCard(PlaylistDetails? details, BuildContext context,
+      YoutubePlayerController controller) {
+    print('got details is $details');
     int advertisementNumber =
         Random().nextInt(ListFunctions.advertisementList.length);
 
     return InkWell(
-      onTap: () {
-        Services.launchURL(
-          ListFunctions.advertisementList[advertisementNumber].companyURL,
-        );
+      onTap: () async {
+        controller.pause();
+        if (details == null) {
+          Services.launchURL(
+            ListFunctions.advertisementList[advertisementNumber].companyURL,
+          );
+        } else {
+          if (details.playlistTag == 'stotra') {
+            await showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              isDismissible: true,
+              isScrollControlled: true,
+              builder: (_) => Container(
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height *
+                        0.9), // Adjust the value as needed
+                child: AstronomyBottomSheet(context),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PlaylistPage(
+                        currentPlaylist: details,
+                        playlistCode: details.playlistTag,
+                      )),
+            );
+          }
+        }
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.indigo),
-          color: ListFunctions
-              .advertisementList[advertisementNumber].backgroundColor,
+          border: Border.all(
+              color: details == null
+                  ? Colors.indigo
+                  : details.playlistTag == 'stotra'
+                      ? Colors.deepOrange
+                      : details.color!),
+          color: details == null
+              ? ListFunctions
+                  .advertisementList[advertisementNumber].backgroundColor
+              : Colors.white,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
@@ -32,32 +132,56 @@ class ConstWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image(
-              image: AssetImage(
-                ListFunctions.advertisementList[advertisementNumber].icon,
-              ),
-              width:
-                  ListFunctions.advertisementList[advertisementNumber].iconSize,
-              height:
-                  ListFunctions.advertisementList[advertisementNumber].iconSize,
-              color: ListFunctions
-                  .advertisementList[advertisementNumber].iconColor,
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.center,
-            ),
+            details == null
+                ? Image(
+                    image: AssetImage(
+                      ListFunctions.advertisementList[advertisementNumber].icon,
+                    ),
+                    width: ListFunctions
+                        .advertisementList[advertisementNumber].iconSize,
+                    height: ListFunctions
+                        .advertisementList[advertisementNumber].iconSize,
+                    color: ListFunctions
+                        .advertisementList[advertisementNumber].iconColor,
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                  )
+                : details.playlistTag == 'stotra'
+                    ? Icon(
+                        Icons.calendar_month_rounded,
+                        color: Colors.deepOrange,
+                        size: details.iconSize,
+                      )
+                    : Icon(
+                        details.leadIcon,
+                        color: details.color,
+                        size: details.iconSize,
+                      ),
             Text(
-              ListFunctions.advertisementList[advertisementNumber].title,
+              details == null
+                  ? ListFunctions.advertisementList[advertisementNumber].title
+                  : details.playlistTag == 'stotra'
+                      ? 'Pachhkhan'
+                      : 'More From ${details.title}',
               style: GoogleFonts.lato(
-                color: ListFunctions
-                    .advertisementList[advertisementNumber].textColor,
+                color: details == null
+                    ? ListFunctions
+                        .advertisementList[advertisementNumber].textColor
+                    : details.playlistTag == 'stotra'
+                        ? Colors.deepOrange
+                        : details.color,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: ListFunctions
-                  .advertisementList[advertisementNumber].textColor,
+              color: details == null
+                  ? ListFunctions
+                      .advertisementList[advertisementNumber].textColor
+                  : details.playlistTag == 'stotra'
+                      ? Colors.deepOrange
+                      : details.color,
               size: 20,
             )
           ],
