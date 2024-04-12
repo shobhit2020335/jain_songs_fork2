@@ -475,17 +475,21 @@ class _SongPageState extends State<SongPage> {
                                       currentSong!.genre,
                                       currentSong!.tirthankar,
                                       context,
-                                      currentSong!.isLiked,_youtubePlayerController!),
+                                      currentSong!.isLiked,
+                                      _youtubePlayerController!),
                                   const SizedBox(height: 10),
                                   // ConstWidget.playlistCard(currentSong!.category!,currentSong!.genre!,currentSong!.tirthankar!),
                                   const Divider(thickness: 1),
-                                  Align(
+                                  const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 16.0),
-                                        child: const Text(
+                                        padding: EdgeInsets.only(left: 16.0),
+                                        child: Text(
                                           'Suggestions:',
-                                          style: TextStyle(color: Colors.grey,fontSize: 15,fontWeight: FontWeight.bold),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                       )),
                                   Visibility(

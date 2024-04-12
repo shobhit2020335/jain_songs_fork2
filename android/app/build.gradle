@@ -47,7 +47,7 @@ android {
         disable 'InvalidPackage'
         checkReleaseBuilds false
     }
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     lintOptions {
         disable 'InvalidPackage'

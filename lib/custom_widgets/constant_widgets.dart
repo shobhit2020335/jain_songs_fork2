@@ -6,7 +6,6 @@ import 'package:jain_songs/utilities/globals.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jain_songs/utilities/lists.dart';
 import 'package:jain_songs/utilities/playlist_details.dart';
-import 'package:path/path.dart';
 
 import '../playlist_page.dart';
 import '../screens/astronomy_screens/astronomy_bottom_sheet.dart';
@@ -106,7 +105,6 @@ class ConstWidget {
               MaterialPageRoute(
                   builder: (context) => PlaylistPage(
                         currentPlaylist: details,
-                        playlistCode: details.playlistTag,
                       )),
             );
           }

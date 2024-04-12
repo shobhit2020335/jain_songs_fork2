@@ -34,10 +34,6 @@ class NetworkHelper {
         }
       }
 
-      for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
-        ListFunctions.pachchhkhanList[i].initAudioPlayer();
-      }
-
       var (double latitude, double longitude) =
           await Services.fetchLatitudeLongitudeData();
 
@@ -93,13 +89,12 @@ class NetworkHelper {
         }
       }
 
-
-        ListFunctions.morningAudioLoading =
-            List.generate(ListFunctions.morningList.length, (index) => false);
-       ListFunctions.tapAudioLoading =
-            List.generate(ListFunctions.tapList.length, (index) => false);
-       ListFunctions.eveningAudioLoading =
-            List.generate(ListFunctions.eveningList.length, (index) => false);
+      ListFunctions.morningAudioLoading =
+          List.generate(ListFunctions.morningList.length, (index) => false);
+      ListFunctions.tapAudioLoading =
+          List.generate(ListFunctions.tapList.length, (index) => false);
+      ListFunctions.eveningAudioLoading =
+          List.generate(ListFunctions.eveningList.length, (index) => false);
 
       return sunriseSunsetData;
     } catch (e) {

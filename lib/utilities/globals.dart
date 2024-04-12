@@ -4,14 +4,13 @@ import 'package:jain_songs/services/shared_prefs.dart';
 
 class Globals {
   //TODO: Make debug mode false when releasing
-  static const bool isDebugMode = false;
+  static const bool isDebugMode = true;
 
   static final DateTime startDate = DateTime(2020, 12, 23);
   static late DateTime todayDate;
   static int totalDays = 1;
   static int? fetchedDays = 1;
   static String welcomeMessage = 'Jai Jinendra';
-
 
   static int lastSongModifiedTime =
       DateTime(2020, 12, 25, 12).millisecondsSinceEpoch;

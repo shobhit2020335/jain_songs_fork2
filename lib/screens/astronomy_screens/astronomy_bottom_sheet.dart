@@ -41,6 +41,30 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   bool isTapOpen = false;
   bool isEveningOpen = false;
 
+  ///Initializes the audio players for each of the Audios.
+  void initAudioPlayer(PachchhkhanModel pachchhkhanModel) async {
+    setState(() {
+      pachchhkhanModel.isSongLoading = true;
+    });
+    pachchhkhanModel.lastPlayedPosition = Duration.zero;
+    if (pachchhkhanModel.mp3Links != null &&
+        pachchhkhanModel.mp3Links!.isNotEmpty) {
+      pachchhkhanModel.audioPlayer = AudioPlayer();
+
+      print("Initializing buffer audioplayer for: ${pachchhkhanModel.name}");
+      pachchhkhanModel.audioPlayer!
+          .setSourceUrl(pachchhkhanModel.mp3Links![0])
+          .whenComplete(() {
+        setState(() {
+          pachchhkhanModel.isSongLoading = false;
+        });
+
+        print(
+            "Initializing buffer completed audioplayer for: ${pachchhkhanModel.name}");
+      });
+    }
+  }
+
   void initializeTime() {
     DateTime currentTime = DateTime.now();
 
@@ -61,8 +85,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 (currentTimeOfDay.hour == morningTime.hour &&
                     currentTimeOfDay.minute > morningTime.minute)));
 
-    // bool isBetweenMorningAndNoon = isMorningTime && !isBeforeNoonTime;
-
     bool isEveTime = (currentTimeOfDay.hour < eveTime.hour ||
         (currentTimeOfDay.hour == eveTime.hour &&
                 currentTimeOfDay.minute < eveTime.minute) &&
@@ -72,10 +94,25 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
 
     if (isMorningTime) {
       isMorningOpen = true;
+      for (int i = 0; i < ListFunctions.morningList.length; i++) {
+        if (ListFunctions.morningList[i].audioPlayer != null) {
+          initAudioPlayer(ListFunctions.morningList[i]);
+        }
+      }
     } else if (isNoonTime) {
       isTapOpen = true;
+      for (int i = 0; i < ListFunctions.tapList.length; i++) {
+        if (ListFunctions.tapList[i].audioPlayer != null) {
+          initAudioPlayer(ListFunctions.tapList[i]);
+        }
+      }
     } else if (isEveTime) {
       isEveningOpen = true;
+      for (int i = 0; i < ListFunctions.eveningList.length; i++) {
+        if (ListFunctions.eveningList[i].audioPlayer != null) {
+          initAudioPlayer(ListFunctions.eveningList[i]);
+        }
+      }
     }
     setState(() {});
   }
@@ -117,7 +154,11 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   Future<void> disposeAudioPlayers() async {
     for (int i = 0; i < ListFunctions.morningList.length; i++) {
       ListFunctions.morningList[i].disposeAudioPlayer();
+    }
+    for (int i = 0; i < ListFunctions.tapList.length; i++) {
       ListFunctions.tapList[i].disposeAudioPlayer();
+    }
+    for (int i = 0; i < ListFunctions.eveningList.length; i++) {
       ListFunctions.eveningList[i].disposeAudioPlayer();
     }
   }
@@ -618,7 +659,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     ],
                                   ),
                                   Visibility(
-                                    visible: ListFunctions
+                                    visible: ListFunctions.morningList[index]
+                                                .isSongLoading ==
+                                            false &&
+                                        ListFunctions
                                                 .morningList[index].mp3Links !=
                                             null &&
                                         ListFunctions.morningList[index]
@@ -688,8 +732,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   .audioPlayer
                                                   ?.onPlayerStateChanged
                                                   .listen((state) {
-                                                if (state ==
-                                                        PlayerState.playing ||
+                                                if ((state ==
+                                                            PlayerState
+                                                                .playing &&
+                                                        ListFunctions
+                                                                .morningList[
+                                                                    index]
+                                                                .isSongLoading ==
+                                                            false) ||
                                                     state ==
                                                         PlayerState.paused) {
                                                   setState(() {
@@ -759,7 +809,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   await ListFunctions
                                                       .morningList[index]
                                                       .audioPlayer
-                                                      ?.stop();
+                                                      ?.pause();
                                                   ListFunctions
                                                           .morningList[index]
                                                           .lastPlayedPosition =
@@ -803,6 +853,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                             setState(() {
                               isMorningOpen = true;
                             });
+                            for (int i = 0;
+                                i < ListFunctions.morningList.length;
+                                i++) {
+                              if (ListFunctions.morningList[i].audioPlayer !=
+                                  null) {
+                                initAudioPlayer(ListFunctions.morningList[i]);
+                              }
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1056,11 +1114,13 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     ],
                                   ),
                                   Visibility(
-                                    visible:
+                                    visible: ListFunctions
+                                                .tapList[index].isSongLoading ==
+                                            false &&
                                         ListFunctions.tapList[index].mp3Links !=
-                                                null &&
-                                            ListFunctions.tapList[index]
-                                                .mp3Links!.isNotEmpty,
+                                            null &&
+                                        ListFunctions.tapList[index].mp3Links!
+                                            .isNotEmpty,
                                     child: InkWell(
                                       onTap: () async {
                                         HapticFeedback.lightImpact();
@@ -1126,9 +1186,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   ?.onPlayerStateChanged
                                                   .listen((state) {
                                                 if (state ==
-                                                        PlayerState.playing ||
-                                                    state ==
-                                                        PlayerState.paused) {
+                                                        PlayerState.paused ||
+                                                    (state ==
+                                                            PlayerState
+                                                                .playing &&
+                                                        ListFunctions
+                                                                .tapList[index]
+                                                                .isSongLoading ==
+                                                            false)) {
                                                   setState(() {
                                                     ListFunctions
                                                             .tapAudioLoading[
@@ -1193,7 +1258,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   await ListFunctions
                                                       .tapList[index]
                                                       .audioPlayer
-                                                      ?.stop();
+                                                      ?.pause();
                                                   ListFunctions.tapList[index]
                                                           .lastPlayedPosition =
                                                       const Duration(
@@ -1236,6 +1301,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                             setState(() {
                               isTapOpen = true;
                             });
+                            for (int i = 0;
+                                i < ListFunctions.tapList.length;
+                                i++) {
+                              if (ListFunctions.tapList[i].audioPlayer !=
+                                  null) {
+                                initAudioPlayer(ListFunctions.tapList[i]);
+                              }
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1492,7 +1565,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     ],
                                   ),
                                   Visibility(
-                                    visible: ListFunctions
+                                    visible: ListFunctions.eveningList[index]
+                                                .isSongLoading ==
+                                            false &&
+                                        ListFunctions
                                                 .eveningList[index].mp3Links !=
                                             null &&
                                         ListFunctions.eveningList[index]
@@ -1559,8 +1635,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   .audioPlayer
                                                   ?.onPlayerStateChanged
                                                   .listen((state) {
-                                                if (state ==
-                                                        PlayerState.playing ||
+                                                if ((state ==
+                                                            PlayerState
+                                                                .playing &&
+                                                        ListFunctions
+                                                                .eveningList[
+                                                                    index]
+                                                                .isSongLoading ==
+                                                            false) ||
                                                     state ==
                                                         PlayerState.paused) {
                                                   setState(() {
@@ -1626,7 +1708,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   await ListFunctions
                                                       .eveningList[index]
                                                       .audioPlayer
-                                                      ?.stop();
+                                                      ?.pause();
                                                   ListFunctions
                                                           .eveningList[index]
                                                           .lastPlayedPosition =
@@ -1670,6 +1752,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                             setState(() {
                               isEveningOpen = true;
                             });
+                            for (int i = 0;
+                                i < ListFunctions.eveningList.length;
+                                i++) {
+                              if (ListFunctions.eveningList[i].audioPlayer !=
+                                  null) {
+                                initAudioPlayer(ListFunctions.eveningList[i]);
+                              }
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
