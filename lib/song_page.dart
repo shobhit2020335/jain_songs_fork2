@@ -22,8 +22,10 @@ class SongPage extends StatefulWidget {
   final PlaylistDetails? playlist;
   final Suggester? suggester;
   final String suggestionStreak;
+
   //Used in user behaviour capture
   final String? userSearched;
+
   //Dont use it other than user behaviour. Or undertand user behaviour and then use.
   final int postitionInList;
 
@@ -468,9 +470,24 @@ class _SongPageState extends State<SongPage> {
                                   ),
                                   const SizedBox(height: 20),
                                   //This is the button to open status posts
-                                  ConstWidget.statusCard(),
+                                  ConstWidget.buildPlaylistCard(
+                                      currentSong!.category,
+                                      currentSong!.genre,
+                                      currentSong!.tirthankar,
+                                      context,
+                                      currentSong!.isLiked,_youtubePlayerController!),
                                   const SizedBox(height: 10),
+                                  // ConstWidget.playlistCard(currentSong!.category!,currentSong!.genre!,currentSong!.tirthankar!),
                                   const Divider(thickness: 1),
+                                  Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 16.0),
+                                        child: const Text(
+                                          'Suggestions:',
+                                          style: TextStyle(color: Colors.grey,fontSize: 15,fontWeight: FontWeight.bold),
+                                        ),
+                                      )),
                                   Visibility(
                                     visible:
                                         suggester!.suggestedSongs.isNotEmpty,

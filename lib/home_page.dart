@@ -131,7 +131,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
 
     SharedPrefs.getTutorialCount().then((count) {
-      if (count == null || count == 0) {
+      print('tut count is ${count}');
+
+      if (count == null ||
+          count == 0 ||
+          count == 3 ||
+          count == 7 ||
+          count == 15 ||
+          count == 31) {
         WidgetsBinding.instance.addPostFrameCallback(
             (_) => ShowCaseWidget.of(context).startShowCase([tutorial_key1]));
       }
@@ -496,9 +503,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       ),
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: const <IconData>[
-          FontAwesomeIcons.chartLine,
+          Icons.home_filled,
           Icons.edit_rounded,
-          Icons.book_rounded,
+          Icons.playlist_play,
           Icons.info_outline_rounded,
         ],
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,

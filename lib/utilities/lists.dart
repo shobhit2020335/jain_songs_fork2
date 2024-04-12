@@ -11,6 +11,8 @@ import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
+import '../custom_widgets/build_playlist_row.dart';
+
 class ListFunctions {
   //Contains all the pachchhkhans data.
   static List<PachchhkhanModel> pachchhkhanList = [];
@@ -38,7 +40,6 @@ class ListFunctions {
 
   //List for the posts which are visible
   static List<PostModel> postsToShow = [];
-
 
   ///Advertisement list which is shown in the song page screen
   static List<AdvertisementModel> advertisementList = [
@@ -328,6 +329,10 @@ class ListFunctions {
       }
       listToShow.sort(popularityComparison);
     }
+
+    for (int i = 0; i < listToShow.length; i++) {
+      print('song cat is ${listToShow[i]!.category}');
+    }
   }
 
 //List for settings page.
@@ -500,4 +505,57 @@ class ListFunctions {
       color: Colors.blue,
     ),
   ];
+
+  // static Widget buildDynamicBanner(
+  //     // show ad if return null
+  //
+  //     //priority :
+  //     // category stotra- open pachhkhan
+  //     //liked - favourites
+  //     // ongoing
+  //     //ad
+  //     String? category,
+  //     String? genre,
+  //     String? tirthankar) {
+  //   print('category is $category, $genre, $tirthankar');
+  //   print(' playlist list is $playlistList');
+  //   // if (category != null && category.toLowerCase().contains('stotra')) {
+  //   //   // return pachhkhan widget
+  //   // }
+  //   // else if ()//check like){
+  //   //
+  //   // }
+  //   for (int i = 0; i < playlistList.length; ) {
+  //     print('playlist iss ${playlistList[i]!.playlistTag.toLowerCase()}');
+  //     if (category != null &&
+  //         category.isNotEmpty &&
+  //         playlistList[i]!
+  //             .playlistTag
+  //             .toLowerCase()
+  //             .contains(category.toLowerCase())) {
+  //       print('called 1');
+  //       return ConstWidget.statusCard(playlistList[i]);
+  //     } else if (genre != null &&
+  //         genre.isNotEmpty &&
+  //         playlistList[i]!
+  //             .playlistTag
+  //             .toLowerCase()
+  //             .contains(genre.toLowerCase())) {
+  //       print('called 2');
+  //       return ConstWidget.statusCard(playlistList[i]);
+  //     } else if (tirthankar != null &&
+  //         tirthankar.isNotEmpty &&
+  //         playlistList[i]!
+  //             .playlistTag
+  //             .toLowerCase()
+  //             .contains(tirthankar.toLowerCase())) {
+  //       print('called 3');
+  //       return ConstWidget.statusCard(playlistList[i]);
+  //     }
+  //     else{
+  //       return ConstWidget.statusCard(null);
+  //     }
+  //   }
+  //   return ConstWidget.statusCard(null);
+  // }
 }

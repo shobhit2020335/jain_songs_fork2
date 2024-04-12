@@ -117,6 +117,8 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   Future<void> disposeAudioPlayers() async {
     for (int i = 0; i < ListFunctions.morningList.length; i++) {
       ListFunctions.morningList[i].disposeAudioPlayer();
+      ListFunctions.tapList[i].disposeAudioPlayer();
+      ListFunctions.eveningList[i].disposeAudioPlayer();
     }
   }
 
