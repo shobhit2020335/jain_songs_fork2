@@ -483,7 +483,7 @@ class _SongPageState extends State<SongPage> {
                                   const SizedBox(height: 10),
                                   // ConstWidget.playlistCard(currentSong!.category!,currentSong!.genre!,currentSong!.tirthankar!),
                                   const Divider(thickness: 1),
-                                  Align(
+                                  const Align(
                                       alignment: Alignment.centerLeft,
                                       child: Padding(
                                         padding:
@@ -722,7 +722,6 @@ class _SongPageState extends State<SongPage> {
               MaterialPageRoute(
                   builder: (context) => PlaylistPage(
                         currentPlaylist: details,
-                        playlistCode: details.playlistTag,
                         fromSuggestion: true,
                       )),
             );

@@ -20,6 +20,7 @@ class PachchhkhanModel {
   DateTime? dateTimeOfOccurrence;
   AudioPlayer? audioPlayer;
   Duration lastPlayedPosition = Duration.zero;
+  bool isSongLoading = true;
 
   ///Sets the date time occurrence as per the given +/-
   void setDateTimeOfOccurrence(
@@ -40,16 +41,19 @@ class PachchhkhanModel {
     }
   }
 
-  ///Initializes the audio players for each of the Audios.
-  void initAudioPlayer() async {
-    lastPlayedPosition = Duration.zero;
-    if (mp3Links != null && mp3Links!.isNotEmpty) {
-      audioPlayer = AudioPlayer();
-      audioPlayer!.setSourceUrl(mp3Links![0]);
-
-
-    }
-  }
+  // ///Initializes the audio players for each of the Audios.
+  // void initAudioPlayer() async {
+  //   lastPlayedPosition = Duration.zero;
+  //   if (mp3Links != null && mp3Links!.isNotEmpty) {
+  //     audioPlayer = AudioPlayer();
+  //     isSongLoading = true;
+  //     print("Initializing buffer audioplayer for: $name");
+  //     audioPlayer!.setSourceUrl(mp3Links![0]).whenComplete(() {
+  //       isSongLoading = false;
+  //       print("Initializing buffer completed audioplayer for: $name");
+  //     });
+  //   }
+  // }
 
   ///Disposes the audio player.
   void disposeAudioPlayer() async {

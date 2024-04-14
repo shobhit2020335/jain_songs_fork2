@@ -172,7 +172,7 @@ class _MainThemeState extends State<MainTheme> {
               },
               theme: UISettings.themeData(themeProvider.isDarkTheme, context),
               home: ShowCaseWidget(builder: Builder(builder: (context) {
-                return  const HomePage();
+                return const HomePage();
               })));
         },
       ),

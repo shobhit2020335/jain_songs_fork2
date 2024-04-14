@@ -3,7 +3,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:jain_songs/custom_widgets/constant_widgets.dart';
 import 'package:jain_songs/services/database/database_controller.dart';
 import 'package:jain_songs/services/database/firestore_helper.dart';
 import 'package:jain_songs/services/services.dart';
@@ -24,20 +23,15 @@ class NetworkHelper {
       bool isInternetConnected = await checkNetworkConnection();
 
       if (!isInternetConnected && context.mounted) {
-        ConstWidget.showSimpleToast(
-            context, 'Please check your internet connection!');
+        throw ("Check internet connection!");
       }
 
       if (ListFunctions.pachchhkhanList.isEmpty && context.mounted) {
         bool isSuccess = await DatabaseController().fetchPachchhkhans(context);
         if (isSuccess == false) {
           print("Data fetching issue from database for pachchhkhan");
-          throw ("check internet and try again!");
+          throw ("Check internet and try again!");
         }
-      }
-
-      for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
-        ListFunctions.pachchhkhanList[i].initAudioPlayer();
       }
 
       var (double latitude, double longitude) =
@@ -95,13 +89,12 @@ class NetworkHelper {
         }
       }
 
-
-        ListFunctions.morningAudioLoading =
-            List.generate(ListFunctions.morningList.length, (index) => false);
-       ListFunctions.tapAudioLoading =
-            List.generate(ListFunctions.tapList.length, (index) => false);
-       ListFunctions.eveningAudioLoading =
-            List.generate(ListFunctions.eveningList.length, (index) => false);
+      ListFunctions.morningAudioLoading =
+          List.generate(ListFunctions.morningList.length, (index) => false);
+      ListFunctions.tapAudioLoading =
+          List.generate(ListFunctions.tapList.length, (index) => false);
+      ListFunctions.eveningAudioLoading =
+          List.generate(ListFunctions.eveningList.length, (index) => false);
 
       return sunriseSunsetData;
     } catch (e) {

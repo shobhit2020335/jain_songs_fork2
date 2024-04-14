@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,6 +41,30 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
   bool isTapOpen = false;
   bool isEveningOpen = false;
 
+  ///Initializes the audio players for each of the Audios.
+  void initAudioPlayer(PachchhkhanModel pachchhkhanModel) async {
+    setState(() {
+      pachchhkhanModel.isSongLoading = true;
+    });
+    pachchhkhanModel.lastPlayedPosition = Duration.zero;
+    if (pachchhkhanModel.mp3Links != null &&
+        pachchhkhanModel.mp3Links!.isNotEmpty) {
+      pachchhkhanModel.audioPlayer = AudioPlayer();
+
+      print("Initializing buffer audioplayer for: ${pachchhkhanModel.name}");
+      pachchhkhanModel.audioPlayer!
+          .setSourceUrl(pachchhkhanModel.mp3Links![0])
+          .whenComplete(() {
+        setState(() {
+          pachchhkhanModel.isSongLoading = false;
+        });
+
+        print(
+            "Initializing buffer completed audioplayer for: ${pachchhkhanModel.name}");
+      });
+    }
+  }
+
   void initializeTime() {
     DateTime currentTime = DateTime.now();
 
@@ -62,8 +85,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 (currentTimeOfDay.hour == morningTime.hour &&
                     currentTimeOfDay.minute > morningTime.minute)));
 
-    // bool isBetweenMorningAndNoon = isMorningTime && !isBeforeNoonTime;
-
     bool isEveTime = (currentTimeOfDay.hour < eveTime.hour ||
         (currentTimeOfDay.hour == eveTime.hour &&
                 currentTimeOfDay.minute < eveTime.minute) &&
@@ -73,10 +94,25 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
 
     if (isMorningTime) {
       isMorningOpen = true;
+      for (int i = 0; i < ListFunctions.morningList.length; i++) {
+        if (ListFunctions.morningList[i].audioPlayer != null) {
+          initAudioPlayer(ListFunctions.morningList[i]);
+        }
+      }
     } else if (isNoonTime) {
       isTapOpen = true;
+      for (int i = 0; i < ListFunctions.tapList.length; i++) {
+        if (ListFunctions.tapList[i].audioPlayer != null) {
+          initAudioPlayer(ListFunctions.tapList[i]);
+        }
+      }
     } else if (isEveTime) {
       isEveningOpen = true;
+      for (int i = 0; i < ListFunctions.eveningList.length; i++) {
+        if (ListFunctions.eveningList[i].audioPlayer != null) {
+          initAudioPlayer(ListFunctions.eveningList[i]);
+        }
+      }
     }
     setState(() {});
   }
@@ -114,7 +150,6 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     String formattedDate = DateFormat('dd MMM, yyyy').format(dateTime);
     return formattedDate;
   }
-
 
   Future<void> disposeAudioPlayers() async {
     for (int i = 0; i < ListFunctions.morningList.length; i++) {
@@ -165,29 +200,12 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     setState(() {});
   }
 
-  // void initializeLists() {
-  //
-  //   for (int i = 0; i < ListFunctions.pachchhkhanList.length; i++) {
-  //     PachchhkhanModel model = ListFunctions.pachchhkhanList[i];
-  //     String cat = model.categoryName;
-  //     if (cat == 'Morning') {
-  //       morningList.add(model);
-  //     } else if (cat == 'Tap') {
-  //       tapList.add(model);
-  //     } else {
-  //       eveningList.add(model);
-  //     }
-  //   }
-  //   setState(() {});
-  // }
-
   @override
   void initState() {
     super.initState();
     selectedDateTime ??= DateTime.now();
     fetchData();
     initializeTime();
-    // initializeLists();
   }
 
   @override
@@ -209,6 +227,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
+              border: Border.all(color: Colors.indigo),
               color: UISettings.themeData(Globals.isDarkTheme, context)
                   .progressIndicatorTheme
                   .color,
@@ -228,12 +247,35 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Pachhkhan',
-                        style: GoogleFonts.lato(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: Theme.of(context).primaryColorLight,
+                              size: 20,
+                            ),
+                          ),
+                          Text(
+                            'Pachhkhan',
+                            style: GoogleFonts.lato(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: UISettings.themeData(
+                                    Globals.isDarkTheme, context)
+                                .progressIndicatorTheme
+                                .color,
+                            size: 20,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
                       const Divider(
@@ -243,7 +285,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                       if (selectedDateTime != null)
                         Text(
                           formatDate(selectedDateTime!),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
                               fontWeight: FontWeight.bold),
@@ -270,6 +312,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     'images/sunrise_white.png',
                                     height: 120,
                                   ),
+                                  const SizedBox(height: 20),
                                   Text(
                                     UsefulFunction.getFormattedTime(
                                         sunriseSunsetData!.values
@@ -280,7 +323,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             .minute),
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -370,7 +413,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                             .minute),
                                     style: GoogleFonts.lato(
                                       color: Colors.white,
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -445,10 +488,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     },
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Morning',
                               style: TextStyle(
@@ -464,7 +506,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: Transform.rotate(
                               angle: -1.57, // 90 degrees in radians
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
                                 size: 20,
@@ -600,7 +642,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                             fontSize: 14,
                                                           ),
                                                         )
-                                                      : Text('hi'),
+                                                      : const Text('hi'),
                                                 ),
                                               ),
                                       const SizedBox(width: 10),
@@ -617,7 +659,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     ],
                                   ),
                                   Visibility(
-                                    visible: ListFunctions
+                                    visible: ListFunctions.morningList[index]
+                                                .isSongLoading ==
+                                            false &&
+                                        ListFunctions
                                                 .morningList[index].mp3Links !=
                                             null &&
                                         ListFunctions.morningList[index]
@@ -687,8 +732,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   .audioPlayer
                                                   ?.onPlayerStateChanged
                                                   .listen((state) {
-                                                if (state ==
-                                                        PlayerState.playing ||
+                                                if ((state ==
+                                                            PlayerState
+                                                                .playing &&
+                                                        ListFunctions
+                                                                .morningList[
+                                                                    index]
+                                                                .isSongLoading ==
+                                                            false) ||
                                                     state ==
                                                         PlayerState.paused) {
                                                   setState(() {
@@ -735,7 +786,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 ),
                                                 if (ListFunctions
                                                     .morningAudioLoading[index])
-                                                  CircularProgressIndicator(
+                                                  const CircularProgressIndicator(
                                                     color: Colors.white,
                                                     strokeWidth: 2,
                                                     // valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo),
@@ -746,7 +797,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                     index &&
                                                 !ListFunctions
                                                     .morningAudioLoading[index])
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                             if (currentlyPlayingIndex ==
                                                     index &&
                                                 !ListFunctions
@@ -758,11 +809,11 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   await ListFunctions
                                                       .morningList[index]
                                                       .audioPlayer
-                                                      ?.stop();
+                                                      ?.pause();
                                                   ListFunctions
                                                           .morningList[index]
                                                           .lastPlayedPosition =
-                                                      Duration(
+                                                      const Duration(
                                                           seconds: 0,
                                                           minutes: 0);
                                                   setState(() {
@@ -774,7 +825,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   radius: 16,
                                                   backgroundColor: ConstWidget
                                                       .signatureColors(),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.stop,
                                                       color: Colors.white,
@@ -802,6 +853,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                             setState(() {
                               isMorningOpen = true;
                             });
+                            for (int i = 0;
+                                i < ListFunctions.morningList.length;
+                                i++) {
+                              if (ListFunctions.morningList[i].audioPlayer !=
+                                  null) {
+                                initAudioPlayer(ListFunctions.morningList[i]);
+                              }
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -861,7 +920,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     horizontal: 15.0),
                                 child: Transform.rotate(
                                   angle: 1.57, // 90 degrees in radians
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.grey,
                                     size: 20,
@@ -884,10 +943,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     },
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Tap',
                               style: TextStyle(
@@ -903,7 +961,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: Transform.rotate(
                               angle: -1.57, // 90 degrees in radians
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
                                 size: 20,
@@ -1039,7 +1097,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                             fontSize: 14,
                                                           ),
                                                         )
-                                                      : Text('hi'),
+                                                      : const Text('hi'),
                                                 ),
                                               ),
                                       const SizedBox(width: 10),
@@ -1056,11 +1114,13 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     ],
                                   ),
                                   Visibility(
-                                    visible:
+                                    visible: ListFunctions
+                                                .tapList[index].isSongLoading ==
+                                            false &&
                                         ListFunctions.tapList[index].mp3Links !=
-                                                null &&
-                                            ListFunctions.tapList[index]
-                                                .mp3Links!.isNotEmpty,
+                                            null &&
+                                        ListFunctions.tapList[index].mp3Links!
+                                            .isNotEmpty,
                                     child: InkWell(
                                       onTap: () async {
                                         HapticFeedback.lightImpact();
@@ -1126,9 +1186,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   ?.onPlayerStateChanged
                                                   .listen((state) {
                                                 if (state ==
-                                                        PlayerState.playing ||
-                                                    state ==
-                                                        PlayerState.paused) {
+                                                        PlayerState.paused ||
+                                                    (state ==
+                                                            PlayerState
+                                                                .playing &&
+                                                        ListFunctions
+                                                                .tapList[index]
+                                                                .isSongLoading ==
+                                                            false)) {
                                                   setState(() {
                                                     ListFunctions
                                                             .tapAudioLoading[
@@ -1171,7 +1236,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 ),
                                                 if (ListFunctions
                                                     .tapAudioLoading[index])
-                                                  CircularProgressIndicator(
+                                                  const CircularProgressIndicator(
                                                     color: Colors.white,
                                                     strokeWidth: 2,
                                                   ),
@@ -1181,7 +1246,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                     index &&
                                                 !ListFunctions
                                                     .tapAudioLoading[index])
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                             if (currentlyPlayingIndex1 ==
                                                     index &&
                                                 !ListFunctions
@@ -1193,10 +1258,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   await ListFunctions
                                                       .tapList[index]
                                                       .audioPlayer
-                                                      ?.stop();
+                                                      ?.pause();
                                                   ListFunctions.tapList[index]
                                                           .lastPlayedPosition =
-                                                      Duration(
+                                                      const Duration(
                                                           seconds: 0,
                                                           minutes: 0);
                                                   setState(() {
@@ -1208,7 +1273,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   radius: 16,
                                                   backgroundColor: ConstWidget
                                                       .signatureColors(),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.stop,
                                                       color: Colors.white,
@@ -1236,6 +1301,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                             setState(() {
                               isTapOpen = true;
                             });
+                            for (int i = 0;
+                                i < ListFunctions.tapList.length;
+                                i++) {
+                              if (ListFunctions.tapList[i].audioPlayer !=
+                                  null) {
+                                initAudioPlayer(ListFunctions.tapList[i]);
+                              }
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1299,7 +1372,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     horizontal: 15.0),
                                 child: Transform.rotate(
                                   angle: 1.57, // 90 degrees in radians
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.grey,
                                     size: 20,
@@ -1323,10 +1396,9 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                     },
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Evening',
                               style: TextStyle(
@@ -1342,7 +1414,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                 const EdgeInsets.symmetric(horizontal: 25.0),
                             child: Transform.rotate(
                               angle: -1.57, // 90 degrees in radians
-                              child: Icon(
+                              child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
                                 size: 20,
@@ -1476,7 +1548,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                             fontSize: 14,
                                                           ),
                                                         )
-                                                      : Text('hi'),
+                                                      : const Text('hi'),
                                                 ),
                                               ),
                                       const SizedBox(width: 10),
@@ -1493,7 +1565,10 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     ],
                                   ),
                                   Visibility(
-                                    visible: ListFunctions
+                                    visible: ListFunctions.eveningList[index]
+                                                .isSongLoading ==
+                                            false &&
+                                        ListFunctions
                                                 .eveningList[index].mp3Links !=
                                             null &&
                                         ListFunctions.eveningList[index]
@@ -1560,8 +1635,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   .audioPlayer
                                                   ?.onPlayerStateChanged
                                                   .listen((state) {
-                                                if (state ==
-                                                        PlayerState.playing ||
+                                                if ((state ==
+                                                            PlayerState
+                                                                .playing &&
+                                                        ListFunctions
+                                                                .eveningList[
+                                                                    index]
+                                                                .isSongLoading ==
+                                                            false) ||
                                                     state ==
                                                         PlayerState.paused) {
                                                   setState(() {
@@ -1606,7 +1687,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                 ),
                                                 if (ListFunctions
                                                     .eveningAudioLoading[index])
-                                                  CircularProgressIndicator(
+                                                  const CircularProgressIndicator(
                                                     color: Colors.white,
                                                     strokeWidth: 2,
                                                   ),
@@ -1616,7 +1697,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                     index &&
                                                 !ListFunctions
                                                     .eveningAudioLoading[index])
-                                              SizedBox(width: 10),
+                                              const SizedBox(width: 10),
                                             if (currentlyPlayingIndex2 ==
                                                     index &&
                                                 !ListFunctions
@@ -1627,11 +1708,11 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   await ListFunctions
                                                       .eveningList[index]
                                                       .audioPlayer
-                                                      ?.stop();
+                                                      ?.pause();
                                                   ListFunctions
                                                           .eveningList[index]
                                                           .lastPlayedPosition =
-                                                      Duration(
+                                                      const Duration(
                                                           seconds: 0,
                                                           minutes: 0);
                                                   setState(() {
@@ -1643,7 +1724,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                                   radius: 16,
                                                   backgroundColor: ConstWidget
                                                       .signatureColors(),
-                                                  child: Center(
+                                                  child: const Center(
                                                     child: Icon(
                                                       Icons.stop,
                                                       color: Colors.white,
@@ -1671,6 +1752,14 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                             setState(() {
                               isEveningOpen = true;
                             });
+                            for (int i = 0;
+                                i < ListFunctions.eveningList.length;
+                                i++) {
+                              if (ListFunctions.eveningList[i].audioPlayer !=
+                                  null) {
+                                initAudioPlayer(ListFunctions.eveningList[i]);
+                              }
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1730,7 +1819,7 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
                                     horizontal: 15.0),
                                 child: Transform.rotate(
                                   angle: 1.57, // 90 degrees in radians
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.grey,
                                     size: 20,

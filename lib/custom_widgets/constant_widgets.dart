@@ -87,13 +87,23 @@ class ConstWidget {
     Color toastColor = Colors.indigo,
     Color textColor = Colors.white,
   }) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: toastLength,
-      gravity: ToastGravity.SNACKBAR,
-      textColor: textColor,
-      backgroundColor: toastColor,
-    );
+    if (message.toLowerCase().contains("internet")) {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: toastLength,
+        gravity: ToastGravity.SNACKBAR,
+        textColor: textColor,
+        backgroundColor: Colors.red,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: message,
+        toastLength: toastLength,
+        gravity: ToastGravity.SNACKBAR,
+        textColor: textColor,
+        backgroundColor: toastColor,
+      );
+    }
   }
 
   static void showSimpleToast(BuildContext context, String message,

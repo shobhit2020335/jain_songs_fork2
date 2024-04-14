@@ -11,8 +11,6 @@ import 'package:jain_songs/utilities/playlist_details.dart';
 import 'package:jain_songs/utilities/settings_details.dart';
 import 'package:jain_songs/utilities/song_details.dart';
 
-import '../custom_widgets/build_playlist_row.dart';
-
 class ListFunctions {
   //Contains all the pachchhkhans data.
   static List<PachchhkhanModel> pachchhkhanList = [];
