@@ -9,9 +9,10 @@ class PlaylistPage extends StatefulWidget {
   final PlaylistDetails? currentPlaylist;
   //Below Variable is recieved when page is opened from Dynamic link or FCM.
   final String? playlistCode;
+  final bool? fromSuggestion;
 
 
-  const PlaylistPage({Key? key, this.currentPlaylist, this.playlistCode})
+  const PlaylistPage({Key? key, this.currentPlaylist, this.playlistCode, this.fromSuggestion})
       : super(key: key);
 
   @override
@@ -41,7 +42,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
     if (widget.playlistCode == null || widget.playlistCode!.isEmpty) {
       currentPlaylist = widget.currentPlaylist;
       setUpPlaylistDetails();
-    } else {
+    }
+
+    else {
+
       currentPlaylist = ListFunctions.playlistList.firstWhere((playlist) {
         return playlist!.playlistTag.contains(widget.playlistCode!);
       }, orElse: () {
@@ -134,7 +138,8 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ],
                     ),
                   );
-                } else if (ListFunctions.listToShow.isEmpty) {
+                }
+                else if (ListFunctions.listToShow.isEmpty) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -147,12 +152,14 @@ class _PlaylistPageState extends State<PlaylistPage> {
                       ),
                     ],
                   );
-                } else if (index < ListFunctions.listToShow.length) {
+                }
+                else if (index < ListFunctions.listToShow.length) {
                   return BuildRow(
                     ListFunctions.listToShow[index],
                     color: currentPlaylist!.color,
                     playlist: currentPlaylist,
                     positionInList: index,
+                    fromSuggestion: widget.fromSuggestion,
                   );
                 }
                 return null;

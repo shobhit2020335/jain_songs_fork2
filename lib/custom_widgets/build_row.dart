@@ -12,6 +12,7 @@ class BuildRow extends StatefulWidget {
   final PlaylistDetails? playlist;
   final String? userSearched;
   final int positionInList;
+  final bool? fromSuggestion;
 
   const BuildRow(
     this.currentSong, {
@@ -20,6 +21,7 @@ class BuildRow extends StatefulWidget {
     this.playlist,
     this.userSearched,
     required this.positionInList,
+    this.fromSuggestion,
   }) : super(key: key);
 
   @override
@@ -91,18 +93,28 @@ class _BuildRowState extends State<BuildRow> {
               }
             }),
         onTap: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return SongPage(
-                currentSong: currentSong,
-                playlist: widget.playlist,
-                suggestionStreak: isFromPlaylist + currentSong.code!,
-                userSearched: widget.userSearched,
-                postitionInList: widget.positionInList,
-              );
-            }),
-          );
+          if (widget.fromSuggestion != null && widget.fromSuggestion!) {
+            Navigator.pop(context, {
+              'currentSong': currentSong,
+              'playlist': widget.playlist,
+              'postitionInList': widget.positionInList,
+             'suggestionStreak': isFromPlaylist + currentSong.code!,
+            });
+          } else {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) {
+                return SongPage(
+                  currentSong: currentSong,
+                  playlist: widget.playlist,
+                  suggestionStreak: isFromPlaylist + currentSong.code!,
+                  userSearched: widget.userSearched,
+                  postitionInList: widget.positionInList,
+
+                );
+              }),
+            );
+          }
           setState(() {});
         },
       ),

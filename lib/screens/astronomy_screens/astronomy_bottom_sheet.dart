@@ -115,33 +115,15 @@ class _AstronomyBottomSheetState extends State<AstronomyBottomSheet> {
     return formattedDate;
   }
 
-  // String formatDate(DateTime dateTime) {
-  //   // Format the date
-  //   String formattedDate = DateFormat('dd MMM, yyyy').format(dateTime);
-  //   // Add the suffix to the day
-  //   formattedDate = '${dateTime.day}${_addSuffix(dateTime.day)} $formattedDate';
-  //   return formattedDate;
-  // }
 
-  // String _addSuffix(int day) {
-  //   if (day >= 11 && day <= 13) {
-  //     return 'th';
-  //   }
-  //   switch (day % 10) {
-  //     case 1:
-  //       return 'st';
-  //     case 2:
-  //       return 'nd';
-  //     case 3:
-  //       return 'rd';
-  //     default:
-  //       return 'th';
-  //   }
-  // }
   Future<void> disposeAudioPlayers() async {
     for (int i = 0; i < ListFunctions.morningList.length; i++) {
       ListFunctions.morningList[i].disposeAudioPlayer();
+    }
+    for (int i = 0; i < ListFunctions.tapList.length; i++) {
       ListFunctions.tapList[i].disposeAudioPlayer();
+    }
+    for (int i = 0; i < ListFunctions.eveningList.length; i++) {
       ListFunctions.eveningList[i].disposeAudioPlayer();
     }
   }
